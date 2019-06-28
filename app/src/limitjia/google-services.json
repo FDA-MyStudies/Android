@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "560983549348",
+    "firebase_url": "https://carra-registry.firebaseio.com",
+    "project_id": "carra-registry",
+    "storage_bucket": "carra-registry.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:560983549348:android:4de8f629a7f0bc9b",
+        "android_client_info": {
+          "package_name": "com.carrastudies.limitjia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "560983549348-n28p1s1am8pb3477svuctvvqivpn87k1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjNlpJmYGOVxLAy_IkI61zata9CypfRw8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "560983549348-n28p1s1am8pb3477svuctvvqivpn87k1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

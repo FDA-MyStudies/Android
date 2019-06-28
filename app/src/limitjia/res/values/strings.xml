@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">CARRA Registry</string>
+    <string name="fda_listens">CARRA Registry</string>
+    <string name="website">https://carragroup.org/</string>
+    <string name="websitetxt">www.carragroup.org</string>
+    <string name="gateway_des">CARRA is pleased to offer the LIMIT-JIA Trial app as a tool to gather data about medication use and other health issues facing the people we serve.</string>
+    <string name="gateway_des1">Available for iOS and Android devices, this app will house surveys conducted by CARRA and other institutions for LIMIT-JIA.  This will allow researchers to engage more directly with people to gather data through surveys.</string>
+    <string name="delete_account_content">You have chosen to delete your CARRA Registry Account. This will result in automatic withdrawal from all studies.\n\nBelow is a list of studies that you are a part of and information on how your response data will be handled with each after you withdraw. Please review and confirm.</string>
+    <string name="delete_message">Are you sure you wish to permanently delete your CARRA Registry Gateway app account?  You will need to register again if you wish to join a study.</string>
+    <string name="studie_your_enrolled">It\'s been a while since you visited the CARRA Registry app. Please consider continuing your participation in any studies in which you\'re enrolled.</string>
+    <string name="prject_name">CARRA Registry</string>
+    <string name="my_studies">CARRA Registry</string>
+</resources>
