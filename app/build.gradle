@@ -67,6 +67,12 @@ android {
             versionCode 1
             versionName "1.0"
         }
+        sparc {
+            dimension 'version'
+            applicationId "com.ccf.sparc"
+            versionCode 1
+            versionName "1.0"
+        }
     }
 }
 

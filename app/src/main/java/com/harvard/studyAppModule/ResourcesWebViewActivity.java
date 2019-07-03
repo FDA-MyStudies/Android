@@ -138,7 +138,7 @@ public class ResourcesWebViewActivity extends AppCompatActivity {
                         File file = new File(mDownloadedFilePath + mFileName + ".pdf");
                         if (file.exists()) {
                             mFinalMSharingFile = copy(file);
-                            Uri fileUri = FileProvider.getUriForFile(ResourcesWebViewActivity.this, "com.myfileprovider", mFinalMSharingFile);
+                            Uri fileUri = FileProvider.getUriForFile(ResourcesWebViewActivity.this, getString(R.string.FileProvider_authorities), mFinalMSharingFile);
                             shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
                         }
                     } else {

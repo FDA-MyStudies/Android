@@ -173,6 +173,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent)
+                .setChannelId(FDAApplication.NOTIFICATION_CHANNEL_ID_INFO)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(messageBody))
                 .setGroup("group");
 

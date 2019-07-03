@@ -10,4 +10,7 @@
     <string name="studie_your_enrolled">It\'s been a while since you visited the CARRA Registry app. Please consider continuing your participation in any studies in which you\'re enrolled.</string>
     <string name="prject_name">CARRA Registry</string>
     <string name="my_studies">CARRA Registry</string>
+
+    <!--must change strings-->
+    <string name="FileProvider_authorities">com.myfileprovider.limitjia</string>
 </resources>

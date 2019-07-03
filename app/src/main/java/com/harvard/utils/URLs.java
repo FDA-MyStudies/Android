@@ -14,8 +14,8 @@ public class URLs {
 //    public static String BASE_URL_DEVELOPMENT_WCP_SERVER = "http://192.168.0.50:8080/StudyMetaData-DEV/";
 //    public static String BASE_URL_DEVELOPMENT_WCP_SERVER = "http://192.168.0.32:8080/StudyMetaData/";
     public static String BASE_URL_PRODUCTION_REGISTRATION_SERVER = "";
-    public static String BASE_URL_DEVELOPMENT_REGISTRATION_SERVER = "http://192.168.0.125:8081/labkey/fdahpUserRegWS/";
-//        public static String BASE_URL_DEVELOPMENT_REGISTRATION_SERVER = "https://hpreg-stage.lkcompliant.net/fdahpUserRegWS/"; //test
+//    public static String BASE_URL_DEVELOPMENT_REGISTRATION_SERVER = "http://192.168.0.125:8081/labkey/fdahpUserRegWS/";
+        public static String BASE_URL_DEVELOPMENT_REGISTRATION_SERVER = "https://hpreg-stage.lkcompliant.net/fdahpUserRegWS/"; //test
 //    public static String BASE_URL_DEVELOPMENT_REGISTRATION_SERVER = "https://hphci-fdama-st-ur-01.labkey.com/fdahpUserRegWS/"; //UAT
     public static String BASE_URL_PRODUCTION_RESPONSE_SERVER = "";
 //        public static String BASE_URL_DEVELOPMENT_RESPONSE_SERVER = "https://hphci-fdama-te-ds-01.labkey.com/"; //test

@@ -405,7 +405,7 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
 //                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, AppController.getHelperSharedPreference().readPreference(ConsentCompletedActivity.this, getString(R.string.title), "") + " - Consent");
                     shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.signed_consent));
                     shareIntent.setType("application/pdf");
-                    Uri fileUri = FileProvider.getUriForFile(ConsentCompletedActivity.this, "com.myfileprovider", finalMSharingFile);
+                    Uri fileUri = FileProvider.getUriForFile(ConsentCompletedActivity.this, getString(R.string.FileProvider_authorities), finalMSharingFile);
                     shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
                     startActivity(shareIntent);

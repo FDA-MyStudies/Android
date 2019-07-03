@@ -124,7 +124,7 @@ public class PDFDisplayActivity extends AppCompatActivity implements ApiCall.OnA
             shareIntent.putExtra(Intent.EXTRA_SUBJECT, getResources().getString(R.string.signed_consent));
             File mShareFile = new File(mSharePDFFilePath);
             if (mShareFile.exists()) {
-                Uri fileUri = FileProvider.getUriForFile(PDFDisplayActivity.this, "com.myfileprovider", mShareFile);
+                Uri fileUri = FileProvider.getUriForFile(PDFDisplayActivity.this, getString(R.string.FileProvider_authorities), mShareFile);
                 shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
                 startActivity(shareIntent);
             }

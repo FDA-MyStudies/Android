@@ -341,7 +341,7 @@ public class NotificationModuleSubscriber {
 
 
     public void generateAnchorDateLocalNotification(Date date, String activityId, String studyId, Context context, String notificationTest, String resourceId) {
-        String title = "My Studies";
+        String title = "MyStudies";
         String description = "";
         Calendar time = Calendar.getInstance();
         NotificationDbResources notificationsDb = null;

@@ -55,7 +55,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements ApiCall.
 
         try {
             dbServiceSubscriber = new DBServiceSubscriber();
-            mRealm = AppController.getRealmobj(mContext);
+            if (mRealm == null || mRealm.isClosed())
+                mRealm = AppController.getRealmobj(mContext);
             RealmResults<OfflineData> results = dbServiceSubscriber.getOfflineData(mRealm);
             Log.e("rajeesh", "results *********" + results);
             if (results.size() > 0) {

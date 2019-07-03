@@ -835,7 +835,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         shareIntent.setData(Uri.parse("mailto:"));
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
         shareIntent.setType("text/plain");
-        Uri fileUri = FileProvider.getUriForFile(mContext, "com.myfileprovider", file);
+        Uri fileUri = FileProvider.getUriForFile(mContext, getString(R.string.FileProvider_authorities), file);
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
         startActivity(shareIntent);

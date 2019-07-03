@@ -489,7 +489,7 @@ public class ChartActivity extends AppCompatActivity {
         shareIntent.setData(Uri.parse("mailto:"));
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
         shareIntent.setType("text/plain");
-        Uri fileUri = FileProvider.getUriForFile(ChartActivity.this, "com.myfileprovider", file);
+        Uri fileUri = FileProvider.getUriForFile(ChartActivity.this, getString(R.string.FileProvider_authorities), file);
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
         startActivity(shareIntent);

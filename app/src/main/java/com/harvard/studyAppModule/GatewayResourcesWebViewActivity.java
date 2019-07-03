@@ -150,7 +150,7 @@ public class GatewayResourcesWebViewActivity extends AppCompatActivity {
 
                     ///////// default pdf show
                     if (mFinalMSharingFile.exists()) {
-                        Uri fileUri = FileProvider.getUriForFile(GatewayResourcesWebViewActivity.this, "com.myfileprovider", mFinalMSharingFile);
+                        Uri fileUri = FileProvider.getUriForFile(GatewayResourcesWebViewActivity.this, getString(R.string.FileProvider_authorities), mFinalMSharingFile);
                         shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
                         startActivity(shareIntent);
                     }
