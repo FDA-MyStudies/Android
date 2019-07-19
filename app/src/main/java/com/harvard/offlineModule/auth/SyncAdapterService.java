@@ -26,7 +26,7 @@ public class SyncAdapterService extends Service {
         mDBServiceSubscriber = new DBServiceSubscriber();
         synchronized (syncAdapterLock) {
             if (syncAdapter == null) {
-                syncAdapter = new SyncAdapter(getApplicationContext(), true);
+                syncAdapter = new SyncAdapter(this, true);
             }
         }
     }

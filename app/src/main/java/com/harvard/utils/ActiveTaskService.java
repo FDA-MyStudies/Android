@@ -17,17 +17,38 @@ import android.support.v4.app.NotificationCompat;
 
 import com.harvard.FDAApplication;
 import com.harvard.R;
+import com.harvard.offlineModule.model.OfflineData;
+import com.harvard.storageModule.DBServiceSubscriber;
+import com.harvard.studyAppModule.StudyModulePresenter;
+import com.harvard.studyAppModule.events.ProcessResponseEvent;
+import com.harvard.userModule.UserModulePresenter;
+import com.harvard.userModule.event.UpdatePreferenceEvent;
+import com.harvard.userModule.webserviceModel.LoginData;
+import com.harvard.webserviceModule.apiHelper.ApiCall;
+import com.harvard.webserviceModule.apiHelper.ApiCallResponseServer;
+import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
+import com.harvard.webserviceModule.events.ResponseServerConfigEvent;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Calendar;
+import java.util.HashMap;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by Naveen Raj on 06/02/2017.
  */
 
-public class ActiveTaskService extends Service {
+public class ActiveTaskService extends Service implements ApiCall.OnAsyncRequestComplete, ApiCallResponseServer.OnAsyncRequestComplete {
     int sec;
     Thread t;
+    private int UPDATE_USERPREFERENCE_RESPONSECODE = 102;
+    private DBServiceSubscriber dbServiceSubscriber;
     boolean alerted = false;
+    Realm mRealm;
 
     @Override
     public void onCreate() {
@@ -42,6 +63,21 @@ public class ActiveTaskService extends Service {
         if (intent != null)
             if (intent.getStringExtra("broadcast") != null && intent.getStringExtra("broadcast").equalsIgnoreCase("yes")) {
                 startAlarm();
+            } else if (intent.getStringExtra("SyncAdapter") != null) {
+                mRealm = AppController.getRealmobj(this);
+                Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+                Notification notification = new NotificationCompat.Builder(this)
+                        .setContentTitle(getResources().getString(R.string.prject_name))
+                        .setTicker("Sync adapter")
+                        .setContentText("Syncing offline data")
+                        .setChannelId(FDAApplication.NOTIFICATION_CHANNEL_ID_SERVICE)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setLargeIcon(
+                                Bitmap.createScaledBitmap(icon, 128, 128, false))
+                        .setOngoing(true).build();
+
+                startForeground(102, notification);
+                getPendingData();
             } else {
                 try {
                     sec = 0;
@@ -112,7 +148,8 @@ public class ActiveTaskService extends Service {
     public void onDestroy() {
         super.onDestroy();
         try {
-            t.interrupt();
+            if (t != null)
+                t.interrupt();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -130,5 +167,89 @@ public class ActiveTaskService extends Service {
                 e.printStackTrace();
             }
         }
+    }
+
+
+    private void getPendingData() {
+        try {
+            dbServiceSubscriber = new DBServiceSubscriber();
+
+            RealmResults<OfflineData> results = dbServiceSubscriber.getOfflineData(mRealm);
+            if (!results.isEmpty()) {
+                for (int i = 0; i < results.size(); i++) {
+                    String httpMethod = results.get(i).getHttpMethod().toString();
+                    String url = results.get(i).getUrl().toString();
+                    String normalParam = results.get(i).getNormalParam().toString();
+                    String jsonObject = results.get(i).getJsonParam().toString();
+                    String serverType = results.get(i).getServerType().toString();
+                    updateServer(httpMethod, url, normalParam, jsonObject, serverType);
+                    break;
+                }
+            } else {
+                dbServiceSubscriber.closeRealmObj(mRealm);
+                stopSelf();
+            }
+        } catch (Exception e) {
+            stopSelf();
+            e.printStackTrace();
+        }
+    }
+
+    public void updateServer(String httpMethod, String url, String normalParam, String jsonObjectString, String serverType) {
+
+//        AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
+        JSONObject jsonObject = null;
+        try {
+            jsonObject = new JSONObject(jsonObjectString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        if (serverType.equalsIgnoreCase("registration")) {
+            HashMap<String, String> header = new HashMap();
+            header.put("auth", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.auth), ""));
+            header.put("userId", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.userid), ""));
+
+            UpdatePreferenceEvent updatePreferenceEvent = new UpdatePreferenceEvent();
+            RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent(httpMethod, url, UPDATE_USERPREFERENCE_RESPONSECODE, this, LoginData.class, null, header, jsonObject, false, this);
+            updatePreferenceEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
+            UserModulePresenter userModulePresenter = new UserModulePresenter();
+            userModulePresenter.performUpdateUserPreference(updatePreferenceEvent);
+        } else if (serverType.equalsIgnoreCase("response")) {
+            ProcessResponseEvent processResponseEvent = new ProcessResponseEvent();
+            ResponseServerConfigEvent responseServerConfigEvent = new ResponseServerConfigEvent(httpMethod, url, UPDATE_USERPREFERENCE_RESPONSECODE, this, LoginData.class, null, null, jsonObject, false, this);
+
+            processResponseEvent.setResponseServerConfigEvent(responseServerConfigEvent);
+            StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
+            studyModulePresenter.performProcessResponse(processResponseEvent);
+        } else if (serverType.equalsIgnoreCase("wcp")) {
+        }
+    }
+
+
+    @Override
+    public <T> void asyncResponse(T response, int responseCode) {
+        if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {
+            dbServiceSubscriber.removeOfflineData(this);
+            getPendingData();
+        }
+    }
+
+    @Override
+    public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
+        stopSelf();
+    }
+
+    @Override
+    public <T> void asyncResponse(T response, int responseCode, String serverType) {
+        if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {
+            dbServiceSubscriber.removeOfflineData(this);
+            getPendingData();
+        }
+    }
+
+    @Override
+    public <T> void asyncResponseFailure(int responseCode, String errormsg, String statusCode, T response) {
+        stopSelf();
     }
 }

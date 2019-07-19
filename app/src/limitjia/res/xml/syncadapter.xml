@@ -3,6 +3,6 @@
               android:accountType="com.carrastudies.limitjia.offlineModule.auth.syncadapterexample"
               android:allowParallelSyncs="false"
               android:contentAuthority="com.carrastudies.limitjia.offlineModule.auth.syncadapterexample.provider"
-              android:isAlwaysSyncable="true"
+              android:isAlwaysSyncable="false"
               android:supportsUploading="false"
               android:userVisible="false" />

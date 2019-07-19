@@ -1,10 +1,13 @@
 package com.harvard.offlineModule.auth;
 
 import android.accounts.Account;
+import android.app.ActivityManager;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SyncResult;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -16,6 +19,7 @@ import com.harvard.studyAppModule.events.ProcessResponseEvent;
 import com.harvard.userModule.UserModulePresenter;
 import com.harvard.userModule.event.UpdatePreferenceEvent;
 import com.harvard.userModule.webserviceModel.LoginData;
+import com.harvard.utils.ActiveTaskService;
 import com.harvard.utils.AppController;
 import com.harvard.webserviceModule.apiHelper.ApiCall;
 import com.harvard.webserviceModule.apiHelper.ApiCallResponseServer;
@@ -42,40 +46,57 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements ApiCall.
         super(context, autoInitialize);
         this.mContext = context;
         dbServiceSubscriber = new DBServiceSubscriber();
+
     }
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient contentProviderClient, SyncResult syncResult) {
-        Log.e("rajeesh", "***** FDA SYN WORKING *********");
-        getPendingData();
+        Log.e("SyncAdapter", "onPerformSync");
+//        mRealm = AppController.getRealmobj(mContext);
+//        getPendingData();
+
+        if (!isMyServiceRunning(ActiveTaskService.class)) {
+            Intent myIntent = new Intent(mContext, ActiveTaskService.class);
+            myIntent.putExtra("SyncAdapter", "yes");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                mContext.startForegroundService(myIntent);
+            } else {
+                mContext.startService(myIntent);
+            }
+        }
+
+    }
+
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) mContext.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
     private void getPendingData() {
-
+        Log.e("onPerformSync", "getPendingData");
         try {
             dbServiceSubscriber = new DBServiceSubscriber();
-            if (mRealm == null || mRealm.isClosed())
-                mRealm = AppController.getRealmobj(mContext);
+
             RealmResults<OfflineData> results = dbServiceSubscriber.getOfflineData(mRealm);
-            Log.e("rajeesh", "results *********" + results);
             if (results.size() > 0) {
-                Log.e("rajeesh", "size *********" + results.size());
                 for (int i = 0; i < results.size(); i++) {
                     String httpMethod = results.get(i).getHttpMethod().toString();
-                    Log.e("rajeesh", "httpMethod *********" + httpMethod);
                     String url = results.get(i).getUrl().toString();
-                    Log.e("rajeesh", "url *********" + url);
                     String normalParam = results.get(i).getNormalParam().toString();
-                    Log.e("rajeesh", "normalParam *********" + normalParam);
                     String jsonObject = results.get(i).getJsonParam().toString();
-                    Log.e("rajeesh", "jsonObject *********" + jsonObject);
                     String serverType = results.get(i).getServerType().toString();
                     updateServer(httpMethod, url, normalParam, jsonObject, serverType);
                     break;
                 }
+            } else {
+                dbServiceSubscriber.closeRealmObj(mRealm);
             }
-            dbServiceSubscriber.closeRealmObj(mRealm);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -98,7 +119,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements ApiCall.
 
             UpdatePreferenceEvent updatePreferenceEvent = new UpdatePreferenceEvent();
             RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent(httpMethod, url, UPDATE_USERPREFERENCE_RESPONSECODE, mContext, LoginData.class, null, header, jsonObject, false, this);
-            Log.e("rajeesh", "registration Service Call *********");
             updatePreferenceEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
             UserModulePresenter userModulePresenter = new UserModulePresenter();
             userModulePresenter.performUpdateUserPreference(updatePreferenceEvent);
@@ -107,48 +127,34 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements ApiCall.
             ResponseServerConfigEvent responseServerConfigEvent = new ResponseServerConfigEvent(httpMethod, url, UPDATE_USERPREFERENCE_RESPONSECODE, mContext, LoginData.class, null, null, jsonObject, false, this);
 
             processResponseEvent.setResponseServerConfigEvent(responseServerConfigEvent);
-            Log.e("rajeesh", "response ********* Service Call ");
             StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
             studyModulePresenter.performProcessResponse(processResponseEvent);
         } else if (serverType.equalsIgnoreCase("wcp")) {
-            Log.e("rajeesh", "wcp Service Call  *********");
         }
     }
 
 
     @Override
     public <T> void asyncResponse(T response, int responseCode) {
-        Log.e("rajeesh", "***** 9 *********");
         if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {
-            Log.e("rajeesh", "***** 10 *********");
             dbServiceSubscriber.removeOfflineData(mContext);
-            Log.e("rajeesh", "***** 11 *********");
             getPendingData();
-            Log.e("rajeesh", "***** 12 *********");
         }
     }
 
     @Override
     public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
-        Log.e("rajeesh", "***** 13 *********");
     }
 
     @Override
     public <T> void asyncResponse(T response, int responseCode, String serverType) {
         if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {
-            Log.e("rajeesh", "***** 14 *********");
             dbServiceSubscriber.removeOfflineData(mContext);
-            Log.e("rajeesh", "***** 15 *********");
             getPendingData();
-            Log.e("rajeesh", "***** 16 *********");
         }
     }
 
     @Override
     public <T> void asyncResponseFailure(int responseCode, String errormsg, String statusCode, T response) {
-        Log.e("rajeesh", "***** 17 *********" + responseCode);
-        Log.e("rajeesh", "***** 17 *********" + errormsg);
-        Log.e("rajeesh", "***** 17 *********" + statusCode);
-        Log.e("rajeesh", "***** 17 *********" + response);
     }
 }

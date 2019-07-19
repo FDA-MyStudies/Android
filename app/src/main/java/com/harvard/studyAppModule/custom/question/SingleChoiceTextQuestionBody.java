@@ -4,8 +4,7 @@ import android.app.Activity;
 import android.content.res.Resources;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatCheckBox;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,7 +29,7 @@ import org.researchstack.backbone.ui.step.body.StepBody;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -61,7 +60,7 @@ public class SingleChoiceTextQuestionBody<T> implements StepBody, CompoundButton
         mOtherOptionModel = new OtherOptionModel();
 
         // Restore results
-        currentSelected = new HashSet<>();
+        currentSelected = new LinkedHashSet<>();
 
         for (int i = 0; i < choices.length; i++) {
             if (choices[i].getOther() != null) {
@@ -139,35 +138,60 @@ public class SingleChoiceTextQuestionBody<T> implements StepBody, CompoundButton
                 R.drawable.rsb_divider_empty_8dp));
 
         if (choices.length > 6) {
-            EditText editText = new EditText(inflater.getContext());
+            SearchView editText = new SearchView(inflater.getContext());
+            editText.setIconifiedByDefault(false);
+            editText.setIconified(false);
+            editText.clearFocus();
             LinearLayout.MarginLayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             editText.setLayoutParams(layoutParams);
-            editText.addTextChangedListener(new TextWatcher() {
+            editText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                public boolean onQueryTextSubmit(String s) {
+                    return false;
                 }
 
                 @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void afterTextChanged(final Editable editable) {
+                public boolean onQueryTextChange(String s) {
                     for (int i = 0; i < choices.length; i++) {
                         if (!choices[i].getValue().toString().equalsIgnoreCase(OtherOptionValue)) {
-                            if (choices[i].getText().toLowerCase().contains(editable.toString().toLowerCase())) {
+                            if (choices[i].getText().toLowerCase().contains(s.toLowerCase())) {
                                 radioGroup.findViewWithTag(i).setVisibility(View.VISIBLE);
                             } else {
                                 radioGroup.findViewWithTag(i).setVisibility(View.GONE);
                             }
                         }
                     }
-//                    parent.findViewById(R.id.bar_submit_negative).getRootView().computeScroll();
+                    return false;
                 }
             });
+
+
+//            editText.addTextChangedListener(new TextWatcher() {
+//                @Override
+//                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//                }
+//
+//                @Override
+//                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//                }
+//
+//                @Override
+//                public void afterTextChanged(final Editable editable) {
+//                    for (int i = 0; i < choices.length; i++) {
+//                        if (!choices[i].getValue().toString().equalsIgnoreCase(OtherOptionValue)) {
+//                            if (choices[i].getText().toLowerCase().contains(editable.toString().toLowerCase())) {
+//                                radioGroup.findViewWithTag(i).setVisibility(View.VISIBLE);
+//                            } else {
+//                                radioGroup.findViewWithTag(i).setVisibility(View.GONE);
+//                            }
+//                        }
+//                    }
+////                    parent.findViewById(R.id.bar_submit_negative).getRootView().computeScroll();
+//                }
+//            });
             radioGroup.addView(editText);
         }
 
@@ -300,7 +324,7 @@ public class SingleChoiceTextQuestionBody<T> implements StepBody, CompoundButton
                 }
             }
             for (int i = 0; i < currentSelected.toArray().length; i++) {
-                Log.e("saving ", "" + currentSelected.toArray()[i].toString());
+                Log.e("saving to result", "" + currentSelected.toArray()[i].toString());
             }
 
             result.setResult((T[]) currentSelected.toArray());
