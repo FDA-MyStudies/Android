@@ -11,6 +11,10 @@
     <string name="studie_your_enrolled">It\'s been a while since you visited the FDA MyStudies app. Please consider continuing your participation in any studies in which you\'re enrolled.</string>
     <string name="prject_name">FDA</string>
 
+
+    <string name="termsurl">https://www.fda.gov/AboutFDA/AboutThisWebsite/WebsitePolicies/</string>
+    <string name="privacyurl">https://www.fda.gov/AboutFDA/AboutThisWebsite/WebsitePolicies/#privacy</string>
+
     <!--must change strings-->
     <string name="FileProvider_authorities">com.myfileprovider</string>
 </resources>

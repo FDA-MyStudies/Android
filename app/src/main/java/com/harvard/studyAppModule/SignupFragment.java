@@ -94,7 +94,10 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
         customTextView(mAgreeLabel);
         setFont();
         bindEvents();
-        callGetTermsAndConditionWebservice();
+//        callGetTermsAndConditionWebservice();
+        mTermsAndConditionData=new TermsAndConditionData();
+        mTermsAndConditionData.setPrivacy(getString(R.string.privacyurl));
+        mTermsAndConditionData.setTerms(getString(R.string.termsurl));
         return view;
     }
 

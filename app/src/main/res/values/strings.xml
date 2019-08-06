@@ -538,6 +538,10 @@
     <string name="otherValuetxt">Please provide an input for the text field too.</string>
 
 
+    <string name="termsurl">https://www.fda.gov/AboutFDA/AboutThisWebsite/WebsitePolicies/</string>
+    <string name="privacyurl">https://www.fda.gov/AboutFDA/AboutThisWebsite/WebsitePolicies/#privacy</string>
+
+
     <!--must change strings-->
     <string name="FileProvider_authorities">com.myfileprovider</string>
 </resources>

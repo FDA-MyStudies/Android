@@ -11,6 +11,10 @@
     <string name="prject_name">CARRA Registry</string>
     <string name="my_studies">CARRA Registry</string>
 
+
+    <string name="termsurl">https://www.fda.gov/AboutFDA/AboutThisWebsite/WebsitePolicies/</string>
+    <string name="privacyurl">https://www.fda.gov/AboutFDA/AboutThisWebsite/WebsitePolicies/#privacy</string>
+
     <!--must change strings-->
     <string name="FileProvider_authorities">com.myfileprovider.limitjia</string>
 </resources>

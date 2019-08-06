@@ -101,7 +101,10 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
         setFont();
         customTextView();
         bindEvents();
-        callGetTermsAndConditionWebservice();
+//        callGetTermsAndConditionWebservice();
+        mTermsAndConditionData=new TermsAndConditionData();
+        mTermsAndConditionData.setPrivacy(getString(R.string.privacyurl));
+        mTermsAndConditionData.setTerms(getString(R.string.termsurl));
         return view;
     }
 

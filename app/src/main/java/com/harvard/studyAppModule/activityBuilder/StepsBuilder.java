@@ -94,7 +94,7 @@ public class StepsBuilder {
                         case "textScale":
                             ChoiceTextExclusive[] textScaleChoices = new ChoiceTextExclusive[activityQuestionStep.get(i).getFormat().getTextChoices().size()];
                             for (int j = 0; j < activityQuestionStep.get(i).getFormat().getTextChoices().size(); j++) {
-                                textScaleChoices[j] = new ChoiceTextExclusive(activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getText(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getValue(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getDetailtext(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).isExclusive(), null);
+                                textScaleChoices[j] = new ChoiceTextExclusive(activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getText(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getValue(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getDetail(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).isExclusive(), null);
                             }
 
                             ScaleTextAnswerFormat ScaleTextFormat = new ScaleTextAnswerFormat(ChoiceAnswerFormatCustom.CustomAnswerStyle.ScaleText, textScaleChoices, activityQuestionStep.get(i).getFormat().getDefaultValue(), activityQuestionStep.get(i).getFormat().isVertical());
@@ -114,7 +114,7 @@ public class StepsBuilder {
                                 valuepicker.setStepTitle(R.string.notxt);
                             Choice[] valuechoice = new Choice[activityQuestionStep.get(i).getFormat().getTextChoices().size()];
                             for (int j = 0; j < activityQuestionStep.get(i).getFormat().getTextChoices().size(); j++) {
-                                valuechoice[j] = new Choice(activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getText(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getValue(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getDetailtext());
+                                valuechoice[j] = new Choice(activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getText(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getValue(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getDetail());
                             }
                             ChoiceAnswerFormatCustom pickerformat = new ChoiceAnswerFormatCustom(AnswerFormatCustom.CustomAnswerStyle.valuePicker, valuepicker, valuechoice);
                             valuepicker.setTitle(activityobj.getSteps().get(i).getTitle());
@@ -142,7 +142,7 @@ public class StepsBuilder {
                             if (activityQuestionStep.get(i).getFormat().getSelectionStyle().equalsIgnoreCase("Single")) {
                                 ChoiceText[] choices = new ChoiceText[activityQuestionStep.get(i).getFormat().getTextChoices().size()];
                                 for (int j = 0; j < activityQuestionStep.get(i).getFormat().getTextChoices().size(); j++) {
-                                    choices[j] = new ChoiceText(activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getText(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getValue(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getDetailtext(),activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getOther());
+                                    choices[j] = new ChoiceText(activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getText(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getValue(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getDetail(),activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getOther());
                                 }
                                 SingleChoiceTextAnswerFormat choiceAnswerFormat = new SingleChoiceTextAnswerFormat(AnswerFormatCustom.CustomAnswerStyle.SingleTextChoice, choices);
                                 QuestionStepCustom multiStep = new QuestionStepCustom(activityobj.getSteps().get(i).getKey());
@@ -156,7 +156,7 @@ public class StepsBuilder {
                             } else {
                                 ChoiceTextExclusive[] choices = new ChoiceTextExclusive[activityQuestionStep.get(i).getFormat().getTextChoices().size()];
                                 for (int j = 0; j < activityQuestionStep.get(i).getFormat().getTextChoices().size(); j++) {
-                                    choices[j] = new ChoiceTextExclusive(activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getText(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getValue(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getDetailtext(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).isExclusive(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getOther());
+                                    choices[j] = new ChoiceTextExclusive(activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getText(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getValue(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getDetail(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).isExclusive(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getOther());
                                 }
                                 MultiChoiceTextAnswerFormat choiceAnswerFormat = new MultiChoiceTextAnswerFormat(AnswerFormatCustom.CustomAnswerStyle.MultipleTextChoice, choices);
                                 QuestionStepCustom multiStep = new QuestionStepCustom(activityobj.getSteps().get(i).getKey());
@@ -395,7 +395,7 @@ public class StepsBuilder {
                     case "textScale":
                         ChoiceTextExclusive[] textScaleChoices = new ChoiceTextExclusive[formsteps.get(i).getFormat().getTextChoices().size()];
                         for (int j = 0; j < formsteps.get(i).getFormat().getTextChoices().size(); j++) {
-                            textScaleChoices[j] = new ChoiceTextExclusive(formsteps.get(i).getFormat().getTextChoices().get(j).getText(), formsteps.get(i).getFormat().getTextChoices().get(j).getValue(), formsteps.get(i).getFormat().getTextChoices().get(j).getDetailtext(), formsteps.get(i).getFormat().getTextChoices().get(j).isExclusive(), null);
+                            textScaleChoices[j] = new ChoiceTextExclusive(formsteps.get(i).getFormat().getTextChoices().get(j).getText(), formsteps.get(i).getFormat().getTextChoices().get(j).getValue(), formsteps.get(i).getFormat().getTextChoices().get(j).getDetail(), formsteps.get(i).getFormat().getTextChoices().get(j).isExclusive(), null);
                         }
 
                         ScaleTextAnswerFormat ScaleTextFormat = new ScaleTextAnswerFormat(ChoiceAnswerFormatCustom.CustomAnswerStyle.ScaleText, textScaleChoices, formsteps.get(i).getFormat().getDefaultValue(), formsteps.get(i).getFormat().isVertical());
@@ -412,7 +412,7 @@ public class StepsBuilder {
 //                    valuepicker.setStepTitle(R.string.survey);
                         Choice[] valuechoice = new Choice[formsteps.get(i).getFormat().getTextChoices().size()];
                         for (int j = 0; j < formsteps.get(i).getFormat().getTextChoices().size(); j++) {
-                            valuechoice[j] = new Choice(formsteps.get(i).getFormat().getTextChoices().get(j).getText(), formsteps.get(i).getFormat().getTextChoices().get(j).getValue(), formsteps.get(i).getFormat().getTextChoices().get(j).getDetailtext());
+                            valuechoice[j] = new Choice(formsteps.get(i).getFormat().getTextChoices().get(j).getText(), formsteps.get(i).getFormat().getTextChoices().get(j).getValue(), formsteps.get(i).getFormat().getTextChoices().get(j).getDetail());
                         }
                         ChoiceAnswerFormatCustom pickerformat = new ChoiceAnswerFormatCustom(AnswerFormatCustom.CustomAnswerStyle.valuePicker, valuepicker, valuechoice);
                         valuepicker.setTitle(formsteps.get(i).getTitle());
@@ -441,7 +441,7 @@ public class StepsBuilder {
 //                    multiStep.setStepTitle(R.string.survey);
                             ChoiceText[] choices = new ChoiceText[formsteps.get(i).getFormat().getTextChoices().size()];
                             for (int j = 0; j < formsteps.get(i).getFormat().getTextChoices().size(); j++) {
-                                choices[j] = new ChoiceText(formsteps.get(i).getFormat().getTextChoices().get(j).getText(), formsteps.get(i).getFormat().getTextChoices().get(j).getValue(), formsteps.get(i).getFormat().getTextChoices().get(j).getDetailtext(),formsteps.get(i).getFormat().getTextChoices().get(j).getOther());
+                                choices[j] = new ChoiceText(formsteps.get(i).getFormat().getTextChoices().get(j).getText(), formsteps.get(i).getFormat().getTextChoices().get(j).getValue(), formsteps.get(i).getFormat().getTextChoices().get(j).getDetail(),formsteps.get(i).getFormat().getTextChoices().get(j).getOther());
                             }
                             SingleChoiceTextAnswerFormat choiceAnswerFormat = new SingleChoiceTextAnswerFormat(AnswerFormatCustom.CustomAnswerStyle.SingleTextChoice, choices);
                             multiStep.setTitle(formsteps.get(i).getTitle());
@@ -452,7 +452,7 @@ public class StepsBuilder {
                         } else {
                             ChoiceTextExclusive[] choices = new ChoiceTextExclusive[formsteps.get(i).getFormat().getTextChoices().size()];
                             for (int j = 0; j < formsteps.get(i).getFormat().getTextChoices().size(); j++) {
-                                choices[j] = new ChoiceTextExclusive(formsteps.get(i).getFormat().getTextChoices().get(j).getText(), formsteps.get(i).getFormat().getTextChoices().get(j).getValue(), formsteps.get(i).getFormat().getTextChoices().get(j).getDetailtext(), formsteps.get(i).getFormat().getTextChoices().get(j).isExclusive(), formsteps.get(i).getFormat().getTextChoices().get(j).getOther());
+                                choices[j] = new ChoiceTextExclusive(formsteps.get(i).getFormat().getTextChoices().get(j).getText(), formsteps.get(i).getFormat().getTextChoices().get(j).getValue(), formsteps.get(i).getFormat().getTextChoices().get(j).getDetail(), formsteps.get(i).getFormat().getTextChoices().get(j).isExclusive(), formsteps.get(i).getFormat().getTextChoices().get(j).getOther());
                             }
                             MultiChoiceTextAnswerFormat choiceAnswerFormat = new MultiChoiceTextAnswerFormat(AnswerFormatCustom.CustomAnswerStyle.MultipleTextChoice, choices);
                             QuestionStepCustom multiStep = new QuestionStepCustom(formsteps.get(i).getKey());

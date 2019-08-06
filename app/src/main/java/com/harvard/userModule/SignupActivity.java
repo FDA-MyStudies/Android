@@ -90,7 +90,10 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
         customTextView(mAgreeLabel);
         setFont();
         bindEvents();
-        callGetTermsAndConditionWebservice();
+//        callGetTermsAndConditionWebservice();
+        mTermsAndConditionData=new TermsAndConditionData();
+        mTermsAndConditionData.setPrivacy(getString(R.string.privacyurl));
+        mTermsAndConditionData.setTerms(getString(R.string.termsurl));
     }
 
     private void initializeXMLId() {

@@ -25,7 +25,7 @@ public class GatewayPagerAdapter extends PagerAdapter {
     private Context mContext;
 
     public GatewayPagerAdapter() {
-        mSize = 4;
+        mSize = 1;
     }
 
     public GatewayPagerAdapter(int count) {
