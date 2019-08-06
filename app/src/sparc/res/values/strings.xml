@@ -5,15 +5,23 @@
     <string name="websitetxt">Foundation</string>
     <string name="gateway_des">The Crohn\'s &amp; Colitis Foundation’s mission: To cure Crohn\'s disease and ulcerative colitis, and to improve the quality of life of children and adults affected by these diseases.</string>
     <string name="gateway_des1">Available for iOS and Android devices, this app will house studies conducted by FDA and other institutions, enabling researchers to engage more directly with people to gather data via questionnaires.</string>
-    <string name="delete_account_content">You have chosen to delete your FMS iBD Account. This will result in automatic withdrawal from all studies.\n\nBelow is a list of studies that you are a part of and information on how your response data will be handled with each after you withdraw. Please review and confirm.</string>
-    <string name="delete_message">Are you sure you wish to permanently delete your FDA Health Studies Gateway app account?  You will need to register again if you wish to join a study.</string>
+    <string name="delete_account_content">You have chosen to delete your mSPARC Account. This will result in automatic withdrawal from all studies.\n\nBelow is a list of studies that you are a part of and information on how your response data will be handled with each after you withdraw. Please review and confirm.</string>
+    <string name="delete_message">Are you sure you wish to permanently delete your mSPARC app account?  You will need to register again if you wish to join a study.</string>
     <string name="my_studies">mSPARC</string>
-    <string name="studie_your_enrolled">It\'s been a while since you visited the FDA MyStudies app. Please consider continuing your participation in any studies in which you\'re enrolled.</string>
+    <string name="studie_your_enrolled">It\'s been a while since you visited the mSPARC app. Please consider continuing your participation in any studies in which you\'re enrolled.</string>
     <string name="prject_name">mSPARC</string>
 
+    <!--Added additionally for sparc-->
+    <string name="join_study">Join mSPARC</string>
+    <string name="view_consent">mSPARC Registration</string>
+    <string name="visit_website">Visit SPARC</string>
+    <string name="consent_pdf">App Registration</string>
+    <string name="consent_pdf1">App Registration</string>
+    <string name="leave_study">Unsubscribe</string>
 
-    <string name="termsurl">https://www.crohnscolitisfoundation.org/research/current-research-initiatives/sparc-ibd</string>
-    <string name="privacyurl">https://www.crohnscolitisfoundation.org/research/current-research-initiatives/sparc-ibd</string>
+
+    <string name="termsurl">https://www.crohnscolitisfoundation.org/</string>
+    <string name="privacyurl">https://online.crohnscolitisfoundation.org/site/DocServer/mSPARC_Privacy_Policy_07302019.pdf?docID=35367/</string>
 
     <!--must change strings-->
     <string name="FileProvider_authorities">com.myfileprovider.sparc</string>
