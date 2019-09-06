@@ -59,7 +59,8 @@ public class NotificationModuleSubscriber {
         Calendar time = Calendar.getInstance();
         Calendar time1 = Calendar.getInstance();
         ActivitiesWS activitiesWS = dbServiceSubscriber.getActivityItem(activityRun.getStudyId(), activityRun.getActivityId(), mRealm);
-        NotificationDb notificationsDb = dbServiceSubscriber.getNotificationDb(activityRun.getActivityId(), activityRun.getStudyId(), ACTIVITY, mRealm);
+//        NotificationDb notificationsDb = dbServiceSubscriber.getNotificationDb(activityRun.getActivityId(), activityRun.getStudyId(), ACTIVITY, mRealm);
+
         try {
             if (type.equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_ONE_TIME)) {
                 Date date = removeOffset(activityRun.getEndDate(), offset);
@@ -111,7 +112,7 @@ public class NotificationModuleSubscriber {
             AlarmManager alarmManager = null;
             int notificationNumber;
             if (time.getTime().after(new Date())) {
-                if (notificationsDb != null) {
+                /*if (notificationsDb != null) {
                     notificationId = notificationsDb.getNotificationId();
                     notificationsDb = dbServiceSubscriber.updateNotificationNumber(notificationsDb, mRealm);
                     mRealm.beginTransaction();
@@ -120,7 +121,7 @@ public class NotificationModuleSubscriber {
                     notificationsDb.setDateTime(time.getTime());
                     notificationsDb.setEndDateTime(removeOffset(activityRun.getEndDate(), offset));
                     mRealm.commitTransaction();
-                } else {
+                } else {*/
                     notificationId = new Random().nextInt();
                     NotificationDb notificationDb = new NotificationDb();
                     notificationDb.setStudyId(activityRun.getStudyId());
@@ -133,12 +134,13 @@ public class NotificationModuleSubscriber {
                     notificationDb.setDescription(description);
                     notificationDb.setEndDateTime(removeOffset(activityRun.getEndDate(), offset));
                     dbServiceSubscriber.updateNotificationToDb(context,notificationDb);
-                }
+//                }
 
 
                 alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-                Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+                Intent notificationIntent = new Intent(context, AlarmReceiver.class);
+                notificationIntent.setAction("android.media.action.DISPLAY_NOTIFICATION");
                 notificationIntent.addCategory("android.intent.category.DEFAULT");
                 notificationIntent.putExtra("title", title);
                 notificationIntent.putExtra("description", description);
@@ -147,11 +149,11 @@ public class NotificationModuleSubscriber {
                 notificationIntent.putExtra("studyId", activityRun.getStudyId());
                 notificationIntent.putExtra("activityId", activityRun.getActivityId());
                 notificationIntent.putExtra("date", AppController.getDateFormat().format(time.getTime()));
-                if (notificationsDb != null) {
+                /*if (notificationsDb != null) {
                     notificationNumber = notificationsDb.getId();
-                } else {
+                } else {*/
                     notificationNumber = 1;
-                }
+//                }
                 notificationIntent.putExtra("notificationNumber", notificationNumber);
                 try {
                     int pendingIntentId = Integer.parseInt(AppController.getHelperSharedPreference().readPreference(context, context.getResources().getString(R.string.pendingCount), "0")) + 1;
@@ -181,7 +183,7 @@ public class NotificationModuleSubscriber {
             // Notification availability for monthly, weekly, One time
             if (type.equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_MONTHLY) || type.equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_WEEKLY) || type.equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_ONE_TIME)) {
                 if (time1.getTime().after(new Date())) {
-                    if (notificationsDb != null) {
+                    /*if (notificationsDb != null) {
                         notificationId = notificationsDb.getNotificationId();
                         notificationsDb = dbServiceSubscriber.updateNotificationNumber(notificationsDb, mRealm);
                         mRealm.beginTransaction();
@@ -190,7 +192,7 @@ public class NotificationModuleSubscriber {
                         notificationsDb.setDateTime(time1.getTime());
                         notificationsDb.setEndDateTime(removeOffset(activityRun.getEndDate(), offset));
                         mRealm.commitTransaction();
-                    } else {
+                    } else {*/
                         notificationId = new Random().nextInt();
                         NotificationDb notificationDb = new NotificationDb();
                         notificationDb.setStudyId(activityRun.getStudyId());
@@ -203,10 +205,11 @@ public class NotificationModuleSubscriber {
                         notificationDb.setId(1);
                         notificationDb.setEndDateTime(removeOffset(activityRun.getEndDate(), offset));
                         dbServiceSubscriber.updateNotificationToDb(context,notificationDb);
-                    }
+//                    }
 
 
-                    Intent notificationIntent1 = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+                    Intent notificationIntent1 = new Intent(context, AlarmReceiver.class);
+                    notificationIntent1.setAction("android.media.action.DISPLAY_NOTIFICATION");
                     notificationIntent1.addCategory("android.intent.category.DEFAULT");
                     notificationIntent1.putExtra("title", title);
                     notificationIntent1.putExtra("description", description1);
@@ -215,11 +218,11 @@ public class NotificationModuleSubscriber {
                     notificationIntent1.putExtra("activityId", activityRun.getActivityId());
                     notificationIntent1.putExtra("notificationId", notificationId);
                     notificationIntent1.putExtra("date", AppController.getDateFormat().format(time1.getTime()));
-                    if (notificationsDb != null) {
+                    /*if (notificationsDb != null) {
                         notificationNumber = notificationsDb.getId();
-                    } else {
+                    } else {*/
                         notificationNumber = 1;
-                    }
+//                    }
                     notificationIntent1.putExtra("notificationNumber", notificationNumber);
                     try {
                         int pendingIntentId = Integer.parseInt(AppController.getHelperSharedPreference().readPreference(context, context.getResources().getString(R.string.pendingCount), "0")) + 1;
@@ -261,7 +264,8 @@ public class NotificationModuleSubscriber {
             calendar.setTime(date);
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-            Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+            Intent notificationIntent = new Intent(context, AlarmReceiver.class);
+            notificationIntent.setAction("android.media.action.DISPLAY_NOTIFICATION");
             notificationIntent.addCategory("android.intent.category.DEFAULT");
             notificationIntent.putExtra("title", title);
             notificationIntent.putExtra("description", context.getResources().getString(R.string.studie_your_enrolled));
@@ -283,7 +287,8 @@ public class NotificationModuleSubscriber {
         try {
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             String title = context.getResources().getString(R.string.my_studies);
-            Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+            Intent notificationIntent = new Intent(context, AlarmReceiver.class);
+            notificationIntent.setAction("android.media.action.DISPLAY_NOTIFICATION");
             notificationIntent.addCategory("android.intent.category.DEFAULT");
             notificationIntent.putExtra("title", title);
             notificationIntent.putExtra("description", context.getResources().getString(R.string.studie_your_enrolled));
@@ -304,7 +309,8 @@ public class NotificationModuleSubscriber {
             calendar.add(Calendar.DAY_OF_MONTH, 7);
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-            Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+            Intent notificationIntent = new Intent(context, AlarmReceiver.class);
+            notificationIntent.setAction("android.media.action.DISPLAY_NOTIFICATION");
             notificationIntent.addCategory("android.intent.category.DEFAULT");
             notificationIntent.putExtra("title", title);
             notificationIntent.putExtra("description", context.getResources().getString(R.string.notificatinturnoffnotification));
@@ -326,7 +332,8 @@ public class NotificationModuleSubscriber {
         try {
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             String title = context.getResources().getString(R.string.my_studies);
-            Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+            Intent notificationIntent = new Intent(context, AlarmReceiver.class);
+            notificationIntent.setAction("android.media.action.DISPLAY_NOTIFICATION");
             notificationIntent.addCategory("android.intent.category.DEFAULT");
             notificationIntent.putExtra("title", title);
             notificationIntent.putExtra("description", context.getResources().getString(R.string.notificatinturnoffnotification));
@@ -378,7 +385,8 @@ public class NotificationModuleSubscriber {
             dbServiceSubscriber.updateNotificationToDb(context,notificationDb);
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-            Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+            Intent notificationIntent = new Intent(context, AlarmReceiver.class);
+            notificationIntent.setAction("android.media.action.DISPLAY_NOTIFICATION");
             notificationIntent.addCategory("android.intent.category.DEFAULT");
             notificationIntent.putExtra("title", title);
             notificationIntent.putExtra("description", description);
@@ -428,7 +436,8 @@ public class NotificationModuleSubscriber {
         if (pendingIntentses != null) {
             for (int i = 0; i < pendingIntentses.size(); i++) {
                 try {
-                    Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+                    Intent notificationIntent = new Intent(context, AlarmReceiver.class);
+                    notificationIntent.setAction("android.media.action.DISPLAY_NOTIFICATION");
                     notificationIntent.addCategory("android.intent.category.DEFAULT");
                     notificationIntent.putExtra("title", pendingIntentses.get(i).getTitle());
                     notificationIntent.putExtra("description", pendingIntentses.get(i).getDescription());
@@ -453,7 +462,8 @@ public class NotificationModuleSubscriber {
         if (pendingIntentses != null) {
             for (int i = 0; i < pendingIntentses.size(); i++) {
                 try {
-                    Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+                    Intent notificationIntent = new Intent(context, AlarmReceiver.class);
+                    notificationIntent.setAction("android.media.action.DISPLAY_NOTIFICATION");
                     notificationIntent.addCategory("android.intent.category.DEFAULT");
                     notificationIntent.putExtra("title", pendingIntentses.get(i).getTitle());
                     notificationIntent.putExtra("description", pendingIntentses.get(i).getDescription());
@@ -479,7 +489,8 @@ public class NotificationModuleSubscriber {
             RealmResults<PendingIntents> pendingIntentses = dbServiceSubscriber.getPendingIntentIdByIds(mRealm, activityId, studyId);
             if (pendingIntentses != null) {
                 for (int i = 0; i < pendingIntentses.size(); i++) {
-                    Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+                    Intent notificationIntent = new Intent(context, AlarmReceiver.class);
+                    notificationIntent.setAction("android.media.action.DISPLAY_NOTIFICATION");
                     notificationIntent.addCategory("android.intent.category.DEFAULT");
                     notificationIntent.putExtra("title", pendingIntentses.get(i).getTitle());
                     notificationIntent.putExtra("description", pendingIntentses.get(i).getDescription());
@@ -503,7 +514,8 @@ public class NotificationModuleSubscriber {
         RealmResults<PendingIntents> pendingIntentses = dbServiceSubscriber.getPendingIntentId(mRealm);
         if (pendingIntentses != null) {
             for (int i = 0; i < pendingIntentses.size(); i++) {
-                Intent notificationIntent = new Intent("android.media.action.DISPLAY_NOTIFICATION");
+                Intent notificationIntent = new Intent(context, AlarmReceiver.class);
+                notificationIntent.setAction("android.media.action.DISPLAY_NOTIFICATION");
                 notificationIntent.addCategory("android.intent.category.DEFAULT");
                 notificationIntent.putExtra("title", pendingIntentses.get(i).getTitle());
                 notificationIntent.putExtra("description", pendingIntentses.get(i).getDescription());

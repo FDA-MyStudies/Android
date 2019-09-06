@@ -38,6 +38,7 @@ import com.harvard.userModule.model.TermsAndConditionData;
 import com.harvard.userModule.webserviceModel.RegistrationData;
 import com.harvard.userModule.webserviceModel.UpdateUserProfileData;
 import com.harvard.utils.AppController;
+import com.harvard.utils.SetDialogHelper;
 import com.harvard.utils.URLs;
 import com.harvard.webserviceModule.apiHelper.ApiCall;
 import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
@@ -225,7 +226,8 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
         } else if (mPassword.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(mContext, getResources().getString(R.string.password_empty), Toast.LENGTH_SHORT).show();
         } else if (!mPassword.getText().toString().matches(PASSWORD_PATTERN)) {
-            Toast.makeText(mContext, getResources().getString(R.string.password_validation), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(mContext, getResources().getString(R.string.password_validation), Toast.LENGTH_SHORT).show();
+            SetDialogHelper.setNeutralDialog(mContext, getResources().getString(R.string.password_validation), false, mContext.getResources().getString(R.string.ok), mContext.getResources().getString(R.string.app_name));
         } else if (checkPasswordContainsEmailID(mEmail.getText().toString(), mPassword.getText().toString())) {
             Toast.makeText(mContext, getResources().getString(R.string.password_contain_email), Toast.LENGTH_SHORT).show();
         } else if (mConfirmPassword.getText().toString().equalsIgnoreCase("")) {
