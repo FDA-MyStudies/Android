@@ -124,6 +124,7 @@
     <string name="side_menu_sign_up">Sign up</string>
     <string name="side_menu_sign_out">Sign Out</string>
     <string name="side_menu_version">v</string>
+    <string name="poweredby">Powered by FDA MyStudies</string>
     <string name="survey">Survey</string>
     <string name="no_study">Sorry, no studies available right now. Please remain signed in to get notified when there are new studies available. </string>
     <string name="surveyjsonname">survey.json</string>

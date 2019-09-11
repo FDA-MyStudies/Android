@@ -43,11 +43,11 @@
                     android:layout_marginRight="20dp">
 
                     <TextView
-                        android:id="@+id/version"
+                        android:id="@+id/poweredBy"
                         style="@style/TextType3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/side_menu_version"
+                        android:text="@string/poweredby"
                         android:textColor="@color/colorSecondary" />
                 </RelativeLayout>
             </RelativeLayout>
@@ -232,6 +232,15 @@
                             android:text="@string/side_menu_sign_out"
                             android:textColor="@color/colorSecondary" />
                     </RelativeLayout>
+                    <TextView
+                        android:id="@+id/version"
+                        style="@style/TextType3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/mSignOutLayout"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/side_menu_version"
+                        android:textColor="@color/colorSecondary" />
 
 
 
