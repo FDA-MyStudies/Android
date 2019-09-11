@@ -12,6 +12,7 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.harvard.R;
 import com.harvard.studyAppModule.custom.AnswerFormatCustom;
@@ -194,12 +195,20 @@ public class CustomDateQuestionBody implements StepBody {
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == DialogInterface.BUTTON_POSITIVE) {
                         dialog.dismiss();
-                        hasChosenDate = true;
+                        Calendar calendar1 = Calendar.getInstance();
+                        calendar1.setTime(calendar.getTime());
+                        calendar1.set(datePickerDialog.getDatePicker().getYear(), datePickerDialog.getDatePicker().getMonth(), datePickerDialog.getDatePicker().getDayOfMonth());
+                        if (format.validateAnswer(calendar1.getTime()).isValid()) {
+                            hasChosenDate = true;
 
-                        calendar.set(datePickerDialog.getDatePicker().getYear(), datePickerDialog.getDatePicker().getMonth(), datePickerDialog.getDatePicker().getDayOfMonth());
-                        // Set result to our edit text
-                        String formattedResult = CustomDateQuestionBody.this.createFormattedResult();
-                        tv.setText(formattedResult);
+                            calendar.set(datePickerDialog.getDatePicker().getYear(), datePickerDialog.getDatePicker().getMonth(), datePickerDialog.getDatePicker().getDayOfMonth());
+                            // Set result to our edit text
+                            String formattedResult = CustomDateQuestionBody.this.createFormattedResult();
+                            tv.setText(formattedResult);
+                        }
+                        else {
+                            Toast.makeText(inflater.getContext(), format.validateAnswer(calendar1.getTime()).getString(inflater.getContext()), Toast.LENGTH_LONG).show();
+                        }
                     }
                 }
             });
@@ -218,13 +227,21 @@ public class CustomDateQuestionBody implements StepBody {
                     new TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                            calendar.set(Calendar.MINUTE, minute);
+                            Calendar calendar1 = Calendar.getInstance();
+                            calendar1.setTime(calendar.getTime());
+                            calendar1.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                            calendar1.set(Calendar.MINUTE, minute);
+                            if (format.validateAnswer(calendar1.getTime()).isValid()) {
+                                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                calendar.set(Calendar.MINUTE, minute);
 
-                            hasChosenDate = true;
-                            // Set result to our edit text
-                            String formattedResult = CustomDateQuestionBody.this.createFormattedResult();
-                            tv.setText(formattedResult);
+                                hasChosenDate = true;
+                                // Set result to our edit text
+                                String formattedResult = CustomDateQuestionBody.this.createFormattedResult();
+                                tv.setText(formattedResult);
+                            } else {
+                                Toast.makeText(inflater.getContext(), format.validateAnswer(calendar1.getTime()).getString(inflater.getContext()), Toast.LENGTH_LONG).show();
+                            }
                         }
                     },
                     calendar.get(Calendar.HOUR_OF_DAY),
@@ -287,13 +304,21 @@ public class CustomDateQuestionBody implements StepBody {
                                     @Override
                                     public void onTimeSet(TimePicker tview, int hourOfDay, int minute) {
 
-                                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                                        calendar.set(Calendar.MINUTE, minute);
+                                        Calendar calendar1 = Calendar.getInstance();
+                                        calendar1.setTime(calendar.getTime());
+                                        calendar1.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                        calendar1.set(Calendar.MINUTE, minute);
+                                        if (format.validateAnswer(calendar1.getTime()).isValid()) {
+                                            calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                            calendar.set(Calendar.MINUTE, minute);
 
-                                        hasChosenDate = true;
-                                        // Set result to our edit text
-                                        String formattedResult = CustomDateQuestionBody.this.createFormattedResult();
-                                        tv.setText(formattedResult);
+                                            hasChosenDate = true;
+                                            // Set result to our edit text
+                                            String formattedResult = CustomDateQuestionBody.this.createFormattedResult();
+                                            tv.setText(formattedResult);
+                                        } else {
+                                            Toast.makeText(inflater.getContext(), format.validateAnswer(calendar1.getTime()).getString(inflater.getContext()), Toast.LENGTH_LONG).show();
+                                        }
                                     }
                                 },
                                 calendar.get(Calendar.HOUR_OF_DAY),

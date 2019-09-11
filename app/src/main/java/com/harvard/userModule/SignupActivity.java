@@ -256,7 +256,8 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
         } else if (mPassword.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(this, getResources().getString(R.string.password_empty), Toast.LENGTH_SHORT).show();
         } else if (!mPassword.getText().toString().matches(PASSWORD_PATTERN)) {
-            Toast.makeText(this, getResources().getString(R.string.password_validation), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, getResources().getString(R.string.password_validation), Toast.LENGTH_SHORT).show();
+            SetDialogHelper.setNeutralDialog(SignupActivity.this, getResources().getString(R.string.password_validation), false, getResources().getString(R.string.ok), getResources().getString(R.string.app_name));
         } else if (checkPasswordContainsEmailID(mEmail.getText().toString(), mPassword.getText().toString())) {
             Toast.makeText(this, getResources().getString(R.string.password_contain_email), Toast.LENGTH_SHORT).show();
         } else if (mConfirmPassword.getText().toString().equalsIgnoreCase("")) {

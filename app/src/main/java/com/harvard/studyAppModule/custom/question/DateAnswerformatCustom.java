@@ -92,18 +92,19 @@ public class DateAnswerformatCustom extends AnswerFormatCustom {
         return Type.None;
     }
 
+    //Before used FormatHelper.SIMPLE_FORMAT_DATE Now FormatHelper.DEFAULT_FORMAT
     public BodyAnswer validateAnswer(Date resultDate) {
         if (dateRange.equalsIgnoreCase("") || dateRange.equalsIgnoreCase("custom")) {
             if (minimumDate != null && resultDate.getTime() < minimumDate.getTime()) {
                 return new BodyAnswer(false,
                         R.string.rsb_invalid_answer_date_under,
-                        FormatHelper.SIMPLE_FORMAT_DATE.format(minimumDate));
+                        FormatHelper.DEFAULT_FORMAT.format(minimumDate));
             }
 
             if (maximumDate != null && resultDate.getTime() > maximumDate.getTime()) {
                 return new BodyAnswer(false,
                         R.string.rsb_invalid_answer_date_over,
-                        FormatHelper.SIMPLE_FORMAT_DATE.format(maximumDate));
+                        FormatHelper.DEFAULT_FORMAT.format(maximumDate));
             }
         } else if (dateRange.equalsIgnoreCase("untilCurrent")) {
             Calendar resultsCalendar = Calendar.getInstance();
@@ -129,7 +130,7 @@ public class DateAnswerformatCustom extends AnswerFormatCustom {
             } else {
                 return new BodyAnswer(false,
                         R.string.rsb_invalid_answer_date_over,
-                        FormatHelper.SIMPLE_FORMAT_DATE.format(currentCalendar.getTime()));
+                        FormatHelper.DEFAULT_FORMAT.format(currentCalendar.getTime()));
             }
         } else if (dateRange.equalsIgnoreCase("afterCurrent")) {
             Calendar resultsCalendar = Calendar.getInstance();
@@ -156,7 +157,7 @@ public class DateAnswerformatCustom extends AnswerFormatCustom {
             } else {
                 return new BodyAnswer(false,
                         R.string.rsb_invalid_answer_date_under,
-                        FormatHelper.SIMPLE_FORMAT_DATE.format(currentCalendar.getTime()));
+                        FormatHelper.DEFAULT_FORMAT.format(currentCalendar.getTime()));
             }
         }
 

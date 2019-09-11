@@ -1863,7 +1863,7 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                     SetDialogHelper.setNeutralDialog(mContext, mContext.getResources().getString(R.string.study) + " " + title + " " + mContext.getResources().getString(R.string.percent_complete1), false, mContext.getResources().getString(R.string.ok), mContext.getResources().getString(R.string.app_name));
                 } else if (completion >= 50) {
                     fiftyPc = true;
-                    SetDialogHelper.setNeutralDialog(mContext, mContext.getResources().getString(R.string.study) + " " + title + " " + mContext.getResources().getString(R.string.percent_complete2), false, mContext.getResources().getString(R.string.ok), mContext.getResources().getString(R.string.app_name));
+//                    SetDialogHelper.setNeutralDialog(mContext, mContext.getResources().getString(R.string.study) + " " + title + " " + mContext.getResources().getString(R.string.percent_complete2), false, mContext.getResources().getString(R.string.ok), mContext.getResources().getString(R.string.app_name));
 
                 } else if (missed > 0) {
                     SetDialogHelper.setNeutralDialog(mContext, mContext.getResources().getString(R.string.missed_activity) + " " + ((SurveyActivity) mContext).getTitle1() + " " + mContext.getResources().getString(R.string.we_encourage), false, mContext.getResources().getString(R.string.ok), mContext.getResources().getString(R.string.app_name));
