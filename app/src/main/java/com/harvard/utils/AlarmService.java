@@ -11,8 +11,12 @@ import android.content.Intent;
 public class AlarmService extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent myIntent = new Intent(context, ActiveTaskService.class);
-        myIntent.putExtra("broadcast", "yes");
-        context.startService(myIntent);
+        try {
+            Intent myIntent = new Intent(context, ActiveTaskService.class);
+            myIntent.putExtra("broadcast", "yes");
+            context.startService(myIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -8,6 +8,7 @@ import com.harvard.studyAppModule.custom.AnswerFormatCustom;
 import org.researchstack.backbone.ui.step.body.BodyAnswer;
 import org.researchstack.backbone.utils.FormatHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -94,17 +95,23 @@ public class DateAnswerformatCustom extends AnswerFormatCustom {
 
     //Before used FormatHelper.SIMPLE_FORMAT_DATE Now FormatHelper.DEFAULT_FORMAT
     public BodyAnswer validateAnswer(Date resultDate) {
+        SimpleDateFormat simpleDateFormat;
+        if (style == DateAnswerStyle.Date)
+            simpleDateFormat = FormatHelper.SIMPLE_FORMAT_DATE;
+        else
+            simpleDateFormat = FormatHelper.DEFAULT_FORMAT;
+
         if (dateRange.equalsIgnoreCase("") || dateRange.equalsIgnoreCase("custom")) {
             if (minimumDate != null && resultDate.getTime() < minimumDate.getTime()) {
                 return new BodyAnswer(false,
                         R.string.rsb_invalid_answer_date_under,
-                        FormatHelper.DEFAULT_FORMAT.format(minimumDate));
+                        simpleDateFormat.format(minimumDate));
             }
 
             if (maximumDate != null && resultDate.getTime() > maximumDate.getTime()) {
                 return new BodyAnswer(false,
                         R.string.rsb_invalid_answer_date_over,
-                        FormatHelper.DEFAULT_FORMAT.format(maximumDate));
+                        simpleDateFormat.format(maximumDate));
             }
         } else if (dateRange.equalsIgnoreCase("untilCurrent")) {
             Calendar resultsCalendar = Calendar.getInstance();
@@ -130,7 +137,7 @@ public class DateAnswerformatCustom extends AnswerFormatCustom {
             } else {
                 return new BodyAnswer(false,
                         R.string.rsb_invalid_answer_date_over,
-                        FormatHelper.DEFAULT_FORMAT.format(currentCalendar.getTime()));
+                        simpleDateFormat.format(currentCalendar.getTime()));
             }
         } else if (dateRange.equalsIgnoreCase("afterCurrent")) {
             Calendar resultsCalendar = Calendar.getInstance();
@@ -157,7 +164,7 @@ public class DateAnswerformatCustom extends AnswerFormatCustom {
             } else {
                 return new BodyAnswer(false,
                         R.string.rsb_invalid_answer_date_under,
-                        FormatHelper.DEFAULT_FORMAT.format(currentCalendar.getTime()));
+                        simpleDateFormat.format(currentCalendar.getTime()));
             }
         }
 

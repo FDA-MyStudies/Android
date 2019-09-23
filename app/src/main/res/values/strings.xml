@@ -168,7 +168,7 @@
 
 
     <string name="consentthanksmsg">Thanks for providing consent for this Study</string>
-    <string name="studystartmsg">You can now start participating in the Study.</string>
+    <string name="studystartmsg">You can now start using the app to participate in the study.</string>
     <string name="viewpdf">View/Email eConsent PDF</string>
 
     <string name="eligibility">ELIGIBILITY</string>
@@ -370,8 +370,8 @@
     <string name="charttag">activityId</string>
     <string name="signed_consent">SignedConsent</string>
     <string name="permission_enable_message">Please enable the permission from settings to share the PDF</string>
-    <string name="leave_study_retained_message">Tap OK to confirm your withdrawal from the study. Tap cancel to remain enrolled in the study.</string>
-    <string name="leave_study_deleted_message">Tap OK to confirm your withdrawal from the study. Tap cancel to remain enrolled in the study.</string>
+    <string name="leave_study_retained_message">Are you sure? Tap Ok to confirm.</string>
+    <string name="leave_study_deleted_message">Are you sure? Tap Ok to confirm.</string>
     <string name="leave_study_retained_or_deleted_message">You are choosing to leave the study. Please choose if your response data can be retained and used for research purposes OR if your response data should be deleted.</string>
     <string name="consent_complete">Please complete the Consent to continue</string>
     <string name="studyPaused">This study is paused.</string>

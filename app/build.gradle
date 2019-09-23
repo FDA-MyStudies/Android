@@ -58,13 +58,13 @@ android {
         fda {
             dimension 'version'
             applicationId "com.harvard.fda"
-            versionCode 80
+            versionCode 82
             versionName "8.8"
         }
         limitjia {
             dimension 'version'
             applicationId "com.carrastudies.limitjia"
-            versionCode 5
+            versionCode 7
             versionName "1.0"
         }
         sparc {

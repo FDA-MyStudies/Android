@@ -258,7 +258,7 @@ public class NotificationModuleSubscriber {
     }
 
     public void generateTwoWeekNotification(Date date, Context context) {
-        try {
+       /* try {
             String title = context.getResources().getString(R.string.my_studies);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
@@ -280,11 +280,11 @@ public class NotificationModuleSubscriber {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public void cancelTwoWeekNotification(Context context) {
-        try {
+        /*try {
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             String title = context.getResources().getString(R.string.my_studies);
             Intent notificationIntent = new Intent(context, AlarmReceiver.class);
@@ -298,7 +298,7 @@ public class NotificationModuleSubscriber {
             alarmManager.cancel(broadcast);
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     public void generateNotificationTurnOffNotification(Date date, Context context) {
