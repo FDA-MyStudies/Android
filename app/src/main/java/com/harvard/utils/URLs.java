@@ -23,6 +23,7 @@ public class URLs {
 //        public static String BASE_URL_DEVELOPMENT_RESPONSE_SERVER = "https://hphci-fdama-te-ds-01.labkey.com/"; //test
 //    public static String BASE_URL_DEVELOPMENT_RESPONSE_SERVER = "https://hphci-fdama-st-ds-01.labkey.com/"; //UAT
     public static String BASE_URL_DEVELOPMENT_RESPONSE_SERVER = "https://hpresp-stage.lkcompliant.net/"; //UAT
+//    public static String BASE_URL_DEVELOPMENT_RESPONSE_SERVER = "http://192.168.1.8:8081/labkey/"; //UAT
 
     /**
      * Registration Server

@@ -96,6 +96,7 @@
                 style="@style/TextType2"
                 android:layout_centerInParent="true"
                 android:text="@string/visit_website"
+                android:gravity="center"
                 android:textColor="@color/white" />
 
         </RelativeLayout>
@@ -125,6 +126,7 @@
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/mLernMoreButton"
                 style="@style/TextType2"
+                android:gravity="center"
                 android:layout_centerInParent="true"
                 android:text="@string/view_consent"
                 android:textColor="@color/white" />

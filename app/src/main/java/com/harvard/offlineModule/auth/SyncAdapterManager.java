@@ -7,12 +7,13 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.harvard.AppConfig;
+import com.harvard.R;
 
 
 public class SyncAdapterManager {
     public static final String AUTHORITY = AppConfig.PackageName + ".offlineModule.auth.syncadapterexample.provider";
     public static final String ACCOUNT_TYPE = AppConfig.PackageName + ".offlineModule.auth.syncadapterexample";
-    public static final String ACCOUNT = "fdaaccount";
+    public static String ACCOUNT = "";
     public static Account newAccount;
     // Sync interval constants
     public static final long SYNC_FREQUENCY = 60 * 15;
@@ -20,6 +21,7 @@ public class SyncAdapterManager {
 
     public static void init(Context context) {
         mContext = context;
+        ACCOUNT = context.getString(R.string.app_name);
         newAccount = new Account(ACCOUNT, ACCOUNT_TYPE);
         AccountManager accountManager = (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
         boolean flag = false;

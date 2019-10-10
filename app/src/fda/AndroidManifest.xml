@@ -319,7 +319,7 @@
         </service>
         <service
             android:name=".offlineModule.auth.SyncAdapterService"
-            android:exported="true"
+            android:exported="false"
             android:process=":sync">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter"/>

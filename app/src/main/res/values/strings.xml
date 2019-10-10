@@ -96,10 +96,9 @@
     <string name="change_password_heading">CHANGE PASSWORD</string>
     <string name="change_password_heading1">CREATE PASSWORD</string>
     <string name="watch_video">Watch Video</string>
-    <string name="join_study">Join Study</string>
+
     <string name="learn_more">Learn More</string>
-    <string name="view_consent">View Consent</string>
-    <string name="visit_website">Visit Website</string>
+
     <string name="profile_small">My Account</string>
     <string name="terms">TERMS OF USE</string>
     <string name="privacy_policy">PRIVACY POLICY</string>

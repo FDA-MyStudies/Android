@@ -81,8 +81,8 @@
         android:alpha=".6"
         android:background="@color/colorPrimaryBlack"
         android:baselineAligned="true"
-        android:visibility="invisible"
         android:orientation="horizontal"
+        android:visibility="invisible"
         android:weightSum="5">
 
         <RelativeLayout
@@ -95,6 +95,7 @@
                 android:id="@+id/mVisitWebsiteButton"
                 style="@style/TextType2"
                 android:layout_centerInParent="true"
+                android:gravity="center"
                 android:text="@string/visit_website"
                 android:textColor="@color/white" />
 
@@ -103,19 +104,20 @@
         <RelativeLayout
             android:id="@+id/center"
             android:layout_width="0dp"
-            android:gravity="center"
             android:layout_height="match_parent"
-            android:layout_weight=".2">
+            android:layout_weight=".2"
+            android:gravity="center">
 
             <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/hrLine2"
                 android:layout_width="1dp"
                 android:layout_height="40dp"
-                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:alpha=".4"
                 android:background="@android:color/white" />
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/mLernMoreButtonLayout"
             android:layout_width="0dp"
@@ -126,12 +128,14 @@
                 android:id="@+id/mLernMoreButton"
                 style="@style/TextType2"
                 android:layout_centerInParent="true"
+                android:gravity="center"
                 android:text="@string/view_consent"
                 android:textColor="@color/white" />
 
         </RelativeLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/bottom_bar1"
         android:layout_width="match_parent"
@@ -140,16 +144,14 @@
         android:alpha=".6"
         android:background="@color/colorPrimaryBlack"
         android:baselineAligned="true"
-        android:visibility="gone"
         android:orientation="horizontal"
-        >
+        android:visibility="gone">
 
 
         <RelativeLayout
             android:id="@+id/consentLay"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/consentLayButton"
@@ -161,15 +163,16 @@
         </RelativeLayout>
 
     </LinearLayout>
+
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/joinButton"
         style="@style/TextType2"
+        android:layout_above="@+id/bottom_bar"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
-        android:layout_above="@+id/bottom_bar"
         android:background="@drawable/rectangle_blue_white"
         android:gravity="center"
-        android:visibility="invisible"
         android:text="@string/join_study"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:visibility="invisible" />
 </RelativeLayout>

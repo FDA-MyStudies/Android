@@ -160,7 +160,7 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<ResourcesListAdap
 
     private void showDialog(int count) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle);
-        builder.setTitle(mContext.getResources().getString(R.string.important_note));
+//        builder.setTitle(mContext.getResources().getString(R.string.important_note));
         // withdrawalType ask_user
         if (count == 3) {
             builder.setMessage(mContext.getResources().getString(R.string.leave_study_retained_or_deleted_message));
