@@ -189,8 +189,16 @@ public class SurveyActivitiesListAdapter extends RecyclerView.Adapter<SurveyActi
             }
             // completed status incomplete/complete settings
             if (mStatus.get(holder.getAdapterPosition()).equalsIgnoreCase(SurveyActivitiesFragment.STATUS_COMPLETED)) {
-                int val = mCurrentRunStatusForActivities.get(position).getMissedRun();
-                if (val > 0) {
+                int missedRunVal = mCurrentRunStatusForActivities.get(position).getMissedRun();
+                int currentRunVal = mCurrentRunStatusForActivities.get(position).getCurrentRunId();
+                int totalRunVal = mCurrentRunStatusForActivities.get(position).getTotalRun();
+                int completedRunVal = mCurrentRunStatusForActivities.get(position).getCompletedRun();
+                if(missedRunVal == 0 && currentRunVal == 0 && totalRunVal == 0 && completedRunVal == 0) {
+                    holder.mProcess.setVisibility(View.VISIBLE);
+                    holder.mProcess.setText(R.string.expired);
+                    bgShape.setColor(mContext.getResources().getColor(R.color.black_shade));
+                }
+                else if (missedRunVal > 0) {
                     holder.mProcess.setVisibility(View.VISIBLE);
                     holder.mProcess.setText(R.string.incompleted2);
                     bgShape.setColor(mContext.getResources().getColor(R.color.red));
