@@ -390,6 +390,8 @@ public class SurveyActivitiesListAdapter extends RecyclerView.Adapter<SurveyActi
             holder.mContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    int currentRunVal = mCurrentRunStatusForActivities.get(position).getCurrentRunId();
+                    int totalRunVal = mCurrentRunStatusForActivities.get(position).getTotalRun();
                     if (mClick) {
                         mClick = false;
                         new Handler().postDelayed(new Runnable() {
@@ -410,9 +412,13 @@ public class SurveyActivitiesListAdapter extends RecyclerView.Adapter<SurveyActi
                             } else if (mStatus.get(holder.getAdapterPosition()).equalsIgnoreCase(SurveyActivitiesFragment.STATUS_UPCOMING)) {
                                 Toast.makeText(mContext, R.string.upcoming_event, Toast.LENGTH_SHORT).show();
                             } else if (mCurrentRunStatusForActivities.get(holder.getAdapterPosition()).getStatus().equalsIgnoreCase(SurveyActivitiesFragment.INCOMPLETE)) {
-                                Toast.makeText(mContext, R.string.incomple_event, Toast.LENGTH_SHORT).show();
+                                if (currentRunVal != totalRunVal) {
+                                    Toast.makeText(mContext, R.string.incomple_event, Toast.LENGTH_SHORT).show();
+                                }
                             } else {
-                                Toast.makeText(mContext, R.string.completed_event, Toast.LENGTH_SHORT).show();
+                                if (currentRunVal != totalRunVal) {
+                                    Toast.makeText(mContext, R.string.completed_event, Toast.LENGTH_SHORT).show();
+                                }
                             }
                         }
                     }
