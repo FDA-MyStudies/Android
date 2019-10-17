@@ -528,7 +528,7 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
             setRecyclerView();
         } else if (requestCode == CONSENT_RESPONSECODE) {
             if (resultCode == getActivity().RESULT_OK) {
-                try {
+                /*try {
                     TaskResult result = (TaskResult) data.getSerializableExtra(CustomConsentViewTaskActivity.EXTRA_TASK_RESULT);
                     signatureBase64 = (String) result.getStepResult("Signature")
                             .getResultForIdentifier(ConsentSignatureStepLayout.KEY_SIGNATURE);
@@ -558,7 +558,7 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                 if (encryptFile != null) {
                     File file = new File("/data/data/" + mContext.getPackageName() + "/files/" + mFileName + ".pdf");
                     file.delete();
-                }
+                }*/
                 Intent intent = new Intent(getActivity(), ConsentCompletedActivity.class);
                 intent.putExtra(ConsentCompletedActivity.FROM, "survey");
 //                intent.putExtra("enrollId", getIntent().getStringExtra("enrollId"));
@@ -568,7 +568,7 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                 intent.putExtra("type", data.getStringExtra(CustomConsentViewTaskActivity.TYPE));
 //                intent.putExtra("PdfPath", myFile.getAbsolutePath());
                 // get the encrypted file path
-                intent.putExtra("PdfPath", encryptFile.getAbsolutePath());
+                intent.putExtra("PdfPath", data.getStringExtra("PdfPath"));
                 startActivityForResult(intent, CONSENT_COMPLETE);
 
             } else {
@@ -1168,24 +1168,65 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
 //                mActivityUpdated = true;
 
         if (activityDataDB != null && activityListData != null) { //&& activityData != null
-            for (int i = 0; i < activityDataDB.getActivities().size(); i++) {
-                for (int j = 0; j < activityListData.getActivities().size(); j++) {
+            for (int j = 0; j < activityListData.getActivities().size(); j++) {
+                boolean activityAvailable = false;
+                 for (int i = 0; i < activityDataDB.getActivities().size(); i++) {
+
                     if (activityDataDB.getActivities().get(i).getActivityId().equalsIgnoreCase(activityListData.getActivities().get(j).getActivityId())) {
+                        activityAvailable = true;
                         if (!activityDataDB.getActivities().get(i).getActivityVersion().equalsIgnoreCase(activityListData.getActivities().get(j).getActivityVersion())) {
                             mActivityUpdated = true;
                             //update ActivityWS DB with new version
                             dbServiceSubscriber.UpdateActivitiesWSVersion(activityListData.getActivities().get(j).getActivityId(), activityListData.getStudyId(), mRealm, activityListData.getActivities().get(j).getActivityVersion());
                             dbServiceSubscriber.updateActivityPreferenceVersion(mContext,activityListData.getActivities().get(j).getActivityVersion(), activityDataDB.getActivities().get(i));
                             if (activityIds.contains(activityDataDB.getActivities().get(i).getActivityId())) {
-                                activityIds.add(activityDataDB.getActivities().get(i).getActivityId());
+                                //change on 15/10/2019
+//                                activityIds.add(activityDataDB.getActivities().get(i).getActivityId());
+
                                 runIds.set(activityIds.indexOf(activityDataDB.getActivities().get(i).getActivityId()), activityDataDB.getActivities().get(i).getActivityRunId());
                             } else {
+                                //change on 15/10/2019
+                                activityIds.add(activityDataDB.getActivities().get(i).getActivityId());
+
                                 runIds.add(activityDataDB.getActivities().get(i).getActivityRunId());
                             }
                         }
                         break;
                     }
                 }
+                //change on 16/10/2019
+                 if(!activityAvailable) {
+                     ActivitiesWS activitiesWS = dbServiceSubscriber.getActivityObj(activityListData.getActivities().get(j).getActivityId(), activityListData.getStudyId(), mRealm);
+                     if (activitiesWS != null && !activitiesWS.getActivityVersion().equalsIgnoreCase(activityListData.getActivities().get(j).getActivityVersion())) {
+                         mActivityUpdated = true;
+                         //update ActivityWS DB with new version
+                         dbServiceSubscriber.UpdateActivitiesWSVersion(activityListData.getActivities().get(j).getActivityId(), activityListData.getStudyId(), mRealm, activityListData.getActivities().get(j).getActivityVersion());
+                         if (!activityIds.contains(activityListData.getActivities().get(j).getActivityId())) {
+
+                             activityIds.add(activityListData.getActivities().get(j).getActivityId());
+
+                             runIds.add("-1");
+                         }
+                     }
+                 }
+            }
+        }
+        //change on 15/10/2019
+        else if(activityDataDB == null && activityListData != null)
+        {
+            for (int j = 0; j < activityListData.getActivities().size(); j++) {
+                ActivitiesWS activitiesWS = dbServiceSubscriber.getActivityObj(activityListData.getActivities().get(j).getActivityId(), activityListData.getStudyId(), mRealm);
+                    if (activitiesWS != null && !activitiesWS.getActivityVersion().equalsIgnoreCase(activityListData.getActivities().get(j).getActivityVersion())) {
+                        mActivityUpdated = true;
+                        //update ActivityWS DB with new version
+                        dbServiceSubscriber.UpdateActivitiesWSVersion(activityListData.getActivities().get(j).getActivityId(), activityListData.getStudyId(), mRealm, activityListData.getActivities().get(j).getActivityVersion());
+                        if (!activityIds.contains(activityListData.getActivities().get(j).getActivityId())) {
+
+                            activityIds.add(activityListData.getActivities().get(j).getActivityId());
+
+                            runIds.add("-1");
+                        }
+                    }
             }
         }
 //            }

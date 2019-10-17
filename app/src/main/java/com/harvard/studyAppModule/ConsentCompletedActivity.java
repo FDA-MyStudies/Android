@@ -25,6 +25,7 @@ import com.github.barteksc.pdfviewer.scroll.DefaultScrollHandle;
 import com.harvard.R;
 import com.harvard.storageModule.DBServiceSubscriber;
 import com.harvard.studyAppModule.ResponseServerModel.ResponseServerData;
+import com.harvard.studyAppModule.consent.CustomConsentViewTaskActivity;
 import com.harvard.studyAppModule.consent.model.EligibilityConsent;
 import com.harvard.studyAppModule.events.EnrollIdEvent;
 import com.harvard.studyAppModule.events.GetUserStudyListEvent;
@@ -132,7 +133,7 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
                             mClick = true;
                         }
                     }, 3000);
-                    AppController.getHelperProgressDialog().showProgress(ConsentCompletedActivity.this, "", "", false);
+                    /*AppController.getHelperProgressDialog().showProgress(ConsentCompletedActivity.this, "", "", false);
 //                    if (getIntent().getStringExtra("enrollId") == null || getIntent().getStringExtra("enrollId").equalsIgnoreCase("")) {
                     if (getIntent().getStringExtra("type") != null && getIntent().getStringExtra("type").equalsIgnoreCase("update")) {
                         Studies mStudies = dbServiceSubscriber.getStudies(getIntent().getStringExtra("studyId"), mRealm);
@@ -145,7 +146,16 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
                     } else {
                         enrollId();
 //                    updateuserpreference();
+                    }*/
+                    if (!comingFrom.equalsIgnoreCase(SurveyActivitiesFragment.FROM_SURVAY)) {
+                        Intent intent = new Intent(ConsentCompletedActivity.this, SurveyActivity.class);
+                        intent.putExtra("studyId", getIntent().getStringExtra("studyId"));
+                        startActivity(intent);
+                    } else {
+                        Intent resultIntent = new Intent();
+                        setResult(RESULT_OK, resultIntent);
                     }
+                    finish();
                 }
             }
         });

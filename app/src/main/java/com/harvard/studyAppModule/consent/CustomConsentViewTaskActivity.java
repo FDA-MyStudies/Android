@@ -7,42 +7,90 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.harvard.EligibilityModule.ComprehensionFailureActivity;
 import com.harvard.EligibilityModule.ComprehensionSuccessActivity;
 import com.harvard.R;
 import com.harvard.storageModule.DBServiceSubscriber;
+import com.harvard.studyAppModule.ConsentCompletedActivity;
+import com.harvard.studyAppModule.ResponseServerModel.ResponseServerData;
+import com.harvard.studyAppModule.StudyFragment;
+import com.harvard.studyAppModule.StudyModulePresenter;
+import com.harvard.studyAppModule.SurveyActivitiesFragment;
+import com.harvard.studyAppModule.SurveyActivity;
 import com.harvard.studyAppModule.consent.model.ComprehensionCorrectAnswers;
 import com.harvard.studyAppModule.consent.model.Consent;
 import com.harvard.studyAppModule.consent.model.EligibilityConsent;
 import com.harvard.studyAppModule.custom.StepSwitcherCustom;
+import com.harvard.studyAppModule.events.EnrollIdEvent;
+import com.harvard.studyAppModule.events.GetUserStudyListEvent;
+import com.harvard.studyAppModule.events.UpdateEligibilityConsentStatusEvent;
+import com.harvard.studyAppModule.studyModel.Study;
+import com.harvard.studyAppModule.studyModel.StudyList;
+import com.harvard.studyAppModule.studyModel.StudyUpdate;
+import com.harvard.userModule.UserModulePresenter;
+import com.harvard.userModule.event.GetPreferenceEvent;
+import com.harvard.userModule.event.UpdatePreferenceEvent;
+import com.harvard.userModule.webserviceModel.LoginData;
+import com.harvard.userModule.webserviceModel.Studies;
+import com.harvard.userModule.webserviceModel.StudyData;
 import com.harvard.utils.AppController;
+import com.harvard.utils.URLs;
+import com.harvard.webserviceModule.apiHelper.ApiCall;
+import com.harvard.webserviceModule.apiHelper.ApiCallResponseServer;
+import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
+import com.harvard.webserviceModule.events.ResponseServerConfigEvent;
+import com.harvard.webserviceModule.events.WCPConfigEvent;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.Phrase;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.researchstack.backbone.result.StepResult;
 import org.researchstack.backbone.result.TaskResult;
 import org.researchstack.backbone.step.Step;
 import org.researchstack.backbone.task.OrderedTask;
 import org.researchstack.backbone.task.Task;
 import org.researchstack.backbone.ui.callbacks.StepCallbacks;
+import org.researchstack.backbone.ui.step.layout.ConsentSignatureStepLayout;
 import org.researchstack.backbone.ui.step.layout.StepLayout;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.crypto.CipherInputStream;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -50,7 +98,7 @@ import io.realm.RealmList;
 /**
  * Created by Naveen Raj on 03/01/2017.
  */
-public class CustomConsentViewTaskActivity extends AppCompatActivity implements StepCallbacks {
+public class CustomConsentViewTaskActivity extends AppCompatActivity implements StepCallbacks, ApiCall.OnAsyncRequestComplete, ApiCallResponseServer.OnAsyncRequestComplete {
     public static final String EXTRA_TASK = "ViewTaskActivity.ExtraTask";
     public static final String EXTRA_TASK_RESULT = "ViewTaskActivity.ExtraTaskResult";
     public static final String EXTRA_STEP = "ViewTaskActivity.ExtraStep";
@@ -61,6 +109,11 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
     public static final String TYPE = "ViewTaskActivity.type";
 
     private StepSwitcherCustom root;
+    private static final String FILE_FOLDER = "FDA_PDF";
+    private static final int STUDY_UPDATES = 205;
+    private boolean mClick = true;
+    private boolean mCompletionAdherenceStatus = true;
+    private final int ENROLL_ID_RESPONSECODE = 100;
 
     private Step currentStep;
     private Task task;
@@ -72,6 +125,7 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
     private String eligibility;
     public static final String CONSENT = "consent";
     private String type;
+    private String participantId = "";
     int score = 0;
     int passScore = 0;
     Consent mConsent;
@@ -79,6 +133,13 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
     Step previousStep;
     DBServiceSubscriber dbServiceSubscriber;
     Realm mRealm;
+    private final int UPDATE_USERPREFERENCE_RESPONSECODE = 102;
+    private static final int GET_PREFERENCES = 2016;
+    private final int UPDATE_ELIGIBILITY_CONSENT_RESPONSECODE = 101;
+    String enrolleddate;
+    EligibilityConsent eligibilityConsent;
+    StudyList studyList;
+    String pdfPath;
 
     public static Intent newIntent(Context context, Task task, String studyId, String enrollId, String pdfTitle, String eligibility, String type) {
         Intent intent = new Intent(context, CustomConsentViewTaskActivity.class);
@@ -98,6 +159,7 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
         super.setResult(RESULT_CANCELED);
         super.setContentView(R.layout.stepswitchercustom);
 
+
         Toolbar toolbar = (Toolbar) findViewById(org.researchstack.backbone.R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -105,6 +167,7 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
         root = (StepSwitcherCustom) findViewById(R.id.container);
         dbServiceSubscriber = new DBServiceSubscriber();
         mRealm = AppController.getRealmobj(this);
+        studyList = dbServiceSubscriber.getStudiesDetails(getIntent().getStringExtra(STUDYID), mRealm);
 
         if (savedInstanceState == null) {
 
@@ -113,7 +176,7 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
             studyId = getIntent().getStringExtra(STUDYID);
             pdfTitle = getIntent().getStringExtra(PDFTITLE);
 
-            EligibilityConsent eligibilityConsent = dbServiceSubscriber.getConsentMetadata(studyId, mRealm);
+            eligibilityConsent = dbServiceSubscriber.getConsentMetadata(studyId, mRealm);
             mConsent = eligibilityConsent.getConsent();
             ConsentBuilder consentBuilder = new ConsentBuilder();
             List<Step> consentstep = consentBuilder.createsurveyquestion(CustomConsentViewTaskActivity.this, mConsent, pdfTitle);
@@ -130,7 +193,7 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
             studyId = (String) savedInstanceState.getSerializable(STUDYID);
             pdfTitle = (String) savedInstanceState.getSerializable(PDFTITLE);
 
-            EligibilityConsent eligibilityConsent = dbServiceSubscriber.getConsentMetadata(studyId, mRealm);
+            eligibilityConsent = dbServiceSubscriber.getConsentMetadata(studyId, mRealm);
             mConsent = eligibilityConsent.getConsent();
             ConsentBuilder consentBuilder = new ConsentBuilder();
             List<Step> consentstep = consentBuilder.createsurveyquestion(CustomConsentViewTaskActivity.this, mConsent, pdfTitle);
@@ -372,12 +435,473 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
     }
 
     private void saveAndFinish() {
+
         taskResult.setEndDate(new Date());
-        Intent resultIntent = new Intent();
+        if (mClick) {
+            mClick = false;
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mClick = true;
+                }
+            }, 3000);
+            AppController.getHelperProgressDialog().showProgress(CustomConsentViewTaskActivity.this, "", "", false);
+//                    if (getIntent().getStringExtra("enrollId") == null || getIntent().getStringExtra("enrollId").equalsIgnoreCase("")) {
+            if (getIntent().getStringExtra(TYPE) != null && getIntent().getStringExtra(TYPE).equalsIgnoreCase("update")) {
+                Studies mStudies = dbServiceSubscriber.getStudies(getIntent().getStringExtra(STUDYID), mRealm);
+                if (mStudies != null)
+                    participantId = mStudies.getParticipantId();
+                mCompletionAdherenceStatus = false;
+                getStudySate();
+//                    update_eligibility_consent();
+//                    updateuserpreference();
+            } else {
+                enrollId();
+//                    updateuserpreference();
+            }
+        }
+
+
+
+
+
+
+
+
+        /*Intent resultIntent = new Intent();
         resultIntent.putExtra(EXTRA_TASK_RESULT, taskResult);
         resultIntent.putExtra(TYPE, type);
         setResult(RESULT_OK, resultIntent);
-        finish();
+        finish();*/
+    }
+
+
+    private void enrollId() {
+        EnrollIdEvent enrollIdEvent = new EnrollIdEvent();
+        HashMap<String, String> params = new HashMap<>();
+        params.put("studyId", getIntent().getStringExtra(STUDYID));
+        params.put("token", getIntent().getStringExtra(ENROLLID));
+
+        ResponseServerConfigEvent responseServerConfigEvent = new ResponseServerConfigEvent("post_json", URLs.ENROLL_ID, ENROLL_ID_RESPONSECODE, CustomConsentViewTaskActivity.this, ResponseServerData.class, params, null, null, false, CustomConsentViewTaskActivity.this);
+//        ResponseServerConfigEvent responseServerConfigEvent = new ResponseServerConfigEvent("get", URLs.ENROLL_ID + "studyId=TESTSTUDY01&token=" + getIntent().getStringExtra("enrollId"), ENROLL_ID_RESPONSECODE, CustomConsentViewTaskActivity.this, ResponseServerData.class, null, null, null, false, CustomConsentViewTaskActivity.this);
+
+        enrollIdEvent.setResponseServerConfigEvent(responseServerConfigEvent);
+        StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
+        studyModulePresenter.performEnrollId(enrollIdEvent);
+    }
+
+    public void updateuserpreference() {
+        Studies studies = dbServiceSubscriber.getStudies(getIntent().getStringExtra(STUDYID), mRealm);
+        UpdatePreferenceEvent updatePreferenceEvent = new UpdatePreferenceEvent();
+
+        HashMap<String, String> header = new HashMap();
+        header.put("auth", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.auth), ""));
+        header.put("userId", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.userid), ""));
+
+        JSONObject jsonObject = new JSONObject();
+
+        JSONArray studieslist = new JSONArray();
+        JSONObject studiestatus = new JSONObject();
+        try {
+            if (studies != null) {
+                studiestatus.put("studyId", studies.getStudyId());
+                studiestatus.put("status", StudyFragment.IN_PROGRESS);
+//                studiestatus.put("bookmarked", studies.isBookmarked());
+            } else {
+                studiestatus.put("studyId", getIntent().getStringExtra(STUDYID));
+                studiestatus.put("status", StudyFragment.IN_PROGRESS);
+//                studiestatus.put("bookmarked", false);
+            }
+            if (participantId != null && !participantId.equalsIgnoreCase("")) {
+                studiestatus.put("participantId", participantId);
+            }
+            if (mCompletionAdherenceStatus) {
+                studiestatus.put("completion", "0");
+                studiestatus.put("adherence", "0");
+            } else {
+                mCompletionAdherenceStatus = true;
+            }
+
+//            SimpleDateFormat simpleDateFormat = AppController.getDateFormatUTC();
+//            enrolleddate = simpleDateFormat.format(new Date());
+//            studiestatus.put("enrolledDate", enrolleddate);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        studieslist.put(studiestatus);
+//        JSONArray activitylist = new JSONArray();
+        try {
+            jsonObject.put("studies", studieslist);
+//            jsonObject.put("activities", activitylist);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("json", "" + jsonObject.toString());
+        RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post_object", URLs.UPDATE_STUDY_PREFERENCE, UPDATE_USERPREFERENCE_RESPONSECODE, this, LoginData.class, null, header, jsonObject, false, this);
+
+        updatePreferenceEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
+        UserModulePresenter userModulePresenter = new UserModulePresenter();
+        userModulePresenter.performUpdateUserPreference(updatePreferenceEvent);
+    }
+
+
+
+    @Override
+    public <T> void asyncResponse(T response, int responseCode) {
+        if (responseCode == UPDATE_ELIGIBILITY_CONSENT_RESPONSECODE) {
+            LoginData loginData = (LoginData) response;
+            if (loginData != null) {
+                getStudyUpdateFomWS();
+            } else {
+                AppController.getHelperProgressDialog().dismissDialog();
+                Toast.makeText(this, getResources().getString(R.string.unable_to_parse), Toast.LENGTH_SHORT).show();
+            }
+        } else if (responseCode == STUDY_UPDATES) {
+            StudyUpdate studyUpdate = (StudyUpdate) response;
+            AppController.getHelperProgressDialog().dismissDialog();
+
+
+
+            AppController.getHelperSharedPreference().writePreference(CustomConsentViewTaskActivity.this, getResources().getString(R.string.studyStatus), StudyFragment.IN_PROGRESS);
+
+            /*StudyUpdate studyUpdate = dbServiceSubscriber.getStudyUpdateById(getIntent().getStringExtra("studyId"));
+            String studyVersion = "";
+            if(studyUpdate != null && studyUpdate.getCurrentVersion() != null)
+            {
+                studyVersion = studyUpdate.getCurrentVersion();
+            }
+            else {
+                StudyList studyList = dbServiceSubscriber.getStudyTitle(getIntent().getStringExtra("studyId"));
+                studyVersion = studyList.getStudyVersion();
+            }*/
+            Study study = dbServiceSubscriber.getStudyListFromDB(mRealm);
+            dbServiceSubscriber.updateStudyWithStudyId(this,getIntent().getStringExtra(STUDYID), study, studyUpdate.getCurrentVersion());
+            dbServiceSubscriber.updateStudyPreferenceVersionDB(this,getIntent().getStringExtra(STUDYID), studyUpdate.getCurrentVersion());
+
+           /* if (!comingFrom.equalsIgnoreCase(SurveyActivitiesFragment.FROM_SURVAY)) {
+                Intent intent = new Intent(CustomConsentViewTaskActivity.this, SurveyActivity.class);
+                intent.putExtra("studyId", getIntent().getStringExtra("studyId"));
+                startActivity(intent);
+            } else {
+                Intent resultIntent = new Intent();
+                setResult(RESULT_OK, resultIntent);
+            }
+            finish();*/
+
+            dbServiceSubscriber.updateStudyPreferenceDB(this,getIntent().getStringExtra(STUDYID), StudyFragment.IN_PROGRESS, enrolleddate, participantId, AppController.getHelperSharedPreference().readPreference(CustomConsentViewTaskActivity.this, getResources().getString(R.string.studyVersion), ""));
+            dbServiceSubscriber.savePdfData(this,getIntent().getStringExtra(STUDYID), pdfPath);
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra(EXTRA_TASK_RESULT, taskResult);
+            resultIntent.putExtra(TYPE, type);
+            resultIntent.putExtra("PdfPath", pdfPath);
+            setResult(RESULT_OK, resultIntent);
+            finish();
+        } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {
+            LoginData loginData = (LoginData) response;
+            if (loginData != null) {
+//                update_eligibility_consent();
+                getStudySate();
+
+            } else {
+                Toast.makeText(this, getResources().getString(R.string.unable_to_parse), Toast.LENGTH_SHORT).show();
+            }
+        } else if (responseCode == GET_PREFERENCES) {
+            StudyData studies = (StudyData) response;
+            if (studies != null) {
+                for (int i = 0; i < studies.getStudies().size(); i++) {
+                    if (getIntent().getStringExtra(STUDYID).equalsIgnoreCase(studies.getStudies().get(i).getStudyId()))
+                        enrolleddate = studies.getStudies().get(i).getEnrolledDate();
+                }
+                update_eligibility_consent();
+
+            } else {
+                Toast.makeText(this, getResources().getString(R.string.unable_to_parse), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void getFile(String s) {
+        File file = new File(s, FILE_FOLDER);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+    }
+
+    private String genarateConsentPDF() {
+
+        String filepath = "";
+        try {
+            String signatureBase64 = (String) taskResult.getStepResult("Signature")
+                    .getResultForIdentifier(ConsentSignatureStepLayout.KEY_SIGNATURE);
+
+            String signatureDate = (String) taskResult.getStepResult("Signature")
+                    .getResultForIdentifier(ConsentSignatureStepLayout.KEY_SIGNATURE_DATE);
+
+            String formResult = new Gson().toJson(taskResult.getStepResult(getResources().getString(R.string.signature_form_step)).getResults());
+            JSONObject formResultObj = new JSONObject(formResult);
+            JSONObject fullNameObj = formResultObj.getJSONObject("First Name");
+            JSONObject fullNameResult = fullNameObj.getJSONObject("results");
+            String firstName = fullNameResult.getString("answer");
+
+            JSONObject lastNameObj = formResultObj.getJSONObject("Last Name");
+            JSONObject lastNameResult = lastNameObj.getJSONObject("results");
+            String lastName = lastNameResult.getString("answer");
+
+
+
+
+
+            getFile("/data/data/" + getPackageName() + "/files/");
+            String timeStamp = AppController.getDateFormatType3();
+            String mFileName = timeStamp;
+            String filePath = "/data/data/" + getPackageName() + "/files/" + timeStamp + ".pdf";
+            File myFile = new File(filePath);
+            if (!myFile.exists())
+                myFile.createNewFile();
+            OutputStream output = new FileOutputStream(myFile);
+
+            Document document = new Document();
+            PdfWriter writer = PdfWriter.getInstance(document, output);
+            writer.setFullCompression();
+
+            document.addCreationDate();
+            document.setPageSize(PageSize.A4);
+            document.setMargins(10, 10, 10, 10);
+
+            document.open();
+            Paragraph consentItem;
+            if (eligibilityConsent != null && eligibilityConsent.getConsent() != null && eligibilityConsent.getConsent().getReview() != null && eligibilityConsent.getConsent().getReview().getSignatureContent() != null && !eligibilityConsent.getConsent().getReview().getSignatureContent().equalsIgnoreCase("")) {
+                consentItem = new Paragraph(Html.fromHtml(eligibilityConsent.getConsent().getReview().getSignatureContent().toString()).toString());
+            } else if (eligibilityConsent != null && eligibilityConsent.getConsent() != null && eligibilityConsent.getConsent().getVisualScreens() != null) {
+                StringBuilder docBuilder;
+                if (eligibilityConsent.getConsent().getVisualScreens().size() > 0) {
+                    // Create our HTML to show the user and have them accept or decline.
+                    docBuilder = new StringBuilder(
+                            "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
+                    String title = studyList.getTitle();
+                    docBuilder.append(String.format(
+                            "<h1 style=\"text-align: center; font-family:sans-serif-light;\">%1$s</h1>",
+                            title));
+
+
+                    docBuilder.append("</div></br>");
+                    for (int i = 0; i < eligibilityConsent.getConsent().getVisualScreens().size(); i++) {
+                        docBuilder.append("<div>  <h4>" + eligibilityConsent.getConsent().getVisualScreens().get(i).getTitle() + "<h4> </div>");
+                        docBuilder.append("</br>");
+                        docBuilder.append("<div>" + eligibilityConsent.getConsent().getVisualScreens().get(i).getHtml() + "</div>");
+                        docBuilder.append("</br>");
+                        docBuilder.append("</br>");
+                    }
+                    consentItem = new Paragraph(Html.fromHtml(docBuilder.toString()).toString());
+                } else {
+                    consentItem = new Paragraph("");
+                }
+            } else {
+                consentItem = new Paragraph("");
+            }
+//            Paragraph consentItem = new Paragraph();
+//            ElementList list = XMLWorkerHelper.parseToElementList(Html.fromHtml(eligibilityConsent.getConsent().getReview().getSignatureContent().toString()).toString(), null);
+//            for (Element element : list) {
+//                consentItem.add(element);
+//            }
+            StringBuilder docBuilder = new StringBuilder(
+                    "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
+            String participant = getResources().getString(R.string.participant);
+            docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", participant));
+            String detail = getResources().getString(R.string.agree_participate_research_study);
+            docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", detail));
+            consentItem.add(Html.fromHtml(docBuilder.toString()).toString());
+
+            byte[] signatureBytes;
+            Image myImg = null;
+            if (signatureBase64 != null) {
+                signatureBytes = Base64.decode(signatureBase64, Base64.DEFAULT);
+                myImg = Image.getInstance(signatureBytes);
+                myImg.setScaleToFitHeight(true);
+                myImg.scalePercent(50f);
+            }
+
+            PdfPTable table = new PdfPTable(3);
+            table.setWidthPercentage(100);
+            table.addCell(getCell(firstName + " " + lastName, PdfPCell.ALIGN_CENTER));
+            table.addCell(getImage(myImg, PdfPCell.ALIGN_CENTER));
+            table.addCell(getCell(signatureDate, PdfPCell.ALIGN_CENTER));
+            consentItem.add(table);
+
+
+            PdfPTable table1 = new PdfPTable(3);
+            table1.setWidthPercentage(100);
+            table1.addCell(getCell(getResources().getString(R.string.participans_name), PdfPCell.ALIGN_CENTER));
+            table1.addCell(getCell(getResources().getString(R.string.participants_signature), PdfPCell.ALIGN_CENTER));
+            table1.addCell(getCell(getResources().getString(R.string.date), PdfPCell.ALIGN_CENTER));
+            consentItem.add(table1);
+
+            document.add(consentItem);
+            document.close();
+
+            // encrypt the genarated pdf
+            File encryptFile = AppController.genarateEncryptedConsentPDF("/data/data/" + getPackageName() + "/files/", mFileName);
+            filepath = encryptFile.getAbsolutePath();
+            //After encryption delete the pdf file
+            if (encryptFile != null) {
+                File file = new File("/data/data/" + getPackageName() + "/files/" + mFileName + ".pdf");
+                file.delete();
+            }
+
+        } catch (IOException | DocumentException e) {
+            Toast.makeText(CustomConsentViewTaskActivity.this, R.string.not_able_create_pdf, Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return filepath;
+    }
+
+    public PdfPCell getImage(Image image, int alignment) {
+        PdfPCell cell;
+        if (image != null) {
+            cell = new PdfPCell(image);
+        } else {
+            cell = new PdfPCell();
+        }
+        cell.setPadding(10);
+        cell.setHorizontalAlignment(alignment);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        return cell;
+    }
+
+    public PdfPCell getCell(String text, int alignment) {
+        PdfPCell cell = new PdfPCell(new Phrase(text));
+        cell.setPadding(10);
+        cell.setHorizontalAlignment(alignment);
+        cell.setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
+        cell.setBorder(PdfPCell.NO_BORDER);
+        return cell;
+    }
+
+
+    private void getStudyUpdateFomWS() {
+        AppController.getHelperProgressDialog().showProgress(CustomConsentViewTaskActivity.this, "", "", false);
+        GetUserStudyListEvent getUserStudyListEvent = new GetUserStudyListEvent();
+        DBServiceSubscriber dbServiceSubscriber = new DBServiceSubscriber();
+        HashMap<String, String> header = new HashMap();
+//        header.put("studyId", studyId);
+//        header.put("studyVersion", studyVersion);
+
+        String url = URLs.STUDY_UPDATES + "?studyId=" + getIntent().getStringExtra(STUDYID) + "&studyVersion=" + studyList.getStudyVersion();
+        WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, STUDY_UPDATES, CustomConsentViewTaskActivity.this, StudyUpdate.class, null, header, null, false, this);
+
+        getUserStudyListEvent.setWcpConfigEvent(wcpConfigEvent);
+        StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
+        studyModulePresenter.performGetGateWayStudyList(getUserStudyListEvent);
+    }
+
+    private void update_eligibility_consent() {
+        pdfPath = genarateConsentPDF();
+        UpdateEligibilityConsentStatusEvent updateEligibilityConsentStatusEvent = new UpdateEligibilityConsentStatusEvent();
+        HashMap headerparams = new HashMap();
+        headerparams.put("auth", AppController.getHelperSharedPreference().readPreference(CustomConsentViewTaskActivity.this, getString(R.string.auth), ""));
+        headerparams.put("userId", AppController.getHelperSharedPreference().readPreference(CustomConsentViewTaskActivity.this, getString(R.string.userid), ""));
+
+        EligibilityConsent eligibilityConsent = dbServiceSubscriber.getConsentMetadata(getIntent().getStringExtra(STUDYID), mRealm);
+        JSONObject body = new JSONObject();
+        try {
+            body.put("studyId", getIntent().getStringExtra(STUDYID));
+            body.put("eligibility", true);
+
+            JSONObject consentbody = new JSONObject();
+            consentbody.put("version", eligibilityConsent.getConsent().getVersion());
+            consentbody.put("status", "Completed");
+            try {
+                consentbody.put("pdf", convertFileToString(pdfPath));
+            } catch (IOException e) {
+                e.printStackTrace();
+                consentbody.put("pdf", "");
+            }
+
+            body.put("consent", consentbody);
+
+            body.put("sharing", "");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post_object", URLs.UPDATE_ELIGIBILITY_CONSENT, UPDATE_ELIGIBILITY_CONSENT_RESPONSECODE, CustomConsentViewTaskActivity.this, LoginData.class, null, headerparams, body, false, CustomConsentViewTaskActivity.this);
+        updateEligibilityConsentStatusEvent.setRegistrationServerConfigEvent(registrationServerConfigEvent);
+        StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
+        studyModulePresenter.performUpdateEligibilityConsent(updateEligibilityConsentStatusEvent);
+    }
+
+    private String convertFileToString(String filepath) throws IOException {
+//        InputStream inputStream = new FileInputStream(filepath);
+//        byte[] byteArray = IOUtils.toByteArray(inputStream);
+//        byte[] byteArray = decryptPDF(filepath);
+        CipherInputStream cis = AppController.genarateDecryptedConsentPDF(filepath);
+        byte[] byteArray = AppController.cipherInputStreamConvertToByte(cis);
+        String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        return encoded;
+    }
+
+    private void getStudySate() {
+        GetPreferenceEvent getPreferenceEvent = new GetPreferenceEvent();
+        HashMap<String, String> header = new HashMap();
+        header.put("auth", AppController.getHelperSharedPreference().readPreference(CustomConsentViewTaskActivity.this, getResources().getString(R.string.auth), ""));
+        header.put("userId", AppController.getHelperSharedPreference().readPreference(CustomConsentViewTaskActivity.this, getResources().getString(R.string.userid), ""));
+        RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("get", URLs.STUDY_STATE, GET_PREFERENCES, CustomConsentViewTaskActivity.this, StudyData.class, null, header, null, false, this);
+
+        getPreferenceEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
+        UserModulePresenter userModulePresenter = new UserModulePresenter();
+        userModulePresenter.performGetUserPreference(getPreferenceEvent);
+    }
+
+
+
+
+    @Override
+    public <T> void asyncResponse(T response, int responseCode, String serverType) {
+        if (responseCode == ENROLL_ID_RESPONSECODE) {
+            ResponseServerData responseServerData = (ResponseServerData) response;
+            if (responseServerData.isSuccess()) {
+                participantId = responseServerData.getData().getAppToken();
+                updateuserpreference();
+            } else {
+                Toast.makeText(this, responseServerData.getException(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public <T> void asyncResponseFailure(int responseCode, String errormsg, String statusCode, T response) {
+        AppController.getHelperProgressDialog().dismissDialog();
+        if (statusCode.equalsIgnoreCase("401")) {
+            AppController.getHelperSessionExpired(this, errormsg);
+        } else if (responseCode == ENROLL_ID_RESPONSECODE) {
+            ResponseServerData responseServerData = (ResponseServerData) response;
+            if (responseServerData != null) {
+                Toast.makeText(this, responseServerData.getException().toString(), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getResources().getString(R.string.unable_to_parse), Toast.LENGTH_SHORT).show();
+            }
+        } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {
+            Toast.makeText(this, errormsg, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
+        AppController.getHelperProgressDialog().dismissDialog();
+        if (statusCode.equalsIgnoreCase("401")) {
+            AppController.getHelperSessionExpired(this, errormsg);
+        } else if (responseCode == UPDATE_ELIGIBILITY_CONSENT_RESPONSECODE) {
+            Toast.makeText(this, errormsg, Toast.LENGTH_SHORT).show();
+        } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {
+            Toast.makeText(this, errormsg, Toast.LENGTH_SHORT).show();
+        }
     }
 
 

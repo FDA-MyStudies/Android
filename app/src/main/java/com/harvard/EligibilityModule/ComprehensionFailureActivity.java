@@ -102,7 +102,7 @@ public class ComprehensionFailureActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CONSENT_RESPONSECODE) {
             if (resultCode == RESULT_OK) {
-                try {
+                /*try {
                     TaskResult result = (TaskResult) data.getSerializableExtra(CustomConsentViewTaskActivity.EXTRA_TASK_RESULT);
                     signatureBase64 = (String) result.getStepResult("Signature")
                             .getResultForIdentifier(ConsentSignatureStepLayout.KEY_SIGNATURE);
@@ -132,7 +132,7 @@ public class ComprehensionFailureActivity extends AppCompatActivity {
                 if (encryptFile != null) {
                     File file = new File("/data/data/" + getPackageName() + "/files/" + mFileName + ".pdf");
                     file.delete();
-                }
+                }*/
                 Intent intent = new Intent(this, ConsentCompletedActivity.class);
                 intent.putExtra("enrollId", getIntent().getStringExtra("enrollId"));
                 intent.putExtra("studyId", getIntent().getStringExtra("studyId"));
@@ -141,7 +141,7 @@ public class ComprehensionFailureActivity extends AppCompatActivity {
                 intent.putExtra("type", data.getStringExtra(CustomConsentViewTaskActivity.TYPE));
 //                intent.putExtra("PdfPath", myFile.getAbsolutePath());
                 // get the encrypted file path
-                intent.putExtra("PdfPath", encryptFile.getAbsolutePath());
+                intent.putExtra("PdfPath", data.getStringExtra("PdfPath"));
                 startActivity(intent);
                 finish();
             } else if (resultCode == 12345) {
