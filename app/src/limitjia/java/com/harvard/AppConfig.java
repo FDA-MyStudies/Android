@@ -2,6 +2,7 @@ package com.harvard;
 
 public class AppConfig {
 
+    public static String API_TOKEN = "nrWIy9JtJu:a7296a62-44e8-4a06-8d85-50bc861d6c64";
     public static String PackageName = BuildConfig.APPLICATION_ID;
     static String GateWay = "gateway";
     static String Standalone = "standalone";

@@ -45,7 +45,7 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class HttpRequest {
 
-    private static String basicAuth = "nrWIy9JtJu" + ":a7296a62-44e8-4a06-8d85-50bc861d6c64";
+    private static String basicAuth = AppConfig.API_TOKEN;
 
     /**
      * To make a Get request
