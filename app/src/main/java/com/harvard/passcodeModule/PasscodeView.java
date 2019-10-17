@@ -387,8 +387,6 @@ public class PasscodeView extends ViewGroup {
             mOuterPaint.setStrokeWidth(mOuterStrokeWidth);
             mOuterPaint.setStrokeCap(Paint.Cap.ROUND);
             mOuterPaint.setStrokeJoin(Paint.Join.ROUND);
-            // stroke
-//            mOuterPaint.setShadowLayer(2, 0, 0, Color.parseColor("#B4999999"));
 
             mInnerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             mInnerPaint.setAlpha(255);
@@ -411,18 +409,13 @@ public class PasscodeView extends ViewGroup {
             float center = getWidth() / 2;
 
             if (isSelected()) {
-//                mOuterPaint.setColor(mHighlightedColor);
                 mOuterPaint.setColor(getResources().getColor(R.color.colorPrimary));
             } else {
-//                mOuterPaint.setColor(mControlColor);
                 mOuterPaint.setColor(getResources().getColor(R.color.colorSecondaryBg));
             }
             canvas.drawColor(Color.TRANSPARENT);
             canvas.drawCircle(center, center, mDigitRadius, mOuterPaint);
             if (mEditText.getText().length() > mPosition) {
-                // old
-//                canvas.drawCircle(center, center, mDigitInnerRadius, mInnerPaint);
-                // new
                 canvas.drawCircle(center, center, mDigitRadius, mInnerPaint);
             }
         }

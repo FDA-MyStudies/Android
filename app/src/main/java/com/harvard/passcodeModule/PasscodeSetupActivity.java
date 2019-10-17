@@ -35,15 +35,12 @@ public class PasscodeSetupActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passcode_setup);
-//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dbServiceSubscriber = new DBServiceSubscriber();
         initializeXMLId();
         setTextForView();
         setFont();
         bindEvent();
-//        Intent intent = new Intent(PasscodeSetupActivity.this, ChooseTouchIDSignInActivity.class);
-//        startActivity(intent);
 
     }
 
@@ -113,7 +110,6 @@ public class PasscodeSetupActivity extends AppCompatActivity {
         mPasscodeView.setPasscodeEntryListener(new PasscodeView.PasscodeEntryListener() {
             @Override
             public void onPasscodeEntered(String passcode) {
-//                if (passcode.equalsIgnoreCase(AppController.getHelperSharedPreference().readPreference(PasscodeSetupActivity.this, getString(R.string.passcode), ""))) {
                 // chk with keystore passcode
                 if (passcode.equalsIgnoreCase(AppController.refreshKeys("passcode"))) {
                     AppController.getHelperSharedPreference().writePreference(getApplicationContext(), "passcodeAnswered", "yes");

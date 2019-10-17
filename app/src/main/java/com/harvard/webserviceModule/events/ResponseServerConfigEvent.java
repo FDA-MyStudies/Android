@@ -19,11 +19,11 @@ public class ResponseServerConfigEvent<V> extends WebserviceConfigEvent {
 
     @Override
     public String getProductionUrl() {
-        return URLs.BASE_URL_PRODUCTION_RESPONSE_SERVER;
+        return URLs.BASE_URL_RESPONSE_SERVER;
     }
 
     @Override
     public String getDevelopmentUrl() {
-        return URLs.BASE_URL_DEVELOPMENT_RESPONSE_SERVER;
+        return URLs.BASE_URL_RESPONSE_SERVER;
     }
 }

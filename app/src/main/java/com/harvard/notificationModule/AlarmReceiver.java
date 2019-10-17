@@ -45,7 +45,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.e("FDA", "AlarmReceiver1");
         Intent notificationIntent1 = new Intent(context, NotificationActivity.class);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
@@ -93,24 +92,16 @@ public class AlarmReceiver extends BroadcastReceiver {
             notificationIntent.putExtra(MESSAGE, description);
             notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
                     | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//        Random random = new Random();
-//        int m = random.nextInt(9999 - 1000) + 1000;
             contentIntent = PendingIntent.getActivity(context, notificationId, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
 
 
-//        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         int notifyIcon = R.mipmap.ic_launcher;
         Bitmap icon = BitmapFactory.decodeResource(context.getResources(), notifyIcon);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
-//        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
         Notification notification = null;
-        Log.e("FDA", "AlarmReceiver2");
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-//            inboxStyle.addLine(description);
-            Log.e("FDA", "AlarmReceiver3");
             if (type.equalsIgnoreCase(NotificationModuleSubscriber.NO_USE_NOTIFICATION)) {
-                Log.e("FDA", "AlarmReceiver3-1");
                 notification = builder.setContentTitle(title)
                         .setLargeIcon(Bitmap.createScaledBitmap(icon, 128, 128, false))
                         .setContentText(description)
@@ -118,14 +109,9 @@ public class AlarmReceiver extends BroadcastReceiver {
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(description))
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setAutoCancel(true)
-                        //                    .setNumber(number)
-//                        .setContentIntent(contentIntent)
-                        //                    .setCategory(Notification.CATEGORY_EVENT)
-                        //                    .setGroupSummary(true)
-                                            .setGroup("group")
+                        .setGroup("group")
                         .build();
             } else {
-                Log.e("FDA", "AlarmReceiver3-2");
                 notification = builder.setContentTitle(title)
                         .setLargeIcon(Bitmap.createScaledBitmap(icon, 128, 128, false))
                         .setContentText(description)
@@ -133,41 +119,29 @@ public class AlarmReceiver extends BroadcastReceiver {
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(description))
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setAutoCancel(true)
-                        //                    .setNumber(number)
                         .setContentIntent(contentIntent)
-                        //                    .setCategory(Notification.CATEGORY_EVENT)
-                        //                    .setGroupSummary(true)
-                                            .setGroup("group")
+                        .setGroup("group")
                         .build();
             }
         } else {
-            Log.e("FDA", "AlarmReceiver4");
-//            inboxStyle.addLine(description);
             if (type.equalsIgnoreCase(NotificationModuleSubscriber.NO_USE_NOTIFICATION)) {
-                Log.e("FDA", "AlarmReceiver4-1");
                 notification = builder.setContentTitle(title)
                         .setContentText(description)
                         .setChannelId(FDAApplication.NOTIFICATION_CHANNEL_ID_INFO)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(description))
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setAutoCancel(true)
-                        //                    .setNumber(number)
-//                        .setContentIntent(contentIntent)
-                        //                    .setGroupSummary(true)
-                                            .setGroup("group")
+                        .setGroup("group")
                         .build();
             } else {
-                Log.e("FDA", "AlarmReceiver4-2");
                 notification = builder.setContentTitle(title)
                         .setContentText(description)
                         .setChannelId(FDAApplication.NOTIFICATION_CHANNEL_ID_INFO)
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(description))
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setAutoCancel(true)
-                        //                    .setNumber(number)
                         .setContentIntent(contentIntent)
-                        //                    .setGroupSummary(true)
-                                            .setGroup("group")
+                        .setGroup("group")
                         .build();
             }
         }
@@ -186,32 +160,6 @@ public class AlarmReceiver extends BroadcastReceiver {
                 isNotification = mUserProfileData.getSettings().isLocalNotifications();
             }
             if (isNotification || type.equalsIgnoreCase(NotificationModuleSubscriber.NOTIFICATION_TURN_OFF_NOTIFICATION)) {
-                /*LocalNotification localNotification = new LocalNotification();
-                if (!type.equalsIgnoreCase(NotificationModuleSubscriber.NO_USE_NOTIFICATION)) {
-                    localNotification.setActivityId(activityId);
-                    localNotification.setStudyId(studyId);
-                    localNotification.setTitle(title);
-                    localNotification.setDescription(description);
-                    localNotification.setType("Study");
-                    localNotification.setDate(date);
-                    if (type.equalsIgnoreCase("resources")) {
-                        localNotification.setSubType("Resource");
-                    } else {
-                        localNotification.setSubType("Activity");
-                    }
-                }
-                else
-                {
-                    localNotification.setActivityId("");
-                    localNotification.setStudyId("");
-                    localNotification.setTitle(title);
-                    localNotification.setDescription(description);
-                    localNotification.setType("other");
-                    localNotification.setSubType("");
-                    localNotification.setDate(date);
-                }
-                dbServiceSubscriber.saveLocationNotification(localNotification, mRealm);*/
-                Log.e("FDA", "AlarmReceiver5");
                 notificationManager.notify(count, notification);
                 if (type.equalsIgnoreCase(NotificationModuleSubscriber.NOTIFICATION_TURN_OFF_NOTIFICATION)) {
                     NotificationModuleSubscriber notificationModuleSubscriber = new NotificationModuleSubscriber(dbServiceSubscriber, mRealm);

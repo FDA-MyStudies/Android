@@ -1056,7 +1056,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
             ConnectionDetector connectionDetector = new ConnectionDetector(mContext);
 
 
-            String url = URLs.BASE_URL_DEVELOPMENT_WCP_SERVER + URLs.CONSENT_METADATA + "?studyId=" + mStudyId;
+            String url = URLs.BASE_URL_WCP_SERVER + URLs.CONSENT_METADATA + "?studyId=" + mStudyId;
             if (connectionDetector.isConnectingToInternet()) {
                 mResponseModel = HttpRequest.getRequest(url, new HashMap<String, String>(), "WCP");
                 responseCode = mResponseModel.getResponseCode();

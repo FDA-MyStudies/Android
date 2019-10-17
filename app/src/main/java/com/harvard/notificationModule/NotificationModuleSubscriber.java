@@ -35,7 +35,6 @@ public class NotificationModuleSubscriber {
     public static String RESOURCES = "resources";
     private DBServiceSubscriber dbServiceSubscriber;
     private Realm mRealm;
-    //    private int pendingId = 2147483647;
     private int pendingId = 214747;
     private int pendingId1 = 214746;
 
@@ -112,16 +111,6 @@ public class NotificationModuleSubscriber {
             AlarmManager alarmManager = null;
             int notificationNumber;
             if (time.getTime().after(new Date())) {
-                /*if (notificationsDb != null) {
-                    notificationId = notificationsDb.getNotificationId();
-                    notificationsDb = dbServiceSubscriber.updateNotificationNumber(notificationsDb, mRealm);
-                    mRealm.beginTransaction();
-                    notificationsDb.setTitle(title);
-                    notificationsDb.setDescription(description);
-                    notificationsDb.setDateTime(time.getTime());
-                    notificationsDb.setEndDateTime(removeOffset(activityRun.getEndDate(), offset));
-                    mRealm.commitTransaction();
-                } else {*/
                     notificationId = new Random().nextInt();
                     NotificationDb notificationDb = new NotificationDb();
                     notificationDb.setStudyId(activityRun.getStudyId());
@@ -134,7 +123,6 @@ public class NotificationModuleSubscriber {
                     notificationDb.setDescription(description);
                     notificationDb.setEndDateTime(removeOffset(activityRun.getEndDate(), offset));
                     dbServiceSubscriber.updateNotificationToDb(context,notificationDb);
-//                }
 
 
                 alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
@@ -149,11 +137,7 @@ public class NotificationModuleSubscriber {
                 notificationIntent.putExtra("studyId", activityRun.getStudyId());
                 notificationIntent.putExtra("activityId", activityRun.getActivityId());
                 notificationIntent.putExtra("date", AppController.getDateFormat().format(time.getTime()));
-                /*if (notificationsDb != null) {
-                    notificationNumber = notificationsDb.getId();
-                } else {*/
-                    notificationNumber = 1;
-//                }
+                notificationNumber = 1;
                 notificationIntent.putExtra("notificationNumber", notificationNumber);
                 try {
                     int pendingIntentId = Integer.parseInt(AppController.getHelperSharedPreference().readPreference(context, context.getResources().getString(R.string.pendingCount), "0")) + 1;
@@ -183,16 +167,6 @@ public class NotificationModuleSubscriber {
             // Notification availability for monthly, weekly, One time
             if (type.equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_MONTHLY) || type.equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_WEEKLY) || type.equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_ONE_TIME)) {
                 if (time1.getTime().after(new Date())) {
-                    /*if (notificationsDb != null) {
-                        notificationId = notificationsDb.getNotificationId();
-                        notificationsDb = dbServiceSubscriber.updateNotificationNumber(notificationsDb, mRealm);
-                        mRealm.beginTransaction();
-                        notificationsDb.setTitle(title);
-                        notificationsDb.setDescription(description1);
-                        notificationsDb.setDateTime(time1.getTime());
-                        notificationsDb.setEndDateTime(removeOffset(activityRun.getEndDate(), offset));
-                        mRealm.commitTransaction();
-                    } else {*/
                         notificationId = new Random().nextInt();
                         NotificationDb notificationDb = new NotificationDb();
                         notificationDb.setStudyId(activityRun.getStudyId());
@@ -205,7 +179,6 @@ public class NotificationModuleSubscriber {
                         notificationDb.setId(1);
                         notificationDb.setEndDateTime(removeOffset(activityRun.getEndDate(), offset));
                         dbServiceSubscriber.updateNotificationToDb(context,notificationDb);
-//                    }
 
 
                     Intent notificationIntent1 = new Intent(context, AlarmReceiver.class);
@@ -218,11 +191,7 @@ public class NotificationModuleSubscriber {
                     notificationIntent1.putExtra("activityId", activityRun.getActivityId());
                     notificationIntent1.putExtra("notificationId", notificationId);
                     notificationIntent1.putExtra("date", AppController.getDateFormat().format(time1.getTime()));
-                    /*if (notificationsDb != null) {
-                        notificationNumber = notificationsDb.getId();
-                    } else {*/
-                        notificationNumber = 1;
-//                    }
+                    notificationNumber = 1;
                     notificationIntent1.putExtra("notificationNumber", notificationNumber);
                     try {
                         int pendingIntentId = Integer.parseInt(AppController.getHelperSharedPreference().readPreference(context, context.getResources().getString(R.string.pendingCount), "0")) + 1;
@@ -360,7 +329,6 @@ public class NotificationModuleSubscriber {
             {
                 if (notificationsDbs.get(i).getResourceId().equalsIgnoreCase(resourceId)) {
                     notificationsDb = notificationsDbs.get(i);
-//                    break;
                 }
                 id = notificationsDbs.get(i).getId();
             }
@@ -381,7 +349,6 @@ public class NotificationModuleSubscriber {
         notificationDb.setDescription(description);
         notificationDb.setId(id);
         if (notificationsDb == null) {
-//            notificationsDb = dbServiceSubscriber.updateNotificationNumberResources(notificationsDb, mRealm);
             dbServiceSubscriber.updateNotificationToDb(context,notificationDb);
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 

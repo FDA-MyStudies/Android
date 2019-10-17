@@ -82,19 +82,6 @@ public class DBServiceSubscriber {
             realm.commitTransaction();
             closeRealmObj(realm);
         }
-        /*else if(event.getmOperation().equals(SELECT_OPERATION))
-        {
-             realm = AppController.getRealmobj();
-            RealmQuery t = (RealmQuery) realm.where(event.getaClass());
-            Set keys = event.getWhereParams().keySet();
-
-            for (Iterator i = keys.iterator(); i.hasNext(); ) {
-                Map.Entry mapEntry = (Map.Entry) i.next();
-                String keyValue = (String) mapEntry.getKey();
-                String value = (String) mapEntry.getValue();
-                t.equalTo(keyValue, value);
-            }
-        }*/
     }
 
     public ActivityListData getActivities(String studyId, Realm realm) {
@@ -524,7 +511,6 @@ public class DBServiceSubscriber {
             @Override
             public void execute(Realm realm) {
                 try {
-                    Log.e("deleteActivityObject", "deleteActivityObjectFromDb");
                     RealmResults<ActivityObj> rows = realm.where(ActivityObj.class).equalTo("surveyId", activityId).equalTo("studyId", studyId).findAll();
                     for (int i = 0; i < rows.size(); i++) {
                         if (rows.get(i).getSteps() != null) {
@@ -643,7 +629,6 @@ public class DBServiceSubscriber {
             if (studyUpdateListdata.getStudyUpdates() != null) {
                 for (int i = 0; i < studyUpdateListdata1.getStudyUpdates().size(); i++) {
                     if (studyUpdateListdata.getStudyUpdates().get(0).getStudyId().equalsIgnoreCase(studyUpdateListdata1.getStudyUpdates().get(i).getStudyId())) {
-//                        studyUpdateListdata1.getStudyUpdates().get(i).setStudyId(studyUpdateListdata.getStudyUpdates().get(0).getStudyId());
                         studyUpdateListdata1.getStudyUpdates().get(i).setCurrentVersion(studyUpdateListdata.getStudyUpdates().get(0).getCurrentVersion());
                         studyUpdateListdata1.getStudyUpdates().get(i).setMessage(studyUpdateListdata.getStudyUpdates().get(0).getMessage());
 
@@ -717,7 +702,6 @@ public class DBServiceSubscriber {
             studies1.setVersion(version);
             studies1.setEnrolledDate(enrolleddate);
             studies1.setParticipantId(participantId);
-//            realm.copyToRealmOrUpdate(studies1);
             studyData.getStudies().add(studies1);
         }
         realm.commitTransaction();
@@ -736,7 +720,6 @@ public class DBServiceSubscriber {
             studies1.setStudyId(studyId);
             studies1.setBookmarked(false);
             studies1.setVersion(version);
-//            realm.copyToRealmOrUpdate(studies1);
             studyData.getStudies().add(studies1);
         }
         realm.commitTransaction();
@@ -806,7 +789,6 @@ public class DBServiceSubscriber {
             activities1.setStudyId(studyId);
             activities1.setActivityId(activityId);
             activities1.setActivityRunId("" + runId);
-//            activities1.setActivityVersion("1");
             activities1.setActivityVersion(activityVersion);
             activities1.setBookmarked("false");
             activityRunPreference.setTotal(totalRun);
@@ -899,12 +881,9 @@ public class DBServiceSubscriber {
         steps.setType(step.getType());
         steps.setFormat(step.getFormat());
         steps.setGroupName(step.getGroupName());
-//        steps.setImage(step.getImage());
-//        steps.setPhi(step.getPhi());
         steps.setRepeatable(step.isRepeatable());
         steps.setRepeatableText(step.getRepeatableText());
         steps.setSkippable(step.isSkippable());
-//        steps.setSteps(step.getSteps());
         steps.setTitle(step.getTitle());
         realm.commitTransaction();
         return steps;
@@ -936,12 +915,6 @@ public class DBServiceSubscriber {
                             studyListArrayList.get(j).setBookmarked(userPreferenceStudies.get(i).isBookmarked());
                             studyListArrayList.get(j).setStudyStatus(userPreferenceStudies.get(i).getStatus());
                         }
-                        // update study completed status
-                            /*else
-                            {
-//                                if(studyListArrayList.get(j).ge)
-//                                studyListArrayList.get(j).setStudyStatus();
-                            }*/
                     }
                 }
             }
@@ -992,8 +965,6 @@ public class DBServiceSubscriber {
         calendar1.set(Calendar.AM_PM, Calendar.PM);
 
 
-//        RealmResults<StepRecordCustom> stepRecordCustomList = realm.where(StepRecordCustom.class).equalTo("activityID", activityId).equalTo("stepId", key).greaterThanOrEqualTo("runStartDate", calendar.getTime()).lessThanOrEqualTo("runEndDate", calendar1.getTime()).findAll();
-//        return realm.where(StepRecordCustom.class).equalTo("activityID", activityId).equalTo("stepId", key).findAll();
         return realm.where(StepRecordCustom.class).equalTo("activityID", activityId).equalTo("stepId", key).sort("completed", Sort.ASCENDING).findAll();
     }
 
@@ -1021,7 +992,6 @@ public class DBServiceSubscriber {
         calendar1.set(Calendar.AM_PM, Calendar.PM);
 
 
-        //        RealmResults<StepRecordCustom> stepRecordCustomList = realm.where(StepRecordCustom.class).equalTo("activityID", activityId).equalTo("stepId", key).findAll();
         return realm.where(StepRecordCustom.class).equalTo("activityID", activityId).equalTo("stepId", key).greaterThanOrEqualTo("started", calendar.getTime()).lessThanOrEqualTo("completed", calendar1.getTime()).findAll();
     }
 

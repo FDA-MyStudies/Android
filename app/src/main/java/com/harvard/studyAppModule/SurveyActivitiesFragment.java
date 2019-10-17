@@ -397,7 +397,7 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
             ConnectionDetector connectionDetector = new ConnectionDetector(mContext);
 
 
-            String url = URLs.BASE_URL_DEVELOPMENT_WCP_SERVER + URLs.CONSENT_METADATA + "?studyId=" + ((SurveyActivity) mContext).getStudyId();
+            String url = URLs.BASE_URL_WCP_SERVER + URLs.CONSENT_METADATA + "?studyId=" + ((SurveyActivity) mContext).getStudyId();
             if (connectionDetector.isConnectingToInternet()) {
                 mResponseModel = HttpRequest.getRequest(url, new HashMap<String, String>(), "WCP");
                 responseCode = mResponseModel.getResponseCode();

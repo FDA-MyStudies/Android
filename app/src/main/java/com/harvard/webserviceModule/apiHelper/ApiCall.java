@@ -342,7 +342,7 @@ public class ApiCall<T, V> extends AsyncTask<T, String, String> {
                 response = "success";
 
                 t = parseJson(mResponseModel, mGenericClass);
-                if (mUrlPassed.contains(URLs.BASE_URL_DEVELOPMENT_WCP_SERVER + "activity")) {
+                if (mUrlPassed.contains(URLs.BASE_URL_WCP_SERVER + "activity")) {
                     try {
                         ActivityInfoData activityInfoData = (ActivityInfoData) t;
                         JSONObject jsonObject = new JSONObject(mResponseModel.getResponse());
@@ -500,7 +500,7 @@ public class ApiCall<T, V> extends AsyncTask<T, String, String> {
                 }
             } else {
                 t = parseJson(mResponseModel, mGenericClass);
-                if (mUrlPassed.contains(URLs.BASE_URL_DEVELOPMENT_WCP_SERVER + "activity")) {
+                if (mUrlPassed.contains(URLs.BASE_URL_WCP_SERVER + "activity")) {
                     try {
                         ActivityInfoData activityInfoData = (ActivityInfoData) t;
                         JSONObject jsonObject = new JSONObject(mResponseModel.getResponse());

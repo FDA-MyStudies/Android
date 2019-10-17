@@ -38,7 +38,6 @@ public class GatewayActivity extends AppCompatActivity {
         setFont();
         bindEvents();
         setViewPagerView();
-//        alertDialog = AppController.upgrade(UPGRADE, true, this);
         if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").equalsIgnoreCase("forgot")) {
             Intent intent = new Intent(GatewayActivity.this, SignInActivity.class);
             startActivity(intent);
@@ -93,7 +92,6 @@ public class GatewayActivity extends AppCompatActivity {
                 GetStartedEvent getStartedEvent = new GetStartedEvent();
                 getStartedEvent.setCommingFrom(GatewayActivity.COMMING_FROM);
                 onEvent(getStartedEvent);
-//                        getStarted();
             }
         });
     }

@@ -266,20 +266,6 @@ public class CustomViewTaskActivity<T> extends AppCompatActivity implements Step
 
     private void saveAndFinish() {
         taskResult.setEndDate(new Date());
-//        Intent resultIntent = new Intent();
-//        resultIntent.putExtra(EXTRA_TASK_RESULT, taskResult);
-//        setResult(RESULT_OK, resultIntent);
-
-//        Intent intent = new Intent(CustomViewTaskActivity.this, SurveyCompleteActivity.class);
-//        intent.putExtra(EXTRA_TASK_RESULT, taskResult);
-//        intent.putExtra(STUDYID, getIntent().getStringExtra(STUDYID));
-//        intent.putExtra(EXTRA_STUDYID, getIntent().getStringExtra(EXTRA_STUDYID));
-//        intent.putExtra(RUNID, getIntent().getIntExtra(RUNID, 0));
-//        intent.putExtra(MISSED_RUN, getIntent().getStringExtra(MISSED_RUN));
-//        intent.putExtra(COMPLETED_RUN, getIntent().getIntExtra(COMPLETED_RUN, 0));
-//        intent.putExtra(TOTAL_RUN, getIntent().getIntExtra(TOTAL_RUN, 0));
-//        intent.putExtra(ACTIVITY_VERSION, getIntent().getStringExtra(ACTIVITY_VERSION));
-//        startActivityForResult(intent, 123);
 
 
         Intent intent = new Intent(this, EligibleActivity.class);
@@ -305,7 +291,6 @@ public class CustomViewTaskActivity<T> extends AppCompatActivity implements Step
             notifyStepOfBackPress();
             return true;
         } else if (item.getItemId() == R.id.action_settings) {
-//            showConfirmExitDialog();
             finish();
             return true;
         }
@@ -335,24 +320,6 @@ public class CustomViewTaskActivity<T> extends AppCompatActivity implements Step
         currentStepLayout.isBackEventConsumed();
     }
 
-
-//    @Override
-//    public void onDataReady() {
-//        super.onDataReady();
-//
-//        if (currentStep == null) {
-//            currentStep = task.getStepAfterStep(null, taskResult);
-//        }
-//
-//        showStep(currentStep);
-//    }
-//
-//    @Override
-//    public void onDataFailed() {
-//        super.onDataFailed();
-//        Toast.makeText(this, org.researchstack.backbone.R.string.rsb_error_data_failed, Toast.LENGTH_LONG).show();
-//        finish();
-//    }
 
     @Override
     public void onSaveStep(int action, Step step, StepResult result) {

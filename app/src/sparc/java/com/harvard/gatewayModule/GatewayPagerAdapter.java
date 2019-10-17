@@ -92,14 +92,6 @@ public class GatewayPagerAdapter extends PagerAdapter {
         }
     }
 
-   /* private void getStarted()
-    {
-        GatewayModulePresenter gatewayModulePresenter = new GatewayModulePresenter();
-        GetStartedEvent getStartedEvent = new GetStartedEvent();
-        getStartedEvent.setCommingFrom(GatewayActivity.COMMING_FROM);
-        gatewayModulePresenter.getStarted(getStartedEvent);
-    }*/
-
     private void initializeXMLId(int pos, View view) {
         if (pos == 0) {
             mWebsite = (AppCompatTextView) view.findViewById(R.id.website);
@@ -125,7 +117,6 @@ public class GatewayPagerAdapter extends PagerAdapter {
         mWebsite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://" + mContext.getString(R.string.website)));
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("" + mContext.getString(R.string.website)));
                 mContext.startActivity(browserIntent);
             }
@@ -154,30 +145,11 @@ public class GatewayPagerAdapter extends PagerAdapter {
 
         if (pos == 2) {
             mBgImg.setImageResource(R.drawable.img_02);
-//            mWelcome.setText(GET_FIT_EVERYDAY);
         }
         if (pos == 3) {
             mBgImg.setImageResource(R.drawable.img_03);
-//            mWelcome.setText(IMPROVE_HEALTH);
         }
 
     }
-
-    /*private void bindEvents(int pos) {
-        if (pos == 0) {
-            mWatchVideo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(view.getContext(), "Play Video", Toast.LENGTH_LONG).show();
-                }
-            });
-            mGetStarted.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(view.getContext(), "Get Started", Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-    }*/
 
 }

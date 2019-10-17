@@ -49,19 +49,15 @@ public class PDFGenerationActivity extends AppCompatActivity {
 
             Document document = new Document();
             PdfWriter writer = PdfWriter.getInstance(document, output);
-//            writer.setLinearPageMode();
             writer.setFullCompression();
-//            writer.setEncryption("text".getBytes(), "text".getBytes(), PdfWriter.ALLOW_PRINTING, PdfWriter.ENCRYPTION_AES_256);
 
             document.addCreationDate();
             document.setPageSize(PageSize.A4);
             document.setMargins(36, 36, 36, 36);
 
-//            writer.setEncryption("text".getBytes(), "text".getBytes(), PdfWriter.ALLOW_PRINTING, PdfWriter.ENCRYPTION_AES_256);
             document.open();
 
             Font catFont = new Font(Font.FontFamily.TIMES_ROMAN, 18, Font.BOLD);
-//            Font subFont = new Font(Font.FontFamily.TIMES_ROMAN, 16, Font.BOLD);
 
             Paragraph p1 = new Paragraph("FDA REPORT", catFont);
             p1.setAlignment(Paragraph.ALIGN_CENTER);
@@ -78,15 +74,6 @@ public class PDFGenerationActivity extends AppCompatActivity {
             }
 
 
-//            TaskResult result = StorageAccess.getInstance().getAppDatabase().loadLatestTaskResult(CONSENT);
-//            String signatureBase64 = (String) result.getStepResult(SIGNATURE).getResultForIdentifier(ConsentSignatureStepLayout.KEY_SIGNATURE);
-//            String signatureDate = (String) result.getStepResult(SIGNATURE).getResultForIdentifier(ConsentSignatureStepLayout.KEY_SIGNATURE_DATE);
-//
-//            byte[] signatureBytes = Base64.decode(signatureBase64, Base64.DEFAULT);
-//            Image image = Image.getInstance(signatureBytes);
-//            image.setAlignment(Image.MIDDLE);
-//            image.scalePercent(50f);
-//            document.add(image);
             document.close();
 
         } catch (IOException | DocumentException e) {

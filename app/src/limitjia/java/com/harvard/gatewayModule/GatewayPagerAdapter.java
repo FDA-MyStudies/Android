@@ -68,24 +68,6 @@ public class GatewayPagerAdapter extends PagerAdapter {
                 setFont(1, view1);
                 collection.addView(view1);
                 return view1;
-            /*case 2:
-                View view2 = inflater.inflate(R.layout.gateway_item2, null);
-                initializeXMLId(2, view2);
-                mWelcome.setText(mContext.getResources().getString(R.string.gateway_welcome2));
-                mDesc.setText(mContext.getResources().getString(R.string.gateway_des2));
-                setFont(2, view2);
-                setView(2);
-                collection.addView(view2);
-                return view2;
-            case 3:
-                View view3 = inflater.inflate(R.layout.gateway_item2, null);
-                initializeXMLId(2, view3);
-                mWelcome.setText(mContext.getResources().getString(R.string.gateway_welcome3));
-                mDesc.setText(mContext.getResources().getString(R.string.gateway_des3));
-                setFont(2, view3);
-                setView(3);
-                collection.addView(view3);
-                return view3;*/
             default:
                 return null;
 
@@ -93,13 +75,6 @@ public class GatewayPagerAdapter extends PagerAdapter {
         }
     }
 
-   /* private void getStarted()
-    {
-        GatewayModulePresenter gatewayModulePresenter = new GatewayModulePresenter();
-        GetStartedEvent getStartedEvent = new GetStartedEvent();
-        getStartedEvent.setCommingFrom(GatewayActivity.COMMING_FROM);
-        gatewayModulePresenter.getStarted(getStartedEvent);
-    }*/
 
     private void initializeXMLId(int pos, View view) {
         if (pos == 0) {
@@ -155,30 +130,12 @@ public class GatewayPagerAdapter extends PagerAdapter {
 
         if (pos == 2) {
             mBgImg.setImageResource(R.drawable.img_02);
-//            mWelcome.setText(GET_FIT_EVERYDAY);
         }
         if (pos == 3) {
             mBgImg.setImageResource(R.drawable.img_03);
-//            mWelcome.setText(IMPROVE_HEALTH);
         }
 
     }
 
-    /*private void bindEvents(int pos) {
-        if (pos == 0) {
-            mWatchVideo.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(view.getContext(), "Play Video", Toast.LENGTH_LONG).show();
-                }
-            });
-            mGetStarted.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(view.getContext(), "Get Started", Toast.LENGTH_LONG).show();
-                }
-            });
-        }
-    }*/
 
 }

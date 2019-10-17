@@ -51,9 +51,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements ApiCall.
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient contentProviderClient, SyncResult syncResult) {
-        Log.e("SyncAdapter", "onPerformSync");
-//        mRealm = AppController.getRealmobj(mContext);
-//        getPendingData();
 
         if (!isMyServiceRunning(ActiveTaskService.class)) {
             Intent myIntent = new Intent(mContext, ActiveTaskService.class);
@@ -79,7 +76,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements ApiCall.
 
 
     private void getPendingData() {
-        Log.e("onPerformSync", "getPendingData");
         try {
             dbServiceSubscriber = new DBServiceSubscriber();
 
@@ -104,7 +100,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements ApiCall.
 
     public void updateServer(String httpMethod, String url, String normalParam, String jsonObjectString, String serverType) {
 
-//        AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(jsonObjectString);

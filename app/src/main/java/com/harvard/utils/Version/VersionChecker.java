@@ -21,7 +21,7 @@ public class VersionChecker extends AsyncTask<String, String, String> {
     private boolean force = false;
     private Upgrade upgrade;
     private Context context;
-    private String versionUrl = URLs.BASE_URL_DEVELOPMENT_WCP_SERVER + "versionInfo";
+    private String versionUrl = URLs.BASE_URL_WCP_SERVER + "versionInfo";
     public static String PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=" + AppConfig.PackageName + "&hl=en";
 
     public VersionChecker(Upgrade upgrade, Context context) {

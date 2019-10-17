@@ -19,11 +19,11 @@ public class WCPConfigEvent<V> extends WebserviceConfigEvent {
 
     @Override
     public String getProductionUrl() {
-        return URLs.BASE_URL_PRODUCTION_WCP_SERVER;
+        return URLs.BASE_URL_WCP_SERVER;
     }
 
     @Override
     public String getDevelopmentUrl() {
-        return URLs.BASE_URL_DEVELOPMENT_WCP_SERVER;
+        return URLs.BASE_URL_WCP_SERVER;
     }
 }

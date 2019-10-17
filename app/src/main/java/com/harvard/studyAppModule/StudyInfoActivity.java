@@ -379,7 +379,7 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
             ConnectionDetector connectionDetector = new ConnectionDetector(StudyInfoActivity.this);
 
 
-            String url = URLs.BASE_URL_DEVELOPMENT_WCP_SERVER + URLs.CONSENT_METADATA + "?studyId=" + mStudyId;
+            String url = URLs.BASE_URL_WCP_SERVER + URLs.CONSENT_METADATA + "?studyId=" + mStudyId;
             if (connectionDetector.isConnectingToInternet()) {
                 mResponseModel = HttpRequest.getRequest(url, new HashMap<String, String>(), "WCP");
                 responseCode = mResponseModel.getResponseCode();

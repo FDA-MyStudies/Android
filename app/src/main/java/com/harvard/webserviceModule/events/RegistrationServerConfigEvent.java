@@ -37,11 +37,11 @@ public class RegistrationServerConfigEvent<V> extends WebserviceConfigEvent {
 
     @Override
     public String getProductionUrl() {
-        return URLs.BASE_URL_PRODUCTION_REGISTRATION_SERVER;
+        return URLs.BASE_URL_REGISTRATION_SERVER;
     }
 
     @Override
     public String getDevelopmentUrl() {
-        return URLs.BASE_URL_DEVELOPMENT_REGISTRATION_SERVER;
+        return URLs.BASE_URL_REGISTRATION_SERVER;
     }
 }

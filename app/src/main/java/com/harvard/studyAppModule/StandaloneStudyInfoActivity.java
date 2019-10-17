@@ -324,7 +324,7 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
             ConnectionDetector connectionDetector = new ConnectionDetector(StandaloneStudyInfoActivity.this);
 
 
-            String url = URLs.BASE_URL_DEVELOPMENT_WCP_SERVER + URLs.CONSENT_METADATA + "?studyId=" + AppConfig.StudyId;
+            String url = URLs.BASE_URL_WCP_SERVER + URLs.CONSENT_METADATA + "?studyId=" + AppConfig.StudyId;
             if (connectionDetector.isConnectingToInternet()) {
                 mResponseModel = HttpRequest.getRequest(url, new HashMap<String, String>(), "WCP");
                 responseCode = mResponseModel.getResponseCode();
