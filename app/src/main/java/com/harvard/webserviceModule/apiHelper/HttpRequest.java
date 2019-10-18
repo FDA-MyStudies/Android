@@ -62,21 +62,10 @@ public class HttpRequest {
         HttpURLConnection urlConnection;
         int responseCode = 0;
         try {
-//            if (url.contains(URLs.BASE_URL_DEVELOPMENT_WCP_SERVER + URLs.ACTIVITY_LIST)) {
-//                url="http://192.168.0.44:8080/StudyMetaData/activityList?studyId=deg";
-//            }
-//            if (url.contains(URLs.BASE_URL_DEVELOPMENT_WCP_SERVER + URLs.RESOURCE_LIST)) {
-//                url="http://192.168.0.44:8080/StudyMetaData/resources?studyId=deg";
-//            }
-//
-//            if (url.contains(URLs.BASE_URL_DEVELOPMENT_WCP_SERVER + URLs.STUDY_INFO)) {
-//                url="http://192.168.0.44:8080/StudyMetaData/studyInfo?studyId=deg";
-//            }
             URL obj = new URL(url);
             urlConnection = (HttpURLConnection) obj.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.setReadTimeout(180000);// 3 min timeout
-//            urlConnection.setRequestProperty("Content-Type", "application/json");
             if (serverType.equalsIgnoreCase("WCP")) {
                 String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
                 urlConnection.setRequestProperty("Authorization", "Basic " + encoding);
@@ -92,7 +81,6 @@ public class HttpRequest {
                     String keyValue = (String) mapEntry.getKey();
                     String value = (String) mapEntry.getValue();
                     urlConnection.setRequestProperty(keyValue, value);
-                    Log.e("getRequest", "-------------" + keyValue + "    " + value);
                 }
             }
             try {
@@ -146,7 +134,6 @@ public class HttpRequest {
             } else {
                 responseModel.setServermsg("success");
             }
-//            responseModel.setServermsg(urlConnection.getResponseMessage());
         } catch (ConnectException e) {
             responseModel.setServermsg("No internet connection/cannot connect to server");
             responseData = "timeout";
@@ -162,7 +149,6 @@ public class HttpRequest {
         responseModel.setResponseCode("" + responseCode);
         responseModel.setResponse(responsee);
         responseModel.setResponseData(responseData);
-        Log.d("response", " : " + responsee + "   " + responseCode + "   " + responseModel.getServermsg());
 
         return responseModel;
     }
@@ -262,7 +248,6 @@ public class HttpRequest {
             } else {
                 responseModel.setServermsg("success");
             }
-//            responseModel.setServermsg(conn.getResponseMessage());
         } catch (SocketTimeoutException e) {
             responseModel.setServermsg("No internet connection/cannot connect to server");
             responseData = "";
@@ -277,7 +262,6 @@ public class HttpRequest {
         responseModel.setResponseCode("" + responseCode);
         responseModel.setResponse(response);
         responseModel.setResponseData(responseData);
-        Log.d("response", " : " + response + "   " + responseCode + "   " + responseModel.getServermsg());
         return responseModel;
     }
 
@@ -375,7 +359,6 @@ public class HttpRequest {
             } else {
                 responseModel.setServermsg("success");
             }
-//            responseModel.setServermsg(conn.getResponseMessage());
         } catch (SocketTimeoutException e) {
             responseModel.setServermsg("No internet connection/cannot connect to server");
             response = "timeout";
@@ -391,7 +374,6 @@ public class HttpRequest {
         responseModel.setResponseCode("" + responseCode);
         responseModel.setResponse(response);
         responseModel.setResponseData(responseData);
-        Log.d("response", " : " + response + "   " + responseCode + "   " + responseModel.getServermsg());
         return responseModel;
     }
 
@@ -489,7 +471,6 @@ public class HttpRequest {
             } else {
                 responseModel.setServermsg("success");
             }
-//            responseModel.setServermsg(conn.getResponseMessage());
         } catch (SocketTimeoutException e) {
             responseModel.setServermsg("No internet connection/cannot connect to server");
             response = "timeout";
@@ -505,7 +486,6 @@ public class HttpRequest {
         responseModel.setResponseCode("" + responseCode);
         responseModel.setResponse(response);
         responseModel.setResponseData(responseData);
-        Log.d("response", " : " + response + "   " + responseCode + "   " + responseModel.getServermsg());
         return responseModel;
     }
 
@@ -516,25 +496,6 @@ public class HttpRequest {
      * @return String
      */
     private static String getPostDataString(HashMap<String, String> params) {
-       /* StringBuilder result = new StringBuilder();
-        boolean first = true;
-        for (Map.Entry<String, String> entry : params.entrySet()) {
-            if (first)
-                first = false;
-            else
-                result.append("&");
-
-            try {
-                result.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-                result.append("=");
-                result.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-            } catch (UnsupportedEncodingException e) {
-                result.append("");
-                e.printStackTrace();
-            }
-        }
-        Log.e("httprequest", "" + result.toString());
-        return result.toString();*/
         return new Gson().toJson(params);
     }
 
@@ -657,7 +618,6 @@ public class HttpRequest {
             } else {
                 responseModel.setServermsg("success");
             }
-//            responseModel.setServermsg(httpConn.getResponseMessage());
         } catch (SocketTimeoutException e) {
             responseModel.setServermsg("No internet connection/cannot connect to server");
             response = "timeout";
@@ -672,7 +632,6 @@ public class HttpRequest {
         responseModel.setResponseCode("" + responseCode);
         responseModel.setResponse(response);
         responseModel.setResponseData(responseData);
-        Log.d("response", " : " + response + "   " + responseCode + "   " + responseModel.getServermsg());
         return responseModel;
     }
 
@@ -702,9 +661,6 @@ public class HttpRequest {
                 conn.setRequestMethod("DELETE");
                 conn.setDoInput(true);
                 conn.setRequestProperty("Content-Type", "application/json");
-                conn.setRequestProperty("applicationId", "123");
-                conn.setRequestProperty("orgId", "12");
-                //            conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
                 conn.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
                 conn.setRequestProperty(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
@@ -716,7 +672,6 @@ public class HttpRequest {
                         String keyValue = (String) mapEntry.getKey();
                         String value = (String) mapEntry.getValue();
                         conn.setRequestProperty(keyValue, value);
-                        Log.e("getRequest", "-------------" + keyValue + "    " + value);
                     }
                 }
 
@@ -736,7 +691,6 @@ public class HttpRequest {
                     // Will return 401, because now connection has the correct internal state.
                     responseCode = conn.getResponseCode();
                 }
-                Log.e("responseCode", "" + responseCode);
 
                 InputStream is = null;
                 if (responseCode >= 200 && responseCode < 400) {
@@ -799,7 +753,6 @@ public class HttpRequest {
                 HttpConnectionParams.setConnectionTimeout(my_httpParams, 180000);
                 HttpConnectionParams.setSoTimeout(my_httpParams, 180000);
                 HttpClient httpclient = new DefaultHttpClient(my_httpParams);
-                ;
                 OwnHttpDelete httppost = new OwnHttpDelete(url);
 
                 if (mHeadersData != null) {
@@ -810,7 +763,6 @@ public class HttpRequest {
                         String keyValue = (String) mapEntry.getKey();
                         String value = (String) mapEntry.getValue();
                         httppost.addHeader(keyValue, value);
-                        Log.e("getRequest", "-------------" + keyValue + "    " + value);
                     }
                 }
                 httppost.addHeader("Content-Type", "application/json");
@@ -838,7 +790,6 @@ public class HttpRequest {
                                 response += line;
                             }
                             br.close();
-//                    conn.disconnect();
                         } finally {
                             instream.close();
                         }
@@ -857,7 +808,6 @@ public class HttpRequest {
                                     response += line;
                                 }
                                 br.close();
-                                //                    conn.disconnect();
                             } finally {
                                 instream.close();
                             }
@@ -878,10 +828,8 @@ public class HttpRequest {
                 }
 
             } catch (ConnectTimeoutException e) {
-                Log.e("ConnectTimeoutExcepti ", " = ConnectTimeoutException");
                 e.printStackTrace();
             } catch (SocketTimeoutException e) {
-                Log.e("SocketTimeoutException ", " = SocketTimeoutException");
                 e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -893,7 +841,6 @@ public class HttpRequest {
         responseModel.setResponseCode("" + responseCode);
         responseModel.setResponse(response);
         responseModel.setResponseData(responseData);
-        Log.d("response", " : " + response + "   " + responseCode + "   " + responseModel.getServermsg());
         return responseModel;
     }
 
@@ -982,7 +929,6 @@ public class HttpRequest {
                 } else {
                     responseModel.setServermsg("success");
                 }
-                //            responseModel.setServermsg(conn.getResponseMessage());
             } catch (SocketTimeoutException e) {
                 responseModel.setServermsg("No internet connection/cannot connect to server");
                 responseData = "";
@@ -1000,7 +946,6 @@ public class HttpRequest {
                 HttpConnectionParams.setConnectionTimeout(my_httpParams, 180000);
                 HttpConnectionParams.setSoTimeout(my_httpParams, 180000);
                 HttpClient httpclient = new DefaultHttpClient(my_httpParams);
-                ;
                 OwnHttpDelete httppost = new OwnHttpDelete(urlpath);
 
                 if (mHeadersData != null) {
@@ -1011,7 +956,6 @@ public class HttpRequest {
                         String keyValue = (String) mapEntry.getKey();
                         String value = (String) mapEntry.getValue();
                         httppost.addHeader(keyValue, value);
-                        Log.e("getRequest", "-------------" + keyValue + "    " + value);
                     }
                 }
                 httppost.addHeader("Content-Type", "application/json");
@@ -1038,7 +982,6 @@ public class HttpRequest {
                                 response += line;
                             }
                             br.close();
-//                    conn.disconnect();
                         } finally {
                             instream.close();
                         }
@@ -1078,10 +1021,8 @@ public class HttpRequest {
                 }
 
             } catch (ConnectTimeoutException e) {
-                Log.e("ConnectTimeoutExcepti ", " = ConnectTimeoutException");
                 e.printStackTrace();
             } catch (SocketTimeoutException e) {
-                Log.e("SocketTimeoutException ", " = SocketTimeoutException");
                 e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1091,7 +1032,6 @@ public class HttpRequest {
         responseModel.setResponseCode("" + responseCode);
         responseModel.setResponse(response);
         responseModel.setResponseData(responseData);
-        Log.d("response", " : " + response + "   " + responseCode + "   " + responseModel.getServermsg());
         return responseModel;
     }
 
@@ -1110,8 +1050,6 @@ public class HttpRequest {
                 conn.setRequestMethod("DELETE");
                 conn.setDoInput(true);
                 conn.setRequestProperty("Content-Type", "application/json");
-                conn.setRequestProperty("applicationId", "123");
-                conn.setRequestProperty("orgId", "12");
                 if (serverType.equalsIgnoreCase("WCP")) {
                     String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
                     conn.setRequestProperty("Authorization", "Basic " + encoding);
@@ -1182,7 +1120,6 @@ public class HttpRequest {
                 } else {
                     responseModel.setServermsg("success");
                 }
-                //            responseModel.setServermsg(conn.getResponseMessage());
             } catch (SocketTimeoutException e) {
                 responseModel.setServermsg("No internet connection/cannot connect to server");
                 responseData = "";
@@ -1200,7 +1137,6 @@ public class HttpRequest {
                 HttpConnectionParams.setConnectionTimeout(my_httpParams, 180000);
                 HttpConnectionParams.setSoTimeout(my_httpParams, 180000);
                 HttpClient httpclient = new DefaultHttpClient(my_httpParams);
-                ;
                 OwnHttpDelete httppost = new OwnHttpDelete(urlpath);
 
                 if (mHeadersData != null) {
@@ -1211,7 +1147,6 @@ public class HttpRequest {
                         String keyValue = (String) mapEntry.getKey();
                         String value = (String) mapEntry.getValue();
                         httppost.addHeader(keyValue, value);
-                        Log.e("getRequest", "-------------" + keyValue + "    " + value);
                     }
                 }
                 httppost.addHeader("Content-Type", "application/json");
@@ -1238,7 +1173,6 @@ public class HttpRequest {
                                 response += line;
                             }
                             br.close();
-//                    conn.disconnect();
                         } finally {
                             instream.close();
                         }
@@ -1257,7 +1191,6 @@ public class HttpRequest {
                                     response += line;
                                 }
                                 br.close();
-                                //                    conn.disconnect();
                             } finally {
                                 instream.close();
                             }
@@ -1278,10 +1211,8 @@ public class HttpRequest {
                 }
 
             } catch (ConnectTimeoutException e) {
-                Log.e("ConnectTimeoutExcepti ", " = ConnectTimeoutException");
                 e.printStackTrace();
             } catch (SocketTimeoutException e) {
-                Log.e("SocketTimeoutException ", " = SocketTimeoutException");
                 e.printStackTrace();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1291,7 +1222,6 @@ public class HttpRequest {
         responseModel.setResponseCode("" + responseCode);
         responseModel.setResponse(response);
         responseModel.setResponseData(responseData);
-        Log.d("response", " : " + response + "   " + responseCode + "   " + responseModel.getServermsg());
         return responseModel;
     }
 

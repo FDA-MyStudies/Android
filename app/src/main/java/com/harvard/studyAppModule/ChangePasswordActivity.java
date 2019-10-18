@@ -84,7 +84,6 @@ public class ChangePasswordActivity extends AppCompatActivity implements ApiCall
     }
 
     private void setTextForView() {
-//        if (mFrom != null && mFrom.equalsIgnoreCase("SignInFragment")) {
         if (mPassword != null && !mPassword.equalsIgnoreCase("")) {
             mOldPassword.setText(mPassword);
             mOldPassword.setFocusable(false);
@@ -95,10 +94,6 @@ public class ChangePasswordActivity extends AppCompatActivity implements ApiCall
             mRelpassword.setVisibility(View.VISIBLE);
             mTitle.setText(getResources().getString(R.string.change_password_heading));
         }
-//        }
-//        else {
-//            mTitle.setText(getResources().getString(R.string.change_password_heading));
-//        }
     }
 
     private void setFont() {
@@ -159,9 +154,6 @@ public class ChangePasswordActivity extends AppCompatActivity implements ApiCall
                     } else if (mConfirmPassword.getText().toString().equalsIgnoreCase("")) {
                         Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.confirm_password_empty), Toast.LENGTH_SHORT).show();
                     }
-//                    else if (mOldPassword.getText().toString().equals(mNewPassword.getText().toString())) {
-//                        Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.password_same_error), Toast.LENGTH_SHORT).show();
-//                    }
                     else if (!mConfirmPassword.getText().toString().equals(mNewPassword.getText().toString())) {
                         Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.password_mismatch_error1), Toast.LENGTH_SHORT).show();
                     } else {
@@ -222,7 +214,6 @@ public class ChangePasswordActivity extends AppCompatActivity implements ApiCall
         }
         if (mFrom != null && mFrom.equalsIgnoreCase("ProfileFragment")) {
             Toast.makeText(this, getResources().getString(R.string.password_change_message), Toast.LENGTH_SHORT).show();
-            Log.e("Change Password : ", "Change Password");
             finish();
         } else {
             AppController.getHelperSharedPreference().writePreference(ChangePasswordActivity.this, getString(R.string.userid), "" + mUserId);
@@ -262,7 +253,6 @@ public class ChangePasswordActivity extends AppCompatActivity implements ApiCall
         if (statusCode.equalsIgnoreCase("401")) {
             Toast.makeText(ChangePasswordActivity.this, errormsg, Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(ChangePasswordActivity.this, errormsg);
-//            ((StudyActivity) getContext()).loadstudylist();
         } else {
             Toast.makeText(this, errormsg, Toast.LENGTH_SHORT).show();
         }

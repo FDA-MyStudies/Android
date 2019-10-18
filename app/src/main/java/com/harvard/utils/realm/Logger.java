@@ -109,6 +109,5 @@ public final class Logger {
 
         i++;
 
-        Log.e("compactRealm size", stringBuilder.toString());
     }
 }

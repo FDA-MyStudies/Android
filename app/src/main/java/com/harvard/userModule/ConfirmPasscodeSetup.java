@@ -54,7 +54,6 @@ public class ConfirmPasscodeSetup extends AppCompatActivity {
 
     private void setTextForView() {
         mCancelBtn.setVisibility(View.GONE);
-//        mPasscodetitle.setVisibility(View.INVISIBLE);
         mPasscodetitle.setText(getResources().getString(R.string.passcode_confirm_reenter));
     }
 

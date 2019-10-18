@@ -107,7 +107,6 @@ public class SingleChoiceSharingStepBody<T> implements StepBody {
         radioGroup.setDividerDrawable(ContextCompat.getDrawable(parent.getContext(),
                 R.drawable.rsb_divider_empty_8dp));
 
-//        Toast.makeText(inflater.getContext(), step.getLoadmoretxt(), Toast.LENGTH_SHORT).show();
 
 
         for (int i = 0; i < choices.length; i++) {

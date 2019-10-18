@@ -92,7 +92,6 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
         setFont();
         customTextView();
         bindEvents();
-//        callGetTermsAndConditionWebservice();
         mTermsAndConditionData=new TermsAndConditionData();
         mTermsAndConditionData.setPrivacy(getString(R.string.privacyurl));
         mTermsAndConditionData.setTerms(getString(R.string.termsurl));
@@ -198,16 +197,6 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
         }
     }
 
-    private void callGetTermsAndConditionWebservice() {
-        AppController.getHelperProgressDialog().showProgress(SignInActivity.this, "", "", false);
-        GetTermsAndConditionEvent termsAndConditionEvent = new GetTermsAndConditionEvent();
-        HashMap<String, String> header = new HashMap();
-        WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", URLs.GET_TERMS_AND_CONDITION, GET_TERMS_AND_CONDITION, SignInActivity.this, TermsAndConditionData.class, null, header, null, false, SignInActivity.this);
-
-        termsAndConditionEvent.setWcpConfigEvent(wcpConfigEvent);
-        StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
-        studyModulePresenter.performGetTermsAndCondition(termsAndConditionEvent);
-    }
 
     private void bindEvents() {
         mBackBtn.setOnClickListener(new View.OnClickListener() {
@@ -232,7 +221,6 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
         mSignInLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(SignInActivity.this, "Sign In...", Toast.LENGTH_SHORT).show();
 
                 if (mClicked == false) {
                     mClicked = true;
@@ -261,7 +249,6 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
         mNewUsrSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(SignInActivity.this, "Go to SignUp ...", Toast.LENGTH_SHORT).show();
                 if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").equalsIgnoreCase("StudyInfo")) {
                     Intent intent = new Intent(SignInActivity.this, SignupActivity.class);
                     intent.putExtra("from", "StudyInfo");
@@ -270,7 +257,6 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
                     Intent intent = new Intent(SignInActivity.this, SignupActivity.class);
                     startActivity(intent);
                 }
-//                finish();
             }
         });
         mInfoIcon.setOnClickListener(new View.OnClickListener() {
@@ -316,14 +302,12 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
                 mUserAuth = loginData.getAuth();
                 mUserID = loginData.getUserId();
                 AppController.getHelperSharedPreference().writePreference(SignInActivity.this, getString(R.string.refreshToken), loginData.getRefreshToken());
-//                login();
                 new GetFCMRefreshToken().execute();
             }
         } else if (responseCode == UPDATE_USER_PROFILE) {
             UpdateUserProfileData updateUserProfileData = (UpdateUserProfileData) response;
             if (updateUserProfileData != null) {
                 if (updateUserProfileData.getMessage().equalsIgnoreCase("success")) {
-//                    login();
                     callUserProfileWebService();
                 } else {
                     Toast.makeText(this, getResources().getString(R.string.not_able_to_login), Toast.LENGTH_SHORT).show();
@@ -357,7 +341,6 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
                         startActivity(intent);
                     }
                 } else {
-//                    Toast.makeText(this, "Unable to retrieve settings", Toast.LENGTH_SHORT).show();
                     login();
                 }
             } else {
@@ -373,12 +356,6 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
         @Override
         protected String doInBackground(String... params) {
             String token = "";
-//            if (!AppController.getHelperSharedPreference().readPreference(SignInActivity.this, "deviceToken", "").equalsIgnoreCase("")) {
-//                token = AppController.getHelperSharedPreference().readPreference(SignInActivity.this, "deviceToken", "");
-//            } else {
-//                token = FirebaseInstanceId.getInstance().getToken();
-//                AppController.getHelperSharedPreference().writePreference(SignInActivity.this, "deviceToken", "" + token);
-//            }
             if (FirebaseInstanceId.getInstance().getToken() == null || FirebaseInstanceId.getInstance().getToken().equalsIgnoreCase("")) {
                 boolean regIdStatus = false;
                 while (!regIdStatus) {
@@ -517,10 +494,8 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
 
             jsonObjBody.put("info", infoJson);
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        Log.e("json", "" + jsonObjBody.toString());
 
         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post_object", URLs.UPDATE_USER_PROFILE, UPDATE_USER_PROFILE, this, UpdateUserProfileData.class, null, params, jsonObjBody, false, this);
         updateUserProfileEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);

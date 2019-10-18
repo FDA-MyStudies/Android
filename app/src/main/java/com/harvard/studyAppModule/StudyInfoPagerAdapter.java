@@ -102,15 +102,10 @@ public class StudyInfoPagerAdapter extends PagerAdapter {
             mDesc = (AppCompatTextView) view.findViewById(R.id.desc);
             mWatchVideo = (RelativeLayout) view.findViewById(R.id.watch_video);
             mWatchVideoLabel = (AppCompatTextView) view.findViewById(R.id.watchVideoLabel);
-//            mVisitWebsite = (AppCompatTextView) view.findViewById(R.id.visitWebsite);
             mBgImg = (AppCompatImageView) view.findViewById(R.id.bgImg);
         } else {
             mTitle = (AppCompatTextView) view.findViewById(R.id.title);
             mDesc = (AppCompatTextView) view.findViewById(R.id.desc);
-//            mVisitWebsiteButtonLayout = (RelativeLayout) view.findViewById(R.id.mVisitWebsiteButtonLayout);
-//            mVisitWebsiteButton = (AppCompatTextView) view.findViewById(R.id.mVisitWebsiteButton);
-//            mLernMoreButtonLayout = (RelativeLayout) view.findViewById(R.id.mLernMoreButtonLayout);
-//            mLernMoreButton = (AppCompatTextView) view.findViewById(R.id.mLernMoreButton);
             mBgImg = (AppCompatImageView) view.findViewById(R.id.bgImg);
         }
     }
@@ -121,12 +116,9 @@ public class StudyInfoPagerAdapter extends PagerAdapter {
                 mTitle.setTypeface(AppController.getTypeface(view.getContext(), "regular"));
                 mDesc.setTypeface(AppController.getTypeface(view.getContext(), "regular"));
                 mWatchVideoLabel.setTypeface(AppController.getTypeface(view.getContext(), "regular"));
-//                mVisitWebsite.setTypeface(AppController.getTypeface(view.getContext(), "regular"));
             } else {
                 mTitle.setTypeface(AppController.getTypeface(view.getContext(), "thin"));
                 mDesc.setTypeface(AppController.getTypeface(view.getContext(), "regular"));
-//                mVisitWebsiteButton.setTypeface(AppController.getTypeface(view.getContext(), "regular"));
-//                mLernMoreButton.setTypeface(AppController.getTypeface(view.getContext(), "regular"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -147,48 +139,13 @@ public class StudyInfoPagerAdapter extends PagerAdapter {
                     @Override
                     public void onClick(View view) {
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mInfo.get(pos).getLink()));
-//                    intent.setDataAndType(Uri.parse(mInfo.get(pos).getLink()), "video/mp4");
                         mContext.startActivity(intent);
                 }
             });
 
         }
-            /*mVisitWebsite.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mStudyWebsite));
-                    mContext.startActivity(browserIntent);
-                }
-            });*/
-        } /*else {
-            mVisitWebsiteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mStudyWebsite));
-                    mContext.startActivity(browserIntent);
-                }
-            });
-            mLernMoreButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(mContext.getApplicationContext(), WebViewActivity.class);
-                    intent.putExtra("consent", mConsentDocumentData.getConsent().getContent());
-                    mContext.startActivity(intent);
-                }
-            });
-        }*/
+        }
     }
 
-    public void addItem() {
-        mSize++;
-        notifyDataSetChanged();
-    }
-
-    public void removeItem() {
-        mSize--;
-        mSize = mSize < 0 ? 0 : mSize;
-
-        notifyDataSetChanged();
-    }
 
    }

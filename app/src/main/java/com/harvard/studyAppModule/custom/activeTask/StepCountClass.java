@@ -80,7 +80,6 @@ public class StepCountClass implements StepBody, SensorEventListener {
 
     @Override
     public StepResult getStepResult(boolean skipped) {
-//        Toast.makeText(mContext, "skipping", Toast.LENGTH_SHORT).show();
         if (handler != null) {
             Toast.makeText(mContext, R.string.stop_in_between, Toast.LENGTH_SHORT).show();
             handler.removeCallbacksAndMessages(null);
@@ -95,11 +94,6 @@ public class StepCountClass implements StepBody, SensorEventListener {
 
     @Override
     public BodyAnswer getBodyAnswerState() {
-//        TextAnswerFormat format = (TextAnswerFormat) step.getAnswerFormat();
-//        if (!format.isAnswerValid(editText.getText().toString()))
-//        {
-//            return BodyAnswer.INVALID;
-//        }
         if (!next)
             return BodyAnswer.INVALID;
         return BodyAnswer.VALID;

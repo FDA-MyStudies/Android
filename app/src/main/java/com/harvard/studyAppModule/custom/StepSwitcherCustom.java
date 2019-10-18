@@ -82,7 +82,6 @@ public class StepSwitcherCustom extends FrameLayout {
             currentStepId = (String) currentStep.getTag(R.id.rsb_step_layout_id);
             stepLayoutId = (String) stepLayout.getLayout().getTag(R.id.rsb_step_layout_id);
 
-            Log.e("currentStepId", "" + currentStepId + "   " + stepLayoutId + "   " + direction);
 
             if (currentStepId.equals(stepLayoutId)) {
                 return;
@@ -132,12 +131,6 @@ public class StepSwitcherCustom extends FrameLayout {
                             .withEndAction(new Runnable() {
                                 @Override
                                 public void run() {
-//                                    InputMethodManager imm = (InputMethodManager) StepSwitcherCustom.this.getContext()
-//                                            .getSystemService(Activity.INPUT_METHOD_SERVICE);
-//
-//                                    if (imm.isActive() && imm.isAcceptingText()) {
-//                                        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-//                                    }
 
                                     StepSwitcherCustom.this.removeView(currentStep);
 

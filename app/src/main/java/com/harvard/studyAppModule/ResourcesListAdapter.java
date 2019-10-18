@@ -160,7 +160,6 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<ResourcesListAdap
 
     private void showDialog(int count) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle);
-//        builder.setTitle(mContext.getResources().getString(R.string.important_note));
         // withdrawalType ask_user
         if (count == 3) {
             builder.setMessage(mContext.getResources().getString(R.string.leave_study_retained_or_deleted_message));
@@ -170,7 +169,6 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<ResourcesListAdap
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ((SurveyResourcesFragment) fragment).responseServerWithdrawFromStudy("false");
-//                    leaveStudyWarningMessage("retain", "false");
                 }
             });
 
@@ -186,7 +184,6 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<ResourcesListAdap
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ((SurveyResourcesFragment) fragment).responseServerWithdrawFromStudy("true");
-//                    leaveStudyWarningMessage("delete", "true");
                     dialog.cancel();
                 }
             });
@@ -200,7 +197,6 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<ResourcesListAdap
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ((SurveyResourcesFragment) fragment).responseServerWithdrawFromStudy("true");
-//                    leaveStudyWarningMessage("delete", "true");
                 }
             });
 
@@ -220,7 +216,6 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<ResourcesListAdap
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ((SurveyResourcesFragment) fragment).responseServerWithdrawFromStudy("false");
-//                    leaveStudyWarningMessage("noaction", "false");
                 }
             });
 
@@ -237,51 +232,6 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<ResourcesListAdap
     }
 
 
-    /*private void leaveStudyWarningMessage(String type, final String flag) {
-        if (type.equalsIgnoreCase("delete")) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle);
-            builder.setTitle("FDA");
-            builder.setMessage(mContext.getResources().getString(R.string.leave_study_deleted_message));
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    ((SurveyResourcesFragment) fragment).responseServerWithdrawFromStudy(flag);
-                }
-            });
-
-
-            builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-            AlertDialog diag = builder.create();
-            diag.show();
-        } else if (type.equalsIgnoreCase("retain")) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle);
-            builder.setTitle("FDA");
-            builder.setMessage(mContext.getResources().getString(R.string.leave_study_retained_message));
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    ((SurveyResourcesFragment) fragment).responseServerWithdrawFromStudy(flag);
-                }
-            });
-
-
-            builder.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-            AlertDialog diag = builder.create();
-            diag.show();
-        } else {
-            ((SurveyResourcesFragment) fragment).responseServerWithdrawFromStudy(flag);
-        }
-    }*/
 
 
 }

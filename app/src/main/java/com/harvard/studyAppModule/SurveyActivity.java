@@ -117,18 +117,6 @@ public class SurveyActivity extends AppCompatActivity implements View.OnClickLis
         mLocalNotification = "";
         mFrom = "";
         mTo = "";
-//        try {
-//            mFrom = getIntent().getStringExtra("from");
-//        } catch (Exception e) {
-//            mFrom = "";
-//            e.printStackTrace();
-//        }
-//
-//        if (mFrom == null || mFrom.equalsIgnoreCase("")) {
-//            defaultFragementSettings();
-//        } else {
-//            openResources();
-//        }
 
         dbServiceSubscriber = new DBServiceSubscriber();
         mRealm = AppController.getRealmobj(this);
@@ -258,7 +246,6 @@ public class SurveyActivity extends AppCompatActivity implements View.OnClickLis
         menutitle = findViewById(R.id.menutitle);
 
 
-//        mSidebarTitle.setTypeface(AppController.getTypeface(this, "medium"));
         mHomeLabel.setTypeface(AppController.getTypeface(this, "medium"));
         mResourceLabel.setTypeface(AppController.getTypeface(this, "medium"));
         mReachoutLabel.setTypeface(AppController.getTypeface(this, "medium"));
@@ -344,8 +331,6 @@ public class SurveyActivity extends AppCompatActivity implements View.OnClickLis
         mSignOutLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                menulayout.setVisibility(View.GONE);
-//                mToolbar.setVisibility(View.VISIBLE);
                 closeDrawer();
                 if (mPreviousValue != R.id.mSignOutLayout) {
                     mPreviousValue = R.id.mSignOutLayout;
@@ -436,10 +421,6 @@ public class SurveyActivity extends AppCompatActivity implements View.OnClickLis
         menulayout.setVisibility(View.VISIBLE);
         mToolbar.setVisibility(View.GONE);
 
-//        myDashboardButton.setBackgroundResource(R.drawable.dashboard_blue_active);
-//        mActivitiesButton.setBackgroundResource(R.drawable.activities_grey);
-//        mResourcesButton.setBackgroundResource(R.drawable.resources_grey);
-//        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutContainer, mSurveyDashboardFragment, "fragment").commit();
         myDashboardButton.setBackgroundResource(R.drawable.dashboard_grey);
         mActivitiesButton.setBackgroundResource(R.drawable.activities_blue_active);
         mResourcesButton.setBackgroundResource(R.drawable.resources_grey);

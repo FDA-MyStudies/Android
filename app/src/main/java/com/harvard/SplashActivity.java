@@ -55,33 +55,10 @@ public class SplashActivity extends AppCompatActivity implements VersionChecker.
             // sync registration
             SyncAdapterManager.init(this);
             AppController.keystoreInitilize(SplashActivity.this);
-//            callGetStudyListWebservice();
             versionChecker = new VersionChecker(SplashActivity.this, SplashActivity.this);
             versionChecker.execute();
         }
         AppController.getHelperSharedPreference().writePreference(SplashActivity.this, getString(R.string.json_object_filter), "");
-//        Intent intent = new Intent(SplashActivity.this, ChartActivity.class);
-//        startActivity(intent);
-
-//        new AlertDialog.Builder(this)
-//                .setTitle("Delete entry")
-//                .setMessage("Are you sure you want to delete this DB?")
-//                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        Realm realm = AppController.getRealmobj();
-//                        realm.beginTransaction();
-//                        realm.deleteAll();
-//                        realm.commitTransaction();
-//                        loadsplash();
-//                    }
-//                })
-//                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        loadsplash();
-//                    }
-//                })
-//                .setIcon(android.R.drawable.ic_dialog_alert)
-//                .show();
     }
 
     public void loadsplash() {
@@ -93,7 +70,6 @@ public class SplashActivity extends AppCompatActivity implements VersionChecker.
             @Override
             public void run() {
                 if (!AppController.getHelperSharedPreference().readPreference(SplashActivity.this, getResources().getString(R.string.userid), "").equalsIgnoreCase("") && AppController.getHelperSharedPreference().readPreference(SplashActivity.this, getResources().getString(R.string.verified), "").equalsIgnoreCase("true")) {
-//                    if (AppController.getHelperSharedPreference().readPreference(SplashActivity.this, getResources().getString(R.string.verified), "").equalsIgnoreCase("true")) {
                     if (AppConfig.AppType.equalsIgnoreCase(getString(R.string.app_gateway))) {
                         Intent intent = new Intent(SplashActivity.this, StudyActivity.class);
                         startActivity(intent);
@@ -101,10 +77,6 @@ public class SplashActivity extends AppCompatActivity implements VersionChecker.
                         Intent intent = new Intent(SplashActivity.this, StandaloneActivity.class);
                         startActivity(intent);
                     }
-//                    } else {
-//                        Intent intent = new Intent(SplashActivity.this, VerificationStepActivity.class);
-//                        startActivity(intent);
-//                    }
                 } else {
                     SharedPreferences settings = SharedPreferenceHelper.getPreferences(SplashActivity.this);
                     settings.edit().clear().apply();

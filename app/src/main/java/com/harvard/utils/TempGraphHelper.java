@@ -37,8 +37,6 @@ public class TempGraphHelper {
         yAxis.setDrawAxisLine(false);
         yAxis.setDrawGridLines(true);
         yAxis.setDrawZeroLine(true);
-//        yAxis.setAxisMinValue(0);
-//        yAxis.setAxisMaxValue(20);
         yAxis.setShowOnlyMinMax(false);
         yAxis.setTextSize(14);
         yAxis.setTextColor(R.color.black_shade);
@@ -63,9 +61,7 @@ public class TempGraphHelper {
         if (entries.size() > 0) {
             chart.setData(data);
         }
-//        chart.setVisibleXRange(0, 4);
         chart.fitScreen();
-//        chart.setVisibleYRangeMaximum(10, YAxis.AxisDependency.LEFT);
         chart.setNoDataText("No Data");
         chart.invalidate();
 

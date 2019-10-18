@@ -167,31 +167,6 @@ public class SingleChoiceTextQuestionBody<T> implements StepBody, CompoundButton
             });
 
 
-//            editText.addTextChangedListener(new TextWatcher() {
-//                @Override
-//                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//                }
-//
-//                @Override
-//                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//                }
-//
-//                @Override
-//                public void afterTextChanged(final Editable editable) {
-//                    for (int i = 0; i < choices.length; i++) {
-//                        if (!choices[i].getValue().toString().equalsIgnoreCase(OtherOptionValue)) {
-//                            if (choices[i].getText().toLowerCase().contains(editable.toString().toLowerCase())) {
-//                                radioGroup.findViewWithTag(i).setVisibility(View.VISIBLE);
-//                            } else {
-//                                radioGroup.findViewWithTag(i).setVisibility(View.GONE);
-//                            }
-//                        }
-//                    }
-////                    parent.findViewById(R.id.bar_submit_negative).getRootView().computeScroll();
-//                }
-//            });
             radioGroup.addView(editText);
         }
 
@@ -204,14 +179,9 @@ public class SingleChoiceTextQuestionBody<T> implements StepBody, CompoundButton
             LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.checkboxdesc, radioGroup, false);
             final AppCompatCheckBox checkBox = (AppCompatCheckBox) linearLayout.findViewById(R.id.checkbox);
             final TextView descTxt = (TextView) linearLayout.findViewById(R.id.desc);
-//            final AppCompatCheckBox checkBox = (AppCompatCheckBox) inflater.inflate(R.layout.rsb_item_checkbox,
-//                    radioGroup,
-//                    false);
             checkBox.setText(item.getText());
             descTxt.setText(item.getDetail());
             checkBox.setId(i);
-//            checkBox.setFocusable(true);
-//            checkBox.setFocusableInTouchMode(true);
 
             if (item.getOther() != null && item.getOther().isTextfieldReq()) {
                 LinearLayout.MarginLayoutParams otherTextlayoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
@@ -322,9 +292,6 @@ public class SingleChoiceTextQuestionBody<T> implements StepBody, CompoundButton
                 } else if (mOtherOptionModel.getOther() != null) {
                     currentSelected.add((T) new Gson().toJson(mOtherOptionModel));
                 }
-            }
-            for (int i = 0; i < currentSelected.toArray().length; i++) {
-                Log.e("saving to result", "" + currentSelected.toArray()[i].toString());
             }
 
             result.setResult((T[]) currentSelected.toArray());

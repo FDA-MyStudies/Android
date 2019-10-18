@@ -143,7 +143,6 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
 
     public static Intent newIntent(Context context, Task task, String studyId, String enrollId, String pdfTitle, String eligibility, String type) {
         Intent intent = new Intent(context, CustomConsentViewTaskActivity.class);
-//        intent.putExtra(EXTRA_TASK, task);
         intent.putExtra(STUDYID, studyId);
         intent.putExtra(ENROLLID, enrollId);
         intent.putExtra(PDFTITLE, pdfTitle);
@@ -172,7 +171,6 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
         if (savedInstanceState == null) {
 
 
-//            task = (Task) getIntent().getSerializableExtra(EXTRA_TASK);
             studyId = getIntent().getStringExtra(STUDYID);
             pdfTitle = getIntent().getStringExtra(PDFTITLE);
 
@@ -189,7 +187,6 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
             taskResult = new TaskResult(task.getIdentifier());
             taskResult.setStartDate(new Date());
         } else {
-//            task = (Task) savedInstanceState.getSerializable(EXTRA_TASK);
             studyId = (String) savedInstanceState.getSerializable(STUDYID);
             pdfTitle = (String) savedInstanceState.getSerializable(PDFTITLE);
 
@@ -219,7 +216,6 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
         comprehensionCorrectAnswerses = mConsent.getComprehension().getCorrectAnswers();
         passScore = Integer.parseInt(mConsent.getComprehension().getPassScore());
 
-//        checkNextStep = task.getStepAfterStep(currentStep, taskResult);
         showStep(currentStep);
     }
 
@@ -235,31 +231,10 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
 
     protected void showNextStep() {
         boolean shownext = true;
-//        if (currentStep.getIdentifier().equalsIgnoreCase("sharing") && mConsent.getSharing().getAllowWithoutSharing().equalsIgnoreCase("false")) {
-//            Map<String, StepResult> map = taskResult.getResults();
-//            for (Map.Entry<String, StepResult> pair : map.entrySet()) {
-//                if (pair.getKey().equalsIgnoreCase(currentStep.getIdentifier())) {
-//                    try {
-//                        StepResult stepResult = pair.getValue();
-//                        Object o = stepResult.getResults().get("answer");
-//                        if (o instanceof String) {
-//                            Log.e("answer for sharing", "" + o);
-//                            if (((String) o).equalsIgnoreCase("no")) {
-//                                shownext = false;
-//                            }
-//                        }
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        }
-//        Log.e("show next", "" + shownext);
         if (shownext) {
             nextStep = task.getStepAfterStep(currentStep, taskResult);
             if (calcPassScore(currentStep, taskResult)) {
                 score = score + 1;
-                Log.e("score", "" + score);
             }
             if (nextStep == null) {
                 saveAndFinish();
@@ -296,7 +271,6 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
     }
 
     private boolean calcPassScore(Step currentStep, TaskResult taskResult) {
-        Log.e("", "");
         ArrayList<String> answer = new ArrayList<>();
         for (int i = 0; i < comprehensionCorrectAnswerses.size(); i++) {
             if (comprehensionCorrectAnswerses.get(i).getKey().equalsIgnoreCase(currentStep.getIdentifier())) {
@@ -378,7 +352,6 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
             } else {
                 if (calcPassScore(previousStep, taskResult)) {
                     score = score - 1;
-                    Log.e("score", "" + score);
                 }
                 showStep(previousStep);
             }
@@ -386,8 +359,6 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
     }
 
     private void showStep(Step step) {
-//        Log.e("showStep", "" + checkNextStep.getIdentifier() + "   " + currentStep.getIdentifier() + "   " + step.getIdentifier());
-//        if (checkNextStep.getIdentifier().equals(currentStep.getIdentifier())) {
         int currentStepPosition = task.getProgressOfCurrentStep(currentStep, taskResult)
                 .getCurrent();
         int newStepPosition = task.getProgressOfCurrentStep(step, taskResult).getCurrent();
@@ -402,9 +373,7 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
                         : StepSwitcherCustom.SHIFT_RIGHT);
 
         currentStep = step;
-//            checkNextStep = task.getStepAfterStep(currentStep, taskResult);
         AppController.getHelperHideKeyboard(this);
-//        }
     }
 
     protected StepLayout getLayoutForStep(Step step) {
@@ -446,18 +415,14 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
                 }
             }, 3000);
             AppController.getHelperProgressDialog().showProgress(CustomConsentViewTaskActivity.this, "", "", false);
-//                    if (getIntent().getStringExtra("enrollId") == null || getIntent().getStringExtra("enrollId").equalsIgnoreCase("")) {
             if (getIntent().getStringExtra(TYPE) != null && getIntent().getStringExtra(TYPE).equalsIgnoreCase("update")) {
                 Studies mStudies = dbServiceSubscriber.getStudies(getIntent().getStringExtra(STUDYID), mRealm);
                 if (mStudies != null)
                     participantId = mStudies.getParticipantId();
                 mCompletionAdherenceStatus = false;
                 getStudySate();
-//                    update_eligibility_consent();
-//                    updateuserpreference();
             } else {
                 enrollId();
-//                    updateuserpreference();
             }
         }
 
@@ -483,7 +448,6 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
         params.put("token", getIntent().getStringExtra(ENROLLID));
 
         ResponseServerConfigEvent responseServerConfigEvent = new ResponseServerConfigEvent("post_json", URLs.ENROLL_ID, ENROLL_ID_RESPONSECODE, CustomConsentViewTaskActivity.this, ResponseServerData.class, params, null, null, false, CustomConsentViewTaskActivity.this);
-//        ResponseServerConfigEvent responseServerConfigEvent = new ResponseServerConfigEvent("get", URLs.ENROLL_ID + "studyId=TESTSTUDY01&token=" + getIntent().getStringExtra("enrollId"), ENROLL_ID_RESPONSECODE, CustomConsentViewTaskActivity.this, ResponseServerData.class, null, null, null, false, CustomConsentViewTaskActivity.this);
 
         enrollIdEvent.setResponseServerConfigEvent(responseServerConfigEvent);
         StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
@@ -530,14 +494,11 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
         }
 
         studieslist.put(studiestatus);
-//        JSONArray activitylist = new JSONArray();
         try {
             jsonObject.put("studies", studieslist);
-//            jsonObject.put("activities", activitylist);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e("json", "" + jsonObject.toString());
         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post_object", URLs.UPDATE_STUDY_PREFERENCE, UPDATE_USERPREFERENCE_RESPONSECODE, this, LoginData.class, null, header, jsonObject, false, this);
 
         updatePreferenceEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);

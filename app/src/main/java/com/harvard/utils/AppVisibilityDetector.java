@@ -67,14 +67,6 @@ public class AppVisibilityDetector {
             }
         }
 
-        //is current process the main process
-        try {
-            if (!TextUtils.equals(currProcessName, app.getPackageName())) {
-    //            throw new IllegalStateException("make sure BgDetector.init(...) called in main process");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     private static void performAppGotoForeground() {

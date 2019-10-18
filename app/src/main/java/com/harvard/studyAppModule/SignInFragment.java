@@ -58,10 +58,6 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
     private static final int UPDATE_USER_PROFILE = 100;
     private static final int USER_PROFILE_REQUEST = 101;
     private static final int PASSCODE_RESPONSE = 102;
-    //    private RelativeLayout mBackBtn;
-//    private AppCompatTextView mTitle;
-//    private RelativeLayout mCancelBtn;
-//    private AppCompatTextView mCancelTxt;
     private AppCompatEditText mEmail;
     private AppCompatEditText mPassword;
     private AppCompatTextView mEmailLabel;
@@ -92,16 +88,11 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_sign_in, container, false);
         mClicked = false;
-//        UserModuleSubscriber mUserModuleSubscriber = new UserModuleSubscriber();
-//        WebserviceSubscriber mWebserviceSubscriber = new WebserviceSubscriber();
-//        FDAEventBusRegistry.getInstance().registerSubscriber(mUserModuleSubscriber);
-//        FDAEventBusRegistry.getInstance().registerSubscriber(mWebserviceSubscriber);
         initializeXMLId(view);
         customTextViewAgree(mAgreeLabel);
         setFont();
         customTextView();
         bindEvents();
-//        callGetTermsAndConditionWebservice();
         mTermsAndConditionData=new TermsAndConditionData();
         mTermsAndConditionData.setPrivacy(getString(R.string.privacyurl));
         mTermsAndConditionData.setTerms(getString(R.string.termsurl));
@@ -199,16 +190,6 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
         }
     }
 
-    private void callGetTermsAndConditionWebservice() {
-        AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
-        GetTermsAndConditionEvent termsAndConditionEvent = new GetTermsAndConditionEvent();
-        HashMap<String, String> header = new HashMap();
-        WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", URLs.GET_TERMS_AND_CONDITION, GET_TERMS_AND_CONDITION, mContext, TermsAndConditionData.class, null, header, null, false, this);
-
-        termsAndConditionEvent.setWcpConfigEvent(wcpConfigEvent);
-        StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
-        studyModulePresenter.performGetTermsAndCondition(termsAndConditionEvent);
-    }
 
     private void bindEvents() {
         mSignInLabel.setOnClickListener(new View.OnClickListener() {
@@ -286,7 +267,6 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
             AppController.getHelperSharedPreference().writePreference(mContext, getString(R.string.json_object_filter), "");
             loginData = (LoginData) response;
             if (loginData != null) {
-//            login(loginData);
                 mUserID = loginData.getUserId();
                 mUserAuth = loginData.getAuth();
                 mRefreshToken=loginData.getRefreshToken();
@@ -299,7 +279,6 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
             UpdateUserProfileData updateUserProfileData = (UpdateUserProfileData) response;
             if (updateUserProfileData != null) {
                 if (updateUserProfileData.getMessage().equalsIgnoreCase("success")) {
-//                    login();
                     callUserProfileWebService();
                 } else {
                     Toast.makeText(mContext, mContext.getResources().getString(R.string.not_able_to_login), Toast.LENGTH_SHORT).show();
@@ -333,7 +312,6 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
                         startActivity(intent);
                     }
                 } else {
-//                    Toast.makeText(mContext, "Unable to retrieve settings", Toast.LENGTH_SHORT).show();
                     login();
                 }
             } else {
@@ -369,8 +347,6 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
             AppController.getHelperSharedPreference().writePreference(getContext(), getString(R.string.auth), "" + loginData.getAuth());
             AppController.getHelperSharedPreference().writePreference(getContext(), getString(R.string.verified), "" + loginData.isVerified());
             AppController.getHelperSharedPreference().writePreference(getContext(), getString(R.string.email), "" + mEmail.getText().toString());
-//                Toast.makeText(mContext, loginData.getMessage(), Toast.LENGTH_SHORT).show();
-//            ((StudyActivity) getContext()).loadstudylist();
 
             if (AppConfig.AppType.equalsIgnoreCase(getString(R.string.app_gateway))) {
                 ((StudyActivity) mContext).loadstudylist();
@@ -425,7 +401,6 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
 
             jsonObjBody.put("info", infoJson);
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -440,12 +415,6 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
         @Override
         protected String doInBackground(String... params) {
             String token = "";
-//            if (!AppController.getHelperSharedPreference().readPreference(mContext, "deviceToken", "").equalsIgnoreCase("")) {
-//                token = AppController.getHelperSharedPreference().readPreference(mContext, "deviceToken", "");
-//            } else {
-//                token = FirebaseInstanceId.getInstance().getToken();
-//                AppController.getHelperSharedPreference().writePreference(mContext, "deviceToken", "" + token);
-//            }
 
             if (FirebaseInstanceId.getInstance().getToken() == null || FirebaseInstanceId.getInstance().getToken().equalsIgnoreCase("")) {
                 boolean regIdStatus = false;

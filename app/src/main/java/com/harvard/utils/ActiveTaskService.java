@@ -197,7 +197,6 @@ public class ActiveTaskService extends Service implements ApiCall.OnAsyncRequest
 
     public void updateServer(String httpMethod, String url, String normalParam, String jsonObjectString, String serverType) {
 
-//        AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
         JSONObject jsonObject = null;
         try {
             jsonObject = new JSONObject(jsonObjectString);

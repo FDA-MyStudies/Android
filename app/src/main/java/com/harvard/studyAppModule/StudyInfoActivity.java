@@ -204,67 +204,13 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
         mJoinButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (mStatus.equalsIgnoreCase(StudyFragment.UPCOMING)) {
-//                    Toast.makeText(getApplication(), R.string.upcoming_study, Toast.LENGTH_SHORT).show();
-//                } else if (mEnroll.equalsIgnoreCase("false")) {
-//                    Toast.makeText(getApplication(), R.string.study_no_enroll, Toast.LENGTH_SHORT).show();
-//                } else if (mStatus.equalsIgnoreCase(StudyFragment.PAUSED)) {
-//                    Toast.makeText(getApplication(), R.string.study_paused, Toast.LENGTH_SHORT).show();
-//                } else
 
                 if (AppController.getHelperSharedPreference().readPreference(StudyInfoActivity.this, getResources().getString(R.string.userid), "").equalsIgnoreCase("")) {
-//                    Intent intent = new Intent();
-//                    intent.putExtra("action", "signin");
-//                    setResult(RESULT_OK, intent);
-//                    finish();
                     Intent intent = new Intent(StudyInfoActivity.this, SignInActivity.class);
                     intent.putExtra("from", "StudyInfo");
                     startActivityForResult(intent, JOIN_ACTION_SIGIN);
                 } else {
                     new callConsentMetaData(true).execute();
-//                    callConsentMetaDataWebservice();
-//
-//                    try {
-//                        Gson gson = new GsonBuilder()
-//                                .setExclusionStrategies(new ExclusionStrategy() {
-//                                    @Override
-//                                    public boolean shouldSkipField(FieldAttributes f) {
-//                                        return f.getDeclaringClass().equals(RealmObject.class);
-//                                    }
-//
-//                                    @Override
-//                                    public boolean shouldSkipClass(Class<?> clazz) {
-//                                        return false;
-//                                    }
-//                                })
-//                                .registerTypeAdapter(new TypeToken<RealmList<CorrectAnswerString>>() {
-//                                }.getType(), new TypeAdapter<RealmList<CorrectAnswerString>>() {
-//
-//                                    @Override
-//                                    public void write(JsonWriter out, RealmList<CorrectAnswerString> value) throws IOException {
-//                                        // Ignore
-//                                    }
-//
-//                                    @Override
-//                                    public RealmList<CorrectAnswerString> read(JsonReader in) throws IOException {
-//                                        RealmList<CorrectAnswerString> list = new RealmList<CorrectAnswerString>();
-//                                        in.beginArray();
-//                                        while (in.hasNext()) {
-//                                            CorrectAnswerString surveyObjectString = new CorrectAnswerString();
-//                                            surveyObjectString.setAnswer(in.nextString());
-//                                            list.add(surveyObjectString);
-//                                        }
-//                                        in.endArray();
-//                                        return list;
-//                                    }
-//                                })
-//                                .create();
-//
-//                        EligibilityConsent activityObj = gson.fromJson(ReadStringFromAssest("consent.json"), EligibilityConsent.class);
-//                        Log.e("Consent", "" + activityObj);
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
                 }
             }
         });
@@ -294,27 +240,6 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
         });
     }
 
-    public String ReadStringFromAssest(String fileName) throws IOException {
-        StringBuilder returnString = new StringBuilder();
-        InputStream fIn;
-        InputStreamReader isr;
-        BufferedReader input;
-        fIn = getResources().getAssets().open(fileName);
-        isr = new InputStreamReader(fIn);
-        input = new BufferedReader(isr);
-        String line;
-        while ((line = input.readLine()) != null) {
-            returnString.append(line);
-        }
-
-        if (isr != null)
-            isr.close();
-        if (fIn != null)
-            fIn.close();
-        if (input != null)
-            input.close();
-        return returnString.toString();
-    }
 
 
     private void joinStudy() {
@@ -354,12 +279,6 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
                 startActivityForResult(intent, 12345);
 
 
-//                RealmList<Steps> stepsRealmList = eligibilityConsent.getEligibility().getTest();
-//                StepsBuilder stepsBuilder = new StepsBuilder(this, stepsRealmList);
-//                OrderedTask mTask = new OrderedTask("Test", stepsBuilder.getsteps());
-//
-//                Intent intent = CustomViewTaskActivity.newIntent(this, mTask, "", mStudyId,eligibilityConsent.getEligibility());
-//                startActivityForResult(intent, 123);
             }
         }
     }
@@ -541,7 +460,6 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
                 UserModulePresenter userModulePresenter = new UserModulePresenter();
                 userModulePresenter.performGetUserPreference(getPreferenceEvent);
             } else {
-//                Toast.makeText(this, "To join study please login/register", Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == 12345) {
             if (resultCode == RESULT_OK) {
@@ -563,8 +481,6 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
             mStudyHome = (StudyHome) response;
             if (mStudyHome != null) {
                 HashMap<String, String> header = new HashMap<>();
-//                header.put("studyId", mStudyId);
-//                header.put("consentVersion", "1.0");
                 String url = URLs.GET_CONSENT_DOC + "?studyId=" + mStudyId + "&consentVersion=&activityId=&activityVersion=";
                 GetUserStudyInfoEvent getUserStudyInfoEvent = new GetUserStudyInfoEvent();
                 WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, StudyInfoActivity.GET_CONSENT_DOC, StudyInfoActivity.this, ConsentDocumentData.class, null, header, null, false, StudyInfoActivity.this);
@@ -593,7 +509,6 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
                 dbServiceSubscriber.deleteOfflineDataRow(this,mDeleteIndexNumberDB);
             }
         }
-//        AppController.getHelperProgressDialog().dismissDialog();
         else if (responseCode == GET_CONSENT_DOC) {
             AppController.getHelperProgressDialog().dismissDialog();
             mConsentDocumentData = (ConsentDocumentData) response;
@@ -648,17 +563,6 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
             mJoinButton.setVisibility(View.INVISIBLE);
             mVisitWebsiteButton.setClickable(false);
             mLernMoreButton.setClickable(false);
-//            mConsentLay.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    try {
-//                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mStudyHome.getStudyWebsite()));
-//                        startActivity(browserIntent);
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
             if (mStudyHome.getStudyWebsite() != null && !mStudyHome.getStudyWebsite().equalsIgnoreCase("")) {
                 mConsentLayButton.setText(getResources().getString(R.string.visit_website));
                 mConsentLay.setOnClickListener(new View.OnClickListener() {
@@ -730,14 +634,12 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
                 Toast.makeText(StudyInfoActivity.this, errormsg, Toast.LENGTH_SHORT).show();
                 finish();
             }
-//            AppController.getHelperSessionExpired(StudyInfoActivity.this, errormsg);
         }
     }
 
     private void callGetStudyInfoWebservice() {
         AppController.getHelperProgressDialog().showProgress(StudyInfoActivity.this, "", "", false);
         HashMap<String, String> header = new HashMap<>();
-//        header.put("studyId", mStudyId);
         String url = URLs.STUDY_INFO + "?studyId=" + mStudyId;
         GetUserStudyInfoEvent getUserStudyInfoEvent = new GetUserStudyInfoEvent();
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, STUDY_INFO, StudyInfoActivity.this, StudyHome.class, null, header, null, false, StudyInfoActivity.this);

@@ -158,7 +158,6 @@ public class TimeQuestionBody implements StepBody {
         int hour = 0, minute = 0;
 
         if (hasChosenTime) {
-            Log.e("saved", "" + time.getText().toString());
             String[] hrs_min = time.getText().toString().split(":");
             Calendar calendar = Calendar.getInstance();
             if (hrs_min.length > 1) {

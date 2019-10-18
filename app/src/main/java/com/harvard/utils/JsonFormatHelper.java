@@ -47,7 +47,6 @@ public class JsonFormatHelper {
             T responseObj = (T) gson.fromJson(response, type);
             return responseObj;
         } catch (Exception e) {
-            Log.e("", "web service error");
             return null;
         }
     }

@@ -316,7 +316,6 @@ public class StepsBuilder {
                             if (branching)
                                 formstep.setStepTitle(R.string.notxt);
                             formstep.setOptional(activityobj.getSteps().get(i).isSkippable());
-//                            formstep.setOptional(true);
                             steps.add(formstep);
                             break;
                     }
@@ -329,7 +328,6 @@ public class StepsBuilder {
                     if (branching)
                         formstep.setStepTitle(R.string.notxt);
                     formstep.setOptional(activityobj.getSteps().get(i).isSkippable());
-//                    formstep.setOptional(true);
                     steps.add(formstep);
                 } else if (activityQuestionStep.get(i).getType().equalsIgnoreCase("instruction")) {
                     InstructionStep instructionStep = new InstructionStep(activityQuestionStep.get(i).getKey(), activityQuestionStep.get(i).getTitle(), activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
@@ -353,9 +351,7 @@ public class StepsBuilder {
                             steps.add(fetalkickInstructionStep);
 
                             QuestionStepCustom fetalkickStep = new QuestionStepCustom(activityobj.getSteps().get(i).getKey());
-//                            fetalkickStep.setStepTitle(R.string.survey);
                             TappingAnswerFormat multiFormat = new TappingAnswerFormat(ChoiceAnswerFormatCustom.CustomAnswerStyle.Tapping, activityobj.getSteps().get(i).getFormat().getDuration(), activityobj.getSteps().get(i).getFormat().getKickCount());
-//                            fetalkickStep.setTitle(activityobj.getSteps().get(i).getTitle());
                             fetalkickStep.setAnswerFormat1(multiFormat);
                             fetalkickStep.setOptional(activityobj.getSteps().get(i).isSkippable());
                             steps.add(fetalkickStep);
@@ -369,14 +365,12 @@ public class StepsBuilder {
     private static ArrayList<QuestionStep> getformquestion(Context context, RealmList<Steps> formsteps, Realm realm) {
         ArrayList<QuestionStep> formquesteps = new ArrayList<>();
         for (int i = 0; i < formsteps.size(); i++) {
-            Log.e("keyyy", "" + formsteps.get(i).getKey());
             if (!formsteps.get(i).getKey().contains("_addMoreEnabled"))
                 switch (formsteps.get(i).getResultType()) {
                     case "scale":
                         ScaleAnswerFormat ScaleFormat = new ScaleAnswerFormat(ChoiceAnswerFormatCustom.CustomAnswerStyle.Scale, formsteps.get(i).getFormat().getStep(), formsteps.get(i).getFormat().getMinValue(), formsteps.get(i).getFormat().getMaxValue(), formsteps.get(i).getFormat().isVertical(), formsteps.get(i).getFormat().getMaxDesc(), formsteps.get(i).getFormat().getMinDesc(), formsteps.get(i).getFormat().getMaxImage(), formsteps.get(i).getFormat().getMinImage(), formsteps.get(i).getFormat().getDefaultValue());
                         QuestionStepCustom scaleStep = new QuestionStepCustom(formsteps.get(i).getKey(), context.getResources().getString(R.string.survey), ScaleFormat);
                         scaleStep.setAnswerFormat1(ScaleFormat);
-//                    scaleStep.setStepTitle(R.string.survey);
                         scaleStep.setTitle(formsteps.get(i).getTitle());
                         scaleStep.setText(formsteps.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                         scaleStep.setOptional(formsteps.get(i).isSkippable());
@@ -386,7 +380,6 @@ public class StepsBuilder {
                         ContinousScaleAnswerFormat ContinousScaleFormat = new ContinousScaleAnswerFormat(ChoiceAnswerFormatCustom.CustomAnswerStyle.Scale, formsteps.get(i).getFormat().getMaxFractionDigits(), formsteps.get(i).getFormat().getMinValue(), formsteps.get(i).getFormat().getMaxValue(), formsteps.get(i).getFormat().isVertical(), formsteps.get(i).getFormat().getMaxDesc(), formsteps.get(i).getFormat().getMinDesc(), formsteps.get(i).getFormat().getMaxImage(), formsteps.get(i).getFormat().getMinImage(), formsteps.get(i).getFormat().getDefaultValue());
                         QuestionStepCustom continousscaleStep = new QuestionStepCustom(formsteps.get(i).getKey(), context.getResources().getString(R.string.survey), ContinousScaleFormat);
                         continousscaleStep.setAnswerFormat1(ContinousScaleFormat);
-//                    continousscaleStep.setStepTitle(R.string.survey);
                         continousscaleStep.setTitle(formsteps.get(i).getTitle());
                         continousscaleStep.setText(formsteps.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                         continousscaleStep.setOptional(formsteps.get(i).isSkippable());
@@ -409,7 +402,6 @@ public class StepsBuilder {
                         break;
                     case "valuePicker":
                         QuestionStepCustom valuepicker = new QuestionStepCustom(formsteps.get(i).getKey());
-//                    valuepicker.setStepTitle(R.string.survey);
                         Choice[] valuechoice = new Choice[formsteps.get(i).getFormat().getTextChoices().size()];
                         for (int j = 0; j < formsteps.get(i).getFormat().getTextChoices().size(); j++) {
                             valuechoice[j] = new Choice(formsteps.get(i).getFormat().getTextChoices().get(j).getText(), formsteps.get(i).getFormat().getTextChoices().get(j).getValue(), formsteps.get(i).getFormat().getTextChoices().get(j).getDetail());
@@ -423,7 +415,6 @@ public class StepsBuilder {
                         break;
                     case "imageChoice":
                         QuestionStepCustom multichoiceStep = new QuestionStepCustom(formsteps.get(i).getKey());
-//                    multichoiceStep.setStepTitle(R.string.survey);
                         ChoiceCustomImage[] choicechoices = new ChoiceCustomImage[formsteps.get(i).getFormat().getImageChoices().size()];
                         for (int j = 0; j < formsteps.get(i).getFormat().getImageChoices().size(); j++) {
                             choicechoices[j] = new ChoiceCustomImage(formsteps.get(i).getFormat().getImageChoices().get(j).getText(), formsteps.get(i).getFormat().getImageChoices().get(j).getValue(), formsteps.get(i).getFormat().getImageChoices().get(j).getImage(), formsteps.get(i).getFormat().getImageChoices().get(j).getSelectedImage());
@@ -438,7 +429,6 @@ public class StepsBuilder {
                     case "textChoice":
                         if (formsteps.get(i).getFormat().getSelectionStyle().equalsIgnoreCase("Single")) {
                             QuestionStepCustom multiStep = new QuestionStepCustom(formsteps.get(i).getKey());
-//                    multiStep.setStepTitle(R.string.survey);
                             ChoiceText[] choices = new ChoiceText[formsteps.get(i).getFormat().getTextChoices().size()];
                             for (int j = 0; j < formsteps.get(i).getFormat().getTextChoices().size(); j++) {
                                 choices[j] = new ChoiceText(formsteps.get(i).getFormat().getTextChoices().get(j).getText(), formsteps.get(i).getFormat().getTextChoices().get(j).getValue(), formsteps.get(i).getFormat().getTextChoices().get(j).getDetail(),formsteps.get(i).getFormat().getTextChoices().get(j).getOther());
@@ -465,7 +455,6 @@ public class StepsBuilder {
                         break;
                     case "boolean":
                         QuestionStep booleanStep = new QuestionStep(formsteps.get(i).getKey());
-//                    booleanStep.setStepTitle(R.string.survey);
                         booleanStep.setTitle(formsteps.get(i).getTitle());
                         booleanStep.setText(formsteps.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                         booleanStep.setAnswerFormat(new BooleanAnswerFormat(context.getResources().getString(R.string.true_text), context.getResources().getString(R.string.false_text)));
@@ -489,7 +478,6 @@ public class StepsBuilder {
                             }
                         }
                         QuestionStepCustom numericItem = new QuestionStepCustom(formsteps.get(i).getKey(), formsteps.get(i).getTitle(), answerFormat);
-//                    numericItem.setStepTitle(R.string.survey);
                         numericItem.setText(formsteps.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                         numericItem.setPlaceholder(formsteps.get(i).getFormat().getPlaceholder());
                         numericItem.setAnswerFormat1(answerFormat);
@@ -498,10 +486,8 @@ public class StepsBuilder {
                         break;
                     case "timeOfDay":
                         QuestionStepCustom timeOfDayStep = new QuestionStepCustom(formsteps.get(i).getKey(), context.getResources().getString(R.string.survey));
-//                        ChoiceAnswerFormatCustom customChoiceAnswerFormat = new ChoiceAnswerFormatCustom(ChoiceAnswerFormatCustom.CustomAnswerStyle.TimeofDay, timeOfDayStep);
                         DateAnswerformatCustom customChoiceAnswerFormat = new DateAnswerformatCustom(AnswerFormatCustom.DateAnswerStyle.TimeOfDay);
                         timeOfDayStep.setAnswerFormat1(customChoiceAnswerFormat);
-//                    timeOfDayStep.setStepTitle(R.string.survey);
                         timeOfDayStep.setPlaceholder(context.getResources().getString(R.string.enter_time));
                         timeOfDayStep.setTitle(formsteps.get(i).getTitle());
                         timeOfDayStep.setText(formsteps.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
@@ -514,7 +500,6 @@ public class StepsBuilder {
                         try {
                             mindate = simpleDateFormat.parse(formsteps.get(i).getFormat().getMinDate());
                             maxdate = simpleDateFormat.parse(formsteps.get(i).getFormat().getMaxDate());
-                            Log.e("form-DefaultValue() = ", "" + formsteps.get(i).getFormat().getDefaultValue());
                             if (formsteps.get(i).getFormat().getDefaultValue() != null && !formsteps.get(i).getFormat().getDefaultValue().equalsIgnoreCase(""))
                                 defaultval = simpleDateFormat.parse(formsteps.get(i).getFormat().getDefaultValue());
                             else
@@ -538,7 +523,6 @@ public class StepsBuilder {
                             dateFormat = new DateAnswerformatCustom(AnswerFormatCustom.DateAnswerStyle.DateAndTime, defaultval, mindate, maxdate, formsteps.get(i).getFormat().getDateRange());
                         }
                         QuestionStepCustom dateFormatItem = new QuestionStepCustom(formsteps.get(i).getKey(), formsteps.get(i).getTitle(), dateFormat);
-//                    dateFormatItem.setStepTitle(R.string.survey);
                         dateFormatItem.setText(formsteps.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                         dateFormatItem.setAnswerFormat1(dateFormat);
                         dateFormatItem.setOptional(formsteps.get(i).isSkippable());
@@ -566,7 +550,6 @@ public class StepsBuilder {
                         QuestionStepCustom timeIntervalStep = new QuestionStepCustom(formsteps.get(i).getKey(), context.getResources().getString(R.string.survey));
                         TimeIntervalAnswerFormat timeIntervalAnswerFormat = new TimeIntervalAnswerFormat(ChoiceAnswerFormatCustom.CustomAnswerStyle.TimeInterval, formsteps.get(i).getFormat().getStep(), formsteps.get(i).getFormat().getDefaultValue());
                         timeIntervalStep.setAnswerFormat1(timeIntervalAnswerFormat);
-//                    timeIntervalStep.setStepTitle(R.string.survey);
                         timeIntervalStep.setTitle(formsteps.get(i).getTitle());
                         timeIntervalStep.setText(formsteps.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                         timeIntervalStep.setOptional(formsteps.get(i).isSkippable());
@@ -576,7 +559,6 @@ public class StepsBuilder {
                         QuestionStepCustom HeightStep = new QuestionStepCustom(formsteps.get(i).getKey(), context.getResources().getString(R.string.survey));
                         HeightAnswerFormat HeightAnswerFormat = new HeightAnswerFormat(ChoiceAnswerFormatCustom.CustomAnswerStyle.Height, formsteps.get(i).getFormat().getPlaceholder(), formsteps.get(i).getFormat().getMeasurementSystem());
                         HeightStep.setAnswerFormat1(HeightAnswerFormat);
-//                    HeightStep.setStepTitle(R.string.survey);
                         HeightStep.setTitle(formsteps.get(i).getTitle());
                         HeightStep.setText(formsteps.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                         HeightStep.setOptional(formsteps.get(i).isSkippable());
@@ -586,7 +568,6 @@ public class StepsBuilder {
                         QuestionStepCustom locationStep = new QuestionStepCustom(formsteps.get(i).getKey(), context.getResources().getString(R.string.survey));
                         LocationAnswerFormat locationAnswerFormat = new LocationAnswerFormat(ChoiceAnswerFormatCustom.CustomAnswerStyle.Location, formsteps.get(i).getFormat().isUseCurrentLocation());
                         locationStep.setAnswerFormat1(locationAnswerFormat);
-//                    locationStep.setStepTitle(R.string.survey);
                         locationStep.setPlaceholder(context.getResources().getString(R.string.enter_location));
                         locationStep.setTitle(formsteps.get(i).getTitle());
                         locationStep.setText(formsteps.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));

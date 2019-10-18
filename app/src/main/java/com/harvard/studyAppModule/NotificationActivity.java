@@ -97,7 +97,6 @@ public class NotificationActivity extends AppCompatActivity implements ApiCall.O
         AppController.getHelperProgressDialog().showProgress(NotificationActivity.this, "", "", false);
         GetUserStudyListEvent getUserStudyListEvent = new GetUserStudyListEvent();
         HashMap<String, String> header = new HashMap();
-//        header.put("skip", "" + 0);
         String url = URLs.NOTIFICATIONS + "?skip=0";
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, NOTIFICATIONS, this, NotificationData.class, null, header, null, false, this);
 

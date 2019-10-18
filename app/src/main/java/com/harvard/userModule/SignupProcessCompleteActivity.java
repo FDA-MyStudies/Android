@@ -28,8 +28,6 @@ public class SignupProcessCompleteActivity extends AppCompatActivity {
         initializeXMLId();
         setFont();
         bindEvents();
-//        Intent intent = new Intent(SignupProcessCompleteActivity.this, PasscodeSetupActivity.class);
-//        startActivity(intent);
     }
 
     private void initializeXMLId() {
@@ -79,10 +77,6 @@ public class SignupProcessCompleteActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-//        if (mFrom != null && mFrom.equalsIgnoreCase(ForgotPasswordActivity.FROM))
-//        {
-//            finish();
-//        }
 
     }
 }

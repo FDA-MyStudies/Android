@@ -311,7 +311,6 @@ public class ApiCallResponseServer<T, V> extends AsyncTask<T, String, String> {
                 break;
             case "session expired":
                 msg = mResponseModel.getServermsg();
-//                setShowalert(msg);
                 mOnAsyncRequestComplete.asyncResponseFailure(mResultCode, msg, mResponseModel.getResponseCode(), null);
                 break;
             case "success":

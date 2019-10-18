@@ -131,7 +131,6 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
     private void callGetStudyInfoWebservice() {
         AppController.getHelperProgressDialog().showProgress(getActivity(), "", "", false);
         HashMap<String, String> header = new HashMap<>();
-//        header.put("studyId", mStudyId);
         String url = URLs.STUDY_INFO + "?studyId=" + mStudyId;
         GetUserStudyInfoEvent getUserStudyInfoEvent = new GetUserStudyInfoEvent();
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, STUDY_INFO, getActivity(), StudyHome.class, null, header, null, false, this);
@@ -241,9 +240,6 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                         mResourceArrayList = new RealmList<>();
                     }
                     addStaticVal();
-                    //                    mSetResourceAdapter();
-//                    if (mStudyHome != null && mStudies != null)
-//                        new ResponseData(((SurveyActivity) mContext).getStudyId(), mStudyHome.getAnchorDate().getQuestionInfo().getActivityId(), mStudies.getParticipantId()).execute();
 
                     // primary key mStudyId
                     mStudyResource.setmStudyId(mStudyId);
@@ -276,9 +272,6 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                         anchorDateSchedulingDetails.setSourceKey(mResourceArrayList.get(i).getAvailability().getSourceKey());
                         anchorDateSchedulingDetails.setSourceFormKey(mResourceArrayList.get(i).getAvailability().getSourceFormKey());
 
-//                        anchorDateSchedulingDetails.setSourceActivityId("formtest");
-//                        anchorDateSchedulingDetails.setSourceKey("date");
-//                        anchorDateSchedulingDetails.setSourceFormKey("form");
                         anchorDateSchedulingDetails.setSchedulingType(mResourceArrayList.get(i).getAvailability().getAvailabilityType());
                         anchorDateSchedulingDetails.setSourceType(mResourceArrayList.get(i).getAvailability().getSourceType());
                         anchorDateSchedulingDetails.setStudyId(((SurveyActivity) mContext).getStudyId());
@@ -323,10 +316,6 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                         try {
 
                             Calendar currentday = Calendar.getInstance();
-//                            currentday.set(Calendar.HOUR, 0);
-//                            currentday.set(Calendar.MINUTE, 0);
-//                            currentday.set(Calendar.SECOND, 0);
-//                            currentday.set(Calendar.AM_PM, Calendar.AM);
 
 
                             Calendar expiryDate = Calendar.getInstance();
@@ -343,7 +332,6 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                             availableDate.set(Calendar.SECOND, 0);
                             availableDate.set(Calendar.AM_PM, Calendar.AM);
 
-                            Log.e("date", "" + currentday.getTime() + "  " + expiryDate.getTime() + "  " + availableDate.getTime());
                             if ((currentday.getTime().before(expiryDate.getTime()) || currentday.getTime().equals(expiryDate.getTime())) && (currentday.getTime().after(availableDate.getTime()) || currentday.getTime().equals(availableDate.getTime()))) {
                                 resources.add(mResourceArrayList.get(i));
                             }
@@ -358,14 +346,11 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                     if (mResourceArrayList.get(i).getAvailability().getAvailabilityType().equalsIgnoreCase("AnchorDate")) {
                         if (mResourceArrayList.get(i).getAvailability().getSourceType().equalsIgnoreCase("ActivityResponse")) {
                             if (mResourceArrayList.get(i).getAvailability().getAvailableDate().equalsIgnoreCase("")) {
-                                Log.e("activityId", "" + ((SurveyActivity) mContext).getStudyId() + "_STUDYID_" + mStudyHome.getAnchorDate().getQuestionInfo().getActivityId() + "  " + mStudyHome.getAnchorDate().getQuestionInfo().getKey());
                                 StepRecordCustom stepRecordCustom = dbServiceSubscriber.getSurveyResponseFromDB(((SurveyActivity) mContext).getStudyId() + "_STUDYID_" + mStudyHome.getAnchorDate().getQuestionInfo().getActivityId(), mStudyHome.getAnchorDate().getQuestionInfo().getKey(), mRealm);
                                 if (stepRecordCustom != null) {
                                     Calendar startCalender = Calendar.getInstance();
-//                        startCalender.setTime(stepRecordCustom.getCompleted());
 
                                     Calendar endCalender = Calendar.getInstance();
-//                        endCalender.setTime(stepRecordCustom.getCompleted());
 
 
                                     JSONObject jsonObject = null;
@@ -412,11 +397,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                                         }
 
                                         Calendar currentday = Calendar.getInstance();
-//                                    currentday.set(Calendar.HOUR_OF_DAY, 0);
-//                                    currentday.set(Calendar.MINUTE, 0);
-//                                    currentday.set(Calendar.SECOND, 0);
 
-                                        Log.e("date for anchor based", "" + currentday.getTime() + "  " + endCalender.getTime() + "  " + startCalender.getTime());
                                         if ((currentday.getTime().after(startCalender.getTime()) || currentday.getTime().equals(startCalender.getTime())) && (currentday.getTime().before(endCalender.getTime()) || currentday.getTime().equals(endCalender.getTime()))) {
                                             resources.add(mResourceArrayList.get(i));
                                         }
@@ -429,9 +410,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                         } else {
                             // if anchordate is enrollment date
                             Calendar startCalender = Calendar.getInstance();
-//                        startCalender.setTime(stepRecordCustom.getCompleted());
                             Calendar endCalender = Calendar.getInstance();
-//                        endCalender.setTime(stepRecordCustom.getCompleted());
                             try {
                                 for (int j = 0; j < mArrayList.size(); j++) {
                                     if (mResourceArrayList.get(i).getResourcesId().equalsIgnoreCase(mArrayList.get(j).getTargetActivityId())) {
@@ -480,11 +459,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                                 }
 
                                 Calendar currentday = Calendar.getInstance();
-//                            currentday.set(Calendar.HOUR_OF_DAY, 0);
-//                            currentday.set(Calendar.MINUTE, 0);
-//                            currentday.set(Calendar.SECOND, 0);
 
-                                Log.e("date for enrollment based", "" + currentday.getTime() + "  " + endCalender.getTime() + "  " + startCalender.getTime());
 
                                 if ((currentday.getTime().after(startCalender.getTime()) || currentday.getTime().equals(startCalender.getTime())) && (currentday.getTime().before(endCalender.getTime()) || currentday.getTime().equals(endCalender.getTime()))) {
                                     resources.add(mResourceArrayList.get(i));
@@ -509,183 +484,6 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
         mStudyRecyclerView.setAdapter(resourcesListAdapter);
     }
 
-//    private class ResponseData extends AsyncTask<String, Void, String> {
-//
-//        String activityId, participateId;
-//        String response = null;
-//        String responseCode = null;
-//        String studyId;
-//        Responsemodel mResponseModel;
-//
-//        ResponseData(String studyId, String activityId, String participateId) {
-//            this.studyId = studyId;
-//            this.activityId = activityId;
-//            this.participateId = participateId;
-//        }
-//
-//        @Override
-//        protected String doInBackground(String... params) {
-//            ConnectionDetector connectionDetector = new ConnectionDetector(mContext);
-//
-//            if (connectionDetector.isConnectingToInternet()) {
-//                mResponseModel = HttpRequest.getRequest(URLs.PROCESSRESPONSEDATA + "sql=SELECT%20*%20FROM%20%22" + activityId + "%22&participantId=" + participateId, new HashMap<String, String>(), "Response");
-//                responseCode = mResponseModel.getResponseCode();
-//                response = mResponseModel.getResponseData();
-//                if (responseCode.equalsIgnoreCase("0") && response.equalsIgnoreCase("timeout")) {
-//                    response = "timeout";
-//                } else if (responseCode.equalsIgnoreCase("0") && response.equalsIgnoreCase("")) {
-//                    response = "error";
-//                } else if (Integer.parseInt(responseCode) >= 201 && Integer.parseInt(responseCode) < 300 && response.equalsIgnoreCase("")) {
-//                    response = "No data";
-//                } else if (Integer.parseInt(responseCode) >= 400 && Integer.parseInt(responseCode) < 500 && response.equalsIgnoreCase("http_not_ok")) {
-//                    response = "client error";
-//                } else if (Integer.parseInt(responseCode) >= 500 && Integer.parseInt(responseCode) < 600 && response.equalsIgnoreCase("http_not_ok")) {
-//                    response = "server error";
-//                } else if (response.equalsIgnoreCase("http_not_ok")) {
-//                    response = "Unknown error";
-//                } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_UNAUTHORIZED) {
-//                    response = "session expired";
-//                } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK && !response.equalsIgnoreCase("")) {
-//                    response = response;
-//                } else {
-//                    response = getString(R.string.unknown_error);
-//                }
-//            }
-//            return response;
-//        }
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String response) {
-//            super.onPostExecute(response);
-//            if (response != null) {
-//                Log.e("response value", "  " + activityId + "  " + participateId);
-//                if (response.equalsIgnoreCase("session expired")) {
-//                    AppController.getHelperProgressDialog().dismissDialog();
-//                    AppController.getHelperSessionExpired(mContext, "session expired");
-//                } else if (response.equalsIgnoreCase("timeout")) {
-//                    mSetResourceAdapter();
-//                    AppController.getHelperProgressDialog().dismissDialog();
-//                    Toast.makeText(mContext, mContext.getResources().getString(R.string.connection_timeout), Toast.LENGTH_SHORT).show();
-//                } else if (Integer.parseInt(responseCode) == 500) {
-//                    try {
-//                        JSONObject jsonObject = new JSONObject(String.valueOf(mResponseModel.getResponseData()));
-//                        String exception = String.valueOf(jsonObject.get("exception"));
-//                        if (exception.contains("Query or table not found")) {
-//                            mSetResourceAdapter();
-//                            AppController.getHelperProgressDialog().dismissDialog();
-//                        } else {
-//                            mSetResourceAdapter();
-//                            AppController.getHelperProgressDialog().dismissDialog();
-//                        }
-//                    } catch (JSONException e) {
-//                        mSetResourceAdapter();
-//                        AppController.getHelperProgressDialog().dismissDialog();
-//                        e.printStackTrace();
-//                    }
-//                } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK) {
-//                    try {
-//                        SimpleDateFormat simpleDateFormat = getLabkeyDateFormat();
-//                        JSONObject jsonObject = new JSONObject(response);
-//                        JSONArray jsonArray = (JSONArray) jsonObject.get("rows");
-//                        Gson gson = new Gson();
-//                        for (int i = 0; i < jsonArray.length(); i++) {
-//                            JSONObject jsonObject1 = (JSONObject) new JSONObject(String.valueOf(jsonArray.get(i))).get("data");
-//                            Type type = new TypeToken<Map<String, Object>>() {
-//                            }.getType();
-//                            Map<String, Object> myMap = gson.fromJson(String.valueOf(jsonObject1), type);
-//                            StepRecordCustom stepRecordCustom = new StepRecordCustom();
-//                            Date completedDate = new Date();
-//                            int duration = 0;
-//                            try {
-//                                Object completedDateValMap = gson.toJson(myMap.get("Created"));
-//                                Map<String, Object> completedDateVal = gson.fromJson(String.valueOf(completedDateValMap), type);
-//                                completedDate = simpleDateFormat.parse(String.valueOf(completedDateVal.get("value")));
-//                            } catch (JsonSyntaxException | ParseException e) {
-//                                e.printStackTrace();
-//                            }
-//                            try {
-//                                Object durationValMap = gson.toJson(myMap.get("duration"));
-//                                Map<String, Object> completedDateVal = gson.fromJson(String.valueOf(durationValMap), type);
-//                                duration = Integer.parseInt(String.valueOf(completedDateVal.get("value")));
-//                            } catch (JsonSyntaxException e) {
-//                                e.printStackTrace();
-//                            }
-//                            for (Map.Entry<String, Object> entry : myMap.entrySet()) {
-//                                String key = entry.getKey();
-//                                String valueobj = gson.toJson(entry.getValue());
-//                                Map<String, Object> vauleMap = gson.fromJson(String.valueOf(valueobj), type);
-//                                Object value = vauleMap.get("value");
-//                                if (!key.equalsIgnoreCase("container")
-//                                        && !key.equalsIgnoreCase("ParticipantId")
-//                                        && !key.equalsIgnoreCase("EntityId")
-//                                        && !key.equalsIgnoreCase("Modified")
-//                                        && !key.equalsIgnoreCase("lastIndexed")
-//                                        && !key.equalsIgnoreCase("ModifiedBy")
-//                                        && !key.equalsIgnoreCase("CreatedBy")
-//                                        && !key.equalsIgnoreCase("Key")
-//                                        && !key.equalsIgnoreCase("Created")) {
-//                                    Log.e("key   value", "" + key + "  " + value);
-//                                    int runId = dbServiceSubscriber.getActivityRunForStatsAndCharts(activityId, studyId, completedDate, mRealm);
-//                                    stepRecordCustom.setStepId(key);
-//                                    stepRecordCustom.setStudyId(studyId);
-//                                    stepRecordCustom.setActivityID(studyId + "_STUDYID_" + activityId);
-//                                    stepRecordCustom.setTaskId(studyId + "_STUDYID_" + activityId + "_" + runId);
-//                                    stepRecordCustom.setTaskStepID(studyId + "_STUDYID_" + activityId + "_" + runId + "_" + key);
-//                                    stepRecordCustom.setCompleted(completedDate);
-//                                    stepRecordCustom.setStarted(completedDate);
-//                                    JSONObject jsonObject2 = new JSONObject();
-//                                    try {
-//                                        Date anchordate = AppController.getLabkeyDateFormat().parse("" + value);
-//                                        value = AppController.getDateFormat().format(anchordate);
-//                                    } catch (ParseException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                    ActivitiesWS activityObj = dbServiceSubscriber.getActivityObj(activityId, studyId, mRealm);
-//                                    if (activityObj.getType().equalsIgnoreCase("task")) {
-//                                        JSONObject jsonObject3 = new JSONObject();
-//                                        jsonObject3.put("value", value);
-//                                        jsonObject3.put("duration", duration);
-//
-//                                        jsonObject2.put("answer", jsonObject3);
-//                                    } else {
-//                                        jsonObject2.put("answer", value);
-//                                    }
-//                                    stepRecordCustom.setResult(String.valueOf(jsonObject2));
-//                                    Number currentIdNum = dbServiceSubscriber.getStepRecordCustomId(mRealm);
-//                                    if (currentIdNum == null) {
-//                                        stepRecordCustom.setId(1);
-//                                    } else {
-//                                        stepRecordCustom.setId(currentIdNum.intValue() + 1);
-//                                    }
-//                                    dbServiceSubscriber.updateStepRecord(stepRecordCustom);
-//                                }
-//                            }
-//                        }
-//                        AppController.getHelperProgressDialog().dismissDialog();
-//                        mSetResourceAdapter();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                        mSetResourceAdapter();
-//                        AppController.getHelperProgressDialog().dismissDialog();
-//                    }
-//                } else {
-//                    mSetResourceAdapter();
-//                    AppController.getHelperProgressDialog().dismissDialog();
-//                    Toast.makeText(mContext, mContext.getResources().getString(R.string.unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
-//                }
-//            } else {
-//                mSetResourceAdapter();
-//                AppController.getHelperProgressDialog().dismissDialog();
-//                Toast.makeText(mContext, getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
 
 
     private class ResponseData extends AsyncTask<String, Void, String> {
@@ -704,7 +502,6 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
         }
 
         @Override
@@ -714,7 +511,6 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
 
             if (connectionDetector.isConnectingToInternet()) {
                 mResponseModel = HttpRequest.getRequest(URLs.PROCESSRESPONSEDATA + "sql=SELECT%20%22" + anchorDateSchedulingDetails.getSourceKey() + "%22%20FROM%20%22" + anchorDateSchedulingDetails.getSourceActivityId() + anchorDateSchedulingDetails.getSourceFormKey() + "%22&participantId=" + anchorDateSchedulingDetails.getParticipantId(), new HashMap<String, String>(), "Response");
-                Log.e("PROCESSRESPONSEDATA", "" + URLs.PROCESSRESPONSEDATA + "sql=SELECT%20%22" + anchorDateSchedulingDetails.getSourceKey() + "%22%20FROM%20%22" + anchorDateSchedulingDetails.getSourceActivityId() + anchorDateSchedulingDetails.getSourceFormKey() + "%22&participantId=" + anchorDateSchedulingDetails.getParticipantId());
                 responseCode = mResponseModel.getResponseCode();
                 response = mResponseModel.getResponseData();
                 if (responseCode.equalsIgnoreCase("0") && response.equalsIgnoreCase("timeout")) {
@@ -781,7 +577,6 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                             String valueobj = gson.toJson(entry.getValue());
                             Map<String, Object> vauleMap = gson.fromJson(String.valueOf(valueobj), type);
                             value = vauleMap.get("value");
-                            Log.e("key   value", "" + key + "  " + value);
                             try {
                                 Date anchordate = AppController.getLabkeyDateFormat().parse("" + value);
                                 value = AppController.getDateFormat().format(anchordate);
@@ -802,7 +597,6 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
 
                         mArrayList.get(this.position).setAnchorDate("" + value);
 
-                        Log.e("position", "" + this.position + "  " + mArrayList.size());
 
                         callLabkeyService(this.position);
                     } catch (Exception e) {
@@ -838,7 +632,6 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
         ArrayList<Resource> mTempResourceArrayList = new ArrayList<>();
         mTempResourceArrayList.addAll(mResourceArrayList);
         mResourceArrayList.clear();
-        /*if (((SurveyActivity) mContext).getRejoin().equalsIgnoreCase("true")) {*/
         labelArray.add(getResources().getString(R.string.about_study));
         labelArray.add(getResources().getString(R.string.consent_pdf));
         labelArray.add(getResources().getString(R.string.leave_study));
@@ -850,23 +643,6 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
         }
         mResourceArrayList.addAll(mTempResourceArrayList);
 
-        //last
-//        labelArray.add(getResources().getString(R.string.leave_study));
-//        Resource r = new Resource();
-//        r.setTitle(getResources().getString(R.string.leave_study));
-//        mResourceArrayList.add(r);
-
-        /*} else {
-            labelArray.add(getResources().getString(R.string.about_study));
-            labelArray.add(getResources().getString(R.string.consent_pdf));
-
-            for (int i = 0; i < labelArray.size(); i++) {
-                Resource r = new Resource();
-                r.setTitle(labelArray.get(i));
-                mResourceArrayList.add(r);
-            }
-            mResourceArrayList.addAll(mTempResourceArrayList);
-        }*/
         mTempResourceArrayList.clear();
     }
 
@@ -880,7 +656,6 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
             // offline functionality
             if (responseCode == RESOURCE_REQUEST_CODE) {
                 try {
-//                    if (db.getStudyResource(mStudyId).getResources() == null) {
                     if (dbServiceSubscriber.getStudyResource(mStudyId, mRealm) == null) {
                         Toast.makeText(getActivity(), errormsg, Toast.LENGTH_LONG).show();
                     } else if (dbServiceSubscriber.getStudyResource(mStudyId, mRealm).getResources() == null) {
@@ -890,8 +665,6 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                         if (mResourceArrayList == null || mResourceArrayList.size() == 0) {
                             Toast.makeText(getActivity(), errormsg, Toast.LENGTH_LONG).show();
                         } else {
-                            /*mResourceArrayList = new RealmList<>();
-                            addStaticVal();*/
                             calculatedResources(mResourceArrayList);
                         }
                     }
@@ -985,7 +758,6 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
     private void callLabkeyService(int position) {
         if (mArrayList.size() > position) {
             AnchorDateSchedulingDetails anchorDateSchedulingDetails = mArrayList.get(position);
-            Log.e("ResponseData", "" + position + "   " + anchorDateSchedulingDetails.getSourceActivityId() + "  " + anchorDateSchedulingDetails.getSourceKey() + "  " + anchorDateSchedulingDetails.getActivityState());
             if (anchorDateSchedulingDetails.getSourceType().equalsIgnoreCase("ActivityResponse") && anchorDateSchedulingDetails.getActivityState().equalsIgnoreCase("completed")) {
                 Realm realm = AppController.getRealmobj(mContext);
                 StepRecordCustom stepRecordCustom = dbServiceSubscriber.getSurveyResponseFromDB(anchorDateSchedulingDetails.getStudyId() + "_STUDYID_" + anchorDateSchedulingDetails.getSourceActivityId(), anchorDateSchedulingDetails.getSourceKey(), realm);
@@ -1001,7 +773,6 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
 
                     callLabkeyService(position + 1);
                 } else {
-                    Log.e("not found for ", "" + anchorDateSchedulingDetails.getSourceActivityId());
                     new ResponseData(position, anchorDateSchedulingDetails).execute();
                 }
                 dbServiceSubscriber.closeRealmObj(realm);

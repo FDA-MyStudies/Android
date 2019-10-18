@@ -113,8 +113,6 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
         HashMap<String, String> header = new HashMap<>();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(mContext, mContext.getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(mContext, mContext.getString(R.string.userid), ""));
-//        HashMap<String, String> params = new HashMap<>();
-//        params.put("userId", AppController.getHelperSharedPreference().readPreference(mContext, mContext.getString(R.string.userid), ""));
         GetUserProfileEvent getUserProfileEvent = new GetUserProfileEvent();
         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("get", URLs.GET_USER_PROFILE, USER_PROFILE_REQUEST, mContext, UserProfileData.class, null, header, null, false, this);
         getUserProfileEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
@@ -205,9 +203,6 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
         mPasscode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(((Activity) mContext), NewPasscodeSetupActivity.class);
-//                intent.putExtra("from", "profile_change");
-//                startActivityForResult(intent, CHANGE_PASSCODE_REPSONSE);
 
                 Intent intent = new Intent(mContext, PasscodeSetupActivity.class);
                 intent.putExtra("from", "profile");
@@ -255,17 +250,7 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
                 if (mSignOutButton.getText().toString().equalsIgnoreCase(getResources().getString(R.string.sign_out)))
                     logout();
                 else if (mSignOutButton.getText().toString().equalsIgnoreCase(getResources().getString(R.string.update))) {
-//                    if (mFirstName.getText().toString().equalsIgnoreCase("") && mLastName.getText().toString().equalsIgnoreCase("")) {
-//                        Toast.makeText(mContext, "Please Enter First Name and Last Name", Toast.LENGTH_SHORT).show();
-//                    } else if (mFirstName.getText().toString().equalsIgnoreCase("")) {
-//                        Toast.makeText(mContext, "Please Enter First Name", Toast.LENGTH_SHORT).show();
-//
-//                    } else if (mLastName.getText().toString().equalsIgnoreCase("")) {
-//                        Toast.makeText(mContext, "Please Enter Last Name", Toast.LENGTH_SHORT).show();
-//
-//                    } else {
                     callUpdateUserProfileWebService(false, "mSwitchRecvPushNotifctn");
-//                    }
                 }
             }
         });
@@ -273,47 +258,12 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
         mDeleteMyAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle)
-                        .setMessage(getResources().getString(R.string.delete_message))
-                        .setPositiveButton(getResources().getString(R.string.delete_account), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                deleteaccount();
-                            }
-                        })
-                        .setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();*/
                 Intent intent = new Intent(mContext, DeleteAccountActivity.class);
                 startActivityForResult(intent, DELETE_ACCOUNT);
             }
         });
     }
 
-    /*private void deleteaccount() {
-        AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
-        DeleteAccountEvent deleteAccountEvent = new DeleteAccountEvent();
-        HashMap<String, String> header = new HashMap<String, String>();
-        header.put("userId", AppController.getHelperSharedPreference().readPreference(mContext, getString(R.string.userid), ""));
-        header.put("auth", AppController.getHelperSharedPreference().readPreference(mContext, getString(R.string.auth), ""));
-        Gson gson = new Gson();
-        DeleteAccountData deleteAccountData = new DeleteAccountData();
-        String json = gson.toJson(deleteAccountData);
-        try {
-            JSONObject obj = new JSONObject(json);
-            RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("delete_object", URLs.DELETE_ACCOUNT, DELETE_ACCOUNT_REPSONSECODE, mContext, LoginData.class, null, header, obj, false, this);
-            deleteAccountEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
-            UserModulePresenter userModulePresenter = new UserModulePresenter();
-            userModulePresenter.performDeleteAccount(deleteAccountEvent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-    }*/
 
     private void logout() {
         AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
@@ -412,17 +362,9 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
 
         } else if (UPDATE_USER_PROFILE_REQUEST == responseCode) {
             Toast.makeText(mContext, getResources().getString(R.string.profile_updated), Toast.LENGTH_SHORT).show();
-//                mUpdateProfileRequestData.getSettings().isRemoteNotifications();
-//            }
-//            Toast.makeText(mContext, mUserProfileData.getMessage(), Toast.LENGTH_SHORT).show();
-//            mUserProfileData.getProfile().setFirstName(mUpdateProfileRequestData.getProfileUpdate().getFirstName());
-//            mUserProfileData.getProfile().setLastName(mUpdateProfileRequestData.getProfileUpdate().getLastName());
             try {
 //
                 Realm realm = AppController.getRealmobj(mContext);
-//                realm.executeTransaction(new Realm.Transaction() {
-//                    @Override
-//                    public void execute(Realm realm) {
                 realm.beginTransaction();
                 mUserProfileData.getSettings().setLocalNotifications(mUpdateProfileRequestData.getSettings().isLocalNotifications());
                 mUserProfileData.getSettings().setPasscode(mUpdateProfileRequestData.getSettings().isPasscode());
@@ -430,10 +372,7 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
                 mUserProfileData.getSettings().setRemoteNotifications(mUpdateProfileRequestData.getSettings().isRemoteNotifications());
                 mUserProfileData.getSettings().setTouchId(mUpdateProfileRequestData.getSettings().isTouchId());
                 realm.commitTransaction();
-//                    }
-//                });
                 dbServiceSubscriber.closeRealmObj(realm);
-                //            disableEditText();
                 // save mUserProfileData to db
                 dbServiceSubscriber.saveUserProfileData(mContext,mUserProfileData);
                 ///delete offline row sync
@@ -476,7 +415,6 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
                 } else {
                     ((SurveyActivity) mContext).signout();
                 }
-//                ((StudyActivity) mContext).loadstudylist();
             } else {
                 Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
             }
@@ -499,46 +437,6 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
             e.printStackTrace();
         }
 
-//        if (mUserProfileData.getSettings().isPasscode()) {
-//            mSwitchUsePasscode.setChecked(true);
-//        } else {
-//            mSwitchUsePasscode.setChecked(false);
-//        }
-//
-//        if (mUserProfileData.getSettings().isTouchId()) {
-//            mSwitchTouch.setChecked(true);
-//        } else {
-//            mSwitchTouch.setChecked(false);
-//        }
-//
-//        if (mUserProfileData.getSettings().isRemoteNotifications()) {
-//            mSwitchRecvPushNotifctn.setChecked(true);
-//        } else {
-//            mSwitchRecvPushNotifctn.setChecked(false);
-//        }
-//
-//        if (mUserProfileData.getSettings().isLocalNotifications()) {
-//            mSwitchRecvStdyRemindr.setChecked(true);
-//        } else {
-//            mSwitchRecvStdyRemindr.setChecked(false);
-//        }
-//
-//        if (mUserProfileData.getSettings().getRemindersTime() != null && !mUserProfileData.getSettings().getRemindersTime().equalsIgnoreCase("")) {
-//            int time = Integer.parseInt(mUserProfileData.getSettings().getRemindersTime());
-//            int hours = time / 60; //since both are ints, you get an int
-//            int minutes = time % 60;
-//            if (("" + hours).length() > 1 && ("" + minutes).length() > 1) {
-//                mPickerReminderLabel.setText("" + hours + ":" + minutes);
-//            } else if (("" + hours).length() > 1) {
-//                mPickerReminderLabel.setText("" + hours + ":0" + minutes);
-//            } else if (("" + minutes).length() > 1) {
-//                mPickerReminderLabel.setText("0" + hours + ":" + minutes);
-//            } else {
-//                mPickerReminderLabel.setText("0" + hours + ":0" + minutes);
-//            }
-//        } else {
-//            mPickerReminderLabel.setText("00:00");
-//        }
     }
 
     @Override
@@ -547,7 +445,6 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
         if (statusCode.equalsIgnoreCase("401")) {
             Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(mContext, errormsg);
-//            ((StudyActivity) mContext).loadstudylist();
         } else if (responseCode == USER_PROFILE_REQUEST) {
             mUserProfileData = dbServiceSubscriber.getUserProfileData(mRealm);
             if (mUserProfileData != null) {
@@ -561,16 +458,11 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
                 if (mUserProfileData != null) {
                     Realm realm = AppController.getRealmobj(mContext);
                     realm.beginTransaction();
-//                realm.executeTransaction(new Realm.Transaction() {
-//                    @Override
-//                    public void execute(Realm realm) {
                     mUserProfileData.getSettings().setLocalNotifications(mUpdateProfileRequestData.getSettings().isLocalNotifications());
                     mUserProfileData.getSettings().setPasscode(mUpdateProfileRequestData.getSettings().isPasscode());
                     mUserProfileData.getSettings().setRemindersTime(mUpdateProfileRequestData.getSettings().getRemindersTime());
                     mUserProfileData.getSettings().setRemoteNotifications(mUpdateProfileRequestData.getSettings().isRemoteNotifications());
                     mUserProfileData.getSettings().setTouchId(mUpdateProfileRequestData.getSettings().isTouchId());
-//                    }
-//                });
                     realm.commitTransaction();
                     dbServiceSubscriber.closeRealmObj(realm);
                     // save mUserProfileData to db
@@ -602,9 +494,6 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
 
         Gson gson = new Gson();
         mUpdateProfileRequestData = new UpdateProfileRequestData();
-//        ProfileUpdate profileUpdate = new ProfileUpdate();
-//        profileUpdate.setFirstName(mFirstName.getText().toString());
-//        profileUpdate.setLastName(mLastName.getText().toString());
         Settings settings = new Settings();
         settings.setLocalNotifications(mSwitchRecvStdyRemindr.isChecked());
         settings.setPasscode(mSwitchUsePasscode.isChecked());
@@ -614,7 +503,6 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
         int time = (Integer.parseInt(mPickerReminderLabel.getText().toString().split(":")[0]) * 60) + (Integer.parseInt(mPickerReminderLabel.getText().toString().split(":")[1]));
         settings.setRemindersTime("" + time);
 
-//        mUpdateProfileRequestData.setProfileUpdate(profileUpdate);
         mUpdateProfileRequestData.setSettings(settings);
         String json = gson.toJson(mUpdateProfileRequestData);
         try {
@@ -668,7 +556,6 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
         } else if (requestCode == PASSCODE_REPSONSE) {
             if (resultCode == ((Activity) mContext).RESULT_OK) {
                 callUpdateUserProfileWebService(false, "mSwitchRecvPushNotifctn");
-//                AppController.getHelperSharedPreference().writePreference(mContext, getString(R.string.passcode), "");
                 // delete passcode from keystore
                 String pass = AppController.refreshKeys("passcode");
                 if (pass != null)
@@ -690,7 +577,6 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
                 mSwitchUsePasscode.setOnCheckedChangeListener(null);
                 mSwitchUsePasscode.setChecked(false);
                 mSwitchUsePasscode.setOnCheckedChangeListener(this);
-//                AppController.getHelperSharedPreference().writePreference(mContext, getString(R.string.passcode), "");
                 // delete passcode from keystore
                 String pass = AppController.refreshKeys("passcode");
                 if (pass != null)

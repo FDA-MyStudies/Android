@@ -152,7 +152,6 @@ public class ScaleTextQuestion implements StepBody {
         if (currentSelected != null) {
             int Selected = valuelist.indexOf("" + currentSelected);
 
-//            int Selected = ((currentSelected - min));
             mSeekBar.setProgress(Selected);
         } else {
             int defaultval;

@@ -117,12 +117,6 @@ public class IntegerUnitQuestionBody implements StepBody {
             editText.setText(String.valueOf(result.getResult()));
         }
 
-//        String minStr = Integer.toString(minValue);
-//        String maxStr = Integer.toString(maxValue);
-//        int maxLength = maxStr.length() >= minStr.length() ? maxStr.length() : minStr.length();
-//        InputFilter.LengthFilter maxLengthFilter = new InputFilter.LengthFilter(maxLength);
-//        InputFilter[] newFilters = ViewUtils.addFilter(editText.getFilters(), maxLengthFilter);
-//        editText.setFilters(newFilters);
 
         editText.setFilters(new InputFilter[]{new InputFilterMinMaxInteger(Integer.MIN_VALUE, Integer.MAX_VALUE)});
     }

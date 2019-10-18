@@ -90,7 +90,6 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
         customTextView(mAgreeLabel);
         setFont();
         bindEvents();
-//        callGetTermsAndConditionWebservice();
         mTermsAndConditionData=new TermsAndConditionData();
         mTermsAndConditionData.setPrivacy(getString(R.string.privacyurl));
         mTermsAndConditionData.setTerms(getString(R.string.termsurl));
@@ -245,7 +244,6 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
     }
 
     private void callRegisterUserWebService() {
-//        String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!\"#$%&'()*+,-./:;<=>?@\\[\\]^_`{|}~])(?=\\S+$).{8,16}$";
         String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!\"#$%&'()*+,-.:;<=>?@\\[\\]^_`{|}~])(?=\\S+$).{8,64}$";
         if (mPassword.getText().toString().equalsIgnoreCase("") && mEmail.getText().toString().equalsIgnoreCase("") && mConfirmPassword.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(this, getResources().getString(R.string.enter_all_field_empty), Toast.LENGTH_SHORT).show();
@@ -256,7 +254,6 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
         } else if (mPassword.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(this, getResources().getString(R.string.password_empty), Toast.LENGTH_SHORT).show();
         } else if (!mPassword.getText().toString().matches(PASSWORD_PATTERN)) {
-//            Toast.makeText(this, getResources().getString(R.string.password_validation), Toast.LENGTH_SHORT).show();
             SetDialogHelper.setNeutralDialog(SignupActivity.this, getResources().getString(R.string.password_validation), false, getResources().getString(R.string.ok), getResources().getString(R.string.app_name));
         } else if (checkPasswordContainsEmailID(mEmail.getText().toString(), mPassword.getText().toString())) {
             Toast.makeText(this, getResources().getString(R.string.password_contain_email), Toast.LENGTH_SHORT).show();
@@ -270,17 +267,9 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
             AppController.getHelperProgressDialog().showProgress(SignupActivity.this, "", "", false);
             RegisterUserEvent registerUserEvent = new RegisterUserEvent();
             HashMap<String, String> params = new HashMap<>();
-//            params.put("firstName", mFirstName.getText().toString());
-//            params.put("lastName", mLastName.getText().toString());
             params.put("emailId", mEmail.getText().toString());
             params.put("password", mPassword.getText().toString());
             params.put("appId", BuildConfig.APPLICATION_ID);
-//            params.put("localNotification", "true");
-//            if (mSwitch.isEnabled()) {
-//                params.put("touchId", "true");
-//            } else {
-//                params.put("touchId", "false");
-//            }
             RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.REGISTER_USER, REGISTRATION_REQUEST, this, RegistrationData.class, params, null, null, false, this);
             registerUserEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
             UserModulePresenter userModulePresenter = new UserModulePresenter();
@@ -406,20 +395,9 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
 
     @Override
     protected void onDestroy() {
-//        AppController.unRegisterSubscriber();
         super.onDestroy();
     }
 
-    private void callGetTermsAndConditionWebservice() {
-        AppController.getHelperProgressDialog().showProgress(SignupActivity.this, "", "", false);
-        GetTermsAndConditionEvent termsAndConditionEvent = new GetTermsAndConditionEvent();
-        HashMap<String, String> header = new HashMap();
-        WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", URLs.GET_TERMS_AND_CONDITION, GET_TERMS_AND_CONDITION, SignupActivity.this, TermsAndConditionData.class, null, header, null, false, SignupActivity.this);
-
-        termsAndConditionEvent.setWcpConfigEvent(wcpConfigEvent);
-        StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
-        studyModulePresenter.performGetTermsAndCondition(termsAndConditionEvent);
-    }
 
     private void callUpdateProfileWebService(String deviceToken) {
         AppController.getHelperProgressDialog().showProgress(SignupActivity.this, "", "", false);
@@ -437,7 +415,6 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
 
             jsonObjBody.put("info", infoJson);
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -462,12 +439,6 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
         @Override
         protected String doInBackground(String... params) {
             String token = "";
-//            if (!AppController.getHelperSharedPreference().readPreference(SignupActivity.this, "deviceToken", "").equalsIgnoreCase("")) {
-//                token = AppController.getHelperSharedPreference().readPreference(SignupActivity.this, "deviceToken", "");
-//            } else {
-//                token = FirebaseInstanceId.getInstance().getToken();
-//                AppController.getHelperSharedPreference().writePreference(SignupActivity.this, "deviceToken", "" + token);
-//            }
             if (FirebaseInstanceId.getInstance().getToken() == null || FirebaseInstanceId.getInstance().getToken().equalsIgnoreCase("")) {
                 boolean regIdStatus = false;
                 while (!regIdStatus) {

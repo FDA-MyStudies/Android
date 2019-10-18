@@ -131,7 +131,6 @@ public class DateAnswerformatCustom extends AnswerFormatCustom {
                 resultsCalendar.setTime(resultDate);
             }
 
-            Log.e("result date", "" + resultsCalendar.getTime() + "   " + currentCalendar.getTime());
             if (resultsCalendar.getTime().equals(currentCalendar.getTime()) || resultsCalendar.getTime().before(currentCalendar.getTime())) {
                 return BodyAnswer.VALID;
             } else {
@@ -158,7 +157,6 @@ public class DateAnswerformatCustom extends AnswerFormatCustom {
                 resultsCalendar.setTime(resultDate);
             }
 
-            Log.e("result date", "" + resultsCalendar.getTime() + "   " + currentCalendar.getTime());
             if (resultsCalendar.getTime().after(currentCalendar.getTime())) {
                 return BodyAnswer.VALID;
             } else {

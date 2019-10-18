@@ -49,7 +49,6 @@ public class GatewayResourcesWebViewActivity extends AppCompatActivity {
     private RelativeLayout mShareBtn;
     private AppCompatImageView mShareIcon;
     private PDFView mPdfView;
-    //    private String mDownloadedFilePath = "/storage/emulated/0/SamplePDF/";
     private String mDownloadedFilePath;
     private String mFileName;
     private String downloadingFileURL = "";
@@ -73,49 +72,8 @@ public class GatewayResourcesWebViewActivity extends AppCompatActivity {
         mIntentContent = getIntent().getStringExtra("content");
 
         defaultPDFShow();
-        /////// downloading and show pdf
-        /*String title;
-        // removing space b/w the string : name of the pdf
-        try {
-            title = mIntentTitle.replaceAll("\\s+", "");
-        } catch (Exception e) {
-            title = mIntentTitle;
-            e.printStackTrace();
-        }
-        mFileName = title;
-
-        if (mIntentType.equalsIgnoreCase("pdf")) {
-            mWebView.setVisibility(View.GONE);
-            mTitle.setText(mIntentTitle);
-            // checking the permissions
-            if ((ActivityCompat.checkSelfPermission(GatewayResourcesWebViewActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) || (ActivityCompat.checkSelfPermission(GatewayResourcesWebViewActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
-                String[] permission = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-                if (!hasPermissions(permission)) {
-                    ActivityCompat.requestPermissions((Activity) GatewayResourcesWebViewActivity.this, permission, PERMISSION_REQUEST_CODE);
-                } else {
-                    if (connectionDetector.isConnectingToInternet()) {
-                        // starting new Async Task for downlaoding pdf file
-                        new DownloadFileFromURL(downloadingFileURL, mDownloadedFilePath, mFileName).execute();
-                    } else {
-                        // offline functionality
-                        offLineFunctionality();
-                    }
-                }
-            } else {
-                if (connectionDetector.isConnectingToInternet()) {
-                    // starting new Async Task for downlaoding pdf file
-                    new DownloadFileFromURL(downloadingFileURL, mDownloadedFilePath, mFileName).execute();
-                } else {
-                    // offline functionality
-                    offLineFunctionality();
-                }
-            }
-        } else {
-            setTextForView();
-        }*/
 
         setFont();
-//        setColor();
 
         mBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,20 +91,6 @@ public class GatewayResourcesWebViewActivity extends AppCompatActivity {
                     shareIntent.setType("application/pdf");
                     shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     shareIntent.putExtra(Intent.EXTRA_SUBJECT, mIntentTitle);
-                    // old way working
-                    /*// if pdf then attach and send else content send
-                    if (mIntentType.equalsIgnoreCase("pdf")) {
-                        File file = new File(mDownloadedFilePath + mFileName + ".pdf");
-                        if (file.exists()) {
-                            mFinalMSharingFile = copy(file);
-                            Uri fileUri = FileProvider.getUriForFile(GatewayResourcesWebViewActivity.this, "com.myfileprovider", mFinalMSharingFile);
-                            shareIntent.putExtra(Intent.EXTRA_STREAM, fileUri);
-                        }
-                    } else {
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, mIntentContent);
-                    }
-                    startActivity(shareIntent);
-                    */
 
                     ///////// default pdf show
                     if (mFinalMSharingFile.exists()) {
@@ -191,12 +135,6 @@ public class GatewayResourcesWebViewActivity extends AppCompatActivity {
                     Toast.makeText(GatewayResourcesWebViewActivity.this, getResources().getString(R.string.permission_deniedDate), Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
-                    // old way working
-                    /*if (connectionDetector.isConnectingToInternet()) {
-                        new DownloadFileFromURL(downloadingFileURL, mDownloadedFilePath, mFileName).execute();
-                    } else {
-                        Toast.makeText(GatewayResourcesWebViewActivity.this, getResources().getString(R.string.check_internet), Toast.LENGTH_LONG).show();
-                    }*/
 
                     ///////// default pdf show
                     mFinalMSharingFile = getAssetsPdfPath();
@@ -216,46 +154,11 @@ public class GatewayResourcesWebViewActivity extends AppCompatActivity {
         mPdfView = (PDFView) findViewById(R.id.pdfView);
     }
 
-    private void setTextForView() {
-        String title = mIntentTitle;
-        mTitle.setText(title);
-        String webData = mIntentContent;
-        mWebView.getSettings().setLoadsImagesAutomatically(true);
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.getSettings().setDefaultTextEncodingName("utf-8");
-        mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
-
-//        String type = getIntent().getStringExtra("type");
-//        if (type.equalsIgnoreCase("pdf")) {
-        // curently hiding these and shows pdfview
-//            String url = "http://docs.google.com/gview?embedded=true&url=" + webData;
-//            mWebView.setWebViewClient(new WebViewClient());
-//            mWebView.loadUrl(url);
-
-//        } else if (type.equalsIgnoreCase("text")) {
-        mWebView.loadData(webData, "text/html; charset=utf-8", "UTF-8");
-//        }
-
-    }
 
     private void setFont() {
         mTitle.setTypeface(AppController.getTypeface(this, "bold"));
     }
 
-    private void setColor() {
-        try {
-//            Drawable mDrawable = getResources().getDrawable(R.drawable.share1_blue);
-//            mDrawable.setColorFilter(new
-//                    PorterDuffColorFilter(0x990000, PorterDuff.Mode.DST_OVER));
-//            mShareIcon.setBackground(mDrawable);
-
-            mShareIcon.setColorFilter(Color.RED);
-
-        } catch (Exception e) {
-            Log.e("rajeesh", "**********  " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
 
     public boolean hasPermissions(String[] permissions) {
         if (android.os.Build.VERSION.SDK_INT >= M && permissions != null) {
@@ -269,9 +172,7 @@ public class GatewayResourcesWebViewActivity extends AppCompatActivity {
     }
 
     public File copy(File src) throws IOException {
-//        String primaryStoragePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + new Date().getTime() + ".pdf";
         String primaryStoragePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + mIntentTitle + ".pdf";
-//        String filePath = "/data/data/"+getPackageName()+"/files/" + primaryStoragePath + ".pdf";
         File file = new File(primaryStoragePath);
         if (!file.exists())
             file.createNewFile();
@@ -293,14 +194,6 @@ public class GatewayResourcesWebViewActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-       /* try {
-            File file = new File(mDownloadedFilePath + mFileName + ".pdf");
-            if (file.exists()) {
-                file.delete();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
         try {
             if (mFinalMSharingFile.exists()) {
                 mFinalMSharingFile.delete();
@@ -311,149 +204,7 @@ public class GatewayResourcesWebViewActivity extends AppCompatActivity {
         }
     }
 
-    class DownloadFileFromURL extends AsyncTask<String, String, String> {
 
-        /**
-         * Before starting background thread
-         * Show Progress Bar Dialog
-         */
-        String downloadUrl = "";
-        String filePath = "";
-        String fileName = "";
-
-        public DownloadFileFromURL(String downloadUrl, String filePath, String fileName) {
-            this.downloadUrl = downloadUrl;
-            this.filePath = filePath;
-            this.fileName = fileName;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            AppController.getHelperProgressDialog().showProgress(GatewayResourcesWebViewActivity.this, "", "", false);
-        }
-
-        /**
-         * Downloading file in background thread
-         */
-        @Override
-        protected String doInBackground(String... f_url) {
-            int count;
-            try {
-                URL url = new URL(downloadUrl);
-                URLConnection conection = url.openConnection();
-                conection.connect();
-                // getting file length
-                int lenghtOfFile = conection.getContentLength();
-
-                // input stream to read file - with 8k buffer
-                InputStream input = new BufferedInputStream(url.openStream(), 8192);
-
-                // Output stream to write file
-//                OutputStream output = new FileOutputStream("/storage/emulated/0/SamplePDF/downloadedfile.pdf");
-                OutputStream output = new FileOutputStream(filePath + fileName + ".pdf");
-
-                byte data[] = new byte[1024];
-
-                long total = 0;
-
-                while ((count = input.read(data)) != -1) {
-                    total += count;
-                    // publishing the progress....
-                    // After this onProgressUpdate will be called
-                    publishProgress("" + (int) ((total * 100) / lenghtOfFile));
-
-                    // writing data to file
-                    output.write(data, 0, count);
-                }
-
-                // flushing output
-                output.flush();
-
-                // closing streams
-                output.close();
-                input.close();
-
-            } catch (Exception e) {
-                Log.e("Error: ", e.getMessage());
-                // while downloading time, net got disconnected so delete the file
-                try {
-                    new File(filePath + fileName + ".pdf").delete();
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-            }
-            return null;
-        }
-
-        /**
-         * Updating progress bar
-         */
-        /*protected void onProgressUpdate(String... progress) {
-            // setting progress percentage
-            AppController.getHelperProgressDialog().showProgress(getActivity(), "", "", false);
-        }*/
-
-        /**
-         * After completing background task
-         * Dismiss the progress dialog
-         **/
-        @Override
-        protected void onPostExecute(String file_url) {
-            try {
-                // downlaod success mean file exist else check offline file
-                File file = new File(filePath + fileName + ".pdf");
-                if (file.exists()) {
-                    AppController.genarateEncryptedConsentPDF(filePath, fileName);
-                    DisplayPDFView(filePath + fileName + ".pdf");
-                } else {
-                    // offline functionality
-                    offLineFunctionality();
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            // dismiss the dialog after the file was downloaded
-            AppController.getHelperProgressDialog().dismissDialog();
-
-        }
-
-    }
-
-    private void offLineFunctionality() {
-        try {
-            // checking encrypted file is there or not?
-            File file = new File(mDownloadedFilePath + mFileName + ".txt");
-            if (file.exists()) {
-                // decrypt the file
-                File decryptFile = getEncryptedFilePath(mDownloadedFilePath + mFileName + ".txt");
-                DisplayPDFView(decryptFile.getAbsolutePath());
-            } else {
-                Toast.makeText(GatewayResourcesWebViewActivity.this, getResources().getString(R.string.check_internet), Toast.LENGTH_LONG).show();
-            }
-        } catch (Resources.NotFoundException e) {
-            Toast.makeText(GatewayResourcesWebViewActivity.this, getResources().getString(R.string.check_internet), Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
-    }
-
-    private File getEncryptedFilePath(String filePath) {
-        try {
-            CipherInputStream cis = AppController.genarateDecryptedConsentPDF(filePath);
-            byte[] byteArray = AppController.cipherInputStreamConvertToByte(cis);
-            File file = new File(mDownloadedFilePath + mFileName + ".pdf");
-            if (!file.exists() && file == null) {
-                file.createNewFile();
-            }
-            OutputStream output = new FileOutputStream(file);
-            output.write(byteArray);
-            output.close();
-            return file;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     private void DisplayPDFView(String filePath) {
         mPdfView.setVisibility(View.VISIBLE);
@@ -469,11 +220,7 @@ public class GatewayResourcesWebViewActivity extends AppCompatActivity {
     }
 
     public File getAssetsPdfPath() {
-//        String filePath = "/storage/emulated/0/SamplePDF/downloadedfile.pdf";
-//        String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + new Date().getTime() + ".pdf";
         String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + mIntentTitle + ".pdf";
-//        String filePath = "/data/data/"+getPackageName()+"/files/" + primaryStoragePath + ".pdf";
-        Log.e("filePath", "" + filePath);
 
 
         File destinationFile = new File(filePath);
@@ -489,7 +236,6 @@ public class GatewayResourcesWebViewActivity extends AppCompatActivity {
             outputStream.close();
             inputStream.close();
         } catch (IOException e) {
-            Log.e(getClass().getSimpleName(), "Error.");
         }
 
         return destinationFile;

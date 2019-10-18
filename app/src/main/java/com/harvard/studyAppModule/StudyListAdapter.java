@@ -166,7 +166,6 @@ public class StudyListAdapter extends RecyclerView.Adapter<StudyListAdapter.Hold
             } else {
                 holder.mStatusImg.setImageResource(R.drawable.yet_to_join_icn1);
                 holder.mStatus.setText(R.string.yet_to_join);
-//                mItems.get(position).setStudyStatus("Yet to Start");
             }
 
             if (mItems.get(position).isBookmarked()) {
@@ -190,8 +189,6 @@ public class StudyListAdapter extends RecyclerView.Adapter<StudyListAdapter.Hold
                 }
             }
 
-//            holder.mCompletionVal.setText("0%");
-//            holder.mAdherenceVal.setText("0%");
         } else {
             holder.mStatus.setVisibility(View.GONE);
             holder.mStatusImg.setVisibility(View.GONE);
@@ -217,7 +214,6 @@ public class StudyListAdapter extends RecyclerView.Adapter<StudyListAdapter.Hold
         }
 
 
-//            holder.mStateIcon.setImageResource(R.drawable.bullet);
 
         Glide.with(mContext).load(mItems.get(position).getLogo())
                 .thumbnail(0.5f)
@@ -233,18 +229,8 @@ public class StudyListAdapter extends RecyclerView.Adapter<StudyListAdapter.Hold
             e.printStackTrace();
         }
         String sponser = "";
-        // old scenario for both category and sponsor display in one line
-//        if (mItems.get(position).getSponsorName().equalsIgnoreCase("")) {
-//            sponser = mItems.get(position).getCategory();
-//        } else {
-//            sponser = mItems.get(position).getCategory() + " | " + mItems.get(position).getSponsorName();
         sponser = mItems.get(position).getSponsorName();
-//        }
-//        final SpannableStringBuilder stringBuilder = new SpannableStringBuilder(sponser);
-//        stringBuilder.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), 0, mItems.get(position).getCategory().length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         holder.mSponser.setText(sponser);
-//            mItems.get(position).setBookmarked(false);
-//            holder.mStatusImgRight.setImageResource(R.drawable.star_grey);
 
         holder.mContainer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -272,31 +258,6 @@ public class StudyListAdapter extends RecyclerView.Adapter<StudyListAdapter.Hold
                     if (mItems.get(position).getStatus().equalsIgnoreCase(mContext.getString(R.string.active)) && mItems.get(position).getStudyStatus().equalsIgnoreCase(StudyFragment.IN_PROGRESS)) {
                         studyFragment.getStudyUpdate(mItems.get(holder.getAdapterPosition()).getStudyId(), mItems.get(holder.getAdapterPosition()).getStudyVersion(), mItems.get(holder.getAdapterPosition()).getTitle(), "", "", "", "");
                     }
-//                else if (mItems.get(position).getStatus().equalsIgnoreCase(mContext.getString(R.string.paused))) {
-////                    Toast.makeText(mContext, R.string.study_paused, Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(mContext.getApplicationContext(), StudyInfoActivity.class);
-//                    intent.putExtra("studyId", mItems.get(holder.getAdapterPosition()).getStudyId());
-//                    intent.putExtra("title", mItems.get(holder.getAdapterPosition()).getTitle());
-//                    intent.putExtra("bookmark", mItems.get(holder.getAdapterPosition()).isBookmarked());
-//                    intent.putExtra("status", mItems.get(holder.getAdapterPosition()).getStatus());
-//                    intent.putExtra("studyStatus", mItems.get(holder.getAdapterPosition()).getStudyStatus());
-//                    intent.putExtra("position", "" + holder.getAdapterPosition());
-//                    intent.putExtra("enroll", "" + mItems.get(holder.getAdapterPosition()).getSetting().isEnrolling());
-//                    intent.putExtra("rejoin", "" + mItems.get(holder.getAdapterPosition()).getSetting().getRejoin());
-//                    ((StudyActivity) mContext).startActivityForResult(intent, 100);
-//                } else if (mItems.get(position).getStatus().equalsIgnoreCase(mContext.getString(R.string.closed))) {
-////                    Toast.makeText(mContext, R.string.study_resume, Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(mContext.getApplicationContext(), StudyInfoActivity.class);
-//                    intent.putExtra("studyId", mItems.get(holder.getAdapterPosition()).getStudyId());
-//                    intent.putExtra("title", mItems.get(holder.getAdapterPosition()).getTitle());
-//                    intent.putExtra("bookmark", mItems.get(holder.getAdapterPosition()).isBookmarked());
-//                    intent.putExtra("status", mItems.get(holder.getAdapterPosition()).getStatus());
-//                    intent.putExtra("studyStatus", mItems.get(holder.getAdapterPosition()).getStudyStatus());
-//                    intent.putExtra("position", "" + holder.getAdapterPosition());
-//                    intent.putExtra("enroll", "" + mItems.get(holder.getAdapterPosition()).getSetting().isEnrolling());
-//                    intent.putExtra("rejoin", "" + mItems.get(holder.getAdapterPosition()).getSetting().getRejoin());
-//                    ((StudyActivity) mContext).startActivityForResult(intent, 100);
-//                }
                     else {
                         Intent intent = new Intent(mContext.getApplicationContext(), StudyInfoActivity.class);
                         intent.putExtra("studyId", mItems.get(holder.getAdapterPosition()).getStudyId());
@@ -309,29 +270,6 @@ public class StudyListAdapter extends RecyclerView.Adapter<StudyListAdapter.Hold
                         intent.putExtra("rejoin", "" + mItems.get(holder.getAdapterPosition()).getSetting().getRejoin());
                         ((StudyActivity) mContext).startActivityForResult(intent, 100);
                     }
-                /*if (mItems.get(position).getStatus().equalsIgnoreCase(mContext.getString(R.string.active))) {
-                    if (mItems.get(position).getStudyStatus().equalsIgnoreCase(StudyFragment.YET_TO_JOIN)) {
-                        Intent intent = new Intent(mContext.getApplicationContext(), StudyInfoActivity.class);
-                        intent.putExtra("studyId", mItems.get(holder.getAdapterPosition()).getStudyId());
-                        intent.putExtra("title", mItems.get(holder.getAdapterPosition()).getTitle());
-                        intent.putExtra("bookmark", mItems.get(holder.getAdapterPosition()).isBookmarked());
-                        intent.putExtra("status", mItems.get(holder.getAdapterPosition()).getStudyStatus());
-                        intent.putExtra("position", "" + holder.getAdapterPosition());
-                        ((StudyActivity) mContext).startActivityForResult(intent, 100);
-                    } else if (mItems.get(position).getStudyStatus().equalsIgnoreCase(StudyFragment.IN_PROGRESS)) {
-                        Intent intent = new Intent(mContext, SurveyActivity.class);
-                        intent.putExtra("studyId", mItems.get(holder.getAdapterPosition()).getStudyId());
-                        mContext.startActivity(intent);
-                    } else {
-                        Toast.makeText(mContext, "Study status is " + mItems.get(position).getStudyStatus(), Toast.LENGTH_SHORT).show();
-                    }
-                } else if (mItems.get(position).getStatus().equalsIgnoreCase(mContext.getString(R.string.upcoming))) {
-                    Toast.makeText(mContext, "This Study is an upcoming study", Toast.LENGTH_SHORT).show();
-                } else if (mItems.get(position).getStatus().equalsIgnoreCase(mContext.getString(R.string.paused))) {
-                    Toast.makeText(mContext, "This Study is paused", Toast.LENGTH_SHORT).show();
-                } else if (mItems.get(position).getStatus().equalsIgnoreCase(mContext.getString(R.string.closed))) {
-                    Toast.makeText(mContext, "This Study is closed", Toast.LENGTH_SHORT).show();
-                }*/
                 }
             }
         });
@@ -349,7 +287,6 @@ public class StudyListAdapter extends RecyclerView.Adapter<StudyListAdapter.Hold
     }
 
     public void modifyAdapter(RealmList<StudyList> searchResultList, ArrayList<CompletionAdeherenceCalc> completionAdeherenceCalcs) {
-//        mItems.clear();
         mItems = searchResultList;
         this.completionAdeherenceCalcs = completionAdeherenceCalcs;
     }

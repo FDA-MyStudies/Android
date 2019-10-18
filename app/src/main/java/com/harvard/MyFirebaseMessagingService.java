@@ -43,9 +43,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-//        String message;
-//        message = remoteMessage.getNotification().getBody();
-//        Log.e("onMessageReceived", " ---------- " + message);
         dbServiceSubscriber = new DBServiceSubscriber();
         mRealm = AppController.getRealmobj(this);
         handleNotification(remoteMessage);

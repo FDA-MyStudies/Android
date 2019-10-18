@@ -35,9 +35,6 @@ import io.realm.RealmList;
 
 public class ConsentBuilder {
 
-    public static final String CONSENT_FIRST_NAME = "Full Name";
-    public static final String CONSENT_LAST_NAME = "Last Name";
-    private static final String SIGNATURE_TEXT = "Please sign using your finger on the line below.";
 
     public ArrayList<Step> createsurveyquestion(Context context, Consent consent, String pdftitle) {
         ArrayList<Step> visualSteps = new ArrayList<>();
@@ -45,7 +42,6 @@ public class ConsentBuilder {
         ConsentVisualStep visualStep;
         for (int i = 0; i < consent.getVisualScreens().size(); i++) {
             if (consent.getVisualScreens().get(i).isVisualStep()) {
-//                if (consent.getVisualScreens().get(i).getType().equalsIgnoreCase("ResearchKit/ResearchStack")) {
                 if (!consent.getVisualScreens().get(i).getType().equalsIgnoreCase("Custom")) {
                     switch (consent.getVisualScreens().get(i).getType().toLowerCase()) {
                         case "datagathering":
@@ -229,7 +225,6 @@ public class ConsentBuilder {
             ConsentDocumentStep documentStep = new ConsentDocumentStep("review");
             documentStep.setConsentHTML(docBuilder.toString());
             documentStep.setStepTitle(R.string.notxt);
-//            documentStep.setConfirmMessage(context.getString(R.string.reviewconformmsg));
             documentStep.setConfirmMessage(consent.getReview().getReasonForConsent());
             visualSteps.add(documentStep);
         } else {
@@ -254,7 +249,6 @@ public class ConsentBuilder {
                 documentStep.setConsentHTML(docBuilder.toString());
                 documentStep.setStepTitle(R.string.notxt);
                 documentStep.setOptional(false);
-//                documentStep.setConfirmMessage(context.getString(R.string.reviewconformmsg));
                 documentStep.setConfirmMessage(consent.getReview().getReasonForConsent());
                 visualSteps.add(documentStep);
 

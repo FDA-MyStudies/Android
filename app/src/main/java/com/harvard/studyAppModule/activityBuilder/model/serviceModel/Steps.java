@@ -15,7 +15,6 @@ public class Steps extends RealmObject {
     private String key;
     private String title;
     private String text;
-    //    private String image;
     private boolean skippable;
     private String groupName;
     private boolean repeatable;
@@ -105,13 +104,6 @@ public class Steps extends RealmObject {
         this.text = text;
     }
 
-//    public String getImage() {
-//        return image;
-//    }
-//
-//    public void setImage(String image) {
-//        this.image = image;
-//    }
 
     public boolean isSkippable() {
         return skippable;

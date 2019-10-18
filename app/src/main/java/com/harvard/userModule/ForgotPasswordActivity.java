@@ -27,7 +27,6 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ApiCall
     private RelativeLayout mCancelBtn;
     private AppCompatTextView mCancelTxt;
     private AppCompatEditText mEmail;
-    //    private AppCompatTextView mEmailLabel;
     private AppCompatTextView mSubmitButton;
     final int RESEND_CONFIRMATION = 101;
     public static String FROM = "ForgotPasswordActivity";
@@ -49,7 +48,6 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ApiCall
         mTitle = (AppCompatTextView) findViewById(R.id.title);
         mCancelBtn = (RelativeLayout) findViewById(R.id.cancelBtn);
         mCancelTxt = (AppCompatTextView) findViewById(R.id.cancelTxt);
-//        mEmailLabel = (AppCompatTextView) findViewById(R.id.email_label);
         mEmail = (AppCompatEditText) findViewById(R.id.edittxt_email);
         mSubmitButton = (AppCompatTextView) findViewById(R.id.submitButton);
     }
@@ -63,7 +61,6 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ApiCall
         try {
             mTitle.setTypeface(AppController.getTypeface(ForgotPasswordActivity.this, "medium"));
             mCancelTxt.setTypeface(AppController.getTypeface(ForgotPasswordActivity.this, "medium"));
-//            mEmailLabel.setTypeface(AppController.getTypeface(ForgotPasswordActivity.this, "regular"));
             mEmail.setTypeface(AppController.getTypeface(ForgotPasswordActivity.this, "regular"));
             mSubmitButton.setTypeface(AppController.getTypeface(ForgotPasswordActivity.this, "regular"));
         } catch (Exception e) {
@@ -135,8 +132,6 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ApiCall
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            ForgotPasswordData forgotPasswordData = (ForgotPasswordData) response;
-//            Toast.makeText(this, forgotPasswordData.getMessage(), Toast.LENGTH_SHORT).show();
             Toast.makeText(this, getResources().getString(R.string.forgot_password_error), Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -162,31 +157,6 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ApiCall
         }
     }
 
-    /*public void setDialog(String message) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ForgotPasswordActivity.this);
-        alertDialogBuilder.setTitle(getApplicationInfo().loadLabel(getPackageManager()).toString());
-        alertDialogBuilder.setMessage(message).setCancelable(false)
-                .setPositiveButton("Resend", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        AppController.getHelperProgressDialog().showProgress(ForgotPasswordActivity.this, "", "", false);
-                        ResendEmailEvent resendEmailEvent = new ResendEmailEvent();
-                        HashMap<String, String> params = new HashMap<String, String>();
-                        params.put("emailId", mEmail.getText().toString());
-                        RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.RESEND_CONFIRMATION, RESEND_CONFIRMATION, ForgotPasswordActivity.this, LoginData.class, params, new HashMap<String, String>(), null, false, ForgotPasswordActivity.this);
-                        resendEmailEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
-                        UserModulePresenter userModulePresenter = new UserModulePresenter();
-                        userModulePresenter.performResendEmail(resendEmailEvent);
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

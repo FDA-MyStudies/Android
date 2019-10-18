@@ -95,7 +95,6 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
         customTextView(mAgreeLabel);
         setFont();
         bindEvents();
-//        callGetTermsAndConditionWebservice();
         mTermsAndConditionData=new TermsAndConditionData();
         mTermsAndConditionData.setPrivacy(getString(R.string.privacyurl));
         mTermsAndConditionData.setTerms(getString(R.string.termsurl));
@@ -226,7 +225,6 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
         } else if (mPassword.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(mContext, getResources().getString(R.string.password_empty), Toast.LENGTH_SHORT).show();
         } else if (!mPassword.getText().toString().matches(PASSWORD_PATTERN)) {
-//            Toast.makeText(mContext, getResources().getString(R.string.password_validation), Toast.LENGTH_SHORT).show();
             SetDialogHelper.setNeutralDialog(mContext, getResources().getString(R.string.password_validation), false, mContext.getResources().getString(R.string.ok), mContext.getResources().getString(R.string.app_name));
         } else if (checkPasswordContainsEmailID(mEmail.getText().toString(), mPassword.getText().toString())) {
             Toast.makeText(mContext, getResources().getString(R.string.password_contain_email), Toast.LENGTH_SHORT).show();
@@ -245,17 +243,9 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
             AppController.getHelperProgressDialog().showProgress(getContext(), "", "", false);
             RegisterUserEvent registerUserEvent = new RegisterUserEvent();
             HashMap<String, String> params = new HashMap<>();
-//            params.put("firstName", mFirstName.getText().toString());
-//            params.put("lastName", mLastName.getText().toString());
             params.put("emailId", mEmail.getText().toString());
             params.put("password", mPassword.getText().toString());
             params.put("appId", BuildConfig.APPLICATION_ID);
-//            params.put("localNotification", "true");
-//            if (mSwitch.isEnabled()) {
-//                params.put("touchId", "true");
-//            } else {
-//                params.put("touchId", "false");
-//            }
             RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.REGISTER_USER, REGISTRATION_REQUEST, getContext(), RegistrationData.class, params, null, null, false, this);
             registerUserEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
             UserModulePresenter userModulePresenter = new UserModulePresenter();
@@ -306,7 +296,6 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
             AppController.getHelperSharedPreference().writePreference(getContext(), getString(R.string.verified), "" + registrationData.isVerified());
             AppController.getHelperSharedPreference().writePreference(getContext(), getString(R.string.refreshToken), "" + registrationData.getRefreshToken());
             AppController.getHelperSharedPreference().writePreference(getContext(), getString(R.string.email), "" + mEmail.getText().toString());
-//            ((StudyActivity) getContext()).loadstudylist();
 
             if (AppConfig.AppType.equalsIgnoreCase(getString(R.string.app_gateway))) {
                 ((StudyActivity) mContext).loadstudylist();
@@ -344,17 +333,6 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
         }
     }
 
-    private void callGetTermsAndConditionWebservice() {
-
-        AppController.getHelperProgressDialog().showProgress(getContext(), "", "", false);
-        GetTermsAndConditionEvent termsAndConditionEvent = new GetTermsAndConditionEvent();
-        HashMap<String, String> header = new HashMap();
-        WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", URLs.GET_TERMS_AND_CONDITION, GET_TERMS_AND_CONDITION, getContext(), TermsAndConditionData.class, null, header, null, false, SignupFragment.this);
-
-        termsAndConditionEvent.setWcpConfigEvent(wcpConfigEvent);
-        StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
-        studyModulePresenter.performGetTermsAndCondition(termsAndConditionEvent);
-    }
 
     private void callUpdateProfileWebService(String deviceToken) {
         AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
@@ -372,7 +350,6 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
 
             jsonObjBody.put("info", infoJson);
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -397,12 +374,6 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
         @Override
         protected String doInBackground(String... params) {
             String token = "";
-//            if (!AppController.getHelperSharedPreference().readPreference(mContext, "deviceToken", "").equalsIgnoreCase("")) {
-//                token = AppController.getHelperSharedPreference().readPreference(mContext, "deviceToken", "");
-//            } else {
-//                token = FirebaseInstanceId.getInstance().getToken();
-//                AppController.getHelperSharedPreference().writePreference(mContext, "deviceToken", "" + token);
-//            }
             if (FirebaseInstanceId.getInstance().getToken() == null || FirebaseInstanceId.getInstance().getToken().equalsIgnoreCase("")) {
                 boolean regIdStatus = false;
                 while (!regIdStatus) {

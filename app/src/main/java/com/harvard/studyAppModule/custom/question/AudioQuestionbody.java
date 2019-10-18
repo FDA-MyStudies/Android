@@ -91,11 +91,6 @@ public class AudioQuestionbody implements StepBody {
 
     @Override
     public BodyAnswer getBodyAnswerState() {
-//        TextAnswerFormat format = (TextAnswerFormat) step.getAnswerFormat();
-//        if (!format.isAnswerValid(editText.getText().toString()))
-//        {
-//            return BodyAnswer.INVALID;
-//        }
         if (next) {
             return BodyAnswer.VALID;
         }

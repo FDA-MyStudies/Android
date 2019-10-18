@@ -101,7 +101,6 @@ public class DecimalUnitQuestionBody implements StepBody {
         final float maxValue = format.getMaxValue() == 0 ? Float.MAX_VALUE : format.getMaxValue();
         unit.setText(format.getUnit());
         editText.setPadding(0, 0, (int) unit.getPaint().measureText(unit.getText().toString()) + 10, 0);
-//        unit.setText("unit");
         if (step.getPlaceholder() != null) {
             editText.setHint(step.getPlaceholder());
         } else if (maxValue == Integer.MAX_VALUE) {
@@ -118,12 +117,6 @@ public class DecimalUnitQuestionBody implements StepBody {
             editText.setText(String.valueOf(result.getResult()));
         }
 
-//        String minStr = Float.toString(minValue);
-//        String maxStr = Float.toString(maxValue);
-//        int maxLength = maxStr.length() >= minStr.length() ? maxStr.length() : minStr.length();
-//        InputFilter.LengthFilter maxLengthFilter = new InputFilter.LengthFilter(maxLength);
-//        InputFilter[] newFilters = ViewUtils.addFilter(editText.getFilters(), maxLengthFilter);
-//        editText.setFilters(newFilters);
 
         editText.setFilters(new InputFilter[]{new InputFilterMinMaxFloat(-Float.MAX_VALUE, Float.MAX_VALUE)});
     }

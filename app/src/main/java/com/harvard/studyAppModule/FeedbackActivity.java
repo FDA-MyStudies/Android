@@ -104,7 +104,6 @@ public class FeedbackActivity extends AppCompatActivity implements ApiCall.OnAsy
     public <T> void asyncResponse(T response, int responseCode) {
         if (responseCode == FEEDBACK) {
             if (response != null) {
-//                ReachOut reachOut = (ReachOut) response;
                 AppController.getHelperProgressDialog().dismissDialog();
                 Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.feedback_submit_success), Toast.LENGTH_SHORT).show();
                 finish();

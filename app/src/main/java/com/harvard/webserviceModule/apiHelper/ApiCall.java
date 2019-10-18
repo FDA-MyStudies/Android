@@ -255,7 +255,6 @@ public class ApiCall<T, V> extends AsyncTask<T, String, String> {
                     mResponseModel = HttpRequest.makeDeleteRequestWithJsonArray(mUrlPassed, mJsonArray, mHeadersData, serverType);
                     break;
             }
-//            String url = "http://23.89.199.27:8080/StudyMetaData/activity";
             String url = "";
             boolean parse = true;
             if (url.equalsIgnoreCase(mUrlPassed)) {
@@ -296,7 +295,6 @@ public class ApiCall<T, V> extends AsyncTask<T, String, String> {
                     JSONObject refreshTokenJsonData = new JSONObject();
                     try {
                         refreshTokenJsonData.put("refreshToken", AppController.getHelperSharedPreference().readPreference(mContext, mContext.getString(R.string.refreshToken), ""));
-//                        refreshTokenJsonData.put("refreshToken", null);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -457,7 +455,6 @@ public class ApiCall<T, V> extends AsyncTask<T, String, String> {
                 break;
             case "session expired":
                 msg = mResponseModel.getServermsg();
-//                setShowalert(msg);
                 mOnAsyncRequestComplete.asyncResponseFailure(mResultCode, msg, mResponseModel.getResponseCode());
                 break;
             case "success":

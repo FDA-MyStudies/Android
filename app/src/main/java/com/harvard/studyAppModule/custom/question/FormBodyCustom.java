@@ -68,14 +68,6 @@ public class FormBodyCustom implements StepBody {
             questionSteps = format.getformquestions();
             formIncrement = questionSteps.size();
             int size = questionSteps.size();
-//            for (int i = 0; i < size; i++) {
-//                if (questionSteps.get(i).getIdentifier().contains("_addMoreEnabled")) {
-//                    if (i >= questionSteps.size())
-//                        break;
-//                    else
-//                        questionSteps.remove(i);
-//                }
-//            }
             boolean looping = true;
             while (looping) {
                 boolean b = true;
@@ -97,12 +89,9 @@ public class FormBodyCustom implements StepBody {
             Map<String, StepResult> map = result.getResults();
             for (Map.Entry<String, StepResult> entry : map.entrySet()) {
                 for (int j = 0; j < questionSteps.size(); j++) {
-//                    if (entry.getValue().getResults().get("answer") != null && !entry.getKey().equalsIgnoreCase(questionSteps.get(j).getIdentifier()) && entry.getKey().contains(questionSteps.get(j).getIdentifier())) {
                     if (entry.getKey().contains("_addMoreEnabled") && entry.getKey().substring(0, entry.getKey().lastIndexOf("-")).equalsIgnoreCase(questionSteps.get(j).getIdentifier())) {
-                        Log.e("entry.getKey()--=====", "" + entry.getKey());
                         if (questionSteps.get(j) instanceof QuestionStepCustom) {
                             QuestionStepCustom questionStep1 = new QuestionStepCustom(entry.getKey(), questionSteps.get(j).getTitle());
-//                            if (((QuestionStepCustom) questionSteps.get(j)).getAnswerFormat1() instanceof ChoiceAnswerFormatCustom)
                             questionStep1.setAnswerFormat1(((QuestionStepCustom) questionSteps.get(j)).getAnswerFormat1());
                             questionStep1.setOptional(questionSteps.get(j).isOptional());
                             questionStep1.setStepTitle(questionSteps.get(j).getStepTitle());
@@ -128,14 +117,11 @@ public class FormBodyCustom implements StepBody {
             questionSteps.addAll(questionStepsDynamic);
         }
         j = questionSteps.size();
-        Log.e("size first", "" + j + "   " + formIncrement);
         this.step1 = (QuestionStepCustom) step;
     }
 
     @Override
     public View getBodyView(int viewType, final LayoutInflater inflater, final ViewGroup parent) {
-//        final ScrollView mainBody = (ScrollView) inflater.inflate(R.layout.formbody, parent, false);
-//        final LinearLayout body = (LinearLayout) mainBody.findViewById(R.id.body);
 
         DisplayMetrics displayMetrics = inflater.getContext().getResources().getDisplayMetrics();
         final int height = displayMetrics.heightPixels;
@@ -157,26 +143,6 @@ public class FormBodyCustom implements StepBody {
 
 
         formStepChildren = new ArrayList<>(questionSteps.size());
-//        for (int i = 0; i < questionSteps.size(); i++) {
-//            QuestionStepCustom questionStepCustom;
-//            if (questionSteps.get(i) instanceof QuestionStepCustom) {
-//                questionStepCustom = (QuestionStepCustom) questionSteps.get(i);
-//
-////                StepBody stepBody = createStepBody(questionStepCustom, questionStepCustom.getStepBodyClass());
-//                StepBody stepBody = createStepBody(questionStepCustom, questionStepCustom.getAnswerFormat1().getQuestionType().getStepBodyClass());
-//                View bodyView = stepBody.getBodyView(VIEW_TYPE_COMPACT, inflater, body);
-//                body.addView(bodyView);
-//                formStepChildren.add(stepBody);
-//                tempquestionSteps.add(questionStepCustom);
-//            } else {
-//                StepBody stepBody = createStepBody(questionSteps.get(i), questionSteps.get(i).getStepBodyClass());
-//                View bodyView = stepBody.getBodyView(VIEW_TYPE_COMPACT, inflater, body);
-//                body.addView(bodyView);
-//                formStepChildren.add(stepBody);
-//                tempquestionSteps.add(questionSteps.get(i));
-//            }
-//
-//        }
         for (QuestionStep questionStep : questionSteps) {
             StepBody stepBody = createStepBody(questionStep, questionStep.getStepBodyClass());
             View bodyView = stepBody.getBodyView(VIEW_TYPE_COMPACT, inflater, body);
@@ -189,8 +155,6 @@ public class FormBodyCustom implements StepBody {
             questionSteps = format.getformquestions();
         }
 
-//        final TextView closebutton = new TextView(inflater.getContext());
-//        closebutton.setText("close");
 
         final TextView addmore = new TextView(inflater.getContext());
         addmore.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -213,7 +177,6 @@ public class FormBodyCustom implements StepBody {
             public void onClick(View view) {
                 View firstview = null;
                 body.removeView(addmore);
-//                final int bodyHeight = body.getHeight();
                 StepBody stepBody;
                 for (int i = 0; i < questionSteps.size(); i++) {
                     if (!questionSteps.get(i).getIdentifier().contains("_addMoreEnabled")) {
@@ -247,19 +210,10 @@ public class FormBodyCustom implements StepBody {
                         body.addView(bodyView);
 
 
-//                    body.addView(closebutton);
-//                    closebutton.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View view) {
-//                            body.removeView(bodyView);
-//                        }
-//                    });
                         formStepChildren.add(stepBody);
                     }
-//                    ((CustomSurveyViewTaskActivity) inflater.getContext()).scrolltofirst(body);
                 }
                 j = formIncrement + j;
-                Log.e("size then", "" + j + "   " + formIncrement);
                 body.addView(addmore);
                 body.invalidate();
 
@@ -296,18 +250,10 @@ public class FormBodyCustom implements StepBody {
 
     @Override
     public BodyAnswer getBodyAnswerState() {
-//        for (StepBody formStepBody : formStepChildren) {
-//            BodyAnswer bodyAnswer = formStepBody.getBodyAnswerState();
-//            Log.e("bodyAnswer", "" + bodyAnswer.isValid());
-//            if (!bodyAnswer.isValid()) {
-//                return bodyAnswer;
-//            }
-//        }
 
         for (int i = 0; i < formStepChildren.size(); i++) {
             BodyAnswer bodyAnswer = formStepChildren.get(i).getBodyAnswerState();
             StepResult childResult = formStepChildren.get(i).getStepResult(false);
-            Log.e("bodyAnswer", "" + bodyAnswer.isValid() + "    " + tempquestionSteps.get(i).isOptional() + "  " + childResult.getResults().get("answer"));
             boolean valid = false;
             if (bodyAnswer.isValid()) {
                 valid = true;
@@ -351,9 +297,6 @@ public class FormBodyCustom implements StepBody {
         StepResult childResult = null;
         try {
 
-//            childResult = (StepResult) new StepResult<>(step);
-//            Log.e("value", result.getResults().values().toString());
-////            childResult.setResult(result.getResults().get(questionStep.getIdentifier()).getResults().values());
             childResult = (StepResult) result.getResultForIdentifier(questionStep.getIdentifier());
         } catch (Exception e) {
             e.printStackTrace();

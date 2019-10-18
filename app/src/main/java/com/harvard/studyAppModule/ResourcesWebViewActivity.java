@@ -50,7 +50,6 @@ public class ResourcesWebViewActivity extends AppCompatActivity {
     private RelativeLayout mShareBtn;
     private AppCompatImageView mShareIcon;
     private PDFView mPdfView;
-    //    private String mDownloadedFilePath = "/storage/emulated/0/SamplePDF/";
     private String mDownloadedFilePath;
     private String mFileName;
     private String downloadingFileURL = "";
@@ -115,7 +114,6 @@ public class ResourcesWebViewActivity extends AppCompatActivity {
         }
 
         setFont();
-//        setColor();
 
         mBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,16 +189,7 @@ public class ResourcesWebViewActivity extends AppCompatActivity {
         mWebView.getSettings().setDefaultTextEncodingName("utf-8");
         mWebView.setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
 
-//        String type = getIntent().getStringExtra("type");
-//        if (type.equalsIgnoreCase("pdf")) {
-        // curently hiding these and shows pdfview
-//            String url = "http://docs.google.com/gview?embedded=true&url=" + webData;
-//            mWebView.setWebViewClient(new WebViewClient());
-//            mWebView.loadUrl(url);
-
-//        } else if (type.equalsIgnoreCase("text")) {
         mWebView.loadData(webData, "text/html; charset=utf-8", "UTF-8");
-//        }
 
     }
 
@@ -208,20 +197,6 @@ public class ResourcesWebViewActivity extends AppCompatActivity {
         mTitle.setTypeface(AppController.getTypeface(this, "bold"));
     }
 
-    private void setColor() {
-        try {
-//            Drawable mDrawable = getResources().getDrawable(R.drawable.share1_blue);
-//            mDrawable.setColorFilter(new
-//                    PorterDuffColorFilter(0x990000, PorterDuff.Mode.DST_OVER));
-//            mShareIcon.setBackground(mDrawable);
-
-            mShareIcon.setColorFilter(Color.RED);
-
-        } catch (Exception e) {
-            Log.e("rajeesh", "**********  " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
 
     public boolean hasPermissions(String[] permissions) {
         if (android.os.Build.VERSION.SDK_INT >= M && permissions != null) {
@@ -235,9 +210,7 @@ public class ResourcesWebViewActivity extends AppCompatActivity {
     }
 
     public File copy(File src) throws IOException {
-//        String primaryStoragePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + new Date().getTime() + ".pdf";
         String primaryStoragePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + mIntentTitle + ".pdf";
-//        String filePath = "/data/data/"+getPackageName()+"/files/" + primaryStoragePath + ".pdf";
         File file = new File(primaryStoragePath);
         if (!file.exists())
             file.createNewFile();
@@ -341,7 +314,6 @@ public class ResourcesWebViewActivity extends AppCompatActivity {
                 input.close();
 
             } catch (Exception e) {
-                Log.e("Error: ", e.getMessage());
                 // while downloading time, net got disconnected so delete the file
                 try {
                     new File(filePath + fileName + ".pdf").delete();
@@ -352,13 +324,6 @@ public class ResourcesWebViewActivity extends AppCompatActivity {
             return null;
         }
 
-        /**
-         * Updating progress bar
-         */
-        /*protected void onProgressUpdate(String... progress) {
-            // setting progress percentage
-            AppController.getHelperProgressDialog().showProgress(getActivity(), "", "", false);
-        }*/
 
         /**
          * After completing background task

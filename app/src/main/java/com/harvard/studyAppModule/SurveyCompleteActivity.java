@@ -84,13 +84,11 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
         AppController.getHelperProgressDialog().showProgress(SurveyCompleteActivity.this, "", "", false);
         ProcessResponseEvent processResponseEvent = new ProcessResponseEvent();
 
-//        StudyList studyList = realm.where(StudyList.class).equalTo("studyId", getIntent().getStringExtra(STUDYID)).findFirst();
 
         String surveyId = getIntent().getStringExtra(CustomSurveyViewTaskActivity.EXTRA_STUDYID);
         surveyId = surveyId.substring(0, surveyId.lastIndexOf("_"));
         String activityId[] = surveyId.split("_STUDYID_");
         ActivityObj activityObj = dbServiceSubscriber.getActivityBySurveyId(getIntent().getStringExtra(STUDYID), activityId[1], realm);
-//        ActivityObj activityObj = realm.where(ActivityObj.class).equalTo("surveyId", surveyId).findFirst();
 
         RealmResults<Activities> activitiesRealmResults = realm.where(Activities.class).equalTo("studyId", getIntent().getStringExtra(STUDYID)).findAll();
         Activities activities = null;
@@ -106,7 +104,6 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
 
         if (activities != null && activityObj != null) {
 
-//            getResponseDataJson(activityObj, activities, participantId);
 
             ResponseServerConfigEvent responseServerConfigEvent = new ResponseServerConfigEvent("post_object", URLs.PROCESS_RESPONSE, PROCESS_RESPONSE_RESPONSECODE, this, LoginData.class, null, null, getResponseDataJson(activityObj, activities, participantId), false, this);
             processResponseEvent.setResponseServerConfigEvent(responseServerConfigEvent);
@@ -137,20 +134,14 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e("updateProcessResponse", ProcessResponsejson.toString());
 
         return ProcessResponsejson;
     }
 
     private JSONObject generateresult(ActivityObj activityObj, String stringExtra) {
-//        ActivityObj activityObj = null;
-
-//        activityObj = realm.where(ActivityObj.class).equalTo("surveyId", activityId).findFirst();
 
         try {
             JSONObject dataobj = new JSONObject();
-//            dataobj.put("resultType", activityObj.getMetadata().getName());
-//            dataobj.put("key", activityObj.getMetadata().getActivityId());
             dataobj.put("startTime", activityObj.getMetadata().getStartDate());
             dataobj.put("endTime", activityObj.getMetadata().getEndDate());
             dataobj.put("resultType", activityObj.getType());
@@ -186,22 +177,6 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
                             } else {
                                 Map<String, Object> map = (Map<String, Object>) parseData(jsonParser.parse(StepRecord.get(j).getResult()));
                                 JSONArray jsonArrayMain = new JSONArray();
-//                                if (map.size() > 0) {
-//                                    for (Map.Entry<String, Object> entry : map.entrySet()) {
-//                                        Map<String, Object> mapEntry = (Map<String, Object>) entry.getValue();
-//                                        Log.e("value", "" + mapEntry.get("results"));
-//                                        if (mapEntry.get("results").toString().equalsIgnoreCase("{}")) {
-//                                            resultarrobj.put("skipped", true);
-//                                        } else if (mapEntry.get("results").toString().equalsIgnoreCase("{\"answer\":[]}")) {
-//                                            resultarrobj.put("skipped", true);
-//                                        } else if (mapEntry.get("results") == null) {
-//                                            resultarrobj.put("skipped", true);
-//                                        } else {
-//                                            resultarrobj.put("skipped", false);
-//                                            formskipped = false;
-//                                        }
-//                                    }
-//                                }
 
                                 int k = 0;
                                 boolean update;
@@ -213,7 +188,6 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
                                         Map<String, Object> mapEntry = (Map<String, Object>) entry.getValue();
                                         JSONObject jsonObject = new JSONObject();
                                         String identifier = (String) mapEntry.get("identifier");
-                                        Log.e("k value", "" + k + "   " + identifier);
                                         if (k == 0) {
                                             if (!identifier.contains("_addMoreEnabled")) {
                                                 for (int c = 0; c < activityObj.getSteps().size(); c++) {
@@ -382,7 +356,6 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
                         } else {
 
                             JSONObject durationobj = new JSONObject();
-//                            durationobj.put("resultType", activityObj.getSteps().get(i).getResultType());
                             durationobj.put("resultType", "numeric");
                             durationobj.put("key", "duration");
                             durationobj.put("startTime", null);
@@ -392,14 +365,11 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
                             } else {
                                 durationobj.put("skipped", false);
                             }
-//                            durationobj.put("value", activityObj.getSteps().get(i).getFormat().getDuration());
-                            Log.e("StepRecord.get", "" + StepRecord.get(j).getResult());
                             JSONObject activejsonObject = new JSONObject(StepRecord.get(j).getResult());
                             JSONObject answerjsonobj = activejsonObject.getJSONObject("answer");
                             durationobj.put("value", answerjsonobj.getString("duration"));
 
                             JSONObject valueobj = new JSONObject();
-//                            valueobj.put("resultType", activityObj.getSteps().get(i).getResultType());
                             valueobj.put("resultType", "numeric");
                             valueobj.put("key", "count");
                             valueobj.put("startTime", null);
@@ -568,8 +538,6 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
                 dbServiceSubscriber.updateStudyPreference(this,studies, completion, adherence);
             }
             dbServiceSubscriber.updateActivityRunToDB(this,activityId[1], getIntent().getStringExtra(CustomSurveyViewTaskActivity.STUDYID), getIntent().getIntExtra(CustomSurveyViewTaskActivity.RUNID, 0));
-            ///delete offline row
-//            dbServiceSubscriber.deleteOfflineDataRow(mDeleteIndexNumberDB);
             Intent intent = new Intent();
             setResult(RESULT_OK, intent);
             finish();
@@ -649,7 +617,6 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
             Intent intent = new Intent();
             setResult(RESULT_OK, intent);
             finish();
-//            Toast.makeText(this, errormsg, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -665,7 +632,6 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
 
                 for (JsonElement anArr : arr) {
                     for (int i = 0; i < activityObj.getSteps().get(position).getFormat().getTextChoices().size(); i++) {
-                        Log.e("getValue", "" + activityObj.getSteps().get(position).getFormat().getTextChoices().get(i).getValue() + "  " + anArr.getAsString());
                         if (activityObj.getSteps().get(position).getFormat().getTextChoices().get(i).getOther() != null) {
                             try {
                                 JSONObject jsonObject = null;
@@ -702,7 +668,6 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
                 try {
                     return Integer.parseInt(num);
                 } catch (Exception e) {
-//                        e.printStackTrace();
                     return Long.parseLong(num);
                 }
             }
@@ -751,7 +716,6 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
                 try {
                     return Integer.parseInt(num);
                 } catch (Exception e) {
-//                        e.printStackTrace();
                     return Long.parseLong(num);
                 }
             }
@@ -766,7 +730,6 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
             LoginData loginData = (LoginData) response;
             if (loginData != null) {
                 updateUserPreference();
-//                Toast.makeText(this, loginData.getMessage(), Toast.LENGTH_SHORT).show();
             } else {
                 AppController.getHelperProgressDialog().dismissDialog();
             }
@@ -790,7 +753,6 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
             surveyId = surveyId.substring(0, surveyId.lastIndexOf("_"));
             String activityId[] = surveyId.split("_STUDYID_");
             ActivityObj activityObj = dbServiceSubscriber.getActivityBySurveyId(getIntent().getStringExtra(STUDYID), activityId[1], realm);
-//        ActivityObj activityObj = realm.where(ActivityObj.class).equalTo("surveyId", surveyId).findFirst();
 
             RealmResults<Activities> activitiesRealmResults = realm.where(Activities.class).equalTo("studyId", getIntent().getStringExtra(STUDYID)).findAll();
             Activities activities = null;
@@ -877,11 +839,6 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
             finish();
 
 
-            /////////  Update Db and leave finish
-
-
-//            updateUserPreference();
-//            Toast.makeText(this, errormsg, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -921,14 +878,11 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
         }
 
         studieslist.put(studiestatus);
-//        JSONArray activitylist = new JSONArray();
         try {
             jsonObject.put("studies", studieslist);
-//            jsonObject.put("activities", activitylist);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e("json", "" + jsonObject.toString());
 
         return jsonObject;
     }

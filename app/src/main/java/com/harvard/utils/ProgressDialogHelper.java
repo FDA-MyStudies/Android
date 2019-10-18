@@ -88,7 +88,6 @@ public class ProgressDialogHelper {
         relativeLayout.setLayoutParams(layoutParams);
         relativeLayout.addView(progressDialog);
         mRingProgressDialog.setContentView(relativeLayout);
-//        }
     }
 
 
@@ -115,7 +114,6 @@ public class ProgressDialogHelper {
         relativeLayout.setLayoutParams(layoutParams);
         relativeLayout.addView(progressDialog);
         mRingProgressDialog.setContentView(relativeLayout);
-//        }
     }
 
     /**

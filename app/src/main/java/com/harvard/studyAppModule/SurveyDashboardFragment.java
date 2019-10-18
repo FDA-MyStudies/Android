@@ -92,29 +92,11 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
     private Context mContext;
     private RelativeLayout mBackBtn;
     private AppCompatTextView mTitle1;
-    //    private AppCompatTextView mTitle3;
     private RelativeLayout mShareBtn;
-    //    private RelativeLayout mActiveLayout;
-    //    private AppCompatTextView mContentTxt1;
-//    private AppCompatTextView mContentTxt2;
-//    private AppCompatTextView mContentTxt3;
-//    private AppCompatTextView mStudyActivitiesLabel;
-//    private AppCompatTextView mTotal1;
-//    private AppCompatTextView mTotal2;
-//    private AppCompatTextView mCompletedLabel;
-//    private AppCompatTextView mSurveyHeadingVal;
-//    private AppCompatTextView mSurveyHeading;
-//    private AppCompatTextView mSurveyValues;
-//    private AppCompatTextView mTasksHeadingVal;
-//    private AppCompatTextView mTasksHeading;
-//    private AppCompatTextView mTasksValues;
     private AppCompatTextView mCompletionValue;
-    //    private AppCompatTextView mCompletionLabel;
     private com.harvard.studyAppModule.circularProgressBar.DonutProgress mProgressBar1;
     private AppCompatTextView mAdherenceValue;
-    //    private AppCompatTextView mAdherenceLabel;
     private com.harvard.studyAppModule.circularProgressBar.DonutProgress mProgressBar2;
-    //    private LinearLayout mHrLayout;
     private AppCompatTextView mActivitiesLabel;
     private AppCompatTextView mTodayActivitiesCompletedValue1;
     private AppCompatTextView mTodayActivitiesCompletedLabel1;
@@ -151,7 +133,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
     private String mFromDayVal, mFromDayValpre;
     private String mToDayVal;
     private String mNextPreviosMonth;
-    //    private ImageView mActiveBullet;
     View view;
     RelativeLayout mStatisticsLayout, mChangeDateLayout;
     DashboardData dashboardData;
@@ -205,9 +186,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         dbServiceSubscriber = new DBServiceSubscriber();
         mRealm = AppController.getRealmobj(mContext);
         initializeXMLId(view);
-//        addViewActivities(view);
-
-//        setShapeColorForActive();
         setFont();
         setCurrentDateMonthYear();
         // default for day settings
@@ -226,7 +204,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
     private void setStudyStatus() {
         String status = ((SurveyActivity) mContext).getStatus();
         mStudyStatus.setText(status);
-//        GradientDrawable bgShape = (GradientDrawable) mStudyStatus.getBackground();
         if (status.equalsIgnoreCase("active")) {
             mStudyStatus.setTextColor(mContext.getResources().getColor(R.color.bullet_green_color));
         } else if (status.equalsIgnoreCase("upcoming")) {
@@ -240,7 +217,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
 
     private void setParticipationStatus() {
         String mParticipationStatusVal = ((SurveyActivity) mContext).getStudyStatus();
-//        GradientDrawable bgShape = (GradientDrawable) mParticipationStatus.getBackground();
         if (mParticipationStatusVal != null) {
             if (mParticipationStatusVal.equalsIgnoreCase(StudyFragment.COMPLETED)) {
                 mParticipationStatus.setText(R.string.completed);
@@ -271,7 +247,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
         GetActivityListEvent getActivityListEvent = new GetActivityListEvent();
         HashMap<String, String> header = new HashMap();
-//        header.put("studyId", ((SurveyActivity) mContext).getStudyId());
         String url = URLs.DASHBOARD_INFO + "?studyId=" + ((SurveyActivity) mContext).getStudyId();
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, DASHBOARD_INFO, mContext, DashboardData.class, null, header, null, false, this);
 
@@ -283,32 +258,13 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
     private void initializeXMLId(View view) {
         mBackBtn = (RelativeLayout) view.findViewById(R.id.backBtn);
         mTitle1 = (AppCompatTextView) view.findViewById(R.id.mTitle1);
-//        mTitle3 = (AppCompatTextView) view.findViewById(R.id.mTitle3);
         mShareBtn = (RelativeLayout) view.findViewById(R.id.mShareBtn);
-//        mActiveLayout = (RelativeLayout) view.findViewById(R.id.mActiveLayout);
-//        mContentTxt1 = (AppCompatTextView) view.findViewById(R.id.mContentTxt1);
-//        mContentTxt2 = (AppCompatTextView) view.findViewById(R.id.mContentTxt2);
-//        mContentTxt3 = (AppCompatTextView) view.findViewById(R.id.mContentTxt3);
-//        mStudyActivitiesLabel = (AppCompatTextView) view.findViewById(R.id.mStudyActivitiesLabel);
-//        mTotal1 = (AppCompatTextView) view.findViewById(R.id.mTotal1);
-//        mTotal2 = (AppCompatTextView) view.findViewById(R.id.mTotal2);
-//        mCompletedLabel = (AppCompatTextView) view.findViewById(R.id.mCompletedLabel);
-//        mSurveyHeadingVal = (AppCompatTextView) view.findViewById(R.id.mSurveyHeadingVal);
-//        mSurveyHeading = (AppCompatTextView) view.findViewById(R.id.mSurveyHeading);
-//        mSurveyValues = (AppCompatTextView) view.findViewById(R.id.mSurveyValues);
-//        mTasksHeadingVal = (AppCompatTextView) view.findViewById(R.id.mTasksHeadingVal);
-//        mTasksHeading = (AppCompatTextView) view.findViewById(R.id.mTasksHeading);
-//        mTasksValues = (AppCompatTextView) view.findViewById(R.id.mTasksValues);
         mCompletionValue = (AppCompatTextView) view.findViewById(R.id.mCompletionValue);
-//        mCompletionLabel = (AppCompatTextView) view.findViewById(R.id.mCompletionLabel);
         mProgressBar1 = view.findViewById(R.id.progressBar1);
         mAdherenceValue = (AppCompatTextView) view.findViewById(R.id.mAdherenceValue);
-//        mAdherenceLabel = (AppCompatTextView) view.findViewById(R.id.mAdherenceLabel);
         mProgressBar2 = view.findViewById(R.id.progressBar2);
-//        mHrLayout = (LinearLayout) view.findViewById(R.id.mHrLayout);
         mStatisticsLabel = (AppCompatTextView) view.findViewById(R.id.mStatisticsLabel);
 
-//        mCalenderLayout = (RelativeLayout) view.findViewById(R.id.mCalenderLayout);
         monthLayout = (RelativeLayout) view.findViewById(R.id.mMonthLayout);
         mWeekLayout = (RelativeLayout) view.findViewById(R.id.mWeekLayout);
         mDayLayout = (RelativeLayout) view.findViewById(R.id.mDayLayout);
@@ -318,7 +274,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         mChangeDateLabel = (AppCompatTextView) view.findViewById(R.id.mChangeDateLabel);
         mPreviousDateLayout = (RelativeLayout) view.findViewById(R.id.mPreviousDateLayout);
         mNextDateLayout = (RelativeLayout) view.findViewById(R.id.mNextDateLayout);
-//        mActiveBullet = (ImageView) view.findViewById(R.id.activeBullet);
 
 
         mTotalStaticsLayout = (LinearLayout) view.findViewById(R.id.mTotalStaticsLayout);
@@ -360,12 +315,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         }
     }
 
-    // header active shape and color settings
-    /*private void setShapeColorForActive() {
-        GradientDrawable mActiveLayoutbgShape = (GradientDrawable) mActiveLayout.getBackground();
-        mActiveLayoutbgShape.setColor(getResources().getColor(R.color.colorPrimaryBlack));
-        mActiveLayoutbgShape.setAlpha(100);
-    }*/
 
     // DAY, WEEK, YEAR dynamically change bg and text color
     private void setColorForSelectedDayMonthYear(RelativeLayout layout) {
@@ -410,24 +359,8 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
     private void setFont() {
         try {
             mTitle1.setTypeface(AppController.getTypeface(getActivity(), "regular"));
-//            mTitle3.setTypeface(AppController.getTypeface(getActivity(), "medium"));
-//            mContentTxt1.setTypeface(AppController.getTypeface(getActivity(), "regular"));
-//            mContentTxt2.setTypeface(AppController.getTypeface(getActivity(), "regular"));
-//            mContentTxt3.setTypeface(AppController.getTypeface(getActivity(), "medium"));
-//            mStudyActivitiesLabel.setTypeface(AppController.getTypeface(getActivity(), "medium"));
-//            mTotal1.setTypeface(AppController.getTypeface(getActivity(), "regular"));
-//            mTotal2.setTypeface(AppController.getTypeface(getActivity(), "thin"));
-//            mCompletedLabel.setTypeface(AppController.getTypeface(getActivity(), "medium"));
-//            mSurveyHeadingVal.setTypeface(AppController.getTypeface(getActivity(), "bold"));
-//            mSurveyHeading.setTypeface(AppController.getTypeface(getActivity(), "regular"));
-//            mSurveyValues.setTypeface(AppController.getTypeface(getActivity(), "medium"));
-//            mTasksHeadingVal.setTypeface(AppController.getTypeface(getActivity(), "bold"));
-//            mTasksHeading.setTypeface(AppController.getTypeface(getActivity(), "regular"));
-//            mTasksValues.setTypeface(AppController.getTypeface(getActivity(), "medium"));
             mCompletionValue.setTypeface(AppController.getTypeface(getActivity(), "regular"));
-//            mCompletionLabel.setTypeface(AppController.getTypeface(getActivity(), "regular"));
             mAdherenceValue.setTypeface(AppController.getTypeface(getActivity(), "regular"));
-//            mAdherenceLabel.setTypeface(AppController.getTypeface(getActivity(), "regular"));
 
             mStatisticsLabel.setTypeface(AppController.getTypeface(getActivity(), "medium"));
             mDayLabel.setTypeface(AppController.getTypeface(getActivity(), "regular"));
@@ -485,12 +418,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                 screenshotWritingPermission(view);
             }
         });
-       /* mCalenderLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                displayCalender();
-            }
-        });*/
 
         mDayLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -592,38 +519,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                 addViewStatisticsValuesRefresh();
 
 
-                /*if (mSelectedLayout == mDayLayout) {
-                    mFromDayVal = setHowManyDays(mFromDayVal, -1);
-                    mChangeDateLabel.setText(mFromDayVal);
-                } else if (mSelectedLayout == mWeekLayout) {
-
-                    String text = setHowManyDays(mFromDayValpre, -6) + " - " + mFromDayValpre;
-                    mFromDayVal = setHowManyDays(mFromDayValpre, 7);
-                    mFromDayValpre = setHowManyDays(mFromDayValpre, 0);
-                    mChangeDateLabel.setText(text);
-                } else if (mSelectedLayout == monthLayout) {
-                    try {
-                        if (mNextPreviosMonth == null) {
-                            int month = mCurrentMonth + 1;
-                            String originDate = month + " " + mCurrentYear;
-                            SimpleDateFormat formatIn = AppController.getDateFormatFormatIn();
-                            SimpleDateFormat formatOut = AppController.getDateFormatFormatOut();
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.setTime(formatIn.parse(originDate));
-                            String newMonth = formatOut.format(calendar.getTime());
-                            mNextPreviosMonth = setNextMonth(newMonth, -1);
-                            String text = mNextPreviosMonth + " - " + newMonth;
-                            mChangeDateLabel.setText(text);
-                        } else {
-                            String text = setNextMonth(mNextPreviosMonth, -1) + " - " + mNextPreviosMonth;
-                            mNextPreviosMonth = setNextMonth(mNextPreviosMonth, -1);
-                            mChangeDateLabel.setText(text);
-                        }
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                }*/
             }
         });
         mNextDateLayout.setOnClickListener(new View.OnClickListener() {
@@ -702,37 +597,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                     }
                 }
 
-                /*if (mSelectedLayout == mDayLayout) {
-                    mFromDayVal = setHowManyDays(mFromDayVal, 1);
-                    mChangeDateLabel.setText(mFromDayVal);
-                } else if (mSelectedLayout == mWeekLayout) {
-                    String text = mFromDayVal + " - " + setHowManyDays(mFromDayVal, 6);
-                    mFromDayValpre = setHowManyDays(mFromDayVal, 0);
-                    mFromDayVal = setHowManyDays(mFromDayVal, 7);
-                    mChangeDateLabel.setText(text);
-                } else if (mSelectedLayout == monthLayout) {
-                    try {
-                        if (mNextPreviosMonth == null) {
-                            int month = mCurrentMonth + 1;
-                            String originDate = month + " " + mCurrentYear;
-                            SimpleDateFormat formatIn = AppController.getDateFormatFormatIn();
-                            SimpleDateFormat formatOut = AppController.getDateFormatFormatOut();
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.setTime(formatIn.parse(originDate));
-                            String newMonth = formatOut.format(calendar.getTime());
-                            mNextPreviosMonth = setNextMonth(newMonth, 1);
-                            String text = newMonth + " - " + mNextPreviosMonth;
-                            mChangeDateLabel.setText(text);
-                        } else {
-                            String text = mNextPreviosMonth + " - " + setNextMonth(mNextPreviosMonth, 1);
-                            mNextPreviosMonth = setNextMonth(mNextPreviosMonth, 1);
-                            mChangeDateLabel.setText(text);
-                        }
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                }*/
             }
         });
         mTrendLayout.setOnClickListener(new View.OnClickListener() {
@@ -740,7 +604,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
             public void onClick(View view) {
                 if (dashboardData != null && dashboardData.getDashboard().getCharts().size() > 0) {
                     Intent intent = new Intent(mContext, ChartActivity.class);
-//                intent.putExtra("Charts", dashboardData);
                     intent.putExtra("studyId", ((SurveyActivity) mContext).getStudyId());
                     intent.putExtra("studyName", ((SurveyActivity) mContext).getTitle1());
                     startActivity(intent);
@@ -801,7 +664,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
     private void saveBitmap(Bitmap bitmap) {
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/Android/FDA/Screenshot");
-//        File myDir = new File("/storage/emulated/0/SamplePDF/");
         myDir.mkdirs();
         String fname = ((SurveyActivity) mContext).getTitle1() + "_Dashboard.png";
         File file = new File(myDir, fname);
@@ -819,18 +681,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
     }
 
     public void sendMail(File file, String subject) {
-//        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-//        emailIntent.setType("text/plain");
-//        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
-//        emailIntent.putExtra(Intent.EXTRA_TEXT, "");
-//        if (!file.exists() || !file.canRead()) {
-//            return;
-//        }
-//        Uri uri = Uri.fromFile(file);
-//        emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
-//        startActivityForResult(
-//                Intent.createChooser(emailIntent, mContext.getResources().getString(R.string.pick_email_provider)),
-//                222);
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setData(Uri.parse("mailto:"));
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
@@ -841,22 +691,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         startActivity(shareIntent);
     }
 
-    private void displayCalender() {
-        try {
-            new DatePickerDialog(getActivity(), R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    mCurrentYear = year;
-                    mCurrentMonth = monthOfYear;
-                    mCurrentDay = dayOfMonth;
-                    mFromDayVal = setCurrentDay();
-                    mToDayVal = mFromDayVal;
-                }
-            }, mCurrentYear, mCurrentMonth, mCurrentDay).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     private String setCurrentDay() {
         try {
@@ -876,20 +710,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
     }
 
 
-    private String setHowManyDays(String dt, int val) {
-        try {
-
-            SimpleDateFormat sdf = AppController.getDateFormatFormatOutType1();
-            Calendar c = Calendar.getInstance();
-            c.setTime(sdf.parse(dt));
-            c.add(Calendar.DATE, val);  // number of days to add
-            String newDate = sdf.format(c.getTime());
-            return newDate;
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
 
     private Spannable setColorSpannbleString(String str, int endVal) {
         Spannable wordtoSpan = new SpannableString(str);
@@ -898,34 +718,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
 
     }
 
-    private String setNextMonth(String dt, int val) {
-        try {
 
-            SimpleDateFormat sdf = AppController.getDateFormatFormatOut();
-            Calendar c = Calendar.getInstance();
-            c.setTime(sdf.parse(dt));
-            c.add(Calendar.MONTH, val);  // number of months to add
-            String newDate = sdf.format(c.getTime());
-            return newDate;
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
-    // Activities Dynamically genarte
-    private void addViewActivities(View view) {
-
-        for (int i = 0; i < 2; i++) {
-            RelativeLayout activitiesLayout = (RelativeLayout) view.inflate(getActivity(), R.layout.content_survey_dashboard_activities, null);
-            setAlignRelActivitiesLayout(activitiesLayout);
-            addViewActivitesInitializeXMLId(activitiesLayout);
-            addViewActivitesSetFont();
-            addViewActivitesSetText(i);
-//            mHrLayout.addView(activitiesLayout);
-        }
-
-    }
 
     // width of the box set based on the device width
     private void setAlignRelActivitiesLayout(RelativeLayout activitiesLayout) {
@@ -1059,8 +852,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                     addViewStatisticsSetText(dashboardData.getDashboard().getStatistics().get(i), mTotalStaticsLayout.getChildAt(i));
                 }
             } else {
-                //            mStatisticsLayout.setVisibility(View.GONE);
-                //            mChangeDateLayout.setVisibility(View.GONE);
                 setWeekUnSelected();
                 drawableImageColorChange();
                 mChangeDateLabel.setText(getResources().getString(R.string.date_range));
@@ -1097,8 +888,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
 
     private void addViewStatisticsSetText(Statistics statistics, View view) {
 
-        Log.e("activytId", "" + statistics.getDataSource().getActivity().getActivityId());
-        Log.e("activytkey", "" + statistics.getDataSource().getKey());
         SimpleDateFormat simpleDateFormat = AppController.getDateFormat();
         switch (statistics.getStatType()) {
             case "Activity":
@@ -1164,11 +953,8 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            } else {
-                Log.e("result", "null");
             }
         }
-        Log.e("answer size", "" + resultlist.size());
         String result = "N/A";
         if (resultlist.size() > 0) {
             if (statistics.getCalculation().equalsIgnoreCase("Minimum")) {
@@ -1245,7 +1031,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
 
         @Override
         protected void onPostExecute(String result) {
-//            AppController.getHelperProgressDialog().dismissDialog();
             SurvayScheduler survayScheduler = new SurvayScheduler(dbServiceSubscriber, mRealm);
             completionAdeherenceCalc = survayScheduler.completionAndAdherenceCalculation(((SurveyActivity) mContext).getStudyId(), mContext);
             if (completionAdeherenceCalc.isNoCompletedAndMissed()) {
@@ -1260,25 +1045,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                 mProgressBar2.setProgress((int) completionAdeherenceCalc.getAdherence());
             }
 
-//            mContentTxt1.setText("Welcome back " + AppController.getHelperSharedPreference().readPreference(mContext, getString(R.string.email), "") + ",");
-//            mContentTxt3.setText(((SurveyActivity) mContext).getStudyStatus());
             mTitle1.setText(((SurveyActivity) mContext).getTitle1());
-//            mTitle3.setText(((SurveyActivity) mContext).getStatus());
-//            GradientDrawable bgShape = (GradientDrawable) mActiveBullet.getBackground();
-//            if (bgShape != null) {
-//                if (((SurveyActivity) mContext).getStatus().equalsIgnoreCase("active")) {
-//                    bgShape.setColor(mContext.getResources().getColor(R.color.bullet_green_color));
-//                } else if (((SurveyActivity) mContext).getStatus().equalsIgnoreCase("upcoming")) {
-//                    bgShape.setColor(mContext.getResources().getColor(R.color.colorPrimary));
-//                } else if (((SurveyActivity) mContext).getStatus().equalsIgnoreCase("closed")) {
-//                    bgShape.setColor(mContext.getResources().getColor(R.color.red));
-//                } else if (((SurveyActivity) mContext).getStatus().equalsIgnoreCase("paused")) {
-//                    bgShape.setColor(mContext.getResources().getColor(R.color.rectangle_yellow));
-//                }
-//            }
-//            if (dashboardData.getDashboard().getStatistics().size() == 0) {
-//                mHrLayout.setVisibility(View.GONE);
-//            }
 
             mArrayList = new ArrayList<>();
             mArrayListDup = new ArrayList<>();
@@ -1313,7 +1080,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
 
         @Override
         protected void onPreExecute() {
-//            AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
         }
     }
 
@@ -1353,7 +1119,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         mFromDayVal = simpleDateFormat1.format(calendar.getTime());
 
         String text = simpleDateFormat.format(calendar.getTime()) + " - " + simpleDateFormat.format(new Date());
-//        mToDayVal = setHowManyDays(mFromDayVal, 6);
         calendar.add(Calendar.DATE, 6);
         calendar.set(Calendar.HOUR_OF_DAY, 23);
         calendar.set(Calendar.MINUTE, 59);
@@ -1427,7 +1192,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
 
             if (connectionDetector.isConnectingToInternet()) {
                 mResponseModel = HttpRequest.getRequest(URLs.PROCESSRESPONSEDATA + "sql=SELECT%20" + queryParam + "%20FROM%20%22" + id + "%22&participantId=" + participateId, new HashMap<String, String>(), "Response");
-                Log.e("PROCESSRESPONSEDATA", "" + URLs.PROCESSRESPONSEDATA + "sql=SELECT%20" + queryParam + "%20FROM%20%22" + id + "%22&participantId=" + participateId);
                 responseCode = mResponseModel.getResponseCode();
                 response = mResponseModel.getResponseData();
                 if (responseCode.equalsIgnoreCase("0") && response.equalsIgnoreCase("timeout")) {
@@ -1549,7 +1313,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                                         && !key.equalsIgnoreCase("duration")
                                         && !key.equalsIgnoreCase(stepKey + "Id")
                                         && !key.equalsIgnoreCase("Created")) {
-                                    Log.e("key   value", "" + key + "  " + value);
                                     int runId = dbServiceSubscriber.getActivityRunForStatsAndCharts(responseInfoActiveTaskModel.getActivityId(), studyId, completedDate, mRealm);
                                     if (key.equalsIgnoreCase("count")) {
                                         stepRecordCustom.setStepId(stepKey);
@@ -1564,7 +1327,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
 
                                     stepRecordCustom.setCompleted(completedDate);
                                     stepRecordCustom.setStarted(completedDate);
-                                    Log.e("runid", "" + runId + "  " + completedDate + "  " + studyId + "   " + responseInfoActiveTaskModel.getActivityId() + "   " + stepKey + "  " + key);
                                     JSONObject jsonObject2 = new JSONObject();
                                     try {
                                         Date anchordate = AppController.getLabkeyDateFormat().parse("" + value);

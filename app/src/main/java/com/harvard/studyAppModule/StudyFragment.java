@@ -102,8 +102,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
     private Context mContext;
     private AppCompatTextView mEmptyListMessage;
     public static final String CONSENT = "consent";
-    //    private AppCompatTextView mFDAListenTitle;
-//    private RelativeLayout mFilterBtn;
     private final int STUDY_LIST = 10;
     private final int GET_PREFERENCES = 11;
     private final int UPDATE_PREFERENCES = 12;
@@ -179,11 +177,8 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         realm = AppController.getRealmobj(mContext);
         studyListArrayList = new RealmList<>();
         initializeXMLId(view);
-        setTextForView();
-        setFont();
         bindEvents();
 
-//        callGetStudyListWebservice();
         return view;
     }
 
@@ -197,32 +192,14 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
     }
 
     private void initializeXMLId(View view) {
-//        mFDAListenTitle = (AppCompatTextView) view.findViewById(R.id.fda_listen);
-//        mFilterBtn = (RelativeLayout) view.findViewById(R.id.filterBtn);
         mStudyRecyclerView = (RecyclerView) view.findViewById(R.id.studyRecyclerView);
         mEmptyListMessage = (AppCompatTextView) view.findViewById(R.id.emptyListMessage);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
     }
 
-    private void setTextForView() {
-//        mFDAListenTitle.setText(getResources().getString(R.string.fda_listens));
-    }
 
-    private void setFont() {
-        try {
-//            mFDAListenTitle.setTypeface(AppController.getTypeface(getActivity(), "bold"));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     private void bindEvents() {
-//        mFilterBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Toast.makeText(getActivity(), "Filter clicked", Toast.LENGTH_LONG).show();
-//            }
-//        });
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -278,7 +255,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
             if (!AppController.getHelperSharedPreference().readPreference(mContext, mContext.getResources().getString(R.string.userid), "").equalsIgnoreCase("")) {
                 completionAdeherenceCalc = survayScheduler.completionAndAdherenceCalculation(studyListArrayList.get(i).getStudyId(), mContext);
                 if (completionAdeherenceCalc.isActivityAvailable()) {
-//                    completionAdeherenceCalcs.add(completionAdeherenceCalc);
                     completionAdeherenceCalcSort = completionAdeherenceCalc;
                 } else {
                     Studies studies = dbServiceSubscriber.getStudies(studyListArrayList.get(i).getStudyId(), realm);
@@ -288,14 +264,12 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                             completionAdeherenceCalculation.setCompletion(studies.getCompletion());
                             completionAdeherenceCalculation.setAdherence(studies.getAdherence());
                             completionAdeherenceCalculation.setActivityAvailable(false);
-//                            completionAdeherenceCalcs.add(completionAdeherenceCalculation);
                             completionAdeherenceCalcSort = completionAdeherenceCalculation;
                         } catch (Exception e) {
                             CompletionAdeherenceCalc completionAdeherenceCalculation = new CompletionAdeherenceCalc();
                             completionAdeherenceCalculation.setAdherence(0);
                             completionAdeherenceCalculation.setCompletion(0);
                             completionAdeherenceCalculation.setActivityAvailable(false);
-//                            completionAdeherenceCalcs.add(completionAdeherenceCalculation);
                             completionAdeherenceCalcSort = completionAdeherenceCalculation;
                             e.printStackTrace();
                         }
@@ -782,7 +756,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                             }
                         } else {
                             // not bookmarked
-//                            if (!studyListArrayList.get(i).isBookmarked()) {
                             for (int j = 0; list1.size() > j; j++) {
                                 if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(list1.get(j))) {
                                     for (int k = 0; list2.size() > k; k++) {
@@ -798,7 +771,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                                     }
                                 }
                             }
-//                            }
                         }
                     }
                 }
@@ -836,7 +808,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                 if (AppController.getHelperSharedPreference().readPreference(mContext, mContext.getString(R.string.userid), "").equalsIgnoreCase("")) {
                     AppController.getHelperProgressDialog().dismissDialog();
                     onItemsLoadComplete();
-//                    new ProcessData(false).execute();
                     webserviceCall = false;
                     setStudyList(false);
                 } else {
@@ -891,17 +862,11 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                                 studyListArrayList.get(j).setStudyStatus(userPreferenceStudies.get(i).getStatus());
                             }
                             // update study completed status
-                            /*else
-                            {
-//                                if(studyListArrayList.get(j).ge)
-//                                studyListArrayList.get(j).setStudyStatus();
-                            }*/
                         }
                     }
                 } else {
                     Toast.makeText(mContext, R.string.error_retriving_data, Toast.LENGTH_SHORT).show();
                 }
-//                new ProcessData(false).execute();
                 setStudyList(false);
                 ((StudyActivity) getContext()).checkForNotification(((StudyActivity) getContext()).getIntent());
             } else {
@@ -914,7 +879,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                 Toast.makeText(mContext, R.string.update_success, Toast.LENGTH_SHORT).show();
 
                 realm.beginTransaction();
-//                studyListArrayList.get(lastUpdatedPosition).setBookmarked(lastUpdatedBookMark);
                 if (mSearchResultList.size() > 0) {
                     // searchlist
                     int pos = getFilterdArrayListPosition(lastUpdatedStudyId);
@@ -931,7 +895,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
             }
         } else if (responseCode == STUDY_UPDATES) {
             StudyUpdate studyUpdate = (StudyUpdate) response;
-//            StudyUpdate studyUpdate = new Gson().fromJson(loadJSONFromAsset(), StudyUpdate.class);
             studyUpdate.setStudyId(mStudyId);
             StudyUpdateListdata studyUpdateListdata = new StudyUpdateListdata();
             RealmList<StudyUpdate> studyUpdates = new RealmList<>();
@@ -948,7 +911,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
             if (studyUpdate.getStudyUpdateData().isConsent()) {
                 callConsentMetaDataWebservice();
             } else {
-//                dbServiceSubscriber.updateStudyPreferenceVersionDB(mStudyId, mStudyVersion);
                 AppController.getHelperProgressDialog().dismissDialog();
                 Intent intent = new Intent(mContext, SurveyActivity.class);
                 intent.putExtra("studyId", mStudyId);
@@ -999,8 +961,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         HashMap<String, String> header = new HashMap<>();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(mContext, getResources().getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(mContext, getResources().getString(R.string.userid), ""));
-//        header.put("studyId", mStudyId);
-//        header.put("consentVersion", "1.0");
         String url = URLs.CONSENTPDF + "?studyId=" + mStudyId + "&consentVersion=";
         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("get", url, CONSENTPDF, getActivity(), ConsentPDF.class, null, header, null, false, StudyFragment.this);
         consentPDFEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
@@ -1015,10 +975,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         databaseEvent.setaClass(EligibilityConsent.class);
         databaseEvent.setmOperation(DBServiceSubscriber.INSERT_AND_UPDATE_OPERATION);
         dbServiceSubscriber.insert(context,databaseEvent);
-//        Realm realm = AppController.getRealmobj();
-//        realm.beginTransaction();
-//        realm.copyToRealmOrUpdate(eligibilityConsent);
-//        realm.commitTransaction();
     }
 
     private void startConsent(Consent consent, String type) {
@@ -1033,15 +989,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
 
 
     private void callConsentMetaDataWebservice() {
-//        HashMap<String, String> header = new HashMap<>();
-////        header.put("studyId", mStudyId);
-//        String url = URLs.CONSENT_METADATA + "?studyId=" + mStudyId;
-//        GetConsentMetaDataEvent getConsentMetaDataEvent = new GetConsentMetaDataEvent();
-//        WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, CONSENT_METADATA, mContext, EligibilityConsent.class, null, header, null, false, this);
-//
-//        getConsentMetaDataEvent.setWcpConfigEvent(wcpConfigEvent);
-//        StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
-//        studyModulePresenter.performGetConsentMetaData(getConsentMetaDataEvent);
 
         new callConsentMetaData().execute();
     }
@@ -1163,7 +1110,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         mLocalNotification = localNotification;
         mCalledFor = calledFor;
         StudyData studyData = dbServiceSubscriber.getStudyPreferences(realm);
-//        Studies studies = dbServiceSubscriber.getStudies(studyId);
         Studies studies = null;
         if (studyData != null && studyData.getStudies() != null) {
             for (int i = 0; i < studyData.getStudies().size(); i++) {
@@ -1175,23 +1121,12 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         if (studies != null && studies.getVersion() != null && !studies.getVersion().equalsIgnoreCase(studyVersion)) {
             getStudyUpdateFomWS(studyId, studies.getVersion());
         } else {
-            /*if(studies != null && studies.getVersion() == null)
-            {
-                dbServiceSubscriber.updateStudyPreferenceVersion(studyVersion, studies);
-            }
-            Intent intent = new Intent(mContext, SurveyActivity.class);
-            intent.putExtra("studyId", studyId);
-            mContext.startActivity(intent);*/
             getCurrentConsentDocument(studyId);
         }
     }
 
     private void getCurrentConsentDocument(String studyId) {
-//        mStudyId = studyId;
-//        AppController.getHelperProgressDialog().showProgress(getActivity(), "", "", false);
         HashMap<String, String> header = new HashMap<>();
-//                header.put("studyId", mStudyId);
-//                header.put("consentVersion", "1.0");
         String url = URLs.GET_CONSENT_DOC + "?studyId=" + studyId + "&consentVersion=&activityId=&activityVersion=";
         AppController.getHelperProgressDialog().showProgress(getActivity(), "", "", false);
         GetUserStudyInfoEvent getUserStudyInfoEvent = new GetUserStudyInfoEvent();
@@ -1203,13 +1138,10 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
     }
 
     private void getStudyUpdateFomWS(String studyId, String studyVersion) {
-//        mStudyId = studyId;
         mStudyVersion = studyVersion;
         AppController.getHelperProgressDialog().showProgress(getActivity(), "", "", false);
         GetUserStudyListEvent getUserStudyListEvent = new GetUserStudyListEvent();
         HashMap<String, String> header = new HashMap();
-//        header.put("studyId", studyId);
-//        header.put("studyVersion", studyVersion);
         String url = URLs.STUDY_UPDATES + "?studyId=" + studyId + "&studyVersion=" + studyVersion;
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, STUDY_UPDATES, mContext, StudyUpdate.class, null, header, null, false, this);
 
@@ -1226,7 +1158,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         if (statusCode.equalsIgnoreCase("401")) {
             Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(mContext, errormsg);
-//            ((StudyActivity) getContext()).loadstudylist();
         } else if (responseCode == CONSENT_METADATA) {
             Toast.makeText(getActivity(), errormsg, Toast.LENGTH_LONG).show();
         } else if (responseCode == STUDY_UPDATES || responseCode == GET_CONSENT_DOC || responseCode == CONSENTPDF) {
@@ -1238,14 +1169,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
             intent.putExtra("localNotification", mLocalNotification);
             mContext.startActivity(intent);
         } else {
-            /*if (responseCode == STUDY_LIST) {
-                mEmptyListMessage.setVisibility(View.GONE);
-            } else {
-                mEmptyListMessage.setVisibility(View.GONE);
-
-            }*/
-
-
             // offline handling
             if (responseCode == UPDATE_PREFERENCES) {
                 realm.beginTransaction();
@@ -1269,7 +1192,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                 if (mStudy != null) {
                     studyListArrayList = mStudy.getStudies();
                     studyListArrayList = dbServiceSubscriber.saveStudyStatusToStudyList(studyListArrayList, realm);
-//                new ProcessData(true).execute();
                     setStudyList(true);
                 } else {
                     Toast.makeText(getActivity(), errormsg, Toast.LENGTH_LONG).show();
@@ -1283,8 +1205,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         UpdatePreferenceEvent updatePreferenceEvent = new UpdatePreferenceEvent();
         lastUpdatedPosition = position;
         lastUpdatedBookMark = b;
-        /*lastUpdatedStudyId = studyListArrayList.get(position).getStudyId();
-        lastUpdatedStatusStatus = studyListArrayList.get(position).getStudyStatus();*/
         lastUpdatedStudyId = studyId;
         lastUpdatedStatusStatus = studyStatus;
         HashMap<String, String> header = new HashMap();
@@ -1296,7 +1216,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         JSONArray studieslist = new JSONArray();
         JSONObject studies = new JSONObject();
         try {
-//            studies.put("studyId", studyListArrayList.get(position).getStudyId());
             studies.put("studyId", studyId);
             studies.put("bookmarked", b);
         } catch (JSONException e) {
@@ -1317,7 +1236,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
             } else {
                 number += 1;
             }
-//            String studyId = studyListArrayList.get(position).getStudyId();
             OfflineData offlineData = dbServiceSubscriber.getStudyIdOfflineData(studyId, realm);
             if (offlineData != null) {
                 number = offlineData.getNumber();
@@ -1336,95 +1254,17 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         userModulePresenter.performUpdateUserPreference(updatePreferenceEvent);
     }
 
-    /*public void refreshlist(boolean bookmark, String position, String status, String studyId) {
-        // Error :- Changing Realm data can only be done from inside a transaction
-        // To avoid this we are using below code
-        Realm realm = AppController.getRealmobj();
-        realm.beginTransaction();
-        studyListArrayList.get(Integer.parseInt(position)).setBookmarked(bookmark);
-        realm.commitTransaction();
-        lastUpdatedBookMark = bookmark;
-        lastUpdatedPosition = Integer.parseInt(position);
-        lastUpdatedStatusStatus = status;
-        lastUpdatedStudyId = studyId;
-//        dbServiceSubscriber.updateUserPreferenceToDb(lastUpdatedStudyId, lastUpdatedBookMark, lastUpdatedStatusStatus);
-        studyListAdapter.notifyItemChanged(Integer.parseInt(position));
-    }*/
-
-
-    /*private class ProcessData extends AsyncTask<String, Void, String> {
-
-        boolean offline;
-        private ProcessData(boolean offline)
-        {
-            this.offline = offline;
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            setStudyList(offline);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            AppController.getHelperProgressDialog().dismissDialog();
-            mStudyRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-            mStudyRecyclerView.setNestedScrollingEnabled(false);
-            studyListAdapter = new StudyListAdapter(mContext, studyListArrayList, StudyFragment.this);
-            mStudyRecyclerView.setAdapter(studyListAdapter);
-        }
-
-        @Override
-        protected void onPreExecute() {
-            AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
-        }
-
-    }*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CONSENT_RESPONSECODE) {
             if (resultCode == getActivity().RESULT_OK) {
-                /*try {
-                    TaskResult result = (TaskResult) data.getSerializableExtra(CustomConsentViewTaskActivity.EXTRA_TASK_RESULT);
-                    signatureBase64 = (String) result.getStepResult("Signature")
-                            .getResultForIdentifier(ConsentSignatureStepLayout.KEY_SIGNATURE);
-
-                    signatureDate = (String) result.getStepResult("Signature")
-                            .getResultForIdentifier(ConsentSignatureStepLayout.KEY_SIGNATURE_DATE);
-
-                    String formResult = new Gson().toJson(result.getStepResult(getResources().getString(R.string.signature_form_step)).getResults());
-                    JSONObject formResultObj = new JSONObject(formResult);
-                    JSONObject fullNameObj = formResultObj.getJSONObject("First Name");
-                    JSONObject fullNameResult = fullNameObj.getJSONObject("results");
-                    firstName = fullNameResult.getString("answer");
-
-                    JSONObject lastNameObj = formResultObj.getJSONObject("Last Name");
-                    JSONObject lastNameResult = lastNameObj.getJSONObject("results");
-                    lastName = lastNameResult.getString("answer");
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-                genarateConsentPDF(signatureBase64);
-                // encrypt the genarated pdf
-                encryptFile = AppController.genarateEncryptedConsentPDF("/data/data/" + mContext.getPackageName() + "/files/", mFileName);
-                //After encryption delete the pdf file
-                if (encryptFile != null) {
-                    File file = new File("/data/data/" + mContext.getPackageName() + "/files/" + mFileName + ".pdf");
-                    file.delete();
-                }*/
                 Intent intent = new Intent(getActivity(), ConsentCompletedActivity.class);
-//                intent.putExtra("enrollId", getIntent().getStringExtra("enrollId"));
                 intent.putExtra("studyId", mStudyId);
                 intent.putExtra("title", mtitle);
                 intent.putExtra("eligibility", eligibilityType);
                 intent.putExtra("type", data.getStringExtra(CustomConsentViewTaskActivity.TYPE));
-//                intent.putExtra("PdfPath", myFile.getAbsolutePath());
                 // get the encrypted file path
                 intent.putExtra("PdfPath", data.getStringExtra("PdfPath"));
                 startActivity(intent);
@@ -1433,101 +1273,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         }
     }
 
-    private void genarateConsentPDF(String signatureBase64) {
-        try {
-            getFile("/data/data/" + mContext.getPackageName() + "/files/");
-            Date date = new Date();
-            String timeStamp = AppController.getDateFormatType3();
-            mFileName = timeStamp;
-            String filePath = "/data/data/" + mContext.getPackageName() + "/files/" + timeStamp + ".pdf";
-            myFile = new File(filePath);
-            if (!myFile.exists())
-                myFile.createNewFile();
-            OutputStream output = new FileOutputStream(myFile);
-
-            Document document = new Document();
-            PdfWriter writer = PdfWriter.getInstance(document, output);
-            writer.setFullCompression();
-
-            document.addCreationDate();
-            document.setPageSize(PageSize.A4);
-            document.setMargins(10, 10, 10, 10);
-
-            document.open();
-            Paragraph consentItem;
-            if (eligibilityConsent != null && eligibilityConsent.getConsent() != null && eligibilityConsent.getConsent().getReview() != null && eligibilityConsent.getConsent().getReview().getSignatureContent() != null && !eligibilityConsent.getConsent().getReview().getSignatureContent().equalsIgnoreCase("")) {
-                consentItem = new Paragraph(Html.fromHtml(eligibilityConsent.getConsent().getReview().getSignatureContent().toString()).toString());
-            } else if (eligibilityConsent != null && eligibilityConsent.getConsent() != null && eligibilityConsent.getConsent().getVisualScreens() != null) {
-                StringBuilder docBuilder;
-                if (eligibilityConsent.getConsent().getVisualScreens().size() > 0) {
-                    // Create our HTML to show the user and have them accept or decline.
-                    docBuilder = new StringBuilder(
-                            "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
-                    String title = mtitle;
-                    docBuilder.append(String.format(
-                            "<h1 style=\"text-align: center; font-family:sans-serif-light;\">%1$s</h1>",
-                            title));
-
-
-                    docBuilder.append("</div></br>");
-                    for (int i = 0; i < eligibilityConsent.getConsent().getVisualScreens().size(); i++) {
-                        docBuilder.append("<div>  <h4>" + eligibilityConsent.getConsent().getVisualScreens().get(i).getTitle() + "<h4> </div>");
-                        docBuilder.append("</br>");
-                        docBuilder.append("<div>" + eligibilityConsent.getConsent().getVisualScreens().get(i).getHtml() + "</div>");
-                        docBuilder.append("</br>");
-                        docBuilder.append("</br>");
-                    }
-                    consentItem = new Paragraph(Html.fromHtml(docBuilder.toString()).toString());
-                } else {
-                    consentItem = new Paragraph("");
-                }
-            } else {
-                consentItem = new Paragraph("");
-            }
-//            Paragraph consentItem = new Paragraph();
-//            ElementList list = XMLWorkerHelper.parseToElementList(Html.fromHtml(eligibilityConsent.getConsent().getReview().getSignatureContent().toString()).toString(), null);
-//            for (Element element : list) {
-//                consentItem.add(element);
-//            }
-            StringBuilder docBuilder = new StringBuilder(
-                    "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
-            String participant = mContext.getResources().getString(R.string.participant);
-            docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", participant));
-            String detail = mContext.getResources().getString(R.string.agree_participate_research_study);
-            docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", detail));
-            consentItem.add(Html.fromHtml(docBuilder.toString()).toString());
-
-            byte[] signatureBytes;
-            Image myImg = null;
-            if (signatureBase64 != null) {
-                signatureBytes = Base64.decode(signatureBase64, Base64.DEFAULT);
-                myImg = Image.getInstance(signatureBytes);
-                myImg.setScaleToFitHeight(true);
-                myImg.scalePercent(50f);
-            }
-
-            PdfPTable table = new PdfPTable(3);
-            table.setWidthPercentage(100);
-            table.addCell(getCell(firstName + " " + lastName, PdfPCell.ALIGN_CENTER));
-            table.addCell(getImage(myImg, PdfPCell.ALIGN_CENTER));
-            table.addCell(getCell(signatureDate, PdfPCell.ALIGN_CENTER));
-            consentItem.add(table);
-
-
-            PdfPTable table1 = new PdfPTable(3);
-            table1.setWidthPercentage(100);
-            table1.addCell(getCell(mContext.getResources().getString(R.string.participans_name), PdfPCell.ALIGN_CENTER));
-            table1.addCell(getCell(mContext.getResources().getString(R.string.participants_signature), PdfPCell.ALIGN_CENTER));
-            table1.addCell(getCell(mContext.getResources().getString(R.string.date), PdfPCell.ALIGN_CENTER));
-            consentItem.add(table1);
-
-            document.add(consentItem);
-            document.close();
-        } catch (IOException | DocumentException e) {
-            Toast.makeText(mContext, R.string.not_able_create_pdf, Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-    }
 
     public PdfPCell getImage(Image image, int alignment) {
         PdfPCell cell;
@@ -1543,22 +1288,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         return cell;
     }
 
-    public PdfPCell getCell(String text, int alignment) {
-        PdfPCell cell = new PdfPCell(new Phrase(text));
-        cell.setPadding(10);
-        cell.setHorizontalAlignment(alignment);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
-        cell.setBorder(PdfPCell.NO_BORDER);
-        return cell;
-    }
-
-
-    private void getFile(String s) {
-        file = new File(s, FILE_FOLDER);
-        if (!file.exists()) {
-            file.mkdirs();
-        }
-    }
 
     @Override
     public void onDestroy() {

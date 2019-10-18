@@ -78,7 +78,6 @@ public class ScaleQuestion implements StepBody {
 
         final int max = format.getMaxValue();
         min = format.getMinValue();
-//        stepSection = (max - min) / format.getSection();
         stepSection = format.getSection();
 
         View seekbarlayout;

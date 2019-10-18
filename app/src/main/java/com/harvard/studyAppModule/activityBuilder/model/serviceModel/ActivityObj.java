@@ -11,10 +11,7 @@ public class ActivityObj extends RealmObject {
     private Info metadata;
     private String surveyId;
     private String studyId;
-//    private QuestionnaireConfiguration questionnaireConfiguration;
     private RealmList<Steps> steps;
-//    private RealmList<RandomizationSets> randomizationSets;
-//    private RealmList<ResourceContext> resourceContext;
 
 
     public String getStudyId() {
@@ -33,21 +30,6 @@ public class ActivityObj extends RealmObject {
         this.surveyId = surveyId;
     }
 
-//    public void setRandomizationSets(RealmList<RandomizationSets> randomizationSets) {
-//        this.randomizationSets = randomizationSets;
-//    }
-//
-//    public RealmList<ResourceContext> getResourceContext() {
-//        return resourceContext;
-//    }
-//
-//    public RealmList<RandomizationSets> getRandomizationSets() {
-//        return randomizationSets;
-//    }
-//
-//    public void setResourceContext(RealmList<ResourceContext> resourceContext) {
-//        this.resourceContext = resourceContext;
-//    }
 
     public String getType() {
         return type;
@@ -65,13 +47,6 @@ public class ActivityObj extends RealmObject {
         this.metadata = metadata;
     }
 
-    //    public QuestionnaireConfiguration getQuestionnaireConfiguration() {
-//        return questionnaireConfiguration;
-//    }
-//
-//    public void setQuestionnaireConfiguration(QuestionnaireConfiguration questionnaireConfiguration) {
-//        this.questionnaireConfiguration = questionnaireConfiguration;
-//    }
 
     public RealmList<Steps> getSteps() {
         return steps;

@@ -105,7 +105,6 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
     Realm realm;
     public static String RESOURCES = "resources";
 
-    //CustomSurveyViewTaskActivity.newIntent(mContext, ((SurveyActivity) mContext).getStudyId() + "_STUDYID_" + mActivityObj.getSurveyId() + "_" + mCurrentRunId, ((SurveyActivity) mContext).getStudyId(), mCurrentRunId, mActivityStatus, mActivityStatusData.getMissedRun(), mActivityStatusData.getCompletedRun(), mActivityStatusData.getTotalRun(), mActivityVersion, mActivityStatusData.getCurrentRunStartDate(), mActivityStatusData.getCurrentRunEndDate(), mActivityObj.getSurveyId());
     public static Intent newIntent(Context context, String surveyId, String studyId, int mCurrentRunId, String mActivityStatus, int missedRun, int completedRun, int totalRun, String mActivityVersion, Date currentRunStartDate, Date currentRunEndDate, String activityId, boolean branching) {
         Intent intent = new Intent(context, CustomSurveyViewTaskActivity.class);
         intent.putExtra(EXTRA_STUDYID, surveyId);
@@ -166,7 +165,6 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                 taskResult = new TaskResult(task.getIdentifier());
                 taskResult.setStartDate(new Date());
             }
-//                currentStep = task.getStepAfterStep(currentStep, taskResult);
         } else {
             taskResult = new TaskResult(task.getIdentifier());
             taskResult.setStartDate(new Date());
@@ -293,12 +291,6 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                 }
 
 
-                if (savecurrent) {
-//                    StepsIdentifier stepsIdentifier = new StepsIdentifier();
-//                    stepsIdentifier.setCurrentStepIdentifier(currentStep.getIdentifier());
-//                    stepsIdentifier.setTaskStepIdentifier(taskResult.getIdentifier());
-//                    realm.copyToRealmOrUpdate(stepsIdentifier);
-                }
             }
         }
     }
@@ -310,10 +302,8 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                     StepRecordCustom stepRecordCustom = dbServiceSubscriber.getSurveyResponseFromDB(getIntent().getStringExtra(STUDYID) + "_STUDYID_" + mActivityId, mStudyHome.getAnchorDate().getQuestionInfo().getKey(), realm);
                     if (stepRecordCustom != null) {
                         Calendar startCalender = Calendar.getInstance();
-//                        startCalender.setTime(stepRecordCustom.getCompleted());
 
                         Calendar endCalender = Calendar.getInstance();
-//                        endCalender.setTime(stepRecordCustom.getCompleted());
 
 
                         JSONObject jsonObject = null;
@@ -424,9 +414,6 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
     private void saveAndFinish() {
         taskResult.setEndDate(new Date());
-//        Intent resultIntent = new Intent();
-//        resultIntent.putExtra(EXTRA_TASK_RESULT, taskResult);
-//        setResult(RESULT_OK, resultIntent);
 
         Intent intent = new Intent(CustomSurveyViewTaskActivity.this, SurveyCompleteActivity.class);
         intent.putExtra(EXTRA_TASK_RESULT, taskResult);
@@ -446,8 +433,6 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         if (requestCode == 123 && resultCode == RESULT_OK) {
             finish();
         } else if (requestCode == 123 && resultCode == RESULT_CANCELED) {
-//            notifyStepOfBackPress();
-//            finish();
             this.recreate();
         }
     }
@@ -531,24 +516,6 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
     }
 
 
-//    @Override
-//    public void onDataReady() {
-//        super.onDataReady();
-//
-//        if (currentStep == null) {
-//            currentStep = task.getStepAfterStep(null, taskResult);
-//        }
-//
-//        showStep(currentStep);
-//    }
-//
-//    @Override
-//    public void onDataFailed() {
-//        super.onDataFailed();
-//        Toast.makeText(this, org.researchstack.backbone.R.string.rsb_error_data_failed, Toast.LENGTH_LONG).show();
-//        finish();
-//    }
-
     @Override
     public void onSaveStep(int action, Step step, StepResult result) {
         onSaveStepResult(step.getIdentifier(), result);
@@ -611,9 +578,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
     public void addformquestion(QuestionStep questionStep, String identifier, String stepIdentifier) {
         String survayId[] = StudyId.split("_STUDYID_");
-        Log.e("suverid", "" + survayId[1]);
         ActivityObj surveyObject = dbServiceSubscriber.getActivityBySurveyId(getIntent().getStringExtra(STUDYID), survayId[1].substring(0, survayId[1].lastIndexOf("_")), realm);
-        Log.e("key", "" + identifier);
         Steps step = dbServiceSubscriber.getSteps(identifier, realm);
 
         if (surveyObject != null && step != null) {
@@ -622,35 +587,14 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
             realm.beginTransaction();
             for (int i = 0; i < formstep.size(); i++) {
                 if (formstep.get(i).getType().equalsIgnoreCase("form") && formstep.get(i).getKey().equalsIgnoreCase(stepIdentifier)) {
-                    Log.e("added", "" + formstep.get(i).getKey());
                     formstep.get(i).getSteps().add(steps);
                 }
             }
             realm.commitTransaction();
         } else {
-            Log.e("not added", "" + identifier);
             Toast.makeText(this, getResources().getString(R.string.step_couldnt_add), Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void scrolltofirst(final LinearLayout bodyview) {
-        if (bodyview != null) {
-//            new Handler().post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    view.scrollTo(0, 500);
-//                    view.computeScroll();
-////                    view.requestFocus();
-//                }
-//            });
-
-            bodyview.post(new Runnable() {
-                @Override
-                public void run() {
-                    bodyview.scrollBy(0, 500);
-                }
-            });
-        }
-    }
 }
 

@@ -102,7 +102,6 @@ public class PDFDisplayActivity extends AppCompatActivity implements ApiCall.OnA
                     String[] permission = new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
                     if (!hasPermissions(permission)) {
                         // just checking is it already denied?
-//                        ActivityCompat.requestPermissions((Activity) PDFDisplayActivity.this, permission, PERMISSION_REQUEST_CODE);
                         Toast.makeText(PDFDisplayActivity.this, getResources().getString(R.string.permission_enable_message), Toast.LENGTH_LONG).show();
                     } else {
                         sharePDF();
@@ -139,8 +138,6 @@ public class PDFDisplayActivity extends AppCompatActivity implements ApiCall.OnA
         HashMap<String, String> header = new HashMap<>();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.userid), ""));
-//        header.put("studyId", mStudyId);
-//        header.put("consentVersion", "1.0");
         String url = URLs.CONSENTPDF + "?studyId=" + mStudyId + "&consentVersion=";
         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("get", url, CONSENTPDF, PDFDisplayActivity.this, ConsentPDF.class, null, header, null, false, PDFDisplayActivity.this);
         consentPDFEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
@@ -202,7 +199,6 @@ public class PDFDisplayActivity extends AppCompatActivity implements ApiCall.OnA
 
     public void sharePDFCreation() {
         try {
-//            String temPDFPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + new Date().getTime() + ".pdf";
             String temPDFPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + mTitle + "_" + getString(R.string.signed_consent) + ".pdf";
             File file = new File(temPDFPath);
             if (!file.exists())
@@ -225,7 +221,6 @@ public class PDFDisplayActivity extends AppCompatActivity implements ApiCall.OnA
             ConsentPDF consentPDFData = (ConsentPDF) response;
             if (consentPDFData != null) {
 
-//                byte[] byteArray = null;
                 try {
                     bytesArray = Base64.decode(consentPDFData.getConsent().getContent(), Base64.DEFAULT);
                 } catch (Exception e) {
@@ -256,7 +251,6 @@ public class PDFDisplayActivity extends AppCompatActivity implements ApiCall.OnA
                 ConsentPDF consentPDFData = db.getConsentPDF(mStudyId, mRealm);
                 if (consentPDFData != null) {
 
-//                    byte[] byteArray = null;
                     try {
                         bytesArray = Base64.decode(consentPDFData.getConsent().getContent(), Base64.DEFAULT);
                     } catch (Exception e) {

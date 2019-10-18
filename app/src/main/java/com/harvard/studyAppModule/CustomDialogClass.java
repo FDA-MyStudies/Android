@@ -15,15 +15,12 @@ public class CustomDialogClass<V> extends Dialog implements View.OnClickListener
     private NumberPicker mHourPicker = null;
     private NumberPicker minPicker = null;
     private AppCompatTextView mDoneBtn;
-    //    public Activity c;
     private final ProfileFragment profileFragment;
     private final String[] mins15 = {"00", "15", "30", "45"};
 
 
     public CustomDialogClass(Activity a, ProfileFragment profileFragment) {
         super(a);
-        // TODO Auto-generated constructor stub
-//        this.c = a;
         this.profileFragment = profileFragment;
     }
 
@@ -48,7 +45,6 @@ public class CustomDialogClass<V> extends Dialog implements View.OnClickListener
         mHourPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-//                Log.e("value", "" + mHourPicker.getValue() + "   " + minPicker.getValue());
                 if (mHourPicker.getValue() == 0 && minPicker.getValue() == 1) {
                     minPicker.setValue(2);
                 }

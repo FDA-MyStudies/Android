@@ -76,7 +76,6 @@ public class FilterActivity extends AppCompatActivity {
 
 
     AppCompatCheckBox mPausedSelectBtn;
-    //    RelativeLayout mSearchLayout;
     AppCompatTextView mPausedLabel;
     String mUserId;
 
@@ -182,9 +181,6 @@ public class FilterActivity extends AppCompatActivity {
         mNotEligibleLayout.setVisibility(View.VISIBLE);
         mBookmarkedLayout.setVisibility(View.VISIBLE);
 
-//        RelativeLayout.LayoutParams parameter =  (RelativeLayout.LayoutParams) mCategoriesLabel.getLayoutParams();
-//        parameter.setMargins(0, 35, 0, 0); // left, top, right, bottom
-//        mCategoriesLabel.setLayoutParams(parameter);
     }
 
     // default filter criteria; if any changes here then accordingly make changes in StudyFragment.defaultSelectedFilterOption()

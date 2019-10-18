@@ -59,7 +59,6 @@ public class EligibilityEnrollmentActivity extends AppCompatActivity implements 
     private void setTextForView() {
         mTitle.setText(getResources().getString(R.string.eligibility));
         mCancelBtn.setVisibility(View.GONE);
-//        mEnrollmentID.setText("KQKKNJKQJ");
         mEnrollmentID.setText("");
     }
 
@@ -102,23 +101,14 @@ public class EligibilityEnrollmentActivity extends AppCompatActivity implements 
 
     private void callValidateEnrollmentId() {
         AppController.getHelperProgressDialog().showProgress(EligibilityEnrollmentActivity.this, "", "", false);
-//        header.put("studyId", getIntent().getStringExtra("studyId"));
 
         VerifyEnrollmentIdEvent verifyEnrollmentIdEvent = new VerifyEnrollmentIdEvent();
-//        JSONObject params = new JSONObject();
-//        try {
-//            params.put("studyId",getIntent().getStringExtra("studyId"));
-//            params.put("token",mEnrollmentID.getText().toString());
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
 
         HashMap<String, String> params = new HashMap<>();
         params.put("studyId", "" + getIntent().getStringExtra("studyId"));
         params.put("token", mEnrollmentID.getText().toString());
 
         ResponseServerConfigEvent responseServerConfigEvent = new ResponseServerConfigEvent("post_json", URLs.VALIDATE_ENROLLMENT_ID, VERIFY_ENROLLMENT_ID, EligibilityEnrollmentActivity.this, ResponseServerData.class, params, null, null, false, EligibilityEnrollmentActivity.this);
-//        ResponseServerConfigEvent responseServerConfigEvent = new ResponseServerConfigEvent("get", URLs.VALIDATE_ENROLLMENT_ID + "studyId=TESTSTUDY01&token=" + mEnrollmentID.getText().toString(), VERIFY_ENROLLMENT_ID, EligibilityEnrollmentActivity.this, ResponseServerData.class, null, null, null, false, EligibilityEnrollmentActivity.this);
 
         verifyEnrollmentIdEvent.setResponseServerConfigEvent(responseServerConfigEvent);
         StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
@@ -142,7 +132,6 @@ public class EligibilityEnrollmentActivity extends AppCompatActivity implements 
                 mEnteredId = mEnrollmentID.getText().toString();
                 mEnrollmentID.setText("");
                 if (getIntent().getStringExtra("eligibility").equalsIgnoreCase("combined")) {
-//                    startActivityForResult(intent, 12345);
                     Intent intent1 = new Intent();
                     intent1.putExtra("enrollId", "" + mEnteredId);
                     setResult(RESULT_OK, intent1);

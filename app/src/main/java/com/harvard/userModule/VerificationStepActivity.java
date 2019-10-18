@@ -36,7 +36,6 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
     private AppCompatEditText mVerificationCode;
     private RelativeLayout mBackBtn;
     private RelativeLayout mCancelBtn;
-    //    boolean doubleBackToExitPressedOnce = false;
     final int CONFIRM_REGISTER_USER_RESPONSE = 100;
     final int RESEND_CONFIRMATION = 101;
     final int JOIN_STUDY_RESPONSE = 102;
@@ -60,14 +59,8 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
 
 
         initializeXMLId();
-//        if (mFrom != null && mFrom.equalsIgnoreCase(ForgotPasswordActivity.FROM)) {
-//            mEmailField.setVisibility(View.VISIBLE);
-//            mHrLine1.setVisibility(View.VISIBLE);
-//            mEmailField.setText(mEmailId);
-//        } else {
         mHrLine1.setVisibility(View.GONE);
         mEmailField.setVisibility(View.GONE);
-//        }
         setTextForView();
         setFont();
 
@@ -149,23 +142,6 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
                 VerifyUserEvent verifyUserEvent = new VerifyUserEvent();
                 HashMap<String, String> params = new HashMap<>();
                 HashMap<String, String> header = new HashMap<String, String>();
-//                if (mFrom != null && mFrom.equalsIgnoreCase(ForgotPasswordActivity.FROM)) {
-//                    if (mEmailField.getText().toString().equalsIgnoreCase("")) {
-//                        Toast.makeText(VerificationStepActivity.this, getResources().getString(R.string.email_empty), Toast.LENGTH_SHORT).show();
-//                    } else if (!AppController.getHelperIsValidEmail(mEmailField.getText().toString())) {
-//                        Toast.makeText(VerificationStepActivity.this, getResources().getString(R.string.email_validation), Toast.LENGTH_SHORT).show();
-//                    } else if (mVerificationCode.getText().toString().equalsIgnoreCase("")) {
-//                        Toast.makeText(VerificationStepActivity.this, getResources().getString(R.string.validation_code_error), Toast.LENGTH_SHORT).show();
-//                    } else {
-//                        AppController.getHelperProgressDialog().showProgress(VerificationStepActivity.this, "", "", false);
-//                        params.put("emailId", mEmailField.getText().toString());
-//                        params.put("code", mVerificationCode.getText().toString());
-//                        RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.CONFIRM_REGISTER_USER, CONFIRM_REGISTER_USER_RESPONSE, VerificationStepActivity.this, LoginData.class, params, header, null, false, VerificationStepActivity.this);
-//                        verifyUserEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
-//                        UserModulePresenter userModulePresenter = new UserModulePresenter();
-//                        userModulePresenter.performVerifyRegistration(verifyUserEvent);
-//                    }
-//                } else {
                 if (mVerificationCode.getText().toString().equalsIgnoreCase("")) {
                     Toast.makeText(VerificationStepActivity.this, getResources().getString(R.string.validation_code_error), Toast.LENGTH_SHORT).show();
                 } else {
@@ -177,10 +153,6 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
                     UserModulePresenter userModulePresenter = new UserModulePresenter();
                     userModulePresenter.performVerifyRegistration(verifyUserEvent);
                 }
-//                }
-
-//                header.put("userId", mUserId);
-//                header.put("auth", mAuth);
 
             }
         });
@@ -190,11 +162,7 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
             public void onClick(View view) {
                 AppController.getHelperProgressDialog().showProgress(VerificationStepActivity.this, "", "", false);
                 ResendEmailEvent resendEmailEvent = new ResendEmailEvent();
-//                HashMap<String, String> params = new HashMap<>();
-//                params.put("userId", AppController.getHelperSharedPreference().readPreference(VerificationStepActivity.this, getString(R.string.userid), ""));
                 HashMap<String, String> header = new HashMap<String, String>();
-//                header.put("userId", mUserId);
-//                header.put("auth", mAuth);
 
                 HashMap<String, String> params = new HashMap<String, String>();
                 params.put("emailId", mEmailId);
@@ -206,29 +174,6 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
         });
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        if (doubleBackToExitPressedOnce) {
-//            super.onBackPressed();
-//            return;
-//        }
-//
-//        this.doubleBackToExitPressedOnce = true;
-//        Toast.makeText(this, "Please click back again to exit", Toast.LENGTH_SHORT).show();
-//
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                doubleBackToExitPressedOnce = false;
-//                SharedPreferences settings = SharedPreferenceHelper.getPreferences(VerificationStepActivity.this);
-//                settings.edit().clear().apply();
-// delete passcode from keystore
-//String pass = AppController.refreshKeys("passcode");
-//                if (pass != null)
-//            AppController.deleteKey(pass);
-//            }
-//        }, 2000);
-//    }
 
     @Override
     protected void onDestroy() {
@@ -240,7 +185,6 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
         AppController.getHelperProgressDialog().dismissDialog();
         if (responseCode == CONFIRM_REGISTER_USER_RESPONSE) {
             LoginData loginData = (LoginData) response;
-//            if (loginData.isVerified()) {
             if (mFrom != null && mFrom.equalsIgnoreCase(ForgotPasswordActivity.FROM)) {
                 Toast.makeText(this, getResources().getString(R.string.account_verification), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent();
@@ -252,10 +196,6 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
                 AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.verified), "true");
                 AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.email), "" + mEmailId);
 
-//                Toast.makeText(this, getResources().getString(R.string.account_verification), Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent();
-//                setResult(RESULT_OK, intent);
-//                finish();
 
                 Intent intent = new Intent(VerificationStepActivity.this, NewPasscodeSetupActivity.class);
                 intent.putExtra("from", "StudyInfo");
@@ -268,27 +208,12 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
                 AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.verified), "true");
                 AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.email), "" + mEmailId);
 
-//                Intent intent = new Intent(VerificationStepActivity.this, SignupProcessCompleteActivity.class);
-//                if (mFrom != null && mFrom.equalsIgnoreCase("Activity")) {
-//                    intent.putExtra("from", "Activity");
-//                } else {
-//                    intent.putExtra("from", "");
-//                }
-//
-//                ComponentName cn = intent.getComponent();
-//                Intent mainIntent = IntentCompat.makeRestartActivityTask(cn);
-//                startActivity(mainIntent);
-//                finish();
 
                 Intent intent = new Intent(VerificationStepActivity.this, NewPasscodeSetupActivity.class);
                 startActivity(intent);
                 AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.initialpasscodeset), "NO");
             }
-//            } else {
-//                Toast.makeText(this, "Account not verified yet", Toast.LENGTH_SHORT).show();
-//            }
         } else if (responseCode == RESEND_CONFIRMATION) {
-//            LoginData loginData = (LoginData) response;
             Toast.makeText(this, getResources().getString(R.string.resend_success), Toast.LENGTH_SHORT).show();
         }
     }

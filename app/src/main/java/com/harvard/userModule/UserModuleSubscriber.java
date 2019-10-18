@@ -36,16 +36,12 @@ public class UserModuleSubscriber extends BaseSubscriber {
      *  get User
      */
     public void onEvent(GetUserEvent event) {
-//        DatabaseEvent databaseEvent = new DatabaseEvent();
-//        FDAEventBus.postEvent(databaseEvent);
     }
 
     /**
      *  Set user
      */
     public void onEvent(SetUserEvent event) {
-//        DatabaseEvent databaseEvent = new DatabaseEvent();
-//        FDAEventBus.postEvent(databaseEvent);
     }
 
     /**
@@ -85,8 +81,6 @@ public class UserModuleSubscriber extends BaseSubscriber {
      */
     public void onEvent(SetPasscodeEvent setPasscodeEvent)
     {
-//        DatabaseEvent databaseEvent = new DatabaseEvent();
-//        FDAEventBus.postEvent(databaseEvent);
     }
 
     /**
@@ -94,8 +88,6 @@ public class UserModuleSubscriber extends BaseSubscriber {
      */
     public void onEvent(ValidatePasscodeEvent validatePasscodeEvent)
     {
-//        DatabaseEvent databaseEvent = new DatabaseEvent();
-//        FDAEventBus.postEvent(databaseEvent);
     }
 
     /**

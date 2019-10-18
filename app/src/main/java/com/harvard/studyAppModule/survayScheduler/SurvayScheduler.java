@@ -131,9 +131,6 @@ public class SurvayScheduler {
                 for (int j = 0; j < activity.getFrequency().getRuns().size(); j++) {
                     try {
                         String date = AppController.getDateFormatType4().format(startDate);
-    //                    String fullDate = AppController.getDateFormat().format(startDate);
-    //                    String startDt = date + "T" + activity.getFrequency().getRuns().get(j).getStartTime() + ".000+0000";
-    //                    String endDt = date + "T" + activity.getFrequency().getRuns().get(j).getEndTime() + ".000+0000";
                         String startDateString = date + " " + activity.getFrequency().getRuns().get(j).getStartTime();
                         Date startDateDate = AppController.getDateFormatType11().parse(startDateString);
                         Calendar calendar1 = Calendar.getInstance();
@@ -299,7 +296,6 @@ public class SurvayScheduler {
                 ActivityRun activityRun = null;
                 try {
                     if (mJoiningTime.after(simpleDateFormat.parse(activity.getFrequency().getRuns().get(j).getEndTime().split("\\.")[0]))) {
-    //                    run = 0;
                     } else if (mJoiningTime.after(simpleDateFormat.parse(activity.getFrequency().getRuns().get(j).getStartTime().split("\\.")[0]))) {
                         Calendar calendarEnd = Calendar.getInstance();
                         calendarEnd.setTime(simpleDateFormat.parse(activity.getFrequency().getRuns().get(j).getEndTime().split("\\.")[0]));
@@ -367,7 +363,6 @@ public class SurvayScheduler {
                 startCalendar.set(Calendar.HOUR_OF_DAY, startTimeCalender.get(Calendar.HOUR_OF_DAY));
                 startCalendar.set(Calendar.MINUTE, startTimeCalender.get(Calendar.MINUTE));
                 startCalendar.set(Calendar.SECOND, startTimeCalender.get(Calendar.SECOND));
-    //            startCalendar.set(Calendar.DAY_OF_WEEK, startTimeCalender.get(Calendar.DAY_OF_WEEK));
                 startCalendar.add(Calendar.DATE, 7);
                 Date endDate = new Date(startCalendar.getTimeInMillis() - 1000);
                 if (endDate.after(endCalendar.getTime())) {
@@ -430,8 +425,6 @@ public class SurvayScheduler {
         Activities activitiesForStatus = null;
         ActivityStatus activityStatusData = new ActivityStatus();
         SimpleDateFormat simpleDateFormat = AppController.getDateFormatUTC();
-//        ActivityRun activityRun = getCurrentRun(activityId, studyId, currentDate);
-//        ActivityRun activityPreviousRun =  getPreviousRun(activityId, studyId, currentDate);
 
         ActivityRun activityRun = null;
         ActivityRun activityPreviousRun = null;
@@ -449,9 +442,7 @@ public class SurvayScheduler {
             if ((currentDate.equals(activityRunStDate) || currentDate.after(activityRunStDate)) && (currentDate.equals(activityRunEndDate) || currentDate.before(activityRunEndDate))) {
                 activityRun = activityRuns.get(i);
             } else if (currentDate.after(activityRunStDate)) {
-//                if (previousRun) {
                 activityPreviousRun = activityRuns.get(i);
-//                }
                 previousRun = false;
             }
         }
@@ -574,7 +565,6 @@ public class SurvayScheduler {
                 try {
                     if (!checkafter(simpleDateFormat.parse(activityListDataDB.getActivities().get(i).getStartTime().split("\\.")[0]))) {
                         ActivityStatus activityStatus = getActivityStatus(activityData, studyId, activityListDataDB.getActivities().get(i).getActivityId(), calendarCurrentTime.getTime());
-//                        ActivityStatus activityStatus = getActivityStatus(activityData, studyId, activityListDataDB.getActivities().get(i).getActivityId(), currentDate);
                         if (activityStatus != null) {
                             if (activityStatus.getCompletedRun() >= 0) {
                                 completed = completed + activityStatus.getCompletedRun();

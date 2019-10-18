@@ -45,12 +45,10 @@ public class ResourcesFragment<T> extends Fragment implements ApiCall.OnAsyncReq
         View view = inflater.inflate(R.layout.fragment_resources, container, false);
         initializeXMLId(view);
         // currently hide this and create temp block then pass to adapter
-        // mGetResourceListWebservice();
         // temp block(later u can remove)
         Resource r = new Resource();
         r.setTitle(mContext.getResources().getString(R.string.app_glossary));
         r.setType("pdf");
-//        r.setContent("https://gradcollege.okstate.edu/sites/default/files/PDF_linking.pdf");
         r.setContent("");
         mResourceArrayList = new RealmList<>();
         mResourceArrayList.add(r);
@@ -63,19 +61,6 @@ public class ResourcesFragment<T> extends Fragment implements ApiCall.OnAsyncReq
         mStudyRecyclerView = (RecyclerView) view.findViewById(R.id.studyRecyclerView);
     }
 
-    private void mGetResourceListWebservice() {
-
-        AppController.getHelperProgressDialog().showProgress(getActivity(), "", "", false);
-        GetResourceListEvent getResourceListEvent = new GetResourceListEvent();
-        HashMap<String, String> header = new HashMap();
-//        header.put("studyId", "STDPD");
-        String url = URLs.RESOURCE_LIST + "?studyId=STDPD";
-        WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, RESOURCE_REQUEST_CODE, getActivity(), StudyResource.class, null, header, null, false, this);
-
-        getResourceListEvent.setWcpConfigEvent(wcpConfigEvent);
-        StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
-        studyModulePresenter.performGetResourceListEvent(getResourceListEvent);
-    }
 
     @Override
     public <T> void asyncResponse(T response, int responseCode) {
@@ -84,7 +69,6 @@ public class ResourcesFragment<T> extends Fragment implements ApiCall.OnAsyncReq
             if (response != null) {
                 StudyResource studyResource = (StudyResource) response;
                 mResourceArrayList = studyResource.getResources();
-                Log.e("mResourceArrayList", "   " + mResourceArrayList.size());
                 if (mResourceArrayList != null && mResourceArrayList.size() != 0) {
                     mSetResourceAdapter();
                 }
@@ -94,7 +78,6 @@ public class ResourcesFragment<T> extends Fragment implements ApiCall.OnAsyncReq
 
     private void mSetResourceAdapter() {
         mStudyRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-//        mStudyRecyclerView.setNestedScrollingEnabled(false);
         GatewayResourcesListAdapter gatewayResourcesListAdapter = new GatewayResourcesListAdapter(getActivity(), mResourceArrayList, this);
         mStudyRecyclerView.setAdapter(gatewayResourcesListAdapter);
     }

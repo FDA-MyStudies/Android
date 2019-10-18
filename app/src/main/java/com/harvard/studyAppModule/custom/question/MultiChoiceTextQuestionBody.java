@@ -177,31 +177,6 @@ public class MultiChoiceTextQuestionBody<T> implements StepBody, CompoundButton.
             });
 
 
-//            editText.addTextChangedListener(new TextWatcher() {
-//                @Override
-//                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//                }
-//
-//                @Override
-//                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//                }
-//
-//                @Override
-//                public void afterTextChanged(final Editable editable) {
-//                    for (int i = 0; i < choices.length; i++) {
-//                        if (!choices[i].getValue().toString().equalsIgnoreCase(OtherOptionValue)) {
-//                            if (choices[i].getText().toLowerCase().contains(editable.toString().toLowerCase())) {
-//                                radioGroup.findViewWithTag(i).setVisibility(View.VISIBLE);
-//                            } else {
-//                                radioGroup.findViewWithTag(i).setVisibility(View.GONE);
-//                            }
-//                        }
-//                    }
-////                    parent.findViewById(R.id.bar_submit_negative).getRootView().computeScroll();
-//                }
-//            });
             radioGroup.addView(editText);
         }
         otherText = new EditText(inflater.getContext());
@@ -212,11 +187,6 @@ public class MultiChoiceTextQuestionBody<T> implements StepBody, CompoundButton.
             LinearLayout linearLayout = (LinearLayout) inflater.inflate(R.layout.checkboxdesc, radioGroup, false);
             final AppCompatCheckBox checkBox = (AppCompatCheckBox) linearLayout.findViewById(R.id.checkbox);
             final TextView descTxt = (TextView) linearLayout.findViewById(R.id.desc);
-//            final AppCompatCheckBox checkBox = (AppCompatCheckBox) inflater.inflate(R.layout.rsb_item_checkbox,
-//                    radioGroup,
-//                    false);
-//            checkBox.setFocusable(true);
-//            checkBox.setFocusableInTouchMode(true);
             checkBox.setText(item.getText());
             descTxt.setText(item.getDetail());
             checkBox.setId(i);
@@ -234,9 +204,6 @@ public class MultiChoiceTextQuestionBody<T> implements StepBody, CompoundButton.
             linearLayout.setTag(i);
             radioGroup.addView(linearLayout);
 
-//            if (item.isExclusive()) {
-//                exclusiveValue = item.getValue();
-//            }
 
             // Set initial state
             if (currentSelected != null && currentSelected.contains(item.getValue())) {
@@ -290,15 +257,6 @@ public class MultiChoiceTextQuestionBody<T> implements StepBody, CompoundButton.
                         selectedcheckbox.add(checkBox);
 
 
-                        /*
-                        * "value": ["OptionA","OptionB",{"selected":"Other Medications","text":"Aspirin,Pez"}]
-
-                            "value": ["OptionA","OptionB",{"selected":"Other Medications","text":""}]
-
-                            "value": ["OptionA","OptionB",{"selected":"Other Medications"}]
-
-                            "value": ["OptionA","OptionB","Other Medications"]
-                        * */
 
                         currentSelected.add(item.getValue());
                         if (item.getOther() != null) {
@@ -366,9 +324,6 @@ public class MultiChoiceTextQuestionBody<T> implements StepBody, CompoundButton.
                 } else if (mOtherOptionModel.getOther() != null) {
                     currentSelected.add((T) new Gson().toJson(mOtherOptionModel));
                 }
-            }
-            for (int i = 0; i < currentSelected.toArray().length; i++) {
-                Log.e("saving ", "" + currentSelected.toArray()[i].toString());
             }
 
             result.setResult((T[]) currentSelected.toArray());

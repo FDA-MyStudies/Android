@@ -47,7 +47,6 @@ import io.realm.RealmResults;
 public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.OnAsyncRequestComplete, ApiCallResponseServer.OnAsyncRequestComplete {
     private RelativeLayout mBackBtn;
     private AppCompatTextView mTitle;
-    //    private RelativeLayout mCancelBtn;
     private View mHrLine;
     private AppCompatTextView mContent;
     private AppCompatTextView mIAgree;
@@ -64,7 +63,6 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
     private static final int STUDY_INFO = 10;
     private StudyHome mStudyHome;
     private static final int WITHDRAWFROMSTUDY = 105;
-    //    private static final int UPDATE_USERPREFERENCE_RESPONSECODE = 100;
     RealmResults<Studies> mRealmStudie;
     DBServiceSubscriber mDBServiceSubscriber;
     Realm mRealm;
@@ -85,7 +83,6 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
     private void initializeXMLId() {
         mBackBtn = (RelativeLayout) findViewById(R.id.backBtn);
         mTitle = (AppCompatTextView) findViewById(R.id.title);
-//        mCancelBtn = (RelativeLayout) findViewById(R.id.cancelBtn);
         mHrLine = findViewById(R.id.mHrLine);
         mContent = (AppCompatTextView) findViewById(R.id.mContent);
         mIAgree = (AppCompatTextView) findViewById(R.id.mIAgree);
@@ -118,9 +115,7 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
     }
 
     private void setTextForView() {
-//        mCancelBtn.setVisibility(View.GONE);
         mTitle.setText(getResources().getString(R.string.confirmation));
-//        mCancelBtn.setVisibility(View.GONE);
     }
 
     private void setFont() {
@@ -162,7 +157,6 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
                         if (i == (mStoreWithdrawalTypeDeleteFlag.size() - 1)) {
                             noData = true;
                         }
-                        Log.e("rajeesh", "pos " + i + " value is...." + mStoreWithdrawalTypeDeleteFlag.get(i));
                     }
 
                 }
@@ -187,7 +181,6 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
                 mStudyIdList.add(mRealmStudie.get(i).getStudyId());
 
             for (int i = 0; i < mStudyIdList.size(); i++) {
-                Log.e("rajeesh", "studyId is--------->" + mStudyIdList.get(i));
                 // get all study title, mStudyTitleList
                 StudyList studyList = mDBServiceSubscriber.getStudyTitle(mStudyIdList.get(i), mRealm);
                 String title = studyList.getTitle();
@@ -195,7 +188,6 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
                     mStudyTitleList.add(mNoData);
                 else
                     mStudyTitleList.add(title);
-//                Log.e("rajeesh", "title is..." + title);
                 // get all withdawalType, mWithdrawalTypeList[]
                 try {
                     StudyHome studyHome = mDBServiceSubscriber.getWithdrawalType(mStudyIdList.get(i), mRealm);
@@ -208,7 +200,6 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
                         else
                             mWithdrawalTypeList.add(type);
                     }
-                    Log.e("rajeesh", "type is..." + mWithdrawalTypeList.get(i));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -227,21 +218,18 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
         for (int i = 0; i < mWithdrawalTypeList.size(); i++) {
             if (mWithdrawalTypeList.get(i).equalsIgnoreCase(mNoData)) {
                 mTempPos = i;
-                Log.e("rajeesh", "calling Services********** StudyId " + mStudyIdList.get(mTempPos));
                 // missing details to get eg: withdrawal type
                 callGetStudyInfoWebservice();
                 break;
             }
             if (i == (mWithdrawalTypeList.size() - 1))
                 mNoDataFlag = true;
-            Log.e("rajeesh", "For loop mNoDataFlag is................ " + mNoDataFlag);
         }
     }
 
     private void callGetStudyInfoWebservice() {
         AppController.getHelperProgressDialog().showProgress(DeleteAccountActivity.this, "", "", false);
         HashMap<String, String> header = new HashMap<>();
-//        header.put("studyId", mStudyIdList.get(mTempPos));
         String url = URLs.STUDY_INFO + "?studyId=" + mStudyIdList.get(mTempPos);
         GetUserStudyInfoEvent getUserStudyInfoEvent = new GetUserStudyInfoEvent();
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, STUDY_INFO, DeleteAccountActivity.this, StudyHome.class, null, header, null, false, this);
@@ -363,17 +351,14 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
                 Intent intent = new Intent();
                 setResult(RESULT_OK, intent);
                 finish();
-//                ((StudyActivity) getContext()).loadstudylist();
             } else {
                 Toast.makeText(DeleteAccountActivity.this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == STUDY_INFO) {
             if (response != null) {
                 mStudyHome = (StudyHome) response;
-//                int pos = mStudyIdList.get();
                 // adding withdrawal type
                 mWithdrawalTypeList.set(mTempPos, mStudyHome.getWithdrawalConfig().getType());
-                Log.e("rajeesh", "type is...." + mStudyHome.getWithdrawalConfig().getType());
                 // saving to db
                 mStudyHome.setmStudyId(mStudyIdList.get(mTempPos));
 

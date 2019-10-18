@@ -175,9 +175,6 @@ public class ActivityBuilder extends OrderedTask {
                         }
                     }
                     for (int j = 0; j < stepsData.getDestinations().size(); j++) {
-//                        if (stepsData.getDestinations().get(j).getCondition().equalsIgnoreCase(answer)) {
-//                            destination = stepsData.getDestinations().get(j).getDestination();
-//                        }
                         if (answer.equalsIgnoreCase("")) {
                             if (stepsData.getDestinations().get(j).getCondition().equalsIgnoreCase(answer)) {
                                 destination = stepsData.getDestinations().get(j).getDestination();

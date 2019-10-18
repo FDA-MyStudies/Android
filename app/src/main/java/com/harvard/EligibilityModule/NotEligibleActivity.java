@@ -66,7 +66,6 @@ public class NotEligibleActivity extends AppCompatActivity implements ApiCall.On
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e("json", "" + jsonObject.toString());
         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post_object", URLs.UPDATE_STUDY_PREFERENCE, UPDATE_USERPREFERENCE_RESPONSECODE, this, LoginData.class, null, header, jsonObject, false, this);
 
         updatePreferenceEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);

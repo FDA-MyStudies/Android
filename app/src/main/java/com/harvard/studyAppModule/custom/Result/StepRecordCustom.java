@@ -217,62 +217,11 @@ public class StepRecordCustom extends RealmObject {
                     }
                 }
                 stepResult.setResults(mapStep);
-//                stepResult.setStartDate();
                 map.put(entry.getKey(), stepResult);
             }
 
         }
         return map;
-        /*if (jsonElement.isJsonArray()) {
-
-            JsonArray arr = jsonElement.getAsJsonArray();
-            Object list[] = new Object[arr.size()];
-            int i = 0;
-            for (JsonElement anArr : arr) {
-                list[i] = parseData(anArr, result);
-                i++;
-            }
-            return list;
-        } else if (jsonElement.isJsonObject()) {
-            Map<String, Object> map = new LinkedTreeMap<String, Object>();
-            JsonObject obj = jsonElement.getAsJsonObject();
-            Set<Map.Entry<String, JsonElement>> entitySet = obj.entrySet();
-            for (Map.Entry<String, JsonElement> entry : entitySet) {
-                map.put(entry.getKey(), parseData(entry.getValue(), result));
-//                result.setResultForIdentifier(entry.getKey(), parseData(entry.getValue(), result));
-                result.setResult(parseData(entry.getValue(), result));
-            }
-            return map;
-        } else if (jsonElement.isJsonPrimitive()) {
-            JsonPrimitive prim = jsonElement.getAsJsonPrimitive();
-            if (prim.isBoolean()) {
-                return prim.getAsBoolean();
-            } else if (prim.isString()) {
-                return prim.getAsString();
-            } else if (prim.isNumber()) {
-                String num = prim.getAsNumber().toString();
-                // here you can handle double int/long values
-                // and return any type you want
-                // this solution will transform 3.0 float to long values
-                *//*if(Math.ceil(num.doubleValue())  == num.longValue())
-                    return num.longValue();
-                else{
-                    return num.doubleValue();
-                }*//*
-                if (num.contains(".")) {
-                    return Double.parseDouble(num);
-                } else {
-                    try {
-                        return Integer.parseInt(num);
-                    } catch (Exception e) {
-//                        e.printStackTrace();
-                        return Long.parseLong(num);
-                    }
-                }
-
-            }
-        }
-        return null;*/
     }
 
     private static Object findPrimitiveData(JsonElement jsonElement) {
@@ -292,7 +241,6 @@ public class StepRecordCustom extends RealmObject {
                         try {
                             return Integer.parseInt(num);
                         } catch (Exception e) {
-//                        e.printStackTrace();
                             return Long.parseLong(num);
                         }
                     }

@@ -85,7 +85,6 @@ public class TimeIntervalQuestion implements StepBody {
         minlist = new ArrayList<>();
         for (int i = 0; i < 60; i++) {
             if (i % format.getStep() == 0) {
-                Log.e("added", "" + format.getStep() + "  " + i);
                 minlist.add("" + i);
             }
         }
@@ -139,7 +138,6 @@ public class TimeIntervalQuestion implements StepBody {
             } else {
                 defaultval = 0;
             }
-//        defaultval=730;
             double floorval = (int) defaultval / (format.getStep() * 60);
             double finalval = floorval * (format.getStep() * 60);
             double hour = finalval / 3600;
@@ -169,9 +167,6 @@ public class TimeIntervalQuestion implements StepBody {
         int hours = seconds / 3600;
         int minutes = (seconds % 3600) / 60;
         hourpicker.setValue(hours);
-//        minpicker.setValue(minutes);
-//        String[] time = currentSelected.split(":");
-//        hourpicker.setValue(Integer.parseInt(time[0]));
         minpicker.setValue(minlist.indexOf("" + minutes));
     }
 
@@ -184,7 +179,6 @@ public class TimeIntervalQuestion implements StepBody {
             int seconds = (hourpicker.getValue() * 60 * 60) + (Integer.parseInt(minlist.get(minpicker.getValue())) * 60);
             double hour = Double.parseDouble("" + seconds) / 3600d;
             result.setResult(hour);
-//            result.setResult(hourpicker.getValue() + ":" + minpicker.getValue() + "00");
         }
         return result;
     }

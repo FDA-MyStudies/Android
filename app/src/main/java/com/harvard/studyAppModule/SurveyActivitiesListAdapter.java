@@ -32,10 +32,6 @@ public class SurveyActivitiesListAdapter extends RecyclerView.Adapter<SurveyActi
     public ArrayList<ActivitiesWS> items;
     private SurveyActivitiesFragment mSurveyActivitiesFragment;
     public ArrayList<String> mStatus;
-    //    private String ACTIVITY_STATUS_START = "Start";
-//    private String ACTIVITY_STATUS_RESUME = "Resume";
-//    private String ACTIVITY_STATUS_COMPLETED = "Completed";
-//    private String ACTIVITY_STATUS_INCOMPLETE = "Incomplete";
     private String TEXT_EVERY = " every ";
     private String TEXT_EVERY_MONTH = " every month";
     public ArrayList<ActivityStatus> mCurrentRunStatusForActivities;
@@ -125,7 +121,6 @@ public class SurveyActivitiesListAdapter extends RecyclerView.Adapter<SurveyActi
     public void onBindViewHolder(final Holder holder, final int position) {
         final ArrayList<String> mScheduledTime = new ArrayList<>();
         timePos.add(-1);
-//        final int pos = -1;
         GradientDrawable bgShape = (GradientDrawable) holder.mProcess.getBackground();
         if (mStatus.get(holder.getAdapterPosition()).equalsIgnoreCase(SurveyActivitiesFragment.STATUS_CURRENT)) {
             holder.mState.setText(R.string.current1);
@@ -211,7 +206,6 @@ public class SurveyActivitiesListAdapter extends RecyclerView.Adapter<SurveyActi
             }
 
             holder.mSurveyTitle.setText(items.get(position).getTitle());
-//        holder.mDateTime.setText(items.get(position).getStartTime() + " to " + items.get(position).getEndTime());
             if (items.get(position).getFrequency().getType().equalsIgnoreCase("Manually Schedule")) {
                 holder.mWhenWasSurvey.setText(mContext.getResources().getString(R.string.as_scheduled));
             } else if (items.get(position).getFrequency().getType().equalsIgnoreCase("One time")) {
@@ -351,18 +345,14 @@ public class SurveyActivitiesListAdapter extends RecyclerView.Adapter<SurveyActi
                                     finalpos = pos;
                                     try {
                                         final Date d1 = simpleDateFormat5.parse(items.get(position).getFrequency().getRuns().get(i).getStartTime().toString().split("\\.")[0]);
-                                        Log.e("date", "d1  " + d1);
                                         final Date d2 = simpleDateFormat5.parse(items.get(position).getFrequency().getRuns().get(i).getEndTime().toString().split("\\.")[0]);
-                                        Log.e("date", "d2  " + d2);
                                         holder.mDate.setText(simpleDateFormat2.format(d1) + " - " + simpleDateFormat2.format(d2));
                                     } catch (Exception e) {
-                                        Log.e("date", "xfxzzzzzz" + e.getMessage());
                                         e.printStackTrace();
                                     }
                                 }
 
 
-                                Log.e("pos", "" + finalpos);
                             }
                         }
                         timePos.add(position, finalpos);
@@ -467,9 +457,7 @@ public class SurveyActivitiesListAdapter extends RecyclerView.Adapter<SurveyActi
 
                 Calendar current = Calendar.getInstance();
                 Date x = current.getTime();
-                Log.e("rajeesh", "" + calendar1.getTime() + " , " + calendar2.getTime() + " , " + x);
                 if (x.after(calendar1.getTime()) && x.before(calendar2.getTime())) {
-//                    mSelectedTime = i;
                     pos = i;
                 }
             }

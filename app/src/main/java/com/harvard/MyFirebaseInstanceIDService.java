@@ -13,7 +13,6 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
     @Override
     public void onTokenRefresh() {
         String token = FirebaseInstanceId.getInstance().getToken();
-        Log.e("onTokenRefresh", " ---------- " + token);
         AppController.getHelperSharedPreference().writePreference(this, "deviceToken", token);
         sendRegistrationToServer();
     }

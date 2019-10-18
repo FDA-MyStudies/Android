@@ -85,14 +85,11 @@ public class Tappingactivity implements StepBody {
         timereditlayout = view.findViewById(R.id.timereditlayout);
 
         kickcounter.setEnabled(false);
-//        final int[] second = {converttosec(mTappingAnswerFormat.getDuration())};
         final int[] second = {0};
 
         maxTime = mTappingAnswerFormat.getDuration();
-//        maxTime = 300;
 
         final int maxcount = mTappingAnswerFormat.getKickCount();
-//        final int maxcount = 10;
 
         mTimer.setText(formathrs(second[0]));
         mThread = new Thread() {
@@ -107,7 +104,6 @@ public class Tappingactivity implements StepBody {
                                     mTimer.setText(formathrs(second[0]));
                                     second[0]++;
                                 } else {
-//                                    mTimer.addTextChangedListener(null);
                                     tapButton.setEnabled(false);
                                     timereditlayout.setVisibility(View.GONE);
                                     timeup = true;
@@ -134,24 +130,18 @@ public class Tappingactivity implements StepBody {
 
             @Override
             public void afterTextChanged(Editable s) {
-//                if (s.equals("999")) {
-//                    tapButton.setEnabled(false);
-//                } else {
                 if (!timeup)
                     tapButton.setEnabled(true);
                 else {
                     tapButton.setEnabled(false);
                     timereditlayout.setVisibility(View.GONE);
-//                    mTimer.addTextChangedListener(null);
                 }
-//                }
             }
         });
 
         startTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                mThread.start();
 
                 activateservice(maxTime);
                 IntentFilter filter = new IntentFilter();
@@ -227,11 +217,6 @@ public class Tappingactivity implements StepBody {
                 } else {
                     tappingcount = 0;
                 }
-//                if (tappingcount < 999) {
-//                kickcounter.setText(String.valueOf(tappingcount + 1));
-//                } else {
-//                    tapButton.setEnabled(false);
-//                }
 
                 if (!timeup) {
                     kickcounter.setText(String.valueOf(tappingcount + 1));
@@ -289,14 +274,6 @@ public class Tappingactivity implements StepBody {
         return view;
     }
 
-    private int converttosec(String duration) {
-//        Toast.makeText(mContext, duration, Toast.LENGTH_SHORT).show();
-        String s[] = duration.split("\\.");
-        if (s.length == 2)
-            return ((Integer.parseInt(s[0]) * 60) * 60) + (Integer.parseInt(s[1]) * 60);
-        else
-            return 10;
-    }
 
     private String formathrs(int second) {
         String hrs;

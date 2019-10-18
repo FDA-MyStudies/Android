@@ -84,7 +84,6 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
             holder.mContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    Toast.makeText(mContext, "GOTO Notification Details Screen", Toast.LENGTH_LONG).show();
                     if (!AppController.getHelperSharedPreference().readPreference(mContext, mContext.getResources().getString(R.string.userid), "").equalsIgnoreCase("")) {
                         if (mItems.get(holder.getAdapterPosition()).getType().equalsIgnoreCase("Gateway")) {
                             if (mItems.get(holder.getAdapterPosition()).getSubtype().equalsIgnoreCase("Study")) {
@@ -145,7 +144,6 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
                                 ((Activity) mContext).finish();
                             }
                         } else if (mItems.get(holder.getAdapterPosition()).getType().equalsIgnoreCase("Study")) {
-                            Log.e("study", "" + mItems.get(holder.getAdapterPosition()).getStudyId() + "  " + holder.getAdapterPosition() + "  " + mItems.get(holder.getAdapterPosition()).getSubtype());
                             if (mItems.get(holder.getAdapterPosition()).getSubtype().equalsIgnoreCase("Activity") || mItems.get(holder.getAdapterPosition()).getSubtype().equalsIgnoreCase("Resource")) {
                                 Study mStudy = dbServiceSubscriber.getStudyListFromDB(mRealm);
                                 if (mStudy != null) {
@@ -154,7 +152,6 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
                                     boolean isStudyAvailable = false;
                                     boolean isStudyJoined = false;
                                     for (int i = 0; i < studyListArrayList.size(); i++) {
-                                        Log.e("studylist ", "" + studyListArrayList.get(i).getStudyId());
                                         if (mItems.get(holder.getAdapterPosition()).getStudyId().equalsIgnoreCase(studyListArrayList.get(i).getStudyId())) {
                                             isStudyAvailable = true;
                                             try {

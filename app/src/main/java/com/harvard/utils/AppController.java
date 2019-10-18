@@ -237,13 +237,11 @@ public class AppController{
 
     public static SimpleDateFormat getDateFormatUTC() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-//        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return simpleDateFormat;
     }
 
     public static SimpleDateFormat getDateFormatUTC1() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-//        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return simpleDateFormat;
     }
 
@@ -278,7 +276,6 @@ public class AppController{
 
     public static SimpleDateFormat getDateFormatType11() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        simpleDateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     }
 
@@ -449,7 +446,6 @@ public class AppController{
             mKeyStore = KeyStore.getInstance("AndroidKeyStore");
             mKeyStore.load(null);
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
         }
         String secretKeyVal = refreshKeys("key");
         if (secretKeyVal == null) {
@@ -457,7 +453,6 @@ public class AppController{
             // to identify specific key and get that using key_
             String alias1 = "key_" + secretKeyToString();
             // genarate random iv and to get using iv_
-            Log.e(TAG, "alias....." + alias1);
             // keystore, store the secretkey; differentiate by key_
             createNewKeys(context, alias1);
         }
@@ -465,7 +460,6 @@ public class AppController{
         if (ivBytesVal == null) {
             // genarate random iv and to get using iv_
             String alias2 = "iv_" + ivBytesToString();
-            Log.e(TAG, "alias....." + alias2);
             // keystore, store the ivBytes string; differentiate by iv_
             createNewKeys(context, alias2);
         }
@@ -477,7 +471,6 @@ public class AppController{
         try {
             Enumeration<String> aliases;
             if (mKeyStore == null) {
-                Log.e("keystore", "null");
                 mKeyStore = KeyStore.getInstance("AndroidKeyStore");
                 mKeyStore.load(null);
             }
@@ -485,7 +478,6 @@ public class AppController{
             String val;
             while (aliases.hasMoreElements()) {
                 val = aliases.nextElement();
-                Log.e("rajeesh", "refreshKeys Keystore...." + val);
                 if (val.contains(concatedString)) {
                     String splitString[] = val.split("_");
                     return splitString[1];
@@ -517,7 +509,6 @@ public class AppController{
                 generator.generateKeyPair();
             }
         } catch (Exception e) {
-            Log.e(TAG, Log.getStackTraceString(e));
         }
     }
 
@@ -528,7 +519,6 @@ public class AppController{
             mKeyStore.deleteEntry(key);
 //            refreshKeys();
         } catch (KeyStoreException e) {
-            Log.e(TAG, Log.getStackTraceString(e));
         }
 
     }
@@ -552,12 +542,7 @@ public class AppController{
 
             byte[] vals = outputStream.toByteArray();
             String abc = Base64.encodeToString(vals, Base64.DEFAULT);
-            Log.e(TAG, "Encrypted text....." + abc);
-//            SharedPreferences.Editor editor = context.getSharedPreferences("MY_PREFS_NAME", context.MODE_PRIVATE).edit();
-//            editor.putString("userName", "" + Base64.encodeToString(vals, Base64.DEFAULT));
-//            editor.commit();
         } catch (Exception e) {
-            Log.e(TAG, Log.getStackTraceString(e));
         }
     }
 
@@ -571,8 +556,6 @@ public class AppController{
             Cipher output = Cipher.getInstance("RSA/ECB/PKCS1Padding", "AndroidOpenSSL");
             output.init(Cipher.DECRYPT_MODE, privateKey);
 
-//            SharedPreferences prefs = context.getSharedPreferences("MY_PREFS_NAME", context.MODE_PRIVATE);
-//            String cipherText = prefs.getString("userName", "");//"No name defined" is the default value.
             String cipherText = "FRxCp9t99YTZvWEVewZ3PRMN3Xfc4kV7mlO9dPy8BBNSRz/y89BC+wLIq3/HTN9zKCFcNkO7Xg2h\n" +
                     "eCUULE9MWQb7Sj1pjQR2A81N/kBgHNZjOzsfLLzKYPSMHVHy85xXnXwkY/5Jc5Jo4d8S65DeLY/7\n" +
                     "6bDIhqanYzSAJr4IaQI6tC3mU+SMqA6GyyadNk3R9EwqIjTaXSj4aj/5hDCl37aW807Q3jfbX0XK\n" +
@@ -592,9 +575,7 @@ public class AppController{
             }
 
             String finalText = new String(bytes, 0, bytes.length, "UTF-8");
-            Log.e(TAG, "Decrypted text....." + finalText);
         } catch (Exception e) {
-            Log.e(TAG, Log.getStackTraceString(e));
         }
     }
 

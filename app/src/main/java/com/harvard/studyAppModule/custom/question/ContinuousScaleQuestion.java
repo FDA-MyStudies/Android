@@ -152,11 +152,6 @@ public class ContinuousScaleQuestion<T> implements StepBody {
         });
 
         if (currentSelected != null) {
-//            if (stepSection != 0) {
-//                value = Double.parseDouble("" + min) + Double.parseDouble("" + mSeekBar.getProgress()) / Double.parseDouble("" + (stepSection * 10));
-//            } else {
-//                value = Double.parseDouble("" + min) + Double.parseDouble("" + mSeekBar.getProgress());
-//            }
             double Selected;
             if (stepSection != 0) {
                 Selected = ((currentSelected - Double.parseDouble("" + min)) * Double.parseDouble("" + stepSection * 10));

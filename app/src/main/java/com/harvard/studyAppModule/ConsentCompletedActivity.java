@@ -96,7 +96,6 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
         dbServiceSubscriber = new DBServiceSubscriber();
         mRealm = AppController.getRealmobj(this);
 
-        Log.e("value in complete", "" + getIntent().getStringExtra("enrollId") + "   " + getIntent().getStringExtra("studyId") + "  " + getIntent().getStringExtra("eligibility") + "  " + getIntent().getStringExtra("type"));
         initializeXMLId();
         try {
             if (getIntent().getStringExtra(FROM) != null && getIntent().getStringExtra(FROM).equalsIgnoreCase(SurveyActivitiesFragment.FROM_SURVAY)) {
@@ -133,20 +132,6 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
                             mClick = true;
                         }
                     }, 3000);
-                    /*AppController.getHelperProgressDialog().showProgress(ConsentCompletedActivity.this, "", "", false);
-//                    if (getIntent().getStringExtra("enrollId") == null || getIntent().getStringExtra("enrollId").equalsIgnoreCase("")) {
-                    if (getIntent().getStringExtra("type") != null && getIntent().getStringExtra("type").equalsIgnoreCase("update")) {
-                        Studies mStudies = dbServiceSubscriber.getStudies(getIntent().getStringExtra("studyId"), mRealm);
-                        if (mStudies != null)
-                            participantId = mStudies.getParticipantId();
-                        mCompletionAdherenceStatus = false;
-                        getStudySate();
-//                    update_eligibility_consent();
-//                    updateuserpreference();
-                    } else {
-                        enrollId();
-//                    updateuserpreference();
-                    }*/
                     if (!comingFrom.equalsIgnoreCase(SurveyActivitiesFragment.FROM_SURVAY)) {
                         Intent intent = new Intent(ConsentCompletedActivity.this, SurveyActivity.class);
                         intent.putExtra("studyId", getIntent().getStringExtra("studyId"));
@@ -195,7 +180,6 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
     }
 
     private void setFont() {
@@ -278,16 +262,6 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
 
             AppController.getHelperSharedPreference().writePreference(ConsentCompletedActivity.this, getResources().getString(R.string.studyStatus), StudyFragment.IN_PROGRESS);
 
-            /*StudyUpdate studyUpdate = dbServiceSubscriber.getStudyUpdateById(getIntent().getStringExtra("studyId"));
-            String studyVersion = "";
-            if(studyUpdate != null && studyUpdate.getCurrentVersion() != null)
-            {
-                studyVersion = studyUpdate.getCurrentVersion();
-            }
-            else {
-                StudyList studyList = dbServiceSubscriber.getStudyTitle(getIntent().getStringExtra("studyId"));
-                studyVersion = studyList.getStudyVersion();
-            }*/
             Study study = dbServiceSubscriber.getStudyListFromDB(mRealm);
             dbServiceSubscriber.updateStudyWithStudyId(this,getIntent().getStringExtra("studyId"), study, studyUpdate.getCurrentVersion());
             dbServiceSubscriber.updateStudyPreferenceVersionDB(this,getIntent().getStringExtra("studyId"), studyUpdate.getCurrentVersion());
@@ -304,7 +278,6 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
         } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {
             LoginData loginData = (LoginData) response;
             if (loginData != null) {
-//                update_eligibility_consent();
                 getStudySate();
 
             } else {
@@ -342,8 +315,6 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
         GetUserStudyListEvent getUserStudyListEvent = new GetUserStudyListEvent();
         DBServiceSubscriber dbServiceSubscriber = new DBServiceSubscriber();
         HashMap<String, String> header = new HashMap();
-//        header.put("studyId", studyId);
-//        header.put("studyVersion", studyVersion);
         StudyList studyList = dbServiceSubscriber.getStudiesDetails(getIntent().getStringExtra("studyId"), mRealm);
         String url = URLs.STUDY_UPDATES + "?studyId=" + getIntent().getStringExtra("studyId") + "&studyVersion=" + studyList.getStudyVersion();
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, STUDY_UPDATES, ConsentCompletedActivity.this, StudyUpdate.class, null, header, null, false, this);
@@ -386,7 +357,6 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
 
     private void displayPDF() {
 
-//        File file = new File(getIntent().getStringExtra("PdfPath"));
         File file = getEncryptedFilePath(getIntent().getStringExtra("PdfPath"));
 
         try {
@@ -406,10 +376,6 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
             share.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-//                    shareIntent.setType("application/pdf");
-//                    shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(finalMSharingFile.getAbsolutePath()));
-//                    startActivity(shareIntent);
                     Intent shareIntent = new Intent(Intent.ACTION_SEND);
                     shareIntent.setData(Uri.parse("mailto:"));
 //                    shareIntent.putExtra(Intent.EXTRA_SUBJECT, AppController.getHelperSharedPreference().readPreference(ConsentCompletedActivity.this, getString(R.string.title), "") + " - Consent");
@@ -452,9 +418,6 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
     }
 
     private String convertFileToString(String filepath) throws IOException {
-//        InputStream inputStream = new FileInputStream(filepath);
-//        byte[] byteArray = IOUtils.toByteArray(inputStream);
-//        byte[] byteArray = decryptPDF(filepath);
         CipherInputStream cis = AppController.genarateDecryptedConsentPDF(filepath);
         byte[] byteArray = AppController.cipherInputStreamConvertToByte(cis);
         String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
@@ -477,11 +440,9 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
             if (studies != null) {
                 studiestatus.put("studyId", studies.getStudyId());
                 studiestatus.put("status", StudyFragment.IN_PROGRESS);
-//                studiestatus.put("bookmarked", studies.isBookmarked());
             } else {
                 studiestatus.put("studyId", getIntent().getStringExtra("studyId"));
                 studiestatus.put("status", StudyFragment.IN_PROGRESS);
-//                studiestatus.put("bookmarked", false);
             }
             if (participantId != null && !participantId.equalsIgnoreCase("")) {
                 studiestatus.put("participantId", participantId);
@@ -493,22 +454,16 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
                 mCompletionAdherenceStatus = true;
             }
 
-//            SimpleDateFormat simpleDateFormat = AppController.getDateFormatUTC();
-//            enrolleddate = simpleDateFormat.format(new Date());
-//            studiestatus.put("enrolledDate", enrolleddate);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
         studieslist.put(studiestatus);
-//        JSONArray activitylist = new JSONArray();
         try {
             jsonObject.put("studies", studieslist);
-//            jsonObject.put("activities", activitylist);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e("json", "" + jsonObject.toString());
         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post_object", URLs.UPDATE_STUDY_PREFERENCE, UPDATE_USERPREFERENCE_RESPONSECODE, this, LoginData.class, null, header, jsonObject, false, this);
 
         updatePreferenceEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
@@ -523,7 +478,6 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
         params.put("token", getIntent().getStringExtra("enrollId"));
 
         ResponseServerConfigEvent responseServerConfigEvent = new ResponseServerConfigEvent("post_json", URLs.ENROLL_ID, ENROLL_ID_RESPONSECODE, ConsentCompletedActivity.this, ResponseServerData.class, params, null, null, false, ConsentCompletedActivity.this);
-//        ResponseServerConfigEvent responseServerConfigEvent = new ResponseServerConfigEvent("get", URLs.ENROLL_ID + "studyId=TESTSTUDY01&token=" + getIntent().getStringExtra("enrollId"), ENROLL_ID_RESPONSECODE, ConsentCompletedActivity.this, ResponseServerData.class, null, null, null, false, ConsentCompletedActivity.this);
 
         enrollIdEvent.setResponseServerConfigEvent(responseServerConfigEvent);
         StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
@@ -532,10 +486,7 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
 
 
     public File copy(File src) throws IOException {
-//        String primaryStoragePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + new Date().getTime() + ".pdf";
         String primaryStoragePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + AppController.getHelperSharedPreference().readPreference(ConsentCompletedActivity.this, getString(R.string.title), "") + "_" + getString(R.string.signed_consent) + ".pdf";
-//        String filePath = "/data/data/"+getPackageName()+"/files/" + primaryStoragePath + ".pdf";
-        Log.e("primaryStoragePath", "" + primaryStoragePath);
         File file = new File(primaryStoragePath);
         if (!file.exists())
             file.createNewFile();

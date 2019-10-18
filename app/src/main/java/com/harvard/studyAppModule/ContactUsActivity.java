@@ -135,7 +135,6 @@ public class ContactUsActivity extends AppCompatActivity implements ApiCall.OnAs
     public <T> void asyncResponse(T response, int responseCode) {
         if (responseCode == CONTACT_US) {
             if (response != null) {
-//                ReachOut reachOut = (ReachOut) response;
                 AppController.getHelperProgressDialog().dismissDialog();
                 Toast.makeText(ContactUsActivity.this, getResources().getString(R.string.contact_us_message), Toast.LENGTH_SHORT).show();
                 finish();

@@ -85,8 +85,6 @@ public class MultiChoiceImageQuestionBody<T> implements StepBody {
             final ChoiceCustomImage<T> item = choices[i];
             final ImageView imageView = new ImageView(inflater.getContext());
             imageView.setId(i);
-//            imageView.setFocusable(true);
-//            imageView.setFocusableInTouchMode(true);
             final LinearLayout.MarginLayoutParams layoutParams = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1.0f);
             layoutParams.leftMargin = 20;
             layoutParams.rightMargin = 20;

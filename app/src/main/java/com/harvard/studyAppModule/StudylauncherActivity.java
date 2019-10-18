@@ -35,10 +35,6 @@ import io.realm.RealmResults;
 
 public class StudylauncherActivity extends AppCompatActivity {
 
-    private static final String CONSENT = "consent";
-    private static final int REQUEST_CONSENT = 1000;
-    private static final int REQUEST_SURVEY = 1001;
-    EligibilityConsent eligibilityConsent;
     Button result;
     Realm realm;
     DBServiceSubscriber mDBServiceSubscriber;
@@ -49,14 +45,6 @@ public class StudylauncherActivity extends AppCompatActivity {
         setContentView(R.layout.activity_studylauncher);
         realm = AppController.getRealmobj(this);
         mDBServiceSubscriber = new DBServiceSubscriber();
-        //for elligibility
-//        if (eligibilityConsent.getEligibility().getType().equalsIgnoreCase("token")) {
-//
-//        } else if (eligibilityConsent.getEligibility().getType().equalsIgnoreCase("test")) {
-//
-//        } else {
-//
-//        }
 
         result = (Button) findViewById(R.id.result);
         result.setOnClickListener(new View.OnClickListener() {
@@ -65,8 +53,6 @@ public class StudylauncherActivity extends AppCompatActivity {
                 generateresult();
             }
         });
-//        startconsent();
-//        startsurvey();
     }
 
     @Override
@@ -238,94 +224,12 @@ public class StudylauncherActivity extends AppCompatActivity {
             dataobj.put("results", resultarray);
 
             responsejson.put("data", dataobj);
-            Log.e("result response", "" + responsejson.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-   /* private void startsurvey() {
-        Realm realmdelete = AppController.getRealmobj();
-        realmdelete.beginTransaction();
-        realmdelete.deleteAll();
-        realmdelete.commitTransaction();
 
-        ActivityObj activityObj = null;
-        Realm realm = AppController.getRealmobj();
-        activityObj = realm.where(ActivityObj.class).equalTo("surveyId", "initial").findFirst();
-        if (activityObj == null) {
-            realm.beginTransaction();
-            try {
-                Gson gson = new GsonBuilder()
-                        .setExclusionStrategies(new ExclusionStrategy() {
-                            @Override
-                            public boolean shouldSkipField(FieldAttributes f) {
-                                return f.getDeclaringClass().equals(RealmObject.class);
-                            }
-
-                            @Override
-                            public boolean shouldSkipClass(Class<?> clazz) {
-                                return false;
-                            }
-                        })
-                        .registerTypeAdapter(new TypeToken<RealmList<Choices>>() {
-                        }.getType(), new TypeAdapter<RealmList<Choices>>() {
-
-                            @Override
-                            public void write(JsonWriter out, RealmList<Choices> value) throws IOException {
-                                // Ignore
-                            }
-
-                            @Override
-                            public RealmList<Choices> read(JsonReader in) throws IOException {
-                                RealmList<Choices> list = new RealmList<Choices>();
-                                in.beginArray();
-                                while (in.hasNext()) {
-                                    Choices surveyObjectString = new Choices();
-                                    surveyObjectString.setValue(in.nextString());
-                                    list.add(surveyObjectString);
-                                }
-                                in.endArray();
-                                return list;
-                            }
-                        })
-                        .create();
-
-                activityObj = gson.fromJson(ReadStringFromAssest(getResources().getString(R.string.surveyjsonname)), ActivityObj.class);
-                activityObj.setSurveyId(activityObj.getMetadata().getActivityId());
-                realm.copyToRealmOrUpdate(activityObj);
-                realm.commitTransaction();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        OrderedTask task = ActivityBuilder.create(StudylauncherActivity.this, activityObj.getSurveyId(), activityObj);
-        Intent intent = CustomSurveyViewTaskActivity.newIntent(this, task, activityObj.getSurveyId(), activityObj.getMetadata().getStudyId(), 1, mActivityStatus);
-        startActivityForResult(intent, REQUEST_SURVEY);
-    }*/
-
-    public String ReadStringFromAssest(String fileName) throws IOException {
-        StringBuilder returnString = new StringBuilder();
-        InputStream fIn;
-        InputStreamReader isr;
-        BufferedReader input;
-        fIn = getResources().getAssets().open(fileName);
-        isr = new InputStreamReader(fIn);
-        input = new BufferedReader(isr);
-        String line;
-        while ((line = input.readLine()) != null) {
-            returnString.append(line);
-        }
-
-        if (isr != null)
-            isr.close();
-        if (fIn != null)
-            fIn.close();
-        if (input != null)
-            input.close();
-        return returnString.toString();
-    }
 
     private static Object findPrimitiveData(JsonElement jsonElement, ActivityObj activityObj, int position) {
         JsonObject obj = jsonElement.getAsJsonObject();
@@ -337,7 +241,6 @@ public class StudylauncherActivity extends AppCompatActivity {
                 JSONArray jsonArray = new JSONArray();
                 for (JsonElement anArr : arr) {
                     jsonArray.put(activityObj.getSteps().get(position).getFormat().getTextChoices().get(anArr.getAsInt()).getValue());
-//                    jsonArray.put(anArr.getAsInt());
                 }
                 return jsonArray;
             } else {
@@ -357,7 +260,6 @@ public class StudylauncherActivity extends AppCompatActivity {
                 try {
                     return Integer.parseInt(num);
                 } catch (Exception e) {
-//                        e.printStackTrace();
                     return Long.parseLong(num);
                 }
             }
@@ -406,7 +308,6 @@ public class StudylauncherActivity extends AppCompatActivity {
                 try {
                     return Integer.parseInt(num);
                 } catch (Exception e) {
-//                        e.printStackTrace();
                     return Long.parseLong(num);
                 }
             }

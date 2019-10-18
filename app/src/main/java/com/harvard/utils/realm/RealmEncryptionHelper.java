@@ -139,7 +139,6 @@ public class RealmEncryptionHelper {
     }
 
     private byte[] rsaEncrypt(byte[] secret) throws Exception {
-//        KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(mKeyName, null);
         Cipher inputCipher = Cipher.getInstance(RSA_MODE);
         inputCipher.init(Cipher.ENCRYPT_MODE, keyStore.getCertificate(mKeyName).getPublicKey());
 
@@ -152,7 +151,6 @@ public class RealmEncryptionHelper {
     }
 
     private byte[] rsaDecrypt(byte[] encrypted) throws Exception {
-//        KeyStore.PrivateKeyEntry privateKeyEntry = (KeyStore.PrivateKeyEntry) keyStore.getEntry(mKeyName, null);
         Cipher output = Cipher.getInstance(RSA_MODE);
         output.init(Cipher.DECRYPT_MODE, keyStore.getKey(mKeyName, null));
         CipherInputStream cipherInputStream = new CipherInputStream(

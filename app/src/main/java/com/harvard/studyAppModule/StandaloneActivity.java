@@ -263,10 +263,6 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
 
                                 if (studyListArrayList.get(j).getStudyStatus().equalsIgnoreCase(IN_PROGRESS)) {
                                     getStudyUpdate(studyListArrayList.get(j).getStudyId(), studyListArrayList.get(j).getStudyVersion(), studyListArrayList.get(j).getTitle(), "", "", "", "");
-//                                    Intent intent = new Intent(StandaloneActivity.this, SurveyActivity.class);
-//                                    intent.putExtra("studyId", "" + studyListArrayList.get(j).getStudyId());
-//                                    startActivity(intent);
-//                                    finish();
                                 } else {
                                     Intent intent = new Intent(StandaloneActivity.this, StandaloneStudyInfoActivity.class);
                                     intent.putExtra("studyId", studyListArrayList.get(j).getStudyId());
@@ -280,42 +276,8 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                                     startActivity(intent);
                                     finish();
                                 }
-//                                if (studyListArrayList.get(0).getStudyStatus().equalsIgnoreCase(YET_TO_JOIN)) {
-//
-//                                } else
-//
-//                                else if (studyListArrayList.get(0).getStudyStatus().equalsIgnoreCase(COMPLETED)) {
-//                                    Toast.makeText(this, COMPLETED, Toast.LENGTH_SHORT).show();
-//                                    finish();
-//                                } else if (studyListArrayList.get(0).getStudyStatus().equalsIgnoreCase(NOT_ELIGIBLE)) {
-//                                    Toast.makeText(this, NOT_ELIGIBLE, Toast.LENGTH_SHORT).show();
-//                                    finish();
-//                                } else if (studyListArrayList.get(0).getStudyStatus().equalsIgnoreCase(WITHDRAWN)) {
-//                                    if (studyListArrayList.get(j).getSetting().getRejoin()) {
-//                                        Intent intent = new Intent(StandaloneActivity.this, StandaloneStudyInfoActivity.class);
-//                                        intent.putExtra("studyId", studyListArrayList.get(j).getStudyId());
-//                                        intent.putExtra("title", studyListArrayList.get(j).getTitle());
-//                                        intent.putExtra("bookmark", studyListArrayList.get(j).isBookmarked());
-//                                        intent.putExtra("status", studyListArrayList.get(j).getStatus());
-//                                        intent.putExtra("studyStatus", studyListArrayList.get(j).getStudyStatus());
-//                                        intent.putExtra("position", "0");
-//                                        intent.putExtra("enroll", "" + studyListArrayList.get(j).getSetting().isEnrolling());
-//                                        intent.putExtra("rejoin", "" + studyListArrayList.get(j).getSetting().getRejoin());
-//                                        startActivity(intent);
-//                                        finish();
-//                                    } else {
-//                                        Toast.makeText(this, WITHDRAWN, Toast.LENGTH_SHORT).show();
-//                                        finish();
-//                                    }
-//                                }
                                 break;
                             }
-                            // update study completed status
-                            /*else
-                            {
-//                                if(studyListArrayList.get(j).ge)
-//                                studyListArrayList.get(j).setStudyStatus();
-                            }*/
                         }
                     }
                     if (!userAlreadyJoined && !studyListArrayList.isEmpty()) {
@@ -339,7 +301,6 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                     Toast.makeText(StandaloneActivity.this, R.string.error_retriving_data, Toast.LENGTH_SHORT).show();
                     finish();
                 }
-//                new ProcessData(false).execute();
                 setStudyList(false);
                 checkForNotification(getIntent());
                 AppController.getHelperProgressDialog().dismissDialog();
@@ -350,7 +311,6 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
             }
         } else if (responseCode == STUDY_UPDATES) {
             StudyUpdate studyUpdate = (StudyUpdate) response;
-//            StudyUpdate studyUpdate = new Gson().fromJson(loadJSONFromAsset(), StudyUpdate.class);
             studyUpdate.setStudyId(mStudyId);
             StudyUpdateListdata studyUpdateListdata = new StudyUpdateListdata();
             RealmList<StudyUpdate> studyUpdates = new RealmList<>();
@@ -367,7 +327,6 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
             if (studyUpdate.getStudyUpdateData().isConsent()) {
                 callConsentMetaDataWebservice();
             } else {
-//                dbServiceSubscriber.updateStudyPreferenceVersionDB(mStudyId, mStudyVersion);
                 AppController.getHelperProgressDialog().dismissDialog();
                 Intent intent = new Intent(StandaloneActivity.this, SurveyActivity.class);
                 intent.putExtra("studyId", mStudyId);
@@ -420,7 +379,6 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
         if (statusCode.equalsIgnoreCase("401")) {
             Toast.makeText(StandaloneActivity.this, errormsg, Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(StandaloneActivity.this, errormsg);
-//            ((StudyActivity) getContext()).loadstudylist();
         } else if (responseCode == STUDY_UPDATES || responseCode == GET_CONSENT_DOC || responseCode == CONSENTPDF) {
             Intent intent = new Intent(StandaloneActivity.this, SurveyActivity.class);
             intent.putExtra("studyId", mStudyId);
@@ -431,12 +389,6 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
             startActivity(intent);
             finish();
         } else {
-            /*if (responseCode == STUDY_LIST) {
-                mEmptyListMessage.setVisibility(View.GONE);
-            } else {
-                mEmptyListMessage.setVisibility(View.GONE);
-
-            }*/
 
 
             // offline handling
@@ -444,16 +396,11 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
             if (mStudy != null && mStudy.getStudies() != null && !mStudy.getStudies().isEmpty()) {
                 studyListArrayList = mStudy.getStudies();
                 studyListArrayList = dbServiceSubscriber.saveStudyStatusToStudyList(studyListArrayList, realm);
-//                new ProcessData(true).execute();
                 setStudyList(true);
 
                 //like click
                 if (studyListArrayList.get(0).getStudyStatus().equalsIgnoreCase(IN_PROGRESS)) {
                     getStudyUpdate(studyListArrayList.get(0).getStudyId(), studyListArrayList.get(0).getStudyVersion(), studyListArrayList.get(0).getTitle(), "", "", "", "");
-//                                    Intent intent = new Intent(StandaloneActivity.this, SurveyActivity.class);
-//                                    intent.putExtra("studyId", "" + studyListArrayList.get(j).getStudyId());
-//                                    startActivity(intent);
-//                                    finish();
                 } else {
                     Intent intent = new Intent(StandaloneActivity.this, StandaloneStudyInfoActivity.class);
                     intent.putExtra("studyId", studyListArrayList.get(0).getStudyId());
@@ -467,34 +414,6 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                     startActivity(intent);
                     finish();
                 }
-//                if (studyListArrayList.get(0).getStudyStatus().equalsIgnoreCase(YET_TO_JOIN)) {
-//
-//                } else
-//
-//                else if (studyListArrayList.get(0).getStudyStatus().equalsIgnoreCase(COMPLETED)) {
-//                    Toast.makeText(this, COMPLETED, Toast.LENGTH_SHORT).show();
-//                    finish();
-//                } else if (studyListArrayList.get(0).getStudyStatus().equalsIgnoreCase(NOT_ELIGIBLE)) {
-//                    Toast.makeText(this, NOT_ELIGIBLE, Toast.LENGTH_SHORT).show();
-//                    finish();
-//                } else if (studyListArrayList.get(0).getStudyStatus().equalsIgnoreCase(WITHDRAWN)) {
-//                    if (studyListArrayList.get(0).getSetting().getRejoin()) {
-//                        Intent intent = new Intent(StandaloneActivity.this, StandaloneStudyInfoActivity.class);
-//                        intent.putExtra("studyId", studyListArrayList.get(0).getStudyId());
-//                        intent.putExtra("title", studyListArrayList.get(0).getTitle());
-//                        intent.putExtra("bookmark", studyListArrayList.get(0).isBookmarked());
-//                        intent.putExtra("status", studyListArrayList.get(0).getStatus());
-//                        intent.putExtra("studyStatus", studyListArrayList.get(0).getStudyStatus());
-//                        intent.putExtra("position", "0");
-//                        intent.putExtra("enroll", "" + studyListArrayList.get(0).getSetting().isEnrolling());
-//                        intent.putExtra("rejoin", "" + studyListArrayList.get(0).getSetting().getRejoin());
-//                        startActivity(intent);
-//                        finish();
-//                    } else {
-//                        Toast.makeText(this, WITHDRAWN, Toast.LENGTH_SHORT).show();
-//                        finish();
-//                    }
-//                }
             } else {
                 Toast.makeText(StandaloneActivity.this, errormsg, Toast.LENGTH_LONG).show();
                 finish();
@@ -583,7 +502,6 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                             }
                         }
                     } else if (type.equalsIgnoreCase("Study")) {
-                        //                    Log.e("study", "" + mItems.get(holder.getAdapterPosition()).getStudyId() + "  " + holder.getAdapterPosition() + "  " + mItems.get(holder.getAdapterPosition()).getSubtype());
                         if (subType.equalsIgnoreCase("Activity") || subType.equalsIgnoreCase("Resource")) {
                             Study mStudy = dbServiceSubscriber.getStudyListFromDB(realm);
                             if (mStudy != null) {
@@ -592,7 +510,6 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                                 boolean isStudyAvailable = false;
                                 boolean isStudyJoined = false;
                                 for (int i = 0; i < studyListArrayList.size(); i++) {
-                                    Log.e("studylist ", "" + studyListArrayList.get(i).getStudyId());
                                     if (studyId.equalsIgnoreCase(studyListArrayList.get(i).getStudyId())) {
                                         isStudyAvailable = true;
                                         try {
@@ -607,11 +524,6 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                                             e.printStackTrace();
                                         }
                                         if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(getString(R.string.active)) && studyListArrayList.get(i).getStudyStatus().equalsIgnoreCase(StudyFragment.IN_PROGRESS)) {
-                                            /*Intent intent = new Intent(StudyActivity.this, SurveyActivity.class);
-                                            intent.putExtra("studyId", studyId);
-                                            intent.putExtra("from", "NotificationActivity");
-                                            intent.putExtra("to", studyId);
-                                            startActivity(intent);*/
                                             if (subType.equalsIgnoreCase("Resource")) {
                                                 getStudyUpdate(studyListArrayList.get(i).getStudyId(), studyListArrayList.get(i).getStudyVersion(), studyListArrayList.get(i).getTitle(), "Resource", "NotificationActivity", activityIdNotification, localNotification);
                                             } else {
@@ -657,7 +569,6 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
         mCalledFor = calledFor;
 
         StudyData studyData = dbServiceSubscriber.getStudyPreferences(realm);
-//        Studies studies = dbServiceSubscriber.getStudies(studyId);
         Studies studies = null;
         if (studyData != null && studyData.getStudies() != null) {
             for (int i = 0; i < studyData.getStudies().size(); i++) {
@@ -669,24 +580,14 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
         if (studies != null && studies.getVersion() != null && !studies.getVersion().equalsIgnoreCase(studyVersion)) {
             getStudyUpdateFomWS(studyId, studies.getVersion());
         } else {
-            /*if(studies != null && studies.getVersion() == null)
-            {
-                dbServiceSubscriber.updateStudyPreferenceVersion(studyVersion, studies);
-            }
-            Intent intent = new Intent(StandaloneActivity.this, SurveyActivity.class);
-            intent.putExtra("studyId", studyId);
-            StandaloneActivity.this.startActivity(intent);*/
             getCurrentConsentDocument(studyId);
         }
     }
 
     private void getStudyUpdateFomWS(String studyId, String studyVersion) {
-//        mStudyId = studyId;
         AppController.getHelperProgressDialog().showProgress(StandaloneActivity.this, "", "", false);
         GetUserStudyListEvent getUserStudyListEvent = new GetUserStudyListEvent();
         HashMap<String, String> header = new HashMap();
-//        header.put("studyId", studyId);
-//        header.put("studyVersion", studyVersion);
         String url = URLs.STUDY_UPDATES + "?studyId=" + studyId + "&studyVersion=" + studyVersion;
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, STUDY_UPDATES, StandaloneActivity.this, StudyUpdate.class, null, header, null, false, this);
 
@@ -696,11 +597,7 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
     }
 
     private void getCurrentConsentDocument(String studyId) {
-//        mStudyId = studyId;
-//        AppController.getHelperProgressDialog().showProgress(StandaloneActivity.this, "", "", false);
         HashMap<String, String> header = new HashMap<>();
-//                header.put("studyId", mStudyId);
-//                header.put("consentVersion", "1.0");
         String url = URLs.GET_CONSENT_DOC + "?studyId=" + studyId + "&consentVersion=&activityId=&activityVersion=";
         AppController.getHelperProgressDialog().showProgress(StandaloneActivity.this, "", "", false);
         GetUserStudyInfoEvent getUserStudyInfoEvent = new GetUserStudyInfoEvent();
@@ -716,8 +613,6 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
         HashMap<String, String> header = new HashMap<>();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(StandaloneActivity.this, getResources().getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(StandaloneActivity.this, getResources().getString(R.string.userid), ""));
-//        header.put("studyId", mStudyId);
-//        header.put("consentVersion", "1.0");
         String url = URLs.CONSENTPDF + "?studyId=" + mStudyId + "&consentVersion=";
         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("get", url, CONSENTPDF, StandaloneActivity.this, ConsentPDF.class, null, header, null, false, StandaloneActivity.this);
         consentPDFEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
@@ -726,15 +621,6 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
     }
 
     private void callConsentMetaDataWebservice() {
-//        HashMap<String, String> header = new HashMap<>();
-////        header.put("studyId", mStudyId);
-//        String url = URLs.CONSENT_METADATA + "?studyId=" + mStudyId;
-//        GetConsentMetaDataEvent getConsentMetaDataEvent = new GetConsentMetaDataEvent();
-//        WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, CONSENT_METADATA, StandaloneActivity.this, EligibilityConsent.class, null, header, null, false, this);
-//
-//        getConsentMetaDataEvent.setWcpConfigEvent(wcpConfigEvent);
-//        StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
-//        studyModulePresenter.performGetConsentMetaData(getConsentMetaDataEvent);
 
         new callConsentMetaData().execute();
     }
@@ -858,10 +744,6 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
         databaseEvent.setaClass(EligibilityConsent.class);
         databaseEvent.setmOperation(DBServiceSubscriber.INSERT_AND_UPDATE_OPERATION);
         dbServiceSubscriber.insert(context, databaseEvent);
-//        Realm realm = AppController.getRealmobj();
-//        realm.beginTransaction();
-//        realm.copyToRealmOrUpdate(eligibilityConsent);
-//        realm.commitTransaction();
     }
 
     private void startConsent(Consent consent, String type) {
@@ -879,44 +761,11 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CONSENT_RESPONSECODE) {
             if (resultCode == RESULT_OK) {
-                /*try {
-                    TaskResult result = (TaskResult) data.getSerializableExtra(CustomConsentViewTaskActivity.EXTRA_TASK_RESULT);
-                    signatureBase64 = (String) result.getStepResult("Signature")
-                            .getResultForIdentifier(ConsentSignatureStepLayout.KEY_SIGNATURE);
-
-                    signatureDate = (String) result.getStepResult("Signature")
-                            .getResultForIdentifier(ConsentSignatureStepLayout.KEY_SIGNATURE_DATE);
-
-                    String formResult = new Gson().toJson(result.getStepResult(getResources().getString(R.string.signature_form_step)).getResults());
-                    JSONObject formResultObj = new JSONObject(formResult);
-                    JSONObject fullNameObj = formResultObj.getJSONObject("First Name");
-                    JSONObject fullNameResult = fullNameObj.getJSONObject("results");
-                    firstName = fullNameResult.getString("answer");
-
-                    JSONObject lastNameObj = formResultObj.getJSONObject("Last Name");
-                    JSONObject lastNameResult = lastNameObj.getJSONObject("results");
-                    lastName = lastNameResult.getString("answer");
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-
-                genarateConsentPDF(signatureBase64);
-                // encrypt the genarated pdf
-                encryptFile = AppController.genarateEncryptedConsentPDF("/data/data/" + getPackageName() + "/files/", mFileName);
-                //After encryption delete the pdf file
-                if (encryptFile != null) {
-                    File file = new File("/data/data/" + getPackageName() + "/files/" + mFileName + ".pdf");
-                    file.delete();
-                }*/
                 Intent intent = new Intent(StandaloneActivity.this, ConsentCompletedActivity.class);
-//                intent.putExtra("enrollId", getIntent().getStringExtra("enrollId"));
                 intent.putExtra("studyId", mStudyId);
                 intent.putExtra("title", mtitle);
                 intent.putExtra("eligibility", eligibilityType);
                 intent.putExtra("type", data.getStringExtra(CustomConsentViewTaskActivity.TYPE));
-//                intent.putExtra("PdfPath", myFile.getAbsolutePath());
                 // get the encrypted file path
                 intent.putExtra("PdfPath",  data.getStringExtra("PdfPath"));
                 startActivity(intent);
@@ -929,101 +778,6 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
     }
 
 
-    private void genarateConsentPDF(String signatureBase64) {
-        try {
-            getFile("/data/data/" + getPackageName() + "/files/");
-            Date date = new Date();
-            String timeStamp = AppController.getDateFormatType3();
-            mFileName = timeStamp;
-            String filePath = "/data/data/" + getPackageName() + "/files/" + timeStamp + ".pdf";
-            myFile = new File(filePath);
-            if (!myFile.exists())
-                myFile.createNewFile();
-            OutputStream output = new FileOutputStream(myFile);
-
-            Document document = new Document();
-            PdfWriter writer = PdfWriter.getInstance(document, output);
-            writer.setFullCompression();
-
-            document.addCreationDate();
-            document.setPageSize(PageSize.A4);
-            document.setMargins(10, 10, 10, 10);
-
-            document.open();
-            Paragraph consentItem;
-            if (eligibilityConsent != null && eligibilityConsent.getConsent() != null && eligibilityConsent.getConsent().getReview() != null && eligibilityConsent.getConsent().getReview().getSignatureContent() != null && !eligibilityConsent.getConsent().getReview().getSignatureContent().equalsIgnoreCase("")) {
-                consentItem = new Paragraph(Html.fromHtml(eligibilityConsent.getConsent().getReview().getSignatureContent().toString()).toString());
-            } else if (eligibilityConsent != null && eligibilityConsent.getConsent() != null && eligibilityConsent.getConsent().getVisualScreens() != null) {
-                StringBuilder docBuilder;
-                if (eligibilityConsent.getConsent().getVisualScreens().size() > 0) {
-                    // Create our HTML to show the user and have them accept or decline.
-                    docBuilder = new StringBuilder(
-                            "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
-                    String title = mtitle;
-                    docBuilder.append(String.format(
-                            "<h1 style=\"text-align: center; font-family:sans-serif-light;\">%1$s</h1>",
-                            title));
-
-
-                    docBuilder.append("</div></br>");
-                    for (int i = 0; i < eligibilityConsent.getConsent().getVisualScreens().size(); i++) {
-                        docBuilder.append("<div>  <h4>" + eligibilityConsent.getConsent().getVisualScreens().get(i).getTitle() + "<h4> </div>");
-                        docBuilder.append("</br>");
-                        docBuilder.append("<div>" + eligibilityConsent.getConsent().getVisualScreens().get(i).getHtml() + "</div>");
-                        docBuilder.append("</br>");
-                        docBuilder.append("</br>");
-                    }
-                    consentItem = new Paragraph(Html.fromHtml(docBuilder.toString()).toString());
-                } else {
-                    consentItem = new Paragraph("");
-                }
-            } else {
-                consentItem = new Paragraph("");
-            }
-//            Paragraph consentItem = new Paragraph();
-//            ElementList list = XMLWorkerHelper.parseToElementList(Html.fromHtml(eligibilityConsent.getConsent().getReview().getSignatureContent().toString()).toString(), null);
-//            for (Element element : list) {
-//                consentItem.add(element);
-//            }
-            StringBuilder docBuilder = new StringBuilder(
-                    "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
-            String participant = getResources().getString(R.string.participant);
-            docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", participant));
-            String detail = getResources().getString(R.string.agree_participate_research_study);
-            docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", detail));
-            consentItem.add(Html.fromHtml(docBuilder.toString()).toString());
-
-            byte[] signatureBytes;
-            Image myImg = null;
-            if (signatureBase64 != null) {
-                signatureBytes = Base64.decode(signatureBase64, Base64.DEFAULT);
-                myImg = Image.getInstance(signatureBytes);
-                myImg.setScaleToFitHeight(true);
-                myImg.scalePercent(50f);
-            }
-
-            PdfPTable table = new PdfPTable(3);
-            table.setWidthPercentage(100);
-            table.addCell(getCell(firstName + " " + lastName, PdfPCell.ALIGN_CENTER));
-            table.addCell(getImage(myImg, PdfPCell.ALIGN_CENTER));
-            table.addCell(getCell(signatureDate, PdfPCell.ALIGN_CENTER));
-            consentItem.add(table);
-
-
-            PdfPTable table1 = new PdfPTable(3);
-            table1.setWidthPercentage(100);
-            table1.addCell(getCell(getResources().getString(R.string.participans_name), PdfPCell.ALIGN_CENTER));
-            table1.addCell(getCell(getResources().getString(R.string.participants_signature), PdfPCell.ALIGN_CENTER));
-            table1.addCell(getCell(getResources().getString(R.string.date), PdfPCell.ALIGN_CENTER));
-            consentItem.add(table1);
-
-            document.add(consentItem);
-            document.close();
-        } catch (IOException | DocumentException e) {
-            Toast.makeText(StandaloneActivity.this, R.string.not_able_create_pdf, Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-    }
 
     public PdfPCell getImage(Image image, int alignment) {
         PdfPCell cell;
@@ -1039,22 +793,6 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
         return cell;
     }
 
-    public PdfPCell getCell(String text, int alignment) {
-        PdfPCell cell = new PdfPCell(new Phrase(text));
-        cell.setPadding(10);
-        cell.setHorizontalAlignment(alignment);
-        cell.setVerticalAlignment(PdfPCell.ALIGN_BOTTOM);
-        cell.setBorder(PdfPCell.NO_BORDER);
-        return cell;
-    }
-
-
-    private void getFile(String s) {
-        file = new File(s, FILE_FOLDER);
-        if (!file.exists()) {
-            file.mkdirs();
-        }
-    }
 
 
     private void setStudyList(boolean offline) {
@@ -1088,7 +826,6 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
             if (!AppController.getHelperSharedPreference().readPreference(StandaloneActivity.this, getResources().getString(R.string.userid), "").equalsIgnoreCase("")) {
                 completionAdeherenceCalc = survayScheduler.completionAndAdherenceCalculation(studyListArrayList.get(i).getStudyId(), StandaloneActivity.this);
                 if (completionAdeherenceCalc.isActivityAvailable()) {
-//                    completionAdeherenceCalcs.add(completionAdeherenceCalc);
                     completionAdeherenceCalcSort = completionAdeherenceCalc;
                 } else {
                     Studies studies = dbServiceSubscriber.getStudies(studyListArrayList.get(i).getStudyId(), realm);
@@ -1098,14 +835,12 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                             completionAdeherenceCalculation.setCompletion(studies.getCompletion());
                             completionAdeherenceCalculation.setAdherence(studies.getAdherence());
                             completionAdeherenceCalculation.setActivityAvailable(false);
-//                            completionAdeherenceCalcs.add(completionAdeherenceCalculation);
                             completionAdeherenceCalcSort = completionAdeherenceCalculation;
                         } catch (Exception e) {
                             CompletionAdeherenceCalc completionAdeherenceCalculation = new CompletionAdeherenceCalc();
                             completionAdeherenceCalculation.setAdherence(0);
                             completionAdeherenceCalculation.setCompletion(0);
                             completionAdeherenceCalculation.setActivityAvailable(false);
-//                            completionAdeherenceCalcs.add(completionAdeherenceCalculation);
                             completionAdeherenceCalcSort = completionAdeherenceCalculation;
                             e.printStackTrace();
                         }
@@ -1368,14 +1103,6 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
         othersCompletionAdeherenceCalc = null;
 
 
-//        Intent intent = new Intent(StandaloneActivity.this, SurveyActivity.class);
-//        intent.putExtra("studyId", mStudyId);
-//        intent.putExtra("to", mCalledFor);
-//        intent.putExtra("from", mFrom);
-//        intent.putExtra("activityId", mActivityId);
-//        intent.putExtra("localNotification", mLocalNotification);
-//        startActivity(intent);
-//        finish();
     }
 
     @Override

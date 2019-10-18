@@ -31,7 +31,6 @@ public class CustomActivitiesDailyDialogClass extends Dialog implements View.OnC
 
     public CustomActivitiesDailyDialogClass(Context mContext, ArrayList<String> mScheduledTime, int mSelectedTime, boolean isClickableItem, DialogClick dialogClick) {
         super(mContext);
-        // TODO Auto-generated constructor stub
         this.mContext = mContext;
         this.mScheduledTime = mScheduledTime;
         this.mSelectedTime = mSelectedTime;

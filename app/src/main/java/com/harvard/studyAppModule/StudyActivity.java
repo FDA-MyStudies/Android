@@ -130,8 +130,6 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             bindEvents();
             setFont();
             // default settings
-//        defaultFragementSettings();
-//        checkSignOrSignOutScenario();
             loadstudylist();
         }
     }
@@ -191,10 +189,6 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         } else {
             intentFrom = "";
         }
-//        if (!intentFrom.equalsIgnoreCase("") && mStudyFragment != null && !mStudyFragment.isVisible()) {
-//
-//        }
-//        checkForNotification(intent1);
 
     }
 
@@ -281,7 +275,6 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutContainer, new ResourcesFragment(), "fragment").commit();
                         }
                     } else if (type.equalsIgnoreCase("Study")) {
-                        //                    Log.e("study", "" + mItems.get(holder.getAdapterPosition()).getStudyId() + "  " + holder.getAdapterPosition() + "  " + mItems.get(holder.getAdapterPosition()).getSubtype());
                         if (subType.equalsIgnoreCase("Activity") || subType.equalsIgnoreCase("Resource")) {
                             Study mStudy = dbServiceSubscriber.getStudyListFromDB(mRealm);
                             if (mStudy != null) {
@@ -290,7 +283,6 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                                 boolean isStudyAvailable = false;
                                 boolean isStudyJoined = false;
                                 for (int i = 0; i < studyListArrayList.size(); i++) {
-                                    Log.e("studylist ", "" + studyListArrayList.get(i).getStudyId());
                                     if (studyId.equalsIgnoreCase(studyListArrayList.get(i).getStudyId())) {
                                         isStudyAvailable = true;
                                         try {
@@ -305,11 +297,6 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                                             e.printStackTrace();
                                         }
                                         if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(getString(R.string.active)) && studyListArrayList.get(i).getStudyStatus().equalsIgnoreCase(StudyFragment.IN_PROGRESS)) {
-                                            /*Intent intent = new Intent(StudyActivity.this, SurveyActivity.class);
-                                            intent.putExtra("studyId", studyId);
-                                            intent.putExtra("from", "NotificationActivity");
-                                            intent.putExtra("to", studyId);
-                                            startActivity(intent);*/
                                             if (subType.equalsIgnoreCase("Resource")) {
                                                 mStudyFragment.getStudyUpdate(studyListArrayList.get(i).getStudyId(), studyListArrayList.get(i).getStudyVersion(), studyListArrayList.get(i).getTitle(), "Resource", "NotificationActivity", activityIdNotification, localNotification);
                                             } else {
@@ -381,7 +368,6 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         version = (TextView) findViewById(R.id.version);
         setVersion(version);
 
-        Log.e("token", "" + AppController.getHelperSharedPreference().readPreference(StudyActivity.this, "deviceToken", ""));
         mBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -487,7 +473,6 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             public void onClick(View view) {
                 Intent intent = new Intent(StudyActivity.this, NotificationActivity.class);
                 startActivityForResult(intent, NOTIFICATION_RESULT);
-//                Toast.makeText(StudyActivity.this, "Notification Under Development...", Toast.LENGTH_LONG).show();
 
             }
         });
@@ -567,14 +552,6 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    /*private void defaultFragementSettings() {
-        mPreviousValue = R.id.mHomeLayout;
-        mStudyFragment = new StudyFragment();
-        mInfoIcon.setVisibility(View.GONE);
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutContainer, mStudyFragment, "fragment").commit();
-        mTitle.setText(getResources().getString(R.string.fda_listens));
-        mSidebarTitle.setText(getResources().getString(R.string.fda_listens));
-    }*/
 
     private void bindEvents() {
         mHomeLayout.setOnClickListener(this);
@@ -615,9 +592,6 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.mHomeLayout:
-//                if (mPreviousValue == R.id.mHomeLayout) {
-//                    closeDrawer();
-//                } else {
                 mPreviousValue = R.id.mHomeLayout;
                 mTitleFDAListens.setText(getResources().getString(R.string.fda_listens));
                 mTitle.setText("");
@@ -643,7 +617,6 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                 closeDrawer();
                 mStudyFragment = new StudyFragment();
                 getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutContainer, mStudyFragment, "fragment").commit();
-//                }
                 break;
 
             case R.id.mResourcesLayout:
@@ -758,7 +731,6 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             mSearchBtn.setVisibility(View.GONE);
             closeDrawer();
             getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutContainer, new ReachoutFragment(), "fragment").commit();
-//            mPreviousValue = R.id.mResourcesLayout;
         }
     }
 
@@ -916,22 +888,9 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             if (resultCode == RESULT_OK) {
                 if (data != null && data.getStringExtra("action").equalsIgnoreCase("signin")) {
                     new LongOperation().execute();
-//                    mPreviousValue = R.id.mSignInProfileLayout;
-//                    mTitle.setText(getResources().getString(R.string.sign_in));
-//                    mEditBtnLayout.setVisibility(View.GONE);
-//                    mNotificationBtn.setVisibility(View.GONE);
-//                    closeDrawer();
-//                    getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutContainer, new SignInFragment(), "fragment").commit();
                 } else {
                     loadstudylist();
                 }
-                /*else if (data != null && data.getStringExtra("action").equalsIgnoreCase("refresh")) {
-                    if (mStudyFragment != null) {
-                        mInfoIcon.setVisibility(View.GONE);
-                        mStudyFragment.refreshlist(data.getBooleanExtra("bookmark", false),data.getStringExtra("position"),data.getStringExtra("status"),data.getStringExtra("studyId"));
-                    }
-                }*/
-
 
             }
         } else if (requestCode == NOTIFICATION_RESULT) {

@@ -90,7 +90,6 @@ public class ChartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chart);
 
-//        dashboardData = (DashboardData) getIntent().getSerializableExtra("Charts");
         dbServiceSubscriber = new DBServiceSubscriber();
         mRealm = AppController.getRealmobj(this);
         dashboardData = dbServiceSubscriber.getDashboardDataFromDB(getIntent().getStringExtra("studyId"), mRealm);
@@ -141,12 +140,8 @@ public class ChartActivity extends AppCompatActivity {
                 // Keep track fo maxMoleDiameter for TempGraphHelper.updateLineChart();
                 float maxValue = 0;
 
-//                StatisticsDataSource statisticsDataSource = dashboardData.getDashboard().getStatistics().get(i).getDataSource();
                 final ChartDataSource chartDataSource = dashboardData.getDashboard().getCharts().get(i).getDataSource();
                 final RealmResults<StepRecordCustom> stepRecordCustomList;
-//                if (i == 1)
-//                    stepRecordCustomList = dbServiceSubscriber.getResult(getIntent().getStringExtra("studyId") + "_STUDYID_" + "FKOT", "FKOT", null, null, mRealm);
-//                else
                 stepRecordCustomList = dbServiceSubscriber.getResult(getIntent().getStringExtra("studyId") + "_STUDYID_" + chartDataSource.getActivity().getActivityId(), chartDataSource.getKey(), null, null, mRealm);
 
                 // Offset each xPosition by one to compensate for
@@ -246,7 +241,6 @@ public class ChartActivity extends AppCompatActivity {
                         }
                     }
                 } else if (chartDataSource.getTimeRangeType().equalsIgnoreCase("runs")) {
-                    Log.e("stepRecordCustomList", "" + stepRecordCustomList.size());
                     RealmResults<ActivityRun> activityRuns = dbServiceSubscriber.getAllActivityRunFromDB(getIntent().getStringExtra("studyId"), chartDataSource.getActivity().getActivityId(), mRealm);
                     linearLayout1 = new LinearLayout(ChartActivity.this);
                     SimpleDateFormat simpleDateFormat = AppController.getDateFormat();
@@ -264,8 +258,6 @@ public class ChartActivity extends AppCompatActivity {
                         String runAnswerData = null;
                         for (int l = 0; l < stepRecordCustomList.size(); l++) {
                             if (stepRecordCustomList.get(l).taskId.contains("_")) {
-//                                filteredXValues.clear();
-//                                String[] taskId = stepRecordCustomList.get(l).taskId.split("_");
                                 String taskId[] = stepRecordCustomList.get(l).taskId.split("_STUDYID_");
                                 String runId = taskId[1].substring(taskId[1].lastIndexOf("_") + 1, taskId[1].length());
                                 JSONObject jsonObject;
@@ -295,7 +287,6 @@ public class ChartActivity extends AppCompatActivity {
                                 }
 
                                 if (runId.equalsIgnoreCase("" + activityRuns.get(k).getRunId())) {
-//                                    entryList.add(new Entry(Float.parseFloat(answer), k));
 
                                     runAnswer = answer;
                                     runAnswerData = data;
@@ -312,7 +303,6 @@ public class ChartActivity extends AppCompatActivity {
                         runChart.setStartDate(activityRuns.get(k).getStartDate());
                         runChart.setEnddDate(activityRuns.get(k).getEndDate());
                         runCharts.add(runChart);
-//                        filteredXValues.add("" + (k + 1));
                     }
                     //new chart
                     lists = split(runCharts, 5);
@@ -325,7 +315,6 @@ public class ChartActivity extends AppCompatActivity {
                             filteredXValues.add("" + (Integer.parseInt(lists.get(0).get(l).getRunId())));
                         }
                     }
-                    Log.e("list", "" + entryList.size() + "  " + filteredXValues.size());
                     addTimeLayoutRuns(lists, RUN, chartDataSource.getTimeRangeType(), chart, stepRecordCustomList, filteredXValues, entryList, activityRuns, i, dashboardData.getDashboard().getCharts().get(i).getConfiguration().getSettings().get(0).getBarColor(), chartDataSource.getActivity().getActivityId(), 0);
                 } else if (chartDataSource.getTimeRangeType().equalsIgnoreCase("hours_of_day")) {
                     final RealmResults<ActivityRun> activityRuns = dbServiceSubscriber.getAllActivityRunforDate(chartDataSource.getActivity().getActivityId(), getIntent().getStringExtra("studyId"), new Date(), mRealm);
@@ -335,8 +324,6 @@ public class ChartActivity extends AppCompatActivity {
                         for (int l = 0; l < stepRecordCustomList.size(); l++) {
                             if (stepRecordCustomList.get(l).getCompleted().before(endtime) && stepRecordCustomList.get(l).getCompleted().after(starttime)) {
                                 if (stepRecordCustomList.get(l).taskId.contains("_")) {
-                                    /*String[] taskId = stepRecordCustomList.get(l).taskId.split("_");
-                                    String runId = taskId[1];*/
                                     String taskId[] = stepRecordCustomList.get(l).taskId.split("_STUDYID_");
                                     String runId = taskId[1].substring(taskId[1].lastIndexOf("_") + 1, taskId[1].length());
 
@@ -375,12 +362,10 @@ public class ChartActivity extends AppCompatActivity {
                         filteredXValues.add("" + (k + 1));
                     }
                 }
-                Log.e("filtered", "" + filteredXValues.size() + "  " + entryList.size());
                 // Update chart w/ our data
                 TempGraphHelper.updateLineChart(chart, (int) maxValue, entryList, filteredXValues, dashboardData.getDashboard().getCharts().get(i).getConfiguration().getSettings().get(0).getBarColor());
 
                 // Move to "end" of chart
-                //            chart.moveViewToX(filteredXValues.size());
                 linearLayout.addView(textView);
                 if (linearLayout1 != null)
                     linearLayout.addView(linearLayout1);
@@ -433,11 +418,6 @@ public class ChartActivity extends AppCompatActivity {
 
 
     private void shareFunctionality() {
-//        View v1 = chartlayout;
-//        v1.setDrawingCacheEnabled(true);
-//        v1.buildDrawingCache();
-//        Bitmap bm = v1.getDrawingCache();
-//        v1.setDrawingCacheEnabled(false);
 
 
         Bitmap returnedBitmap = Bitmap.createBitmap(chartlayout.getWidth(), chartlayout.getHeight(), Bitmap.Config.ARGB_8888);
@@ -455,7 +435,6 @@ public class ChartActivity extends AppCompatActivity {
     private void saveBitmap(Bitmap bitmap) {
         String root = Environment.getExternalStorageDirectory().toString();
         File myDir = new File(root + "/Android/FDA/Screenshot");
-//        File myDir = new File("/storage/emulated/0/SamplePDF/");
         myDir.mkdirs();
         String fname = getIntent().getStringExtra("studyName") + "_Chart.png";
         File file = new File(myDir, fname);
@@ -473,18 +452,6 @@ public class ChartActivity extends AppCompatActivity {
     }
 
     public void sendMail(File file, String subject) {
-//        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-//        emailIntent.setType("text/plain");
-//        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
-//        emailIntent.putExtra(Intent.EXTRA_TEXT, "");
-//        if (!file.exists() || !file.canRead()) {
-//            return;
-//        }
-//        Uri uri = Uri.fromFile(file);
-//        emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
-//        startActivityForResult(
-//                Intent.createChooser(emailIntent, "Pick an Email provider"),
-//                222);
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setData(Uri.parse("mailto:"));
         shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject);
@@ -548,10 +515,8 @@ public class ChartActivity extends AppCompatActivity {
             }
 
             textView1.setText(runtxt.get(0).toString());
-//        setDay(textView1);
 
             textView1.setTag(charttype);
-            Log.e("activity", "" + activityId);
             textView1.setTag(R.string.charttag, activityId);
             textView1.setTag(R.string.runchartindex, 0);
             textView1.setTag(R.string.runchartmaxindex, lists.size() - 1);
@@ -572,7 +537,6 @@ public class ChartActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     if (Integer.parseInt("" + textView1.getTag(R.string.runchartindex)) > 0) {
                         textView1.setTag(R.string.runchartindex, Integer.parseInt("" + textView1.getTag(R.string.runchartindex)) - 1);
-                        Log.e("run index", "" + textView1.getTag(R.string.runchartindex));
                         textView1.setText(runtxt.get(Integer.parseInt("" + textView1.getTag(R.string.runchartindex))));
                         refreshdataRun(filteredXValues, entryList, lists, Integer.parseInt("" + textView1.getTag(R.string.runchartindex)), chart, barColor);
                     }
@@ -586,7 +550,6 @@ public class ChartActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     if (Integer.parseInt("" + textView1.getTag(R.string.runchartindex)) < Integer.parseInt("" + textView1.getTag(R.string.runchartmaxindex))) {
                         textView1.setTag(R.string.runchartindex, Integer.parseInt("" + textView1.getTag(R.string.runchartindex)) + 1);
-                        Log.e("run index", "" + textView1.getTag(R.string.runchartindex));
                         textView1.setText(runtxt.get(Integer.parseInt("" + textView1.getTag(R.string.runchartindex))));
                         refreshdataRun(filteredXValues, entryList, lists, Integer.parseInt("" + textView1.getTag(R.string.runchartindex)), chart, barColor);
                     }
@@ -608,7 +571,6 @@ public class ChartActivity extends AppCompatActivity {
                 entryList.add(new Entry(Float.parseFloat(lists.get(index).get(l).getResult()), Integer.parseInt(lists.get(index).get(l).getRunId()) - Integer.parseInt(lists.get(index).get(0).getRunId()), lists.get(index).get(0).getResultData()));
             filteredXValues.add("" + (Integer.parseInt(lists.get(index).get(l).getRunId())));
         }
-        Log.e("list", "" + entryList.size() + "  " + filteredXValues.size());
         TempGraphHelper.updateLineChart(chart, 0, entryList, filteredXValues, barColor);
     }
 
@@ -634,7 +596,6 @@ public class ChartActivity extends AppCompatActivity {
             setYear(textView1);
 
         textView1.setTag(charttype);
-        Log.e("activity", "" + activityId);
         textView1.setTag(R.string.charttag, activityId);
 
         final ImageView rightArrow = new ImageView(ChartActivity.this);
@@ -857,7 +818,6 @@ public class ChartActivity extends AppCompatActivity {
         chart.clear();
         entryList.clear();
         filteredXValues.clear();
-        Log.e("date", "" + startTime + "   " + endtime);
         if (!tag.equalsIgnoreCase("hours_of_day")) {
             if (tag.equalsIgnoreCase("days_of_week")) {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE");
@@ -999,15 +959,11 @@ public class ChartActivity extends AppCompatActivity {
                 }
             }
         } else if (tag.equalsIgnoreCase("hours_of_day")) {
-            Log.e("chartDataSource", "" + activityId);
             activityRuns = dbServiceSubscriber.getAllActivityRunforDate(activityId, getIntent().getStringExtra("studyId"), startTime, mRealm);
-            Log.e("activityruns", "" + activityRuns.size());
             for (int k = 0; k < activityRuns.size(); k++) {
                 for (int l = 0; l < stepRecordCustomList.size(); l++) {
                     if (stepRecordCustomList.get(l).getCompleted().before(endtime) && stepRecordCustomList.get(l).getCompleted().after(startTime)) {
                         if (stepRecordCustomList.get(l).taskId.contains("_")) {
-//                            String[] taskId = stepRecordCustomList.get(l).taskId.split("_");
-//                            String runId = taskId[1];
                             String taskId[] = stepRecordCustomList.get(l).taskId.split("_STUDYID_");
                             String runId = taskId[1].substring(taskId[1].lastIndexOf("_") + 1, taskId[1].length());
 
@@ -1016,7 +972,6 @@ public class ChartActivity extends AppCompatActivity {
                             String data = "";
                             try {
                                 jsonObject = new JSONObject(stepRecordCustomList.get(l).result);
-                                Log.e("jsonObject", jsonObject.toString());
                                 String Id[] = stepRecordCustomList.get(l).activityID.split("_STUDYID_");
                                 ActivitiesWS activityObj = dbServiceSubscriber.getActivityObj(Id[1], Id[0], mRealm);
                                 if (activityObj.getType().equalsIgnoreCase("task")) {
@@ -1040,7 +995,6 @@ public class ChartActivity extends AppCompatActivity {
                             }
 
                             if (runId.equalsIgnoreCase("" + activityRuns.get(k).getRunId())) {
-                                Log.e("run", "" + answer);
                                 entryList.add(new Entry(Float.parseFloat(answer), k, data));
 
                             }
@@ -1055,8 +1009,6 @@ public class ChartActivity extends AppCompatActivity {
                 for (int l = 0; l < stepRecordCustomList.size(); l++) {
                     if (stepRecordCustomList.get(l).getCompleted().before(endtime) && stepRecordCustomList.get(l).getCompleted().after(startTime)) {
                         if (stepRecordCustomList.get(l).taskId.contains("_")) {
-//                            String[] taskId = stepRecordCustomList.get(l).taskId.split("_");
-//                            String runId = taskId[1];
                             String taskId[] = stepRecordCustomList.get(l).taskId.split("_STUDYID_");
                             String runId = taskId[1].substring(taskId[1].lastIndexOf("_") + 1, taskId[1].length());
 
@@ -1065,7 +1017,6 @@ public class ChartActivity extends AppCompatActivity {
                             String data = "";
                             try {
                                 jsonObject = new JSONObject(stepRecordCustomList.get(l).result);
-                                Log.e("jsonObject", jsonObject.toString());
                                 String Id[] = stepRecordCustomList.get(l).activityID.split("_STUDYID_");
                                 ActivitiesWS activityObj = dbServiceSubscriber.getActivityObj(Id[1], Id[0], mRealm);
                                 if (activityObj.getType().equalsIgnoreCase("task")) {
@@ -1082,7 +1033,6 @@ public class ChartActivity extends AppCompatActivity {
                             }
 
                             if (runId.equalsIgnoreCase("" + activityRuns.get(k).getRunId())) {
-                                Log.e("run", "" + answer);
                                 entryList.add(new Entry(Float.parseFloat(answer), k, data));
 
                             }
@@ -1092,7 +1042,6 @@ public class ChartActivity extends AppCompatActivity {
                 filteredXValues.add("" + (k + 1));
             }
         }
-        Log.e("list", "" + entryList.size() + "  " + filteredXValues.size());
 
         // Update chart w/ our data
         TempGraphHelper.updateLineChart(chart, 0, entryList, filteredXValues, barColor);
@@ -1140,7 +1089,6 @@ public class ChartActivity extends AppCompatActivity {
         mFromDayVals.add(mFromDayVal);
 
         textView1.setText(simpleDateFormat.format(calendar.getTime()) + " - " + simpleDateFormat.format(new Date()));
-//        mToDayVal = setHowManyDays(mFromDayVal, 6);
         calendar.add(Calendar.DATE, 6);
         calendar.set(Calendar.HOUR_OF_DAY, 23);
         calendar.set(Calendar.MINUTE, 59);
