@@ -407,7 +407,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                     mContext.startActivity(mainIntent);
                     ((Activity) mContext).finish();
                 } else {
-                    ((SurveyActivity)mContext).openDrawer();
+                    ((SurveyActivity) mContext).openDrawer();
                 }
             }
         });
@@ -710,14 +710,12 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
     }
 
 
-
     private Spannable setColorSpannbleString(String str, int endVal) {
         Spannable wordtoSpan = new SpannableString(str);
         wordtoSpan.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorPrimary)), 0, endVal, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return wordtoSpan;
 
     }
-
 
 
     // width of the box set based on the device width
@@ -991,13 +989,16 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         AppController.getHelperProgressDialog().dismissDialog();
         if (responseCode == DASHBOARD_INFO) {
             dashboardData = (DashboardData) response;
-            dashboardData.setStudyId(((SurveyActivity) mContext).getStudyId());
             if (dashboardData != null) {
+                dashboardData.setStudyId(((SurveyActivity) mContext).getStudyId());
                 mScrollView.setVisibility(View.VISIBLE);
-                dbServiceSubscriber.saveStudyDashboardToDB(mContext,dashboardData);
+                dbServiceSubscriber.saveStudyDashboardToDB(mContext, dashboardData);
                 new ProcessData().execute();
-            } else
+            } else {
+                mScrollView.setVisibility(View.VISIBLE);
+                new ProcessData().execute();
                 Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -1354,7 +1355,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                                     } else {
                                         stepRecordCustom.setId(currentIdNum.intValue() + 1);
                                     }
-                                    dbServiceSubscriber.updateStepRecord(mContext,stepRecordCustom);
+                                    dbServiceSubscriber.updateStepRecord(mContext, stepRecordCustom);
                                 }
                             }
                         }
