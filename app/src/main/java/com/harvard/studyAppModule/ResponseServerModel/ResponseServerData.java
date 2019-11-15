@@ -9,6 +9,8 @@ import java.util.ArrayList;
 public class ResponseServerData {
     private ArrayList<Errors> errors;
 
+    private ArrayList<PreEnrollmentParticipantProperties> preEnrollmentParticipantProperties;
+
     private String exception;
 
     private boolean success;
@@ -45,5 +47,13 @@ public class ResponseServerData {
 
     public void setSuccess(boolean success) {
         this.success = success;
+    }
+
+    public ArrayList<PreEnrollmentParticipantProperties> getPreEnrollmentParticipantProperties() {
+        return preEnrollmentParticipantProperties;
+    }
+
+    public void setPreEnrollmentParticipantProperties(ArrayList<PreEnrollmentParticipantProperties> preEnrollmentParticipantProperties) {
+        this.preEnrollmentParticipantProperties = preEnrollmentParticipantProperties;
     }
 }
