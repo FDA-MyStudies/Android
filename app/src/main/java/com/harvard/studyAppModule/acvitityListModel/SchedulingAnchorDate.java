@@ -11,6 +11,16 @@ public class SchedulingAnchorDate extends RealmObject {
 
     private String sourceFormKey;
 
+    private PropertyMetadata propertyMetadata;
+
+    public PropertyMetadata getPropertyMetadata() {
+        return propertyMetadata;
+    }
+
+    public void setPropertyMetadata(PropertyMetadata propertyMetadata) {
+        this.propertyMetadata = propertyMetadata;
+    }
+
     public String getSourceFormKey() {
         return sourceFormKey;
     }

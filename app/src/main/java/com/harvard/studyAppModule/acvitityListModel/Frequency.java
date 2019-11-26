@@ -14,6 +14,16 @@ public class Frequency  extends RealmObject {
 
     private String type;
 
+    private boolean addNewRuns;
+
+    public boolean isAddNewRuns() {
+        return addNewRuns;
+    }
+
+    public void setAddNewRuns(boolean addNewRuns) {
+        this.addNewRuns = addNewRuns;
+    }
+
     public RealmList<FrequencyRuns> getRuns() {
         return runs;
     }

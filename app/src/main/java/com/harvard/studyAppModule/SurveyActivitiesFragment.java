@@ -453,7 +453,7 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                     eligibilityConsent = gson.fromJson(response, EligibilityConsent.class);
                     if (eligibilityConsent != null) {
                         eligibilityConsent.setStudyId(((SurveyActivity) mContext).getStudyId());
-                        saveConsentToDB(mContext,eligibilityConsent);
+                        saveConsentToDB(mContext, eligibilityConsent);
                         startConsent(eligibilityConsent.getConsent(), eligibilityConsent.getEligibility().getType());
                     } else {
                         Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
@@ -474,13 +474,13 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
         }
     }
 
-    private void saveConsentToDB(Context context,EligibilityConsent eligibilityConsent) {
+    private void saveConsentToDB(Context context, EligibilityConsent eligibilityConsent) {
         DatabaseEvent databaseEvent = new DatabaseEvent();
         databaseEvent.setE(eligibilityConsent);
         databaseEvent.setmType(DBServiceSubscriber.TYPE_COPY_UPDATE);
         databaseEvent.setaClass(EligibilityConsent.class);
         databaseEvent.setmOperation(DBServiceSubscriber.INSERT_AND_UPDATE_OPERATION);
-        dbServiceSubscriber.insert(context,databaseEvent);
+        dbServiceSubscriber.insert(context, databaseEvent);
     }
 
     private void startConsent(Consent consent, String type) {
@@ -668,7 +668,7 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
             RealmList<StudyUpdate> studyUpdates = new RealmList<>();
             studyUpdates.add(studyUpdate);
             studyUpdateListdata.setStudyUpdates(studyUpdates);
-            dbServiceSubscriber.saveStudyUpdateListdataToDB(mContext,studyUpdateListdata);
+            dbServiceSubscriber.saveStudyUpdateListdataToDB(mContext, studyUpdateListdata);
 
             if (studyUpdate.getStudyUpdateData().getStatus().equalsIgnoreCase(getString(R.string.paused))) {
                 AppController.getHelperProgressDialog().dismissDialog();
@@ -683,16 +683,16 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
             } else {
 
                 if (studyUpdate.getStudyUpdateData().isResources()) {
-                    dbServiceSubscriber.deleteResourcesFromDb(mContext,((SurveyActivity) mContext).getStudyId());
+                    dbServiceSubscriber.deleteResourcesFromDb(mContext, ((SurveyActivity) mContext).getStudyId());
                 }
                 if (studyUpdate.getStudyUpdateData().isInfo()) {
-                    dbServiceSubscriber.deleteStudyInfoFromDb(mContext,((SurveyActivity) mContext).getStudyId());
+                    dbServiceSubscriber.deleteStudyInfoFromDb(mContext, ((SurveyActivity) mContext).getStudyId());
                 }
                 if (studyUpdate.getStudyUpdateData().isConsent()) {
                     callConsentMetaDataWebservice();
                 } else {
                     StudyList studyList = dbServiceSubscriber.getStudyTitle(((SurveyActivity) mContext).getStudyId(), mRealm);
-                    dbServiceSubscriber.updateStudyPreferenceVersionDB(mContext,((SurveyActivity) mContext).getStudyId(), studyList.getStudyVersion());
+                    dbServiceSubscriber.updateStudyPreferenceVersionDB(mContext, ((SurveyActivity) mContext).getStudyId(), studyList.getStudyVersion());
                     setRecyclerView();
                 }
             }
@@ -701,7 +701,7 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
             eligibilityConsent = (EligibilityConsent) response;
             if (eligibilityConsent != null) {
                 eligibilityConsent.setStudyId(((SurveyActivity) mContext).getStudyId());
-                saveConsentToDB(mContext,eligibilityConsent);
+                saveConsentToDB(mContext, eligibilityConsent);
                 startConsent(eligibilityConsent.getConsent(), eligibilityConsent.getEligibility().getType());
             } else {
                 Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
@@ -738,7 +738,7 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                         activityData.getActivities().add(activityData1.getActivities().get(i));
                     }
                 }
-                dbServiceSubscriber.updateActivityState(mContext,activityData);
+                dbServiceSubscriber.updateActivityState(mContext, activityData);
                 activityDataDB = dbServiceSubscriber.getActivityPreference(((SurveyActivity) mContext).getStudyId(), mRealm);
             }
 
@@ -761,8 +761,8 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
             if (loginData != null) {
                 updateActivityInfo(mActivityId);
                 //mActivityVersion
-                dbServiceSubscriber.deleteOfflineDataRow(mContext,mDeleteIndexNumberDB);
-                dbServiceSubscriber.updateActivityPreferenceDB(mContext,mActivityId, ((SurveyActivity) mContext).getStudyId(), mCurrentRunId, SurveyActivitiesFragment.IN_PROGRESS, mActivityStatusData.getTotalRun(), mActivityStatusData.getCompletedRun(), mActivityStatusData.getMissedRun(), mActivityVersion);
+                dbServiceSubscriber.deleteOfflineDataRow(mContext, mDeleteIndexNumberDB);
+                dbServiceSubscriber.updateActivityPreferenceDB(mContext, mActivityId, ((SurveyActivity) mContext).getStudyId(), mCurrentRunId, SurveyActivitiesFragment.IN_PROGRESS, mActivityStatusData.getTotalRun(), mActivityStatusData.getCompletedRun(), mActivityStatusData.getMissedRun(), mActivityVersion);
             } else {
                 Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
             }
@@ -784,15 +784,15 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                 StudyHome studyHome = (StudyHome) response;
                 ((SurveyActivity) mContext).getStudyId();
                 String mStudyId = ((SurveyActivity) mContext).getStudyId();
-                dbServiceSubscriber.saveStudyInfoToDB(mContext,studyHome);
+                dbServiceSubscriber.saveStudyInfoToDB(mContext, studyHome);
 
 
                 if (mStudyResource != null) {
                     // primary key mStudyId
                     mStudyResource.setmStudyId(mStudyId);
                     // remove duplicate and
-                    dbServiceSubscriber.deleteStudyResourceDuplicateRow(mContext,mStudyId);
-                    dbServiceSubscriber.saveResourceList(mContext,mStudyResource);
+                    dbServiceSubscriber.deleteStudyResourceDuplicateRow(mContext, mStudyId);
+                    dbServiceSubscriber.saveResourceList(mContext, mStudyResource);
                 }
             }
         } else {
@@ -837,13 +837,14 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                             anchorDateSchedulingDetails.setParticipantId(studies.getParticipantId());
                             anchorDateSchedulingDetails.setTargetActivityId(activityListData.getActivities().get(i).getActivityId());
 
+
                             for (int j = 0; j < activityDataDB.getActivities().size(); j++)
                                 if (activityDataDB.getActivities().get(j).getActivityId().equalsIgnoreCase(anchorDateSchedulingDetails.getSourceActivityId())) {
                                     anchorDateSchedulingDetails.setActivityState(activityDataDB.getActivities().get(j).getStatus());
                                     mArrayList.add(anchorDateSchedulingDetails);
                                     break;
                                 }
-                        } else {
+                        } else if (activityListData.getActivities().get(i).getAnchorDate().getSourceType().equalsIgnoreCase("EnrollmentDate")) {
                             // For enrollmentDate
                             anchorDateSchedulingDetails = new AnchorDateSchedulingDetails();
                             anchorDateSchedulingDetails.setSchedulingType(activityListData.getActivities().get(i).getSchedulingType());
@@ -853,6 +854,54 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                             anchorDateSchedulingDetails.setTargetActivityId(activityListData.getActivities().get(i).getActivityId());
                             anchorDateSchedulingDetails.setAnchorDate(studies.getEnrolledDate());
                             mArrayList.add(anchorDateSchedulingDetails);
+//                            for (int j = 0; j < activityDataDB.getActivities().size(); j++)
+//                                if (activityDataDB.getActivities().get(j).getActivityId().equalsIgnoreCase(anchorDateSchedulingDetails.getSourceActivityId())) {
+//                                    anchorDateSchedulingDetails.setCurrentStartDate(activityDataDB.getActivities().get(j).getActivityStartDate());
+//                                    anchorDateSchedulingDetails.setCurrentEndDate(activityDataDB.getActivities().get(j).getActivityEndDate());
+//
+//                                    break;
+//                                }
+                        } else if (activityListData.getActivities().get(i).getAnchorDate().getSourceType().equalsIgnoreCase("ParticipantProperty")) {
+                            anchorDateSchedulingDetails = new AnchorDateSchedulingDetails();
+                            anchorDateSchedulingDetails.setSchedulingType(activityListData.getActivities().get(i).getSchedulingType());
+                            anchorDateSchedulingDetails.setSourceType(activityListData.getActivities().get(i).getAnchorDate().getSourceType());
+                            anchorDateSchedulingDetails.setStudyId(((SurveyActivity) mContext).getStudyId());
+                            anchorDateSchedulingDetails.setParticipantId(studies.getParticipantId());
+                            anchorDateSchedulingDetails.setTargetActivityId(activityListData.getActivities().get(i).getActivityId());
+                            anchorDateSchedulingDetails.setPropertyId(activityListData.getActivities().get(i).getAnchorDate().getPropertyMetadata().getPropertyId());
+                            anchorDateSchedulingDetails.setExternalPropertyId(activityListData.getActivities().get(i).getAnchorDate().getPropertyMetadata().getExternalPropertyId());
+                            anchorDateSchedulingDetails.setDateOfEntryId(activityListData.getActivities().get(i).getAnchorDate().getPropertyMetadata().getDateOfEntryId());
+                            for (int j = 0; j < activityDataDB.getActivities().size(); j++)
+                                if (activityDataDB.getActivities().get(j).getActivityId().equalsIgnoreCase(anchorDateSchedulingDetails.getSourceActivityId())) {
+                                    if (!activityDataDB.getActivities().get(i).getAnchorDateVersion().equalsIgnoreCase(anchorDateSchedulingDetails.getVersion())) {
+                                        Calendar calendar = Calendar.getInstance();
+
+                                        Calendar startDate = Calendar.getInstance();
+                                        Calendar endDate = Calendar.getInstance();
+                                        try {
+                                            if (activityDataDB.getActivities().get(j).getActivityStartDate() != null
+                                                    && activityDataDB.getActivities().get(j).getActivityEndDate() != null
+                                                    && !activityDataDB.getActivities().get(j).getActivityStartDate().equalsIgnoreCase("")
+                                                    && !activityDataDB.getActivities().get(j).getActivityEndDate().equalsIgnoreCase("")) {
+                                                startDate.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(activityDataDB.getActivities().get(j).getActivityStartDate()));
+                                                endDate.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(activityDataDB.getActivities().get(j).getActivityEndDate()));
+
+                                                if (calendar.after(startDate) && calendar.before(endDate))
+                                                    anchorDateSchedulingDetails.setCurrentStatus("Current");
+                                                else if (calendar.before(startDate))
+                                                    anchorDateSchedulingDetails.setCurrentStatus("Upcoming");
+                                                else
+                                                    anchorDateSchedulingDetails.setCurrentStatus("Past");
+                                            } else {
+                                                anchorDateSchedulingDetails.setCurrentStatus("Unknown");
+                                            }
+                                        } catch (ParseException e) {
+                                            anchorDateSchedulingDetails.setCurrentStatus("Unknown");
+                                        }
+                                    }
+                                    mArrayList.add(anchorDateSchedulingDetails);
+                                    break;
+                                }
                         }
                     }
                 }
@@ -868,9 +917,6 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
     }
 
     private void metadataProcess() {
-
-        for (int i = 0; i < mArrayList.size(); i++) {
-        }
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
         SimpleDateFormat dateSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -1063,11 +1109,10 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
         // find any updates on available activity
 
 
-
         if (activityDataDB != null && activityListData != null) { //&& activityData != null
             for (int j = 0; j < activityListData.getActivities().size(); j++) {
                 boolean activityAvailable = false;
-                 for (int i = 0; i < activityDataDB.getActivities().size(); i++) {
+                for (int i = 0; i < activityDataDB.getActivities().size(); i++) {
 
                     if (activityDataDB.getActivities().get(i).getActivityId().equalsIgnoreCase(activityListData.getActivities().get(j).getActivityId())) {
                         activityAvailable = true;
@@ -1075,7 +1120,7 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                             mActivityUpdated = true;
                             //update ActivityWS DB with new version
                             dbServiceSubscriber.UpdateActivitiesWSVersion(activityListData.getActivities().get(j).getActivityId(), activityListData.getStudyId(), mRealm, activityListData.getActivities().get(j).getActivityVersion());
-                            dbServiceSubscriber.updateActivityPreferenceVersion(mContext,activityListData.getActivities().get(j).getActivityVersion(), activityDataDB.getActivities().get(i));
+                            dbServiceSubscriber.updateActivityPreferenceVersion(mContext, activityListData.getActivities().get(j).getActivityVersion(), activityDataDB.getActivities().get(i));
                             if (activityIds.contains(activityDataDB.getActivities().get(i).getActivityId())) {
                                 //change on 15/10/2019
 
@@ -1091,27 +1136,8 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                     }
                 }
                 //change on 16/10/2019
-                 if(!activityAvailable) {
-                     ActivitiesWS activitiesWS = dbServiceSubscriber.getActivityObj(activityListData.getActivities().get(j).getActivityId(), activityListData.getStudyId(), mRealm);
-                     if (activitiesWS != null && !activitiesWS.getActivityVersion().equalsIgnoreCase(activityListData.getActivities().get(j).getActivityVersion())) {
-                         mActivityUpdated = true;
-                         //update ActivityWS DB with new version
-                         dbServiceSubscriber.UpdateActivitiesWSVersion(activityListData.getActivities().get(j).getActivityId(), activityListData.getStudyId(), mRealm, activityListData.getActivities().get(j).getActivityVersion());
-                         if (!activityIds.contains(activityListData.getActivities().get(j).getActivityId())) {
-
-                             activityIds.add(activityListData.getActivities().get(j).getActivityId());
-
-                             runIds.add("-1");
-                         }
-                     }
-                 }
-            }
-        }
-        //change on 15/10/2019
-        else if(activityDataDB == null && activityListData != null)
-        {
-            for (int j = 0; j < activityListData.getActivities().size(); j++) {
-                ActivitiesWS activitiesWS = dbServiceSubscriber.getActivityObj(activityListData.getActivities().get(j).getActivityId(), activityListData.getStudyId(), mRealm);
+                if (!activityAvailable) {
+                    ActivitiesWS activitiesWS = dbServiceSubscriber.getActivityObj(activityListData.getActivities().get(j).getActivityId(), activityListData.getStudyId(), mRealm);
                     if (activitiesWS != null && !activitiesWS.getActivityVersion().equalsIgnoreCase(activityListData.getActivities().get(j).getActivityVersion())) {
                         mActivityUpdated = true;
                         //update ActivityWS DB with new version
@@ -1123,6 +1149,24 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                             runIds.add("-1");
                         }
                     }
+                }
+            }
+        }
+        //change on 15/10/2019
+        else if (activityDataDB == null && activityListData != null) {
+            for (int j = 0; j < activityListData.getActivities().size(); j++) {
+                ActivitiesWS activitiesWS = dbServiceSubscriber.getActivityObj(activityListData.getActivities().get(j).getActivityId(), activityListData.getStudyId(), mRealm);
+                if (activitiesWS != null && !activitiesWS.getActivityVersion().equalsIgnoreCase(activityListData.getActivities().get(j).getActivityVersion())) {
+                    mActivityUpdated = true;
+                    //update ActivityWS DB with new version
+                    dbServiceSubscriber.UpdateActivitiesWSVersion(activityListData.getActivities().get(j).getActivityId(), activityListData.getStudyId(), mRealm, activityListData.getActivities().get(j).getActivityVersion());
+                    if (!activityIds.contains(activityListData.getActivities().get(j).getActivityId())) {
+
+                        activityIds.add(activityListData.getActivities().get(j).getActivityId());
+
+                        runIds.add("-1");
+                    }
+                }
             }
         }
 //            }
@@ -1316,7 +1360,7 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                                 if (activityListData.getActivities().get(j).getState().equalsIgnoreCase(DELETE) && activityListDataDB.getActivities().get(i).getState().equalsIgnoreCase(ACTIVE)) {
                                     RealmResults<ActivityRun> activityRuns = dbServiceSubscriber.getAllActivityRunFromDB(((SurveyActivity) mContext).getStudyId(), activityListData.getActivities().get(j).getActivityId(), mRealm);
                                     try {
-                                        dbServiceSubscriber.deleteAllRun(mContext,activityRuns);
+                                        dbServiceSubscriber.deleteAllRun(mContext, activityRuns);
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                     }
@@ -1340,7 +1384,7 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
             } else {
                 mActivityUpdated = false;
                 if (activityListData != null) {
-                    insertAndUpdateToDB(mContext,activityListData);
+                    insertAndUpdateToDB(mContext, activityListData);
                     activityListData2 = activityListData;
                 }
             }
@@ -1357,14 +1401,14 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                 Date currentDate = new Date();
 
                 if (mActivityUpdated) {
-                    dbServiceSubscriber.deleteMotivationalNotification(mContext,((SurveyActivity) mContext).getStudyId());
+                    dbServiceSubscriber.deleteMotivationalNotification(mContext, ((SurveyActivity) mContext).getStudyId());
                 }
 
                 if (newlyAdded.size() > 0) {
                     // insert to activitylist db
                     //activityListDataDB
                     for (int k = 0; k < newlyAdded.size(); k++) {
-                        dbServiceSubscriber.addActivityWSList(mContext,activityListDataDB, newlyAdded.get(k));
+                        dbServiceSubscriber.addActivityWSList(mContext, activityListDataDB, newlyAdded.get(k));
                     }
                 }
 
@@ -1415,7 +1459,7 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                         if (activitiesWSesDeleted.get(j).getActivityId().equalsIgnoreCase(activitiesArrayList.get(i).getActivityId())) {
                             deleted = true;
                             try {
-                                dbServiceSubscriber.deleteAllRun(mContext,activityRuns);
+                                dbServiceSubscriber.deleteAllRun(mContext, activityRuns);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -1428,17 +1472,17 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                     } else if (activityIds.size() > 0) {
                         // remove runs for these Ids and set runs once again
                         if (activityIds.contains(activitiesArrayList.get(i).getActivityId())) {
-                            dbServiceSubscriber.deleteActivityRunsFromDb(mContext,activitiesArrayList.get(i).getActivityId(), ((SurveyActivity) mContext).getStudyId());
+                            dbServiceSubscriber.deleteActivityRunsFromDb(mContext, activitiesArrayList.get(i).getActivityId(), ((SurveyActivity) mContext).getStudyId());
                             if (!deleted)
                                 survayScheduler.setRuns(activitiesArrayList.get(i), ((SurveyActivity) mContext).getStudyId(), starttime, endtime, joiningDate, mContext);
                             // delete activity object that used for survey
-                            dbServiceSubscriber.deleteActivityObjectFromDb(mContext,activitiesArrayList.get(i).getActivityId(), ((SurveyActivity) mContext).getStudyId());
+                            dbServiceSubscriber.deleteActivityObjectFromDb(mContext, activitiesArrayList.get(i).getActivityId(), ((SurveyActivity) mContext).getStudyId());
                             for (int j = 0; j < activityData.getActivities().size(); j++) {
                                 if (activitiesArrayList.get(i).getActivityId().equalsIgnoreCase(activityData.getActivities().get(j).getActivityId())) {
                                     if (!activityData.getActivities().get(j).getStatus().equalsIgnoreCase(YET_To_START)) {
                                         // Delete response data
                                         if (!runIds.get(activityIds.indexOf(activitiesArrayList.get(i).getActivityId())).equalsIgnoreCase("-1")) {
-                                            dbServiceSubscriber.deleteResponseDataFromDb(mContext,((SurveyActivity) mContext).getStudyId() + "_STUDYID_" + activitiesArrayList.get(i).getActivityId() + "_" + runIds.get(activityIds.indexOf(activitiesArrayList.get(i).getActivityId())));
+                                            dbServiceSubscriber.deleteResponseDataFromDb(mContext, ((SurveyActivity) mContext).getStudyId() + "_STUDYID_" + activitiesArrayList.get(i).getActivityId() + "_" + runIds.get(activityIds.indexOf(activitiesArrayList.get(i).getActivityId())));
                                         }
                                     }
                                 }
@@ -1513,7 +1557,7 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                         }
 
                         //delete from activity list db
-                        dbServiceSubscriber.deleteActivityWSList(mContext,activityListDataDB, activitiesArrayList.get(i).getActivityId());
+                        dbServiceSubscriber.deleteActivityWSList(mContext, activityListDataDB, activitiesArrayList.get(i).getActivityId());
                     }
 
 
@@ -1693,7 +1737,6 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
             }
 
 
-
             status.clear();
             // Checking the size is zero
             if (currentStatus.size() == 0) {
@@ -1810,7 +1853,7 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
             motivationalNotification1.setFiftyPc(fiftyPc);
             motivationalNotification1.setHundredPc(hundredPc);
             motivationalNotification1.setMissed(missed);
-            dbServiceSubscriber.saveMotivationalNotificationToDB(mContext,motivationalNotification1);
+            dbServiceSubscriber.saveMotivationalNotificationToDB(mContext, motivationalNotification1);
 
             dbServiceSubscriber.closeRealmObj(mRealm);
             double adherence = 0;
@@ -1992,13 +2035,13 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
     }
 
 
-    private <E> void insertAndUpdateToDB(Context context,E e) {
+    private <E> void insertAndUpdateToDB(Context context, E e) {
         DatabaseEvent databaseEvent = new DatabaseEvent();
         databaseEvent.setE(e);
         databaseEvent.setmType(DBServiceSubscriber.TYPE_COPY_UPDATE);
         databaseEvent.setaClass(EligibilityConsent.class);
         databaseEvent.setmOperation(DBServiceSubscriber.INSERT_AND_UPDATE_OPERATION);
-        dbServiceSubscriber.insert(context,databaseEvent);
+        dbServiceSubscriber.insert(context, databaseEvent);
     }
 
     boolean isWithinRange(Date starttime, Date endtime) {
@@ -2034,7 +2077,7 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
             } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {
                 onItemsLoadComplete();
                 AppController.getHelperProgressDialog().dismissDialog();
-                dbServiceSubscriber.updateActivityPreferenceDB(mContext,mActivityId, ((SurveyActivity) mContext).getStudyId(), mCurrentRunId, SurveyActivitiesFragment.IN_PROGRESS, mActivityStatusData.getTotalRun(), mActivityStatusData.getCompletedRun(), mActivityStatusData.getMissedRun(), mActivityVersion);
+                dbServiceSubscriber.updateActivityPreferenceDB(mContext, mActivityId, ((SurveyActivity) mContext).getStudyId(), mCurrentRunId, SurveyActivitiesFragment.IN_PROGRESS, mActivityStatusData.getTotalRun(), mActivityStatusData.getCompletedRun(), mActivityStatusData.getMissedRun(), mActivityVersion);
                 launchSurvey(null);
             } else {
                 try {
@@ -2090,13 +2133,13 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                 mActivityObj = activity;
                 mActivityObj.setSurveyId(mActivityObj.getMetadata().getActivityId());
                 mActivityObj.setStudyId(((SurveyActivity) mContext).getStudyId());
-                dbServiceSubscriber.saveActivity(mContext,mActivityObj);
+                dbServiceSubscriber.saveActivity(mContext, mActivityObj);
             }
 
             if (mActivityObj != null) {
                 AppController.getHelperSharedPreference().writePreference(mContext, getString(R.string.mapCount), "0");
                 stepsBuilder = new StepsBuilder(mContext, mActivityObj, mBranching, mRealm);
-                mTask = ActivityBuilder.create(mContext,((SurveyActivity) mContext).getStudyId() + "_STUDYID_" + mActivityObj.getSurveyId() + "_" + mCurrentRunId, stepsBuilder.getsteps(), mActivityObj, mBranching, dbServiceSubscriber);
+                mTask = ActivityBuilder.create(mContext, ((SurveyActivity) mContext).getStudyId() + "_STUDYID_" + mActivityObj.getSurveyId() + "_" + mCurrentRunId, stepsBuilder.getsteps(), mActivityObj, mBranching, dbServiceSubscriber);
                 if (mTask.getSteps().size() > 0) {
                     for (int i = 0; i < mActivityObj.getSteps().size(); i++) {
                         if (mActivityObj.getSteps().get(i).getResultType().equalsIgnoreCase("location")) {
@@ -2206,7 +2249,7 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
 
 
             mDeleteIndexNumberDB = number;
-            AppController.pendingService(mContext,number, "post_object", URLs.UPDATE_ACTIVITY_PREFERENCE, "", jsonObject.toString(), "registration", "", "", studyIdActivityId);
+            AppController.pendingService(mContext, number, "post_object", URLs.UPDATE_ACTIVITY_PREFERENCE, "", jsonObject.toString(), "registration", "", "", studyIdActivityId);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -2248,10 +2291,12 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
         int position;
         Responsemodel mResponseModel;
         AnchorDateSchedulingDetails anchorDateSchedulingDetails;
+        String query;
 
-        ResponseData(int position, AnchorDateSchedulingDetails anchorDateSchedulingDetails) {
+        ResponseData(int position, AnchorDateSchedulingDetails anchorDateSchedulingDetails, String query) {
             this.position = position;
             this.anchorDateSchedulingDetails = anchorDateSchedulingDetails;
+            this.query = query;
         }
 
         @Override
@@ -2265,7 +2310,8 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
             ConnectionDetector connectionDetector = new ConnectionDetector(mContext);
 
             if (connectionDetector.isConnectingToInternet()) {
-                mResponseModel = HttpRequest.getRequest(URLs.PROCESSRESPONSEDATA + "sql=SELECT%20%22" + anchorDateSchedulingDetails.getSourceKey() + "%22%20FROM%20%22" + anchorDateSchedulingDetails.getSourceActivityId() + anchorDateSchedulingDetails.getSourceFormKey() + "%22&participantId=" + anchorDateSchedulingDetails.getParticipantId(), new HashMap<String, String>(), "Response");
+                mResponseModel = HttpRequest.getRequest(URLs.PROCESSRESPONSEDATA + query, new HashMap<String, String>(), "Response");
+//                mResponseModel = HttpRequest.getRequest(URLs.PROCESSRESPONSEDATA + "sql=SELECT%20%22" + anchorDateSchedulingDetails.getSourceKey() + "%22%20FROM%20%22" + anchorDateSchedulingDetails.getSourceActivityId() + anchorDateSchedulingDetails.getSourceFormKey() + "%22&participantId=" + anchorDateSchedulingDetails.getParticipantId(), new HashMap<String, String>(), "Response");
                 responseCode = mResponseModel.getResponseCode();
                 response = mResponseModel.getResponseData();
                 if (responseCode.equalsIgnoreCase("0") && response.equalsIgnoreCase("timeout")) {
@@ -2318,40 +2364,45 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                     }
                 } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK) {
                     try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        JSONArray jsonArray = (JSONArray) jsonObject.get("rows");
-                        Gson gson = new Gson();
+                        if (anchorDateSchedulingDetails.getSourceType().equalsIgnoreCase("ActivityResponse")) {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jsonArray = (JSONArray) jsonObject.get("rows");
+                            Gson gson = new Gson();
 
-                        JSONObject jsonObject1 = (JSONObject) new JSONObject(String.valueOf(jsonArray.get(0))).get("data");
-                        Type type = new TypeToken<Map<String, Object>>() {
-                        }.getType();
-                        Map<String, Object> myMap = gson.fromJson(String.valueOf(jsonObject1), type);
-                        Object value = null;
-                        for (Map.Entry<String, Object> entry : myMap.entrySet()) {
-                            String key = entry.getKey();
-                            String valueobj = gson.toJson(entry.getValue());
-                            Map<String, Object> vauleMap = gson.fromJson(String.valueOf(valueobj), type);
-                            value = vauleMap.get("value");
-                            try {
-                                Date anchordate = AppController.getLabkeyDateFormat().parse("" + value);
-                                value = AppController.getDateFormat().format(anchordate);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
+                            JSONObject jsonObject1 = (JSONObject) new JSONObject(String.valueOf(jsonArray.get(0))).get("data");
+                            Type type = new TypeToken<Map<String, Object>>() {
+                            }.getType();
+                            Map<String, Object> myMap = gson.fromJson(String.valueOf(jsonObject1), type);
+                            Object value = null;
+                            for (Map.Entry<String, Object> entry : myMap.entrySet()) {
+                                String key = entry.getKey();
+                                String valueobj = gson.toJson(entry.getValue());
+                                Map<String, Object> vauleMap = gson.fromJson(String.valueOf(valueobj), type);
+                                value = vauleMap.get("value");
+                                try {
+                                    Date anchordate = AppController.getLabkeyDateFormat().parse("" + value);
+                                    value = AppController.getDateFormat().format(anchordate);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
                             }
+
+                            //updating results back to DB
+                            StepRecordCustom stepRecordCustom = new StepRecordCustom();
+                            JSONObject jsonObject2 = new JSONObject();
+                            jsonObject2.put("answer", "" + value);
+                            stepRecordCustom.setResult(jsonObject2.toString());
+                            stepRecordCustom.setActivityID(anchorDateSchedulingDetails.getStudyId() + "_STUDYID_" + anchorDateSchedulingDetails.getSourceActivityId());
+                            stepRecordCustom.setStepId(anchorDateSchedulingDetails.getSourceKey());
+                            stepRecordCustom.setTaskStepID(anchorDateSchedulingDetails.getStudyId() + "_STUDYID_" + anchorDateSchedulingDetails.getSourceActivityId() + "_" + 1 + "_" + anchorDateSchedulingDetails.getSourceKey());
+                            dbServiceSubscriber.updateStepRecord(mContext, stepRecordCustom);
+
+                            mArrayList.get(this.position).setAnchorDate("" + value);
+                        } else if (anchorDateSchedulingDetails.getSourceType().equalsIgnoreCase("ParticipantProperty")) {
+                            mArrayList.get(this.position).setAnchorDate("");
+                            mArrayList.get(this.position).setVersion("");
+                            mArrayList.get(this.position).setDateOfEntry("");
                         }
-
-                        //updating results back to DB
-                        StepRecordCustom stepRecordCustom = new StepRecordCustom();
-                        JSONObject jsonObject2 = new JSONObject();
-                        jsonObject2.put("answer", "" + value);
-                        stepRecordCustom.setResult(jsonObject2.toString());
-                        stepRecordCustom.setActivityID(anchorDateSchedulingDetails.getStudyId() + "_STUDYID_" + anchorDateSchedulingDetails.getSourceActivityId());
-                        stepRecordCustom.setStepId(anchorDateSchedulingDetails.getSourceKey());
-                        stepRecordCustom.setTaskStepID(anchorDateSchedulingDetails.getStudyId() + "_STUDYID_" + anchorDateSchedulingDetails.getSourceActivityId() + "_" + 1 + "_" + anchorDateSchedulingDetails.getSourceKey());
-                        dbServiceSubscriber.updateStepRecord(mContext,stepRecordCustom);
-
-                        mArrayList.get(this.position).setAnchorDate("" + value);
-
 
                         callLabkeyService(this.position);
                     } catch (Exception e) {
@@ -2388,9 +2439,13 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
 
                     callLabkeyService(position + 1);
                 } else {
-                    new ResponseData(position, anchorDateSchedulingDetails).execute();
+                    String query = "sql=SELECT%20%22" + anchorDateSchedulingDetails.getSourceKey() + "%22%20FROM%20%22" + anchorDateSchedulingDetails.getSourceActivityId() + anchorDateSchedulingDetails.getSourceFormKey() + "%22&participantId=" + anchorDateSchedulingDetails.getParticipantId();
+                    new ResponseData(position, anchorDateSchedulingDetails, query).execute();
                 }
                 dbServiceSubscriber.closeRealmObj(realm);
+            } else if (anchorDateSchedulingDetails.getSourceType().equalsIgnoreCase("ParticipantProperty")) {
+                String query = "sql=SELECT%20%22" + anchorDateSchedulingDetails.getSourceKey() + "%22%20FROM%20%22" + "ParticipantProperties" + "%22&participantId=" + anchorDateSchedulingDetails.getParticipantId();
+                new ResponseData(position, anchorDateSchedulingDetails, query).execute();
             } else {
                 callLabkeyService(position + 1);
             }

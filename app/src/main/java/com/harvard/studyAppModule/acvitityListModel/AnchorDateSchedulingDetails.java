@@ -13,6 +13,66 @@ public class AnchorDateSchedulingDetails {
 
     private String sourceFormKey;
 
+    private String propertyId;
+
+    private String externalPropertyId;
+
+    private String dateOfEntryId;
+
+    private String dateOfEntry;
+
+    private String version;
+
+    private String currentStatus;
+
+    public String getCurrentStatus() {
+        return currentStatus;
+    }
+
+    public void setCurrentStatus(String currentStatus) {
+        this.currentStatus = currentStatus;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getDateOfEntry() {
+        return dateOfEntry;
+    }
+
+    public void setDateOfEntry(String dateOfEntry) {
+        this.dateOfEntry = dateOfEntry;
+    }
+
+    public String getExternalPropertyId() {
+        return externalPropertyId;
+    }
+
+    public void setExternalPropertyId(String externalPropertyId) {
+        this.externalPropertyId = externalPropertyId;
+    }
+
+    public String getDateOfEntryId() {
+        return dateOfEntryId;
+    }
+
+    public void setDateOfEntryId(String dateOfEntryId) {
+        this.dateOfEntryId = dateOfEntryId;
+    }
+
+    public String getPropertyId() {
+        return propertyId;
+    }
+
+    public void setPropertyId(String propertyId) {
+        this.propertyId = propertyId;
+    }
+
     public String getSourceFormKey() {
         return sourceFormKey;
     }

@@ -1,5 +1,6 @@
 package com.harvard.userModule.webserviceModel;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 
 /**
@@ -7,7 +8,7 @@ import io.realm.RealmObject;
  */
 
 public class Activities extends RealmObject {
-//    @PrimaryKey
+    //    @PrimaryKey
     private String activityId;
 
     private String activityVersion;
@@ -19,6 +20,74 @@ public class Activities extends RealmObject {
     private String activityRunId;
 
     private String bookmarked;
+
+    private String activityStartDate;
+
+    private String activityEndDate;
+
+    private String anchorDateVersion;
+
+    private String anchorDatecreatedDate;
+
+    private String lastModifiedDate;
+
+    private RealmList<CustomScheduleRuns> customScheduleRuns;
+
+    public String getActivityState() {
+        return activityState;
+    }
+
+    public void setActivityState(String activityState) {
+        this.activityState = activityState;
+    }
+
+    public String getActivityStartDate() {
+        return activityStartDate;
+    }
+
+    public void setActivityStartDate(String activityStartDate) {
+        this.activityStartDate = activityStartDate;
+    }
+
+    public String getActivityEndDate() {
+        return activityEndDate;
+    }
+
+    public void setActivityEndDate(String activityEndDate) {
+        this.activityEndDate = activityEndDate;
+    }
+
+    public String getAnchorDateVersion() {
+        return anchorDateVersion;
+    }
+
+    public void setAnchorDateVersion(String anchorDateVersion) {
+        this.anchorDateVersion = anchorDateVersion;
+    }
+
+    public String getAnchorDatecreatedDate() {
+        return anchorDatecreatedDate;
+    }
+
+    public void setAnchorDatecreatedDate(String anchorDatecreatedDate) {
+        this.anchorDatecreatedDate = anchorDatecreatedDate;
+    }
+
+    public String getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(String lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public RealmList<CustomScheduleRuns> getCustomScheduleRuns() {
+        return customScheduleRuns;
+    }
+
+    public void setCustomScheduleRuns(RealmList<CustomScheduleRuns> customScheduleRuns) {
+        this.customScheduleRuns = customScheduleRuns;
+    }
 
     private ActivityRunPreference activityRun;
 
