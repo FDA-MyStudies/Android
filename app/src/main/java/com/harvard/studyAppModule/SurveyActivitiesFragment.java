@@ -890,8 +890,10 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                                                     anchorDateSchedulingDetails.setCurrentStatus("Current");
                                                 else if (calendar.before(startDate))
                                                     anchorDateSchedulingDetails.setCurrentStatus("Upcoming");
+                                                //delete everything and update both
                                                 else
                                                     anchorDateSchedulingDetails.setCurrentStatus("Past");
+                                                //
                                             } else {
                                                 anchorDateSchedulingDetails.setCurrentStatus("Unknown");
                                             }
