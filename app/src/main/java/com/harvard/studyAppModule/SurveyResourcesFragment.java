@@ -279,6 +279,9 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                         //targetActivityid is resourceId in this case just to handle with case variable
                         anchorDateSchedulingDetails.setTargetActivityId(mResourceArrayList.get(i).getResourcesId());
 
+
+
+
                         Activities activities = dbServiceSubscriber.getActivityPreferenceBySurveyId(((SurveyActivity) mContext).getStudyId(), anchorDateSchedulingDetails.getSourceActivityId(), mRealm);
                         if (activities != null) {
                             anchorDateSchedulingDetails.setActivityState(activities.getStatus());

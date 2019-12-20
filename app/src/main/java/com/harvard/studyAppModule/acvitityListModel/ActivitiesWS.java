@@ -29,7 +29,17 @@ public class ActivitiesWS extends RealmObject {
 
     private String schedulingType;
 
+    private String lastModifiedDate;
+
     private SchedulingAnchorDate anchorDate;
+
+    public String getLastModifiedDate() {
+        return lastModifiedDate;
+    }
+
+    public void setLastModifiedDate(String lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
 
     public SchedulingAnchorDate getAnchorDate() {
         return anchorDate;

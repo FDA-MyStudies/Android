@@ -18,7 +18,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,16 +99,13 @@ import com.itextpdf.text.pdf.PdfWriter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.researchstack.backbone.result.TaskResult;
 import org.researchstack.backbone.step.Step;
 import org.researchstack.backbone.task.OrderedTask;
 import org.researchstack.backbone.task.Task;
-import org.researchstack.backbone.ui.step.layout.ConsentSignatureStepLayout;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
@@ -180,6 +176,7 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
     private static final String RUN_START_DATE = "ViewTaskActivity.RunStartDate";
     private static final String RUN_END_DATE = "ViewTaskActivity.RunEndDate";
 
+    SimpleDateFormat dateSimpleDateFormat, timezoneSimpleDateFormat;
 
     private boolean updatePreferenceToDB = false;
     private ActivityListData activityListData;
@@ -871,36 +868,39 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                             anchorDateSchedulingDetails.setPropertyId(activityListData.getActivities().get(i).getAnchorDate().getPropertyMetadata().getPropertyId());
                             anchorDateSchedulingDetails.setExternalPropertyId(activityListData.getActivities().get(i).getAnchorDate().getPropertyMetadata().getExternalPropertyId());
                             anchorDateSchedulingDetails.setDateOfEntryId(activityListData.getActivities().get(i).getAnchorDate().getPropertyMetadata().getDateOfEntryId());
+
                             for (int j = 0; j < activityDataDB.getActivities().size(); j++)
                                 if (activityDataDB.getActivities().get(j).getActivityId().equalsIgnoreCase(anchorDateSchedulingDetails.getSourceActivityId())) {
-                                    if (!activityDataDB.getActivities().get(i).getAnchorDateVersion().equalsIgnoreCase(anchorDateSchedulingDetails.getVersion())) {
-                                        Calendar calendar = Calendar.getInstance();
+                                    anchorDateSchedulingDetails.setStartDate(activityDataDB.getActivities().get(j).getActivityStartDate());
+                                    anchorDateSchedulingDetails.setEndDate(activityDataDB.getActivities().get(j).getActivityEndDate());
+                                    anchorDateSchedulingDetails.setLastUpdatedDate(activityDataDB.getActivities().get(j).getLastModifiedDate());
+//                                    if (!activityDataDB.getActivities().get(i).getAnchorDateVersion().equalsIgnoreCase(anchorDateSchedulingDetails.getVersion())) {
+                                    Calendar calendar = Calendar.getInstance();
 
-                                        Calendar startDate = Calendar.getInstance();
-                                        Calendar endDate = Calendar.getInstance();
-                                        try {
-                                            if (activityDataDB.getActivities().get(j).getActivityStartDate() != null
-                                                    && activityDataDB.getActivities().get(j).getActivityEndDate() != null
-                                                    && !activityDataDB.getActivities().get(j).getActivityStartDate().equalsIgnoreCase("")
-                                                    && !activityDataDB.getActivities().get(j).getActivityEndDate().equalsIgnoreCase("")) {
-                                                startDate.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(activityDataDB.getActivities().get(j).getActivityStartDate()));
-                                                endDate.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(activityDataDB.getActivities().get(j).getActivityEndDate()));
+                                    Calendar startDate = Calendar.getInstance();
+                                    Calendar endDate = Calendar.getInstance();
+                                    try {
+                                        if (activityDataDB.getActivities().get(j).getActivityStartDate() != null
+                                                && activityDataDB.getActivities().get(j).getActivityEndDate() != null
+                                                && !activityDataDB.getActivities().get(j).getActivityStartDate().equalsIgnoreCase("")
+                                                && !activityDataDB.getActivities().get(j).getActivityEndDate().equalsIgnoreCase("")) {
+                                            startDate.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(activityDataDB.getActivities().get(j).getActivityStartDate()));
+                                            endDate.setTime(new SimpleDateFormat("dd/MM/yyyy").parse(activityDataDB.getActivities().get(j).getActivityEndDate()));
 
-                                                if (calendar.after(startDate) && calendar.before(endDate))
-                                                    anchorDateSchedulingDetails.setCurrentStatus("Current");
-                                                else if (calendar.before(startDate))
-                                                    anchorDateSchedulingDetails.setCurrentStatus("Upcoming");
-                                                //delete everything and update both
-                                                else
-                                                    anchorDateSchedulingDetails.setCurrentStatus("Past");
-                                                //
+                                            if (calendar.after(startDate) && calendar.before(endDate)) {
+                                                anchorDateSchedulingDetails.setCurrentStatus("Current");
+                                            } else if (calendar.before(startDate)) {
+                                                anchorDateSchedulingDetails.setCurrentStatus("Upcoming");
                                             } else {
-                                                anchorDateSchedulingDetails.setCurrentStatus("Unknown");
+                                                anchorDateSchedulingDetails.setCurrentStatus("Past");
                                             }
-                                        } catch (ParseException e) {
+                                        } else {
                                             anchorDateSchedulingDetails.setCurrentStatus("Unknown");
                                         }
+                                    } catch (ParseException e) {
+                                        anchorDateSchedulingDetails.setCurrentStatus("Unknown");
                                     }
+//                                    }
                                     mArrayList.add(anchorDateSchedulingDetails);
                                     break;
                                 }
@@ -920,11 +920,6 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
 
     private void metadataProcess() {
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-        SimpleDateFormat dateSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat timezoneSimpleDateFormat = new SimpleDateFormat("Z");
-        Date date;
-
 
         ArrayList<String> activityIds = new ArrayList<>();
         ArrayList<String> runIds = new ArrayList<>();
@@ -933,174 +928,16 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
         if (activityListData != null)
             for (int i = 0; i < activityListData.getActivities().size(); i++) {
                 if (activityListData.getActivities().get(i).getSchedulingType() != null) {
-                    if (activityListData.getActivities().get(i).getSchedulingType().equalsIgnoreCase("AnchorDate")) {
+                    if (activityListData.getActivities().get(i).getSchedulingType().equalsIgnoreCase("AnchorDate")
+                            || activityListData.getActivities().get(i).getSchedulingType().equalsIgnoreCase("ParticipantProperty")) {
                         for (int j = 0; j < mArrayList.size(); j++) {
                             if (activityListData.getActivities().get(i).getActivityId().equalsIgnoreCase(mArrayList.get(j).getTargetActivityId())) {
-                                if (mArrayList.get(j).getAnchorDate() != null && !mArrayList.get(j).getAnchorDate().equalsIgnoreCase("")) {
-                                    String startTime = "";
-                                    String endTime = "";
-                                    if (activityListData.getActivities().get(i).getAnchorDate() != null && activityListData.getActivities().get(i).getAnchorDate().getStart() != null) {
-                                        if (!activityListData.getActivities().get(i).getAnchorDate().getStart().getTime().equalsIgnoreCase("")) {
-                                            startTime = activityListData.getActivities().get(i).getAnchorDate().getStart().getTime();
-                                        } else {
-                                            startTime = "00:00:00";
-                                        }
-                                    }
-                                    if (activityListData.getActivities().get(i).getAnchorDate() != null && activityListData.getActivities().get(i).getAnchorDate().getEnd() != null) {
-                                        if (!activityListData.getActivities().get(i).getAnchorDate().getEnd().getTime().equalsIgnoreCase("")) {
-                                            endTime = activityListData.getActivities().get(i).getAnchorDate().getEnd().getTime();
-                                        } else {
-                                            endTime = "23:59:59";
-                                        }
-                                    }
-
-
-                                    // to do run calculation and expecting source question has answered
-                                    RealmResults<ActivityRun> runs = dbServiceSubscriber.getAllActivityRunFromDB(activityListData.getStudyId(), activityListData.getActivities().get(i).getActivityId(), mRealm);
-                                    if (runs == null || runs.size() == 0) {
-                                        mActivityUpdated = true;
-                                        activityIds.add(activityListData.getActivities().get(i).getActivityId());
-                                        runIds.add("-1");
-                                    }
-
-
-                                    if (activityListData.getActivities().get(i).getFrequency().getType().equalsIgnoreCase("One Time")) {
-                                        Calendar calendar;
-                                        if (activityListData.getActivities().get(i).getAnchorDate() != null && activityListData.getActivities().get(i).getAnchorDate().getStart() != null) {
-                                            calendar = Calendar.getInstance();
-                                            try {
-                                                date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
-                                                calendar.setTime(date);
-                                                calendar.add(Calendar.DATE, activityListData.getActivities().get(i).getAnchorDate().getStart().getAnchorDays());
-                                            } catch (ParseException e) {
-                                                e.printStackTrace();
-                                            }
-
-                                            activityListData.getActivities().get(i).setStartTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + startTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
-                                        }
-                                        if (activityListData.getActivities().get(i).getAnchorDate() != null && activityListData.getActivities().get(i).getAnchorDate().getEnd() != null) {
-                                            calendar = Calendar.getInstance();
-                                            try {
-                                                date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
-                                                calendar.setTime(date);
-                                                calendar.add(Calendar.DATE, activityListData.getActivities().get(i).getAnchorDate().getEnd().getAnchorDays());
-                                            } catch (ParseException e) {
-                                                e.printStackTrace();
-                                            }
-
-                                            activityListData.getActivities().get(i).setEndTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + endTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
-                                        }
-                                    } else if (activityListData.getActivities().get(i).getFrequency().getType().equalsIgnoreCase("Daily")) {
-                                        if (activityListData.getActivities().get(i).getStartTime().equalsIgnoreCase("")) {
-                                            Calendar calendar = Calendar.getInstance();
-                                            try {
-                                                date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
-                                                calendar.setTime(date);
-                                                calendar.add(Calendar.DATE, activityListData.getActivities().get(i).getAnchorDate().getStart().getAnchorDays());
-                                            } catch (ParseException e) {
-                                                e.printStackTrace();
-                                            }
-                                            activityListData.getActivities().get(i).setStartTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + startTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
-                                        }
-                                        if (activityListData.getActivities().get(i).getEndTime().equalsIgnoreCase("")) {
-                                            Calendar calendar = Calendar.getInstance();
-                                            try {
-                                                calendar.setTime(simpleDateFormat.parse(activityListData.getActivities().get(i).getStartTime()));
-                                            } catch (ParseException e) {
-                                                e.printStackTrace();
-                                            }
-                                            calendar.add(Calendar.DATE, activityListData.getActivities().get(i).getAnchorDate().getEnd().getRepeatInterval());
-                                            activityListData.getActivities().get(i).setEndTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + endTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
-                                        }
-                                    } else if (activityListData.getActivities().get(i).getFrequency().getType().equalsIgnoreCase("Weekly")) {
-                                        if (activityListData.getActivities().get(i).getStartTime().equalsIgnoreCase("")) {
-                                            Calendar calendar = Calendar.getInstance();
-                                            try {
-                                                date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
-                                                calendar.setTime(date);
-                                                calendar.add(Calendar.DATE, activityListData.getActivities().get(i).getAnchorDate().getStart().getAnchorDays());
-                                            } catch (ParseException e) {
-                                                e.printStackTrace();
-                                            }
-
-
-                                            activityListData.getActivities().get(i).setStartTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + startTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
-                                        }
-                                        if (activityListData.getActivities().get(i).getEndTime().equalsIgnoreCase("")) {
-                                            Calendar calendar = Calendar.getInstance();
-                                            try {
-                                                calendar.setTime(simpleDateFormat.parse(activityListData.getActivities().get(i).getStartTime()));
-                                            } catch (ParseException e) {
-                                                e.printStackTrace();
-                                            }
-                                            calendar.add(Calendar.WEEK_OF_YEAR, activityListData.getActivities().get(i).getAnchorDate().getEnd().getRepeatInterval());
-                                            activityListData.getActivities().get(i).setEndTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + endTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
-                                        }
-                                    } else if (activityListData.getActivities().get(i).getFrequency().getType().equalsIgnoreCase("Monthly")) {
-                                        if (activityListData.getActivities().get(i).getStartTime().equalsIgnoreCase("")) {
-                                            Calendar calendar = Calendar.getInstance();
-                                            try {
-                                                date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
-                                                calendar.setTime(date);
-                                                calendar.add(Calendar.DATE, activityListData.getActivities().get(i).getAnchorDate().getStart().getAnchorDays());
-                                            } catch (ParseException e) {
-                                                e.printStackTrace();
-                                            }
-                                            activityListData.getActivities().get(i).setStartTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + startTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
-                                        }
-                                        if (activityListData.getActivities().get(i).getEndTime().equalsIgnoreCase("")) {
-                                            Calendar calendar = Calendar.getInstance();
-                                            try {
-                                                calendar.setTime(simpleDateFormat.parse(activityListData.getActivities().get(i).getStartTime()));
-                                            } catch (ParseException e) {
-                                                e.printStackTrace();
-                                            }
-                                            calendar.add(Calendar.MONTH, activityListData.getActivities().get(i).getAnchorDate().getEnd().getRepeatInterval());
-                                            activityListData.getActivities().get(i).setEndTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + endTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
-                                        }
-                                    } else {
-                                        //custom runs
-                                        if (activityListData.getActivities().get(i).getStartTime().equalsIgnoreCase("") && activityListData.getActivities().get(i).getEndTime().equalsIgnoreCase("")) {
-                                            Calendar startCalendar;
-                                            Calendar endCalendar;
-                                            for (int k = 0; k < activityListData.getActivities().get(i).getFrequency().getAnchorRuns().size(); k++) {
-                                                startCalendar = Calendar.getInstance();
-                                                endCalendar = Calendar.getInstance();
-
-                                                //start runs
-                                                try {
-                                                    date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
-                                                    startCalendar.setTime(date);
-                                                    startCalendar.add(Calendar.DATE, activityListData.getActivities().get(i).getFrequency().getAnchorRuns().get(k).getStartDays());
-                                                } catch (ParseException e) {
-                                                    e.printStackTrace();
-                                                }
-                                                activityListData.getActivities().get(i).getFrequency().getRuns().get(k).setStartTime(dateSimpleDateFormat.format(startCalendar.getTime()) + "T" + startTime + ".000" + timezoneSimpleDateFormat.format(startCalendar.getTime()));
-
-                                                //end runs
-                                                try {
-                                                    date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
-                                                    endCalendar.setTime(date);
-                                                    endCalendar.add(Calendar.DATE, activityListData.getActivities().get(i).getFrequency().getAnchorRuns().get(k).getEndDays());
-                                                } catch (ParseException e) {
-                                                    e.printStackTrace();
-                                                }
-                                                activityListData.getActivities().get(i).getFrequency().getRuns().get(k).setEndTime(dateSimpleDateFormat.format(endCalendar.getTime()) + "T" + endTime + ".000" + timezoneSimpleDateFormat.format(endCalendar.getTime()));
-
-                                                activityListData.getActivities().get(i).setStartTime(activityListData.getActivities().get(i).getFrequency().getRuns().get(0).getStartTime());
-                                                activityListData.getActivities().get(i).setEndTime(activityListData.getActivities().get(i).getFrequency().getRuns().get(k).getEndTime());
-
-
-                                            }
-                                        }
-                                    }
-                                }
+                                setDates(i, j, activityIds, runIds);
                             }
                         }
                     }
                 }
             }
-
 
 //            boolean updateRun = true;
         // If any activities available in Db we take from Db otherwise from Webservice
@@ -1175,6 +1012,242 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
 
 
         displayData(activityListData, activityIds, runIds, null);
+    }
+
+    private void setDates(int i, int j, ArrayList<String> activityIds, ArrayList<String> runIds) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        dateSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        timezoneSimpleDateFormat = new SimpleDateFormat("Z");
+        Date date;
+
+        if (mArrayList.get(j).getAnchorDate() != null && !mArrayList.get(j).getAnchorDate().equalsIgnoreCase("")) {
+            String startTime = "";
+            String endTime = "";
+            if (activityListData.getActivities().get(i).getAnchorDate() != null && activityListData.getActivities().get(i).getAnchorDate().getStart() != null) {
+                if (!activityListData.getActivities().get(i).getAnchorDate().getStart().getTime().equalsIgnoreCase("")) {
+                    startTime = activityListData.getActivities().get(i).getAnchorDate().getStart().getTime();
+                } else {
+                    startTime = "00:00:00";
+                }
+            }
+            if (activityListData.getActivities().get(i).getAnchorDate() != null && activityListData.getActivities().get(i).getAnchorDate().getEnd() != null) {
+                if (!activityListData.getActivities().get(i).getAnchorDate().getEnd().getTime().equalsIgnoreCase("")) {
+                    endTime = activityListData.getActivities().get(i).getAnchorDate().getEnd().getTime();
+                } else {
+                    endTime = "23:59:59";
+                }
+            }
+
+
+            // to do run calculation and expecting source question has answered
+            RealmResults<ActivityRun> runs = dbServiceSubscriber.getAllActivityRunFromDB(activityListData.getStudyId(), activityListData.getActivities().get(i).getActivityId(), mRealm);
+            if (runs == null || runs.size() == 0) {
+                mActivityUpdated = true;
+                activityIds.add(activityListData.getActivities().get(i).getActivityId());
+                runIds.add("-1");
+            }
+
+            boolean calculateStartDate, calculateEndDate;
+            if (mArrayList.get(j).getCurrentStatus().equalsIgnoreCase("Current")) {
+                calculateStartDate = false;
+                calculateEndDate = true;
+            } else if (mArrayList.get(j).getCurrentStatus().equalsIgnoreCase("Upcoming")) {
+                calculateStartDate = true;
+                calculateEndDate = true;
+            } else if (mArrayList.get(j).getCurrentStatus().equalsIgnoreCase("Past")) {
+                calculateStartDate = false;
+                calculateEndDate = true;
+            } else {
+                //Unknown
+                calculateStartDate = true;
+                calculateEndDate = true;
+            }
+
+
+            if (activityListData.getActivities().get(i).getFrequency().getType().equalsIgnoreCase("One Time")) {
+                Calendar calendar;
+                if (calculateStartDate && activityListData.getActivities().get(i).getAnchorDate() != null && activityListData.getActivities().get(i).getAnchorDate().getStart() != null) {
+                    calendar = Calendar.getInstance();
+                    try {
+                        date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
+                        calendar.setTime(date);
+                        calendar.add(Calendar.DATE, activityListData.getActivities().get(i).getAnchorDate().getStart().getAnchorDays());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+//                                            activityListData.getActivities().get(i).setStartTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + startTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
+                    setStartDate(calendar.getTime(), startTime, i, j);
+                }
+                if (calculateEndDate && activityListData.getActivities().get(i).getAnchorDate() != null && activityListData.getActivities().get(i).getAnchorDate().getEnd() != null) {
+                    calendar = Calendar.getInstance();
+                    try {
+                        date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
+                        calendar.setTime(date);
+                        calendar.add(Calendar.DATE, activityListData.getActivities().get(i).getAnchorDate().getEnd().getAnchorDays());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+//                                            activityListData.getActivities().get(i).setEndTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + endTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
+                    setEndDate(calendar.getTime(), endTime, i, j);
+                }
+            } else if (activityListData.getActivities().get(i).getFrequency().getType().equalsIgnoreCase("Daily")) {
+                if (calculateStartDate && activityListData.getActivities().get(i).getStartTime().equalsIgnoreCase("")) {
+                    Calendar calendar = Calendar.getInstance();
+                    try {
+                        date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
+                        calendar.setTime(date);
+                        calendar.add(Calendar.DATE, activityListData.getActivities().get(i).getAnchorDate().getStart().getAnchorDays());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+//                                            activityListData.getActivities().get(i).setStartTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + startTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
+                    setStartDate(calendar.getTime(), startTime, i, j);
+                }
+                if (calculateEndDate && activityListData.getActivities().get(i).getEndTime().equalsIgnoreCase("")) {
+                    Calendar calendar = Calendar.getInstance();
+                    try {
+                        calendar.setTime(simpleDateFormat.parse(activityListData.getActivities().get(i).getStartTime()));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    calendar.add(Calendar.DATE, activityListData.getActivities().get(i).getAnchorDate().getEnd().getRepeatInterval());
+//                                            activityListData.getActivities().get(i).setEndTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + endTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
+                    setEndDate(calendar.getTime(), endTime, i, j);
+                }
+            } else if (activityListData.getActivities().get(i).getFrequency().getType().equalsIgnoreCase("Weekly")) {
+                if (calculateStartDate && activityListData.getActivities().get(i).getStartTime().equalsIgnoreCase("")) {
+                    Calendar calendar = Calendar.getInstance();
+                    try {
+                        date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
+                        calendar.setTime(date);
+                        calendar.add(Calendar.DATE, activityListData.getActivities().get(i).getAnchorDate().getStart().getAnchorDays());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+
+//                  activityListData.getActivities().get(i).setStartTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + startTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
+                    setStartDate(calendar.getTime(), startTime, i, j);
+                }
+                if (calculateEndDate && activityListData.getActivities().get(i).getEndTime().equalsIgnoreCase("")) {
+                    Calendar calendar = Calendar.getInstance();
+                    try {
+                        calendar.setTime(simpleDateFormat.parse(activityListData.getActivities().get(i).getStartTime()));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    calendar.add(Calendar.WEEK_OF_YEAR, activityListData.getActivities().get(i).getAnchorDate().getEnd().getRepeatInterval());
+//                                            activityListData.getActivities().get(i).setEndTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + endTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
+                    setEndDate(calendar.getTime(), endTime, i, j);
+                }
+            } else if (activityListData.getActivities().get(i).getFrequency().getType().equalsIgnoreCase("Monthly")) {
+                if (calculateStartDate && activityListData.getActivities().get(i).getStartTime().equalsIgnoreCase("")) {
+                    Calendar calendar = Calendar.getInstance();
+                    try {
+                        date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
+                        calendar.setTime(date);
+                        calendar.add(Calendar.DATE, activityListData.getActivities().get(i).getAnchorDate().getStart().getAnchorDays());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+//                                            activityListData.getActivities().get(i).setStartTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + startTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
+                    setStartDate(calendar.getTime(), startTime, i, j);
+                }
+                if (calculateEndDate && activityListData.getActivities().get(i).getEndTime().equalsIgnoreCase("")) {
+                    Calendar calendar = Calendar.getInstance();
+                    try {
+                        calendar.setTime(simpleDateFormat.parse(activityListData.getActivities().get(i).getStartTime()));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    calendar.add(Calendar.MONTH, activityListData.getActivities().get(i).getAnchorDate().getEnd().getRepeatInterval());
+//                                            activityListData.getActivities().get(i).setEndTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + endTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
+                    setEndDate(calendar.getTime(), endTime, i, j);
+                }
+            } else {
+                //custom runs
+                if (activityListData.getActivities().get(i).getStartTime().equalsIgnoreCase("") && activityListData.getActivities().get(i).getEndTime().equalsIgnoreCase("")) {
+                    Calendar startCalendar;
+                    Calendar endCalendar;
+                    for (int k = 0; k < activityListData.getActivities().get(i).getFrequency().getAnchorRuns().size(); k++) {
+                        startCalendar = Calendar.getInstance();
+                        endCalendar = Calendar.getInstance();
+
+                        //start runs
+                        try {
+                            date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
+                            startCalendar.setTime(date);
+                            startCalendar.add(Calendar.DATE, activityListData.getActivities().get(i).getFrequency().getAnchorRuns().get(k).getStartDays());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        activityListData.getActivities().get(i).getFrequency().getRuns().get(k).setStartTime(dateSimpleDateFormat.format(startCalendar.getTime()) + "T" + startTime + ".000" + timezoneSimpleDateFormat.format(startCalendar.getTime()));
+
+                        //end runs
+                        try {
+                            date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
+                            endCalendar.setTime(date);
+                            endCalendar.add(Calendar.DATE, activityListData.getActivities().get(i).getFrequency().getAnchorRuns().get(k).getEndDays());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        activityListData.getActivities().get(i).getFrequency().getRuns().get(k).setEndTime(dateSimpleDateFormat.format(endCalendar.getTime()) + "T" + endTime + ".000" + timezoneSimpleDateFormat.format(endCalendar.getTime()));
+
+                        activityListData.getActivities().get(i).setStartTime(activityListData.getActivities().get(i).getFrequency().getRuns().get(0).getStartTime());
+                        activityListData.getActivities().get(i).setEndTime(activityListData.getActivities().get(i).getFrequency().getRuns().get(k).getEndTime());
+
+
+                    }
+                }
+            }
+        }
+    }
+
+    private void setStartDate(Date time, String startTime, int pos, int userRegListPos) {
+        boolean setDate = false;
+        if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Current")) {
+            setDate = false;
+        } else if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Upcoming")) {
+            setDate = true;
+        } else if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Past")) {
+            setDate = false;
+        } else {
+            //Unknown
+            setDate = true;
+        }
+        dbServiceSubscriber.deleteActivityRunsFromDb(mContext, activityListData.getActivities().get(pos).getActivityId(), activityListData.getStudyId());
+        if (setDate) {
+            activityListData.getActivities().get(pos).setLastModifiedDate(new Date().toString());
+            activityListData.getActivities().get(pos).setStartTime(dateSimpleDateFormat.format(time) + "T" + startTime + ".000" + timezoneSimpleDateFormat.format(time));
+        } else
+            activityListData.getActivities().get(pos).setStartTime(mArrayList.get(userRegListPos).getStartDate());
+    }
+
+
+    private void setEndDate(Date time, String endTime, int pos, int userRegListPos) {
+        boolean setDate = false;
+        if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Current")) {
+            if (time.after(new Date(mArrayList.get(userRegListPos).getLastUpdatedDate()))) {
+                setDate = true;
+            }
+        } else if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Upcoming")) {
+            setDate = true;
+        } else if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Past")) {
+            if (time.after(new Date(mArrayList.get(userRegListPos).getEndDate()))) {
+                setDate = true;
+            }
+        } else {
+            //Unknown
+            setDate = true;
+        }
+        dbServiceSubscriber.deleteActivityRunsFromDb(mContext, activityListData.getActivities().get(pos).getActivityId(), activityListData.getStudyId());
+        if (setDate) {
+            activityListData.getActivities().get(pos).setLastModifiedDate(new Date().toString());
+            activityListData.getActivities().get(pos).setEndTime(dateSimpleDateFormat.format(time) + "T" + endTime + ".000" + timezoneSimpleDateFormat.format(time));
+        } else
+            activityListData.getActivities().get(pos).setStartTime(mArrayList.get(userRegListPos).getStartDate());
     }
 
 
@@ -2211,6 +2284,16 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
             activityStatus.put("activityRunId", "" + activityRunId);
             activityStatus.put("bookmarked", "false");
             activityStatus.put("activityVersion", mActivityVersion);
+
+            for (int i = 0; i < activityListData.getActivities().size(); i++) {
+                if (activityListData.getActivities().get(i).getActivityId().equalsIgnoreCase(activityId)) {
+                    activityStatus.put("activityStartDate", activityListData.getActivities().get(i).getStartTime());
+                    activityStatus.put("activityEndDate", activityListData.getActivities().get(i).getEndTime());
+                    activityStatus.put("anchorDateVersion", activityListData.getActivities().get(i).getActivityVersion());
+//                    activityStatus.put("anchorDatecreatedDate", );
+                    activityStatus.put("lastModifiedDate", activityListData.getActivities().get(i).getLastModifiedDate());
+                }
+            }
 
             activityRun.put("total", mActivityStatusData.getTotalRun());
             activityRun.put("completed", mActivityStatusData.getCompletedRun());
