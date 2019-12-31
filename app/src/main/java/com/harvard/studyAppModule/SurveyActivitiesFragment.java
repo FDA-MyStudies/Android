@@ -1175,34 +1175,42 @@ public class SurveyActivitiesFragment extends Fragment implements ApiCall.OnAsyn
                         startCalendar = Calendar.getInstance();
                         endCalendar = Calendar.getInstance();
 
-                        //start runs
-                        try {
-                            date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
-                            startCalendar.setTime(date);
-                            startCalendar.add(Calendar.DATE, activityListData.getActivities().get(i).getFrequency().getAnchorRuns().get(k).getStartDays());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        activityListData.getActivities().get(i).getFrequency().getRuns().get(k).setStartTime(dateSimpleDateFormat.format(startCalendar.getTime()) + "T" + startTime + ".000" + timezoneSimpleDateFormat.format(startCalendar.getTime()));
+                        if (activityListData.getActivities().get(i).getSchedulingType().equalsIgnoreCase("ParticipantProperty")) {
+                            setStartDateEndDateAndParticipantProperty();
+                        } else {
+                            //start runs
+                            try {
+                                date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
+                                startCalendar.setTime(date);
+                                startCalendar.add(Calendar.DATE, activityListData.getActivities().get(i).getFrequency().getAnchorRuns().get(k).getStartDays());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            activityListData.getActivities().get(i).getFrequency().getRuns().get(k).setStartTime(dateSimpleDateFormat.format(startCalendar.getTime()) + "T" + startTime + ".000" + timezoneSimpleDateFormat.format(startCalendar.getTime()));
 
-                        //end runs
-                        try {
-                            date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
-                            endCalendar.setTime(date);
-                            endCalendar.add(Calendar.DATE, activityListData.getActivities().get(i).getFrequency().getAnchorRuns().get(k).getEndDays());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                        }
-                        activityListData.getActivities().get(i).getFrequency().getRuns().get(k).setEndTime(dateSimpleDateFormat.format(endCalendar.getTime()) + "T" + endTime + ".000" + timezoneSimpleDateFormat.format(endCalendar.getTime()));
+                            //end runs
+                            try {
+                                date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
+                                endCalendar.setTime(date);
+                                endCalendar.add(Calendar.DATE, activityListData.getActivities().get(i).getFrequency().getAnchorRuns().get(k).getEndDays());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            activityListData.getActivities().get(i).getFrequency().getRuns().get(k).setEndTime(dateSimpleDateFormat.format(endCalendar.getTime()) + "T" + endTime + ".000" + timezoneSimpleDateFormat.format(endCalendar.getTime()));
 
-                        activityListData.getActivities().get(i).setStartTime(activityListData.getActivities().get(i).getFrequency().getRuns().get(0).getStartTime());
-                        activityListData.getActivities().get(i).setEndTime(activityListData.getActivities().get(i).getFrequency().getRuns().get(k).getEndTime());
+                            activityListData.getActivities().get(i).setStartTime(activityListData.getActivities().get(i).getFrequency().getRuns().get(0).getStartTime());
+                            activityListData.getActivities().get(i).setEndTime(activityListData.getActivities().get(i).getFrequency().getRuns().get(k).getEndTime());
+                        }
 
 
                     }
                 }
             }
         }
+    }
+
+    private void setStartDateEndDateAndParticipantProperty() {
+
     }
 
     private void setStartDate(Date time, String startTime, int pos, int userRegListPos) {
