@@ -1,5 +1,7 @@
 package com.harvard.studyAppModule.studyModel;
 
+import com.harvard.studyAppModule.acvitityListModel.PropertyMetadata;
+
 import io.realm.RealmObject;
 
 /**
@@ -18,6 +20,15 @@ public class ResourceAvailability extends RealmObject {
     private String sourceFormKey;
     private String startTime;
     private String endTime;
+    private PropertyMetadata propertyMetadata;
+
+    public PropertyMetadata getPropertyMetadata() {
+        return propertyMetadata;
+    }
+
+    public void setPropertyMetadata(PropertyMetadata propertyMetadata) {
+        this.propertyMetadata = propertyMetadata;
+    }
 
     public String getSourceFormKey() {
         return sourceFormKey;

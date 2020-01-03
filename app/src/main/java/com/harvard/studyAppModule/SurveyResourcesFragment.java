@@ -280,14 +280,12 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                         anchorDateSchedulingDetails.setTargetActivityId(mResourceArrayList.get(i).getResourcesId());
 
 
-
-
                         Activities activities = dbServiceSubscriber.getActivityPreferenceBySurveyId(((SurveyActivity) mContext).getStudyId(), anchorDateSchedulingDetails.getSourceActivityId(), mRealm);
                         if (activities != null) {
                             anchorDateSchedulingDetails.setActivityState(activities.getStatus());
                             mArrayList.add(anchorDateSchedulingDetails);
                         }
-                    } else {
+                    } else if (mResourceArrayList.get(i).getAvailability().getSourceType().equalsIgnoreCase("EnrollmentDate")) {
                         // For enrollmentDate
                         anchorDateSchedulingDetails = new AnchorDateSchedulingDetails();
                         anchorDateSchedulingDetails.setSchedulingType(mResourceArrayList.get(i).getAvailability().getAvailabilityType());
@@ -297,6 +295,19 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                         //targetActivityid is resourceId in this case just to handle with case variable
                         anchorDateSchedulingDetails.setTargetActivityId(mResourceArrayList.get(i).getResourcesId());
                         anchorDateSchedulingDetails.setAnchorDate(studies.getEnrolledDate());
+                        mArrayList.add(anchorDateSchedulingDetails);
+                    } else if (mResourceArrayList.get(i).getAvailability().getSourceType().equalsIgnoreCase("ParticipantProperty")) {
+                        anchorDateSchedulingDetails = new AnchorDateSchedulingDetails();
+                        anchorDateSchedulingDetails.setSchedulingType(mResourceArrayList.get(i).getAvailability().getAvailabilityType());
+                        anchorDateSchedulingDetails.setSourceType(mResourceArrayList.get(i).getAvailability().getSourceType());
+                        anchorDateSchedulingDetails.setStudyId(((SurveyActivity) mContext).getStudyId());
+                        anchorDateSchedulingDetails.setParticipantId(studies.getParticipantId());
+                        anchorDateSchedulingDetails.setTargetActivityId(mResourceArrayList.get(i).getResourcesId());
+                        anchorDateSchedulingDetails.setPropertyId(mResourceArrayList.get(i).getAvailability().getPropertyMetadata().getPropertyId());
+                        anchorDateSchedulingDetails.setExternalPropertyId(mResourceArrayList.get(i).getAvailability().getPropertyMetadata().getExternalPropertyId());
+                        anchorDateSchedulingDetails.setDateOfEntryId(mResourceArrayList.get(i).getAvailability().getPropertyMetadata().getDateOfEntryId());
+
+
                         mArrayList.add(anchorDateSchedulingDetails);
                     }
                 }
@@ -410,8 +421,67 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
 
                                 }
                             }
-                        } else {
+                        } else if (mResourceArrayList.get(i).getAvailability().getSourceType().equalsIgnoreCase("EnrollmentDate")) {
                             // if anchordate is enrollment date
+                            Calendar startCalender = Calendar.getInstance();
+                            Calendar endCalender = Calendar.getInstance();
+                            try {
+                                for (int j = 0; j < mArrayList.size(); j++) {
+                                    if (mResourceArrayList.get(i).getResourcesId().equalsIgnoreCase(mArrayList.get(j).getTargetActivityId())) {
+                                        startCalender.setTime(AppController.getDateFormat().parse(mArrayList.get(j).getAnchorDate()));
+                                        startCalender.add(Calendar.DATE, mResourceArrayList.get(i).getAvailability().getStartDays());
+
+                                        endCalender.setTime(AppController.getDateFormat().parse(mArrayList.get(j).getAnchorDate()));
+                                        endCalender.add(Calendar.DATE, mResourceArrayList.get(i).getAvailability().getEndDays());
+                                        break;
+                                    }
+                                }
+                                if (mResourceArrayList.get(i).getAvailability().getStartTime() == null || mResourceArrayList.get(i).getAvailability().getStartTime().equalsIgnoreCase("")) {
+                                    startCalender.set(Calendar.HOUR_OF_DAY, 0);
+                                    startCalender.set(Calendar.MINUTE, 0);
+                                    startCalender.set(Calendar.SECOND, 0);
+                                } else {
+                                    String[] time = mResourceArrayList.get(i).getAvailability().getStartTime().split(":");
+                                    startCalender.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time[0]));
+                                    startCalender.set(Calendar.MINUTE, Integer.parseInt(time[1]));
+                                    startCalender.set(Calendar.SECOND, Integer.parseInt(time[2]));
+                                }
+
+                                NotificationDbResources notificationsDb = null;
+                                RealmResults<NotificationDbResources> notificationsDbs = dbServiceSubscriber.getNotificationDbResources(mStudyHome.getAnchorDate().getQuestionInfo().getActivityId(), ((SurveyActivity) mContext).getStudyId(), RESOURCES, mRealm);
+                                if (notificationsDbs != null && notificationsDbs.size() > 0) {
+                                    for (int j = 0; j < notificationsDbs.size(); j++) {
+                                        if (notificationsDbs.get(j).getResourceId().equalsIgnoreCase(mResourceArrayList.get(i).getResourcesId())) {
+                                            notificationsDb = notificationsDbs.get(j);
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (notificationsDb == null) {
+                                    setRemainder(startCalender, mStudyHome.getAnchorDate().getQuestionInfo().getActivityId(), ((SurveyActivity) mContext).getStudyId(), mResourceArrayList.get(i).getNotificationText(), mResourceArrayList.get(i).getResourcesId());
+                                }
+
+                                if (mResourceArrayList.get(i).getAvailability().getEndTime() == null || mResourceArrayList.get(i).getAvailability().getEndTime().equalsIgnoreCase("")) {
+                                    endCalender.set(Calendar.HOUR_OF_DAY, 23);
+                                    endCalender.set(Calendar.MINUTE, 59);
+                                    endCalender.set(Calendar.SECOND, 59);
+                                } else {
+                                    String[] time = mResourceArrayList.get(i).getAvailability().getEndTime().split(":");
+                                    endCalender.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time[0]));
+                                    endCalender.set(Calendar.MINUTE, Integer.parseInt(time[1]));
+                                    endCalender.set(Calendar.SECOND, Integer.parseInt(time[2]));
+                                }
+
+                                Calendar currentday = Calendar.getInstance();
+
+
+                                if ((currentday.getTime().after(startCalender.getTime()) || currentday.getTime().equals(startCalender.getTime())) && (currentday.getTime().before(endCalender.getTime()) || currentday.getTime().equals(endCalender.getTime()))) {
+                                    resources.add(mResourceArrayList.get(i));
+                                }
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        } else if (mResourceArrayList.get(i).getAvailability().getSourceType().equalsIgnoreCase("ParticipantProperty")) {
                             Calendar startCalender = Calendar.getInstance();
                             Calendar endCalender = Calendar.getInstance();
                             try {
@@ -488,7 +558,6 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
     }
 
 
-
     private class ResponseData extends AsyncTask<String, Void, String> {
 
         String response = null;
@@ -496,10 +565,12 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
         int position;
         Responsemodel mResponseModel;
         AnchorDateSchedulingDetails anchorDateSchedulingDetails;
+        String query;
 
-        ResponseData(int position, AnchorDateSchedulingDetails anchorDateSchedulingDetails) {
+        ResponseData(int position, AnchorDateSchedulingDetails anchorDateSchedulingDetails, String query) {
             this.position = position;
             this.anchorDateSchedulingDetails = anchorDateSchedulingDetails;
+            this.query = query;
         }
 
         @Override
@@ -513,7 +584,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
             ConnectionDetector connectionDetector = new ConnectionDetector(mContext);
 
             if (connectionDetector.isConnectingToInternet()) {
-                mResponseModel = HttpRequest.getRequest(URLs.PROCESSRESPONSEDATA + "sql=SELECT%20%22" + anchorDateSchedulingDetails.getSourceKey() + "%22%20FROM%20%22" + anchorDateSchedulingDetails.getSourceActivityId() + anchorDateSchedulingDetails.getSourceFormKey() + "%22&participantId=" + anchorDateSchedulingDetails.getParticipantId(), new HashMap<String, String>(), "Response");
+                mResponseModel = HttpRequest.getRequest(URLs.PROCESSRESPONSEDATA + query, new HashMap<String, String>(), "Response");
                 responseCode = mResponseModel.getResponseCode();
                 response = mResponseModel.getResponseData();
                 if (responseCode.equalsIgnoreCase("0") && response.equalsIgnoreCase("timeout")) {
@@ -565,47 +636,52 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                         e.printStackTrace();
                     }
                 } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK) {
-                    try {
-                        JSONObject jsonObject = new JSONObject(response);
-                        JSONArray jsonArray = (JSONArray) jsonObject.get("rows");
-                        Gson gson = new Gson();
+                    if (anchorDateSchedulingDetails.getSourceType().equalsIgnoreCase("ActivityResponse")) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jsonArray = (JSONArray) jsonObject.get("rows");
+                            Gson gson = new Gson();
 
-                        JSONObject jsonObject1 = (JSONObject) new JSONObject(String.valueOf(jsonArray.get(0))).get("data");
-                        Type type = new TypeToken<Map<String, Object>>() {
-                        }.getType();
-                        Map<String, Object> myMap = gson.fromJson(String.valueOf(jsonObject1), type);
-                        Object value = null;
-                        for (Map.Entry<String, Object> entry : myMap.entrySet()) {
-                            String key = entry.getKey();
-                            String valueobj = gson.toJson(entry.getValue());
-                            Map<String, Object> vauleMap = gson.fromJson(String.valueOf(valueobj), type);
-                            value = vauleMap.get("value");
-                            try {
-                                Date anchordate = AppController.getLabkeyDateFormat().parse("" + value);
-                                value = AppController.getDateFormat().format(anchordate);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
+                            JSONObject jsonObject1 = (JSONObject) new JSONObject(String.valueOf(jsonArray.get(0))).get("data");
+                            Type type = new TypeToken<Map<String, Object>>() {
+                            }.getType();
+                            Map<String, Object> myMap = gson.fromJson(String.valueOf(jsonObject1), type);
+                            Object value = null;
+                            for (Map.Entry<String, Object> entry : myMap.entrySet()) {
+                                String key = entry.getKey();
+                                String valueobj = gson.toJson(entry.getValue());
+                                Map<String, Object> vauleMap = gson.fromJson(String.valueOf(valueobj), type);
+                                value = vauleMap.get("value");
+                                try {
+                                    Date anchordate = AppController.getLabkeyDateFormat().parse("" + value);
+                                    value = AppController.getDateFormat().format(anchordate);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
                             }
+
+                            //updating results back to DB
+                            StepRecordCustom stepRecordCustom = new StepRecordCustom();
+                            JSONObject jsonObject2 = new JSONObject();
+                            jsonObject2.put("answer", "" + value);
+                            stepRecordCustom.setResult(jsonObject2.toString());
+                            stepRecordCustom.setActivityID(anchorDateSchedulingDetails.getStudyId() + "_STUDYID_" + anchorDateSchedulingDetails.getSourceActivityId());
+                            stepRecordCustom.setStepId(anchorDateSchedulingDetails.getSourceKey());
+                            stepRecordCustom.setTaskStepID(anchorDateSchedulingDetails.getStudyId() + "_STUDYID_" + anchorDateSchedulingDetails.getSourceActivityId() + "_" + 1 + "_" + anchorDateSchedulingDetails.getSourceKey());
+                            dbServiceSubscriber.updateStepRecord(mContext, stepRecordCustom);
+
+                            mArrayList.get(this.position).setAnchorDate("" + value);
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            metadataProcess();
                         }
-
-                        //updating results back to DB
-                        StepRecordCustom stepRecordCustom = new StepRecordCustom();
-                        JSONObject jsonObject2 = new JSONObject();
-                        jsonObject2.put("answer", "" + value);
-                        stepRecordCustom.setResult(jsonObject2.toString());
-                        stepRecordCustom.setActivityID(anchorDateSchedulingDetails.getStudyId() + "_STUDYID_" + anchorDateSchedulingDetails.getSourceActivityId());
-                        stepRecordCustom.setStepId(anchorDateSchedulingDetails.getSourceKey());
-                        stepRecordCustom.setTaskStepID(anchorDateSchedulingDetails.getStudyId() + "_STUDYID_" + anchorDateSchedulingDetails.getSourceActivityId() + "_" + 1 + "_" + anchorDateSchedulingDetails.getSourceKey());
-                        dbServiceSubscriber.updateStepRecord(mContext, stepRecordCustom);
-
-                        mArrayList.get(this.position).setAnchorDate("" + value);
-
-
-                        callLabkeyService(this.position);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        metadataProcess();
+                    } else if (anchorDateSchedulingDetails.getSourceType().equalsIgnoreCase("ParticipantProperty")) {
+                        mArrayList.get(this.position).setAnchorDate("");
+                        mArrayList.get(this.position).setVersion("");
+                        mArrayList.get(this.position).setDateOfEntry("");
                     }
+                    callLabkeyService(this.position);
                 } else {
                     metadataProcess();
                     Toast.makeText(mContext, mContext.getResources().getString(R.string.unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
@@ -776,9 +852,13 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
 
                     callLabkeyService(position + 1);
                 } else {
-                    new ResponseData(position, anchorDateSchedulingDetails).execute();
+                    String query = "sql=SELECT%20%22" + anchorDateSchedulingDetails.getSourceKey() + "%22%20FROM%20%22" + anchorDateSchedulingDetails.getSourceActivityId() + anchorDateSchedulingDetails.getSourceFormKey() + "%22&participantId=" + anchorDateSchedulingDetails.getParticipantId();
+                    new ResponseData(position, anchorDateSchedulingDetails, query).execute();
                 }
                 dbServiceSubscriber.closeRealmObj(realm);
+            } else if (anchorDateSchedulingDetails.getSourceType().equalsIgnoreCase("ParticipantProperty")) {
+                String query = "sql=SELECT%20%22" + anchorDateSchedulingDetails.getSourceKey() + "%22%20FROM%20%22" + "ParticipantProperties" + "%22&participantId=" + anchorDateSchedulingDetails.getParticipantId();
+                new ResponseData(position, anchorDateSchedulingDetails, query).execute();
             } else {
                 callLabkeyService(position + 1);
             }
