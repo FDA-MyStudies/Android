@@ -1,5 +1,7 @@
 package com.harvard.studyAppModule.acvitityListModel;
 
+import com.harvard.userModule.webserviceModel.Activities;
+
 public class AnchorDateSchedulingDetails {
     private String studyId;
 
@@ -30,6 +32,16 @@ public class AnchorDateSchedulingDetails {
     private String endDate;
 
     private String lastUpdatedDate;
+
+    private Activities activities;
+
+    public Activities getActivities() {
+        return activities;
+    }
+
+    public void setActivities(Activities activities) {
+        this.activities = activities;
+    }
 
     public String getLastUpdatedDate() {
         return lastUpdatedDate;
