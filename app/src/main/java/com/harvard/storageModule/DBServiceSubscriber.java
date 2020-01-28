@@ -8,6 +8,7 @@ import com.harvard.notificationModule.model.NotificationDb;
 import com.harvard.offlineModule.model.OfflineData;
 import com.harvard.storageModule.events.DatabaseEvent;
 import com.harvard.studyAppModule.SurveyActivitiesFragment;
+import com.harvard.studyAppModule.SurveyActivity;
 import com.harvard.studyAppModule.activityBuilder.model.ActivityRun;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.ActivityObj;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.Steps;
@@ -32,6 +33,7 @@ import com.harvard.studyAppModule.studyModel.StudyUpdateListdata;
 import com.harvard.userModule.webserviceModel.Activities;
 import com.harvard.userModule.webserviceModel.ActivityData;
 import com.harvard.userModule.webserviceModel.ActivityRunPreference;
+import com.harvard.userModule.webserviceModel.CustomScheduleRuns;
 import com.harvard.userModule.webserviceModel.Studies;
 import com.harvard.userModule.webserviceModel.StudyData;
 import com.harvard.userModule.webserviceModel.UserProfileData;
@@ -383,6 +385,12 @@ public class DBServiceSubscriber {
     // getUserPreferencesListFromDB
     public StudyData getStudyPreferencesListFromDB(Realm realm) {
         return realm.where(StudyData.class).findFirst();
+    }
+
+    public void updateCustomRunsToActivityPreference(Realm realm, String studyId, String activityId, RealmList<CustomScheduleRuns> customScheduleRuns) {
+        Activities activities = getActivityPreferenceBySurveyId(studyId, activityId, realm);
+        activities.setCustomScheduleRuns(customScheduleRuns);
+        realm.commitTransaction();
     }
 
     private ActivityData getActivityPreferencesListFromDB(String studyId, Realm realm) {

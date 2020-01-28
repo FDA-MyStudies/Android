@@ -15,6 +15,9 @@ repositories {
 }
 
 apply plugin: 'realm-android'
+def apikeyPropertiesFile = rootProject.file("apikey.properties");
+def apikeyProperties = new Properties()
+apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
@@ -24,6 +27,7 @@ android {
         targetSdkVersion 28
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        buildConfigField("String", "apikey", apikeyProperties['apikey'])
     }
     buildTypes {
         release {
