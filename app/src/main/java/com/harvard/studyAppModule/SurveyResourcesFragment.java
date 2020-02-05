@@ -533,7 +533,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
 
                                 Calendar currentday = Calendar.getInstance();
 
-
+                                    Log.e("currentday",""+currentday.getTime()+"   "+startCalender.getTime()+"   "+endCalender.getTime());
                                 if ((currentday.getTime().after(startCalender.getTime()) || currentday.getTime().equals(startCalender.getTime())) && (currentday.getTime().before(endCalender.getTime()) || currentday.getTime().equals(endCalender.getTime()))) {
                                     resources.add(mResourceArrayList.get(i));
                                 }
@@ -627,7 +627,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                         String exception = String.valueOf(jsonObject.get("exception"));
                         if (exception.contains("Query or table not found")) {
                             //call remaining service
-                            callLabkeyService(this.position);
+                            callLabkeyService(this.position+1);
                         } else {
                             metadataProcess();
                         }
@@ -677,11 +677,48 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                             metadataProcess();
                         }
                     } else if (anchorDateSchedulingDetails.getSourceType().equalsIgnoreCase("ParticipantProperty")) {
-                        mArrayList.get(this.position).setAnchorDate("");
-                        mArrayList.get(this.position).setVersion("");
-                        mArrayList.get(this.position).setDateOfEntry("");
+                        try{
+                        JSONObject jsonObject = new JSONObject(response);
+                        JSONArray jsonArray = (JSONArray) jsonObject.get("rows");
+                        Gson gson = new Gson();
+
+                        JSONObject jsonObject1 = (JSONObject) new JSONObject(String.valueOf(jsonArray.get(0))).get("data");
+                        Type type = new TypeToken<Map<String, Object>>() {
+                        }.getType();
+                        Map<String, Object> myMap = gson.fromJson(String.valueOf(jsonObject1), type);
+                        Object value = null;
+                        for (Map.Entry<String, Object> entry : myMap.entrySet()) {
+                            String key = entry.getKey();
+                            String valueobj = gson.toJson(entry.getValue());
+                            Map<String, Object> vauleMap = gson.fromJson(String.valueOf(valueobj), type);
+                            value = vauleMap.get("value");
+                            if(key.equalsIgnoreCase(mArrayList.get(this.position).getPropertyId())){
+                            try {
+                                Date anchordate = AppController.getLabkeyDateFormat().parse("" + value);
+                                value = AppController.getDateFormat().format(anchordate);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                                mArrayList.get(this.position).setAnchorDate(value.toString());
+                            }else if(key.equalsIgnoreCase(mArrayList.get(this.position).getExternalPropertyId())){
+                                mArrayList.get(this.position).setVersion(value.toString());
+                            }else if(key.equalsIgnoreCase(mArrayList.get(this.position).getDateOfEntryId())){
+                                try {
+                                    Date anchordate = AppController.getLabkeyDateFormat().parse("" + value);
+                                    value = AppController.getDateFormat().format(anchordate);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                mArrayList.get(this.position).setDateOfEntry(value.toString());
+                            }else{
+                                Log.e("query","not proper");
+                            }
+                        }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
-                    callLabkeyService(this.position);
+                    callLabkeyService(this.position + 1);
                 } else {
                     metadataProcess();
                     Toast.makeText(mContext, mContext.getResources().getString(R.string.unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
@@ -836,6 +873,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
 
     private void callLabkeyService(int position) {
         if (mArrayList.size() > position) {
+            Log.e("position",""+mArrayList.get(position).getTargetActivityId());
             AnchorDateSchedulingDetails anchorDateSchedulingDetails = mArrayList.get(position);
             if (anchorDateSchedulingDetails.getSourceType().equalsIgnoreCase("ActivityResponse") && anchorDateSchedulingDetails.getActivityState().equalsIgnoreCase("completed")) {
                 Realm realm = AppController.getRealmobj(mContext);
@@ -857,7 +895,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                 }
                 dbServiceSubscriber.closeRealmObj(realm);
             } else if (anchorDateSchedulingDetails.getSourceType().equalsIgnoreCase("ParticipantProperty")) {
-                String query = "sql=SELECT%20%22" + anchorDateSchedulingDetails.getSourceKey() + "%22%20FROM%20%22" + "ParticipantProperties" + "%22&participantId=" + anchorDateSchedulingDetails.getParticipantId();
+                String query = "sql=SELECT%20" + anchorDateSchedulingDetails.getPropertyId() + "%20FROM%20" + "ParticipantProperties" + "&participantId=" + anchorDateSchedulingDetails.getParticipantId();
                 new ResponseData(position, anchorDateSchedulingDetails, query).execute();
             } else {
                 callLabkeyService(position + 1);
