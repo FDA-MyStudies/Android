@@ -18,6 +18,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -128,8 +129,8 @@ import static android.os.Build.VERSION_CODES.M;
 
 public class SurveyActivitiesFragment extends Fragment
         implements ApiCall.OnAsyncRequestComplete,
-                ActivityCompat.OnRequestPermissionsResultCallback,
-                CustomActivitiesDailyDialogClass.DialogClick {
+        ActivityCompat.OnRequestPermissionsResultCallback,
+        CustomActivitiesDailyDialogClass.DialogClick {
 
     private static final int UPDATE_USERPREFERENCE_RESPONSECODE = 102;
     private static final int PERMISSION_REQUEST_CODE = 1000;
@@ -465,9 +466,9 @@ public class SurveyActivitiesFragment extends Fragment
                 } else if (response.equalsIgnoreCase("timeout")) {
                     AppController.getHelperProgressDialog().dismissDialog();
                     Toast.makeText(
-                                    mContext,
-                                    mContext.getResources().getString(R.string.connection_timeout),
-                                    Toast.LENGTH_SHORT)
+                            mContext,
+                            mContext.getResources().getString(R.string.connection_timeout),
+                            Toast.LENGTH_SHORT)
                             .show();
                 } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK) {
 
@@ -488,7 +489,8 @@ public class SurveyActivitiesFragment extends Fragment
                                             })
                                     .registerTypeAdapter(
                                             new TypeToken<
-                                                    RealmList<CorrectAnswerString>>() {}.getType(),
+                                                    RealmList<CorrectAnswerString>>() {
+                                            }.getType(),
                                             new TypeAdapter<RealmList<CorrectAnswerString>>() {
 
                                                 @Override
@@ -531,10 +533,10 @@ public class SurveyActivitiesFragment extends Fragment
                 } else {
                     AppController.getHelperProgressDialog().dismissDialog();
                     Toast.makeText(
-                                    mContext,
-                                    mContext.getResources()
-                                            .getString(R.string.unable_to_retrieve_data),
-                                    Toast.LENGTH_SHORT)
+                            mContext,
+                            mContext.getResources()
+                                    .getString(R.string.unable_to_retrieve_data),
+                            Toast.LENGTH_SHORT)
                             .show();
                 }
             } else {
@@ -562,10 +564,10 @@ public class SurveyActivitiesFragment extends Fragment
     private void startConsent(Consent consent, String type) {
         eligibilityType = type;
         Toast.makeText(
-                        mContext,
-                        mContext.getResources()
-                                .getString(R.string.please_review_the_updated_consent),
-                        Toast.LENGTH_SHORT)
+                mContext,
+                mContext.getResources()
+                        .getString(R.string.please_review_the_updated_consent),
+                Toast.LENGTH_SHORT)
                 .show();
         StudyList studyList =
                 dbServiceSubscriber.getStudiesDetails(
@@ -655,18 +657,18 @@ public class SurveyActivitiesFragment extends Fragment
                     && eligibilityConsent.getConsent().getReview() != null
                     && eligibilityConsent.getConsent().getReview().getSignatureContent() != null
                     && !eligibilityConsent
-                            .getConsent()
-                            .getReview()
-                            .getSignatureContent()
-                            .equalsIgnoreCase("")) {
+                    .getConsent()
+                    .getReview()
+                    .getSignatureContent()
+                    .equalsIgnoreCase("")) {
                 consentItem =
                         new Paragraph(
                                 Html.fromHtml(
-                                                eligibilityConsent
-                                                        .getConsent()
-                                                        .getReview()
-                                                        .getSignatureContent()
-                                                        .toString())
+                                        eligibilityConsent
+                                                .getConsent()
+                                                .getReview()
+                                                .getSignatureContent()
+                                                .toString())
                                         .toString());
             } else if (eligibilityConsent != null
                     && eligibilityConsent.getConsent() != null
@@ -685,24 +687,24 @@ public class SurveyActivitiesFragment extends Fragment
 
                     docBuilder.append("</div></br>");
                     for (int i = 0;
-                            i < eligibilityConsent.getConsent().getVisualScreens().size();
-                            i++) {
+                         i < eligibilityConsent.getConsent().getVisualScreens().size();
+                         i++) {
                         docBuilder.append(
                                 "<div>  <h4>"
                                         + eligibilityConsent
-                                                .getConsent()
-                                                .getVisualScreens()
-                                                .get(i)
-                                                .getTitle()
+                                        .getConsent()
+                                        .getVisualScreens()
+                                        .get(i)
+                                        .getTitle()
                                         + "<h4> </div>");
                         docBuilder.append("</br>");
                         docBuilder.append(
                                 "<div>"
                                         + eligibilityConsent
-                                                .getConsent()
-                                                .getVisualScreens()
-                                                .get(i)
-                                                .getHtml()
+                                        .getConsent()
+                                        .getVisualScreens()
+                                        .get(i)
+                                        .getHtml()
                                         + "</div>");
                         docBuilder.append("</br>");
                         docBuilder.append("</br>");
@@ -1192,25 +1194,25 @@ public class SurveyActivitiesFragment extends Fragment
                                     Calendar endDate = Calendar.getInstance();
                                     try {
                                         if (activityDataDB
-                                                                .getActivities()
-                                                                .get(j)
-                                                                .getActivityStartDate()
-                                                        != null
+                                                .getActivities()
+                                                .get(j)
+                                                .getActivityStartDate()
+                                                != null
                                                 && activityDataDB
-                                                                .getActivities()
-                                                                .get(j)
-                                                                .getActivityEndDate()
-                                                        != null
+                                                .getActivities()
+                                                .get(j)
+                                                .getActivityEndDate()
+                                                != null
                                                 && !activityDataDB
-                                                        .getActivities()
-                                                        .get(j)
-                                                        .getActivityStartDate()
-                                                        .equalsIgnoreCase("")
+                                                .getActivities()
+                                                .get(j)
+                                                .getActivityStartDate()
+                                                .equalsIgnoreCase("")
                                                 && !activityDataDB
-                                                        .getActivities()
-                                                        .get(j)
-                                                        .getActivityEndDate()
-                                                        .equalsIgnoreCase("")) {
+                                                .getActivities()
+                                                .get(j)
+                                                .getActivityEndDate()
+                                                .equalsIgnoreCase("")) {
                                             startDate.setTime(
                                                     new SimpleDateFormat("dd/MM/yyyy")
                                                             .parse(
@@ -1244,10 +1246,10 @@ public class SurveyActivitiesFragment extends Fragment
                                         anchorDateSchedulingDetails.setCurrentStatus("Unknown");
                                     }
                                     //                                    }
-                                    mArrayList.add(anchorDateSchedulingDetails);
                                     break;
                                 }
                             }
+                            mArrayList.add(anchorDateSchedulingDetails);
                         }
                     }
                 }
@@ -1270,15 +1272,15 @@ public class SurveyActivitiesFragment extends Fragment
             for (int i = 0; i < activityListData.getActivities().size(); i++) {
                 if (activityListData.getActivities().get(i).getSchedulingType() != null) {
                     if (activityListData
-                                    .getActivities()
-                                    .get(i)
-                                    .getSchedulingType()
-                                    .equalsIgnoreCase("AnchorDate")
+                            .getActivities()
+                            .get(i)
+                            .getSchedulingType()
+                            .equalsIgnoreCase("AnchorDate")
                             || activityListData
-                                    .getActivities()
-                                    .get(i)
-                                    .getSchedulingType()
-                                    .equalsIgnoreCase("ParticipantProperty")) {
+                            .getActivities()
+                            .get(i)
+                            .getSchedulingType()
+                            .equalsIgnoreCase("ParticipantProperty")) {
                         for (int j = 0; j < mArrayList.size(); j++) {
                             if (activityListData
                                     .getActivities()
@@ -1366,12 +1368,12 @@ public class SurveyActivitiesFragment extends Fragment
                                     mRealm);
                     if (activitiesWS != null
                             && !activitiesWS
-                                    .getActivityVersion()
-                                    .equalsIgnoreCase(
-                                            activityListData
-                                                    .getActivities()
-                                                    .get(j)
-                                                    .getActivityVersion())) {
+                            .getActivityVersion()
+                            .equalsIgnoreCase(
+                                    activityListData
+                                            .getActivities()
+                                            .get(j)
+                                            .getActivityVersion())) {
                         mActivityUpdated = true;
                         // update ActivityWS DB with new version
                         dbServiceSubscriber.UpdateActivitiesWSVersion(
@@ -1401,12 +1403,12 @@ public class SurveyActivitiesFragment extends Fragment
                                 mRealm);
                 if (activitiesWS != null
                         && !activitiesWS
-                                .getActivityVersion()
-                                .equalsIgnoreCase(
-                                        activityListData
-                                                .getActivities()
-                                                .get(j)
-                                                .getActivityVersion())) {
+                        .getActivityVersion()
+                        .equalsIgnoreCase(
+                                activityListData
+                                        .getActivities()
+                                        .get(j)
+                                        .getActivityVersion())) {
                     mActivityUpdated = true;
                     // update ActivityWS DB with new version
                     dbServiceSubscriber.UpdateActivitiesWSVersion(
@@ -1493,15 +1495,21 @@ public class SurveyActivitiesFragment extends Fragment
             }
 
             boolean calculateStartDate, calculateEndDate;
-            if (mArrayList.get(j).getCurrentStatus().equalsIgnoreCase("Current")) {
-                calculateStartDate = false;
-                calculateEndDate = true;
-            } else if (mArrayList.get(j).getCurrentStatus().equalsIgnoreCase("Upcoming")) {
-                calculateStartDate = true;
-                calculateEndDate = true;
-            } else if (mArrayList.get(j).getCurrentStatus().equalsIgnoreCase("Past")) {
-                calculateStartDate = false;
-                calculateEndDate = true;
+            if (mArrayList.get(j).getCurrentStatus() != null) {
+                if (mArrayList.get(j).getCurrentStatus().equalsIgnoreCase("Current")) {
+                    calculateStartDate = false;
+                    calculateEndDate = true;
+                } else if (mArrayList.get(j).getCurrentStatus().equalsIgnoreCase("Upcoming")) {
+                    calculateStartDate = true;
+                    calculateEndDate = true;
+                } else if (mArrayList.get(j).getCurrentStatus().equalsIgnoreCase("Past")) {
+                    calculateStartDate = false;
+                    calculateEndDate = true;
+                } else {
+                    // Unknown
+                    calculateStartDate = true;
+                    calculateEndDate = true;
+                }
             } else {
                 // Unknown
                 calculateStartDate = true;
@@ -1518,7 +1526,7 @@ public class SurveyActivitiesFragment extends Fragment
                 if (calculateStartDate
                         && activityListData.getActivities().get(i).getAnchorDate() != null
                         && activityListData.getActivities().get(i).getAnchorDate().getStart()
-                                != null) {
+                        != null) {
                     calendar = Calendar.getInstance();
                     try {
                         date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
@@ -1542,7 +1550,7 @@ public class SurveyActivitiesFragment extends Fragment
                 if (calculateEndDate
                         && activityListData.getActivities().get(i).getAnchorDate() != null
                         && activityListData.getActivities().get(i).getAnchorDate().getEnd()
-                                != null) {
+                        != null) {
                     calendar = Calendar.getInstance();
                     try {
                         date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
@@ -1571,10 +1579,10 @@ public class SurveyActivitiesFragment extends Fragment
                     .equalsIgnoreCase("Daily")) {
                 if (calculateStartDate
                         && activityListData
-                                .getActivities()
-                                .get(i)
-                                .getStartTime()
-                                .equalsIgnoreCase("")) {
+                        .getActivities()
+                        .get(i)
+                        .getStartTime()
+                        .equalsIgnoreCase("")) {
                     Calendar calendar = Calendar.getInstance();
                     try {
                         date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
@@ -1596,10 +1604,10 @@ public class SurveyActivitiesFragment extends Fragment
                 }
                 if (calculateEndDate
                         && activityListData
-                                .getActivities()
-                                .get(i)
-                                .getEndTime()
-                                .equalsIgnoreCase("")) {
+                        .getActivities()
+                        .get(i)
+                        .getEndTime()
+                        .equalsIgnoreCase("")) {
                     Calendar calendar = Calendar.getInstance();
                     try {
                         calendar.setTime(
@@ -1628,10 +1636,10 @@ public class SurveyActivitiesFragment extends Fragment
                     .equalsIgnoreCase("Weekly")) {
                 if (calculateStartDate
                         && activityListData
-                                .getActivities()
-                                .get(i)
-                                .getStartTime()
-                                .equalsIgnoreCase("")) {
+                        .getActivities()
+                        .get(i)
+                        .getStartTime()
+                        .equalsIgnoreCase("")) {
                     Calendar calendar = Calendar.getInstance();
                     try {
                         date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
@@ -1654,10 +1662,10 @@ public class SurveyActivitiesFragment extends Fragment
                 }
                 if (calculateEndDate
                         && activityListData
-                                .getActivities()
-                                .get(i)
-                                .getEndTime()
-                                .equalsIgnoreCase("")) {
+                        .getActivities()
+                        .get(i)
+                        .getEndTime()
+                        .equalsIgnoreCase("")) {
                     Calendar calendar = Calendar.getInstance();
                     try {
                         calendar.setTime(
@@ -1686,10 +1694,10 @@ public class SurveyActivitiesFragment extends Fragment
                     .equalsIgnoreCase("Monthly")) {
                 if (calculateStartDate
                         && activityListData
-                                .getActivities()
-                                .get(i)
-                                .getStartTime()
-                                .equalsIgnoreCase("")) {
+                        .getActivities()
+                        .get(i)
+                        .getStartTime()
+                        .equalsIgnoreCase("")) {
                     Calendar calendar = Calendar.getInstance();
                     try {
                         date = simpleDateFormat.parse(mArrayList.get(j).getAnchorDate());
@@ -1711,10 +1719,10 @@ public class SurveyActivitiesFragment extends Fragment
                 }
                 if (calculateEndDate
                         && activityListData
-                                .getActivities()
-                                .get(i)
-                                .getEndTime()
-                                .equalsIgnoreCase("")) {
+                        .getActivities()
+                        .get(i)
+                        .getEndTime()
+                        .equalsIgnoreCase("")) {
                     Calendar calendar = Calendar.getInstance();
                     try {
                         calendar.setTime(
@@ -1739,27 +1747,27 @@ public class SurveyActivitiesFragment extends Fragment
                 // custom runs
                 if (activityListData.getActivities().get(i).getStartTime().equalsIgnoreCase("")
                         && activityListData
-                                .getActivities()
-                                .get(i)
-                                .getEndTime()
-                                .equalsIgnoreCase("")) {
+                        .getActivities()
+                        .get(i)
+                        .getEndTime()
+                        .equalsIgnoreCase("")) {
                     Calendar startCalendar;
                     Calendar endCalendar;
                     for (int k = 0;
-                            k
-                                    < activityListData
-                                            .getActivities()
-                                            .get(i)
-                                            .getFrequency()
-                                            .getAnchorRuns()
-                                            .size();
-                            k++) {
+                         k
+                                 < activityListData
+                                 .getActivities()
+                                 .get(i)
+                                 .getFrequency()
+                                 .getAnchorRuns()
+                                 .size();
+                         k++) {
 
                         if (activityListData
-                                        .getActivities()
-                                        .get(i)
-                                        .getSchedulingType()
-                                        .equalsIgnoreCase("ParticipantProperty")
+                                .getActivities()
+                                .get(i)
+                                .getSchedulingType()
+                                .equalsIgnoreCase("ParticipantProperty")
                                 && mArrayList.get(j).getActivities() != null) {
                             setStartDateEndDateAndParticipantProperty(i, j, k, startTime, endTime);
                         } else {
@@ -1793,7 +1801,7 @@ public class SurveyActivitiesFragment extends Fragment
                                                     + startTime
                                                     + ".000"
                                                     + timezoneSimpleDateFormat.format(
-                                                            startCalendar.getTime()));
+                                                    startCalendar.getTime()));
 
                             // end runs
                             try {
@@ -1823,7 +1831,7 @@ public class SurveyActivitiesFragment extends Fragment
                                                     + endTime
                                                     + ".000"
                                                     + timezoneSimpleDateFormat.format(
-                                                            endCalendar.getTime()));
+                                                    endCalendar.getTime()));
 
                             activityListData
                                     .getActivities()
@@ -1865,69 +1873,69 @@ public class SurveyActivitiesFragment extends Fragment
         try {
             for (int l = 0; l < activities.getCustomScheduleRuns().size(); i++) {
                 if (((startCalendar
-                                                .getTime()
-                                                .after(
-                                                        simpleDateFormat.parse(
-                                                                activities
-                                                                        .getCustomScheduleRuns()
-                                                                        .get(l)
-                                                                        .getActivityStartDate()))
-                                        || startCalendar
-                                                .getTime()
-                                                .equals(
-                                                        simpleDateFormat.parse(
-                                                                activities
-                                                                        .getCustomScheduleRuns()
-                                                                        .get(l)
-                                                                        .getActivityStartDate())))
-                                && (startCalendar
-                                                .getTime()
-                                                .before(
-                                                        simpleDateFormat.parse(
-                                                                activities
-                                                                        .getCustomScheduleRuns()
-                                                                        .get(l)
-                                                                        .getActivityEndDate()))
-                                        || startCalendar
-                                                .getTime()
-                                                .equals(
-                                                        simpleDateFormat.parse(
-                                                                activities
-                                                                        .getCustomScheduleRuns()
-                                                                        .get(l)
-                                                                        .getActivityEndDate()))))
+                        .getTime()
+                        .after(
+                                simpleDateFormat.parse(
+                                        activities
+                                                .getCustomScheduleRuns()
+                                                .get(l)
+                                                .getActivityStartDate()))
+                        || startCalendar
+                        .getTime()
+                        .equals(
+                                simpleDateFormat.parse(
+                                        activities
+                                                .getCustomScheduleRuns()
+                                                .get(l)
+                                                .getActivityStartDate())))
+                        && (startCalendar
+                        .getTime()
+                        .before(
+                                simpleDateFormat.parse(
+                                        activities
+                                                .getCustomScheduleRuns()
+                                                .get(l)
+                                                .getActivityEndDate()))
+                        || startCalendar
+                        .getTime()
+                        .equals(
+                                simpleDateFormat.parse(
+                                        activities
+                                                .getCustomScheduleRuns()
+                                                .get(l)
+                                                .getActivityEndDate()))))
                         || ((endCalendar
-                                                .getTime()
-                                                .after(
-                                                        simpleDateFormat.parse(
-                                                                activities
-                                                                        .getCustomScheduleRuns()
-                                                                        .get(l)
-                                                                        .getActivityStartDate()))
-                                        || endCalendar
-                                                .getTime()
-                                                .equals(
-                                                        simpleDateFormat.parse(
-                                                                activities
-                                                                        .getCustomScheduleRuns()
-                                                                        .get(l)
-                                                                        .getActivityStartDate())))
-                                && (endCalendar
-                                                .getTime()
-                                                .before(
-                                                        simpleDateFormat.parse(
-                                                                activities
-                                                                        .getCustomScheduleRuns()
-                                                                        .get(l)
-                                                                        .getActivityEndDate()))
-                                        || endCalendar
-                                                .getTime()
-                                                .equals(
-                                                        simpleDateFormat.parse(
-                                                                activities
-                                                                        .getCustomScheduleRuns()
-                                                                        .get(l)
-                                                                        .getActivityEndDate()))))) {
+                        .getTime()
+                        .after(
+                                simpleDateFormat.parse(
+                                        activities
+                                                .getCustomScheduleRuns()
+                                                .get(l)
+                                                .getActivityStartDate()))
+                        || endCalendar
+                        .getTime()
+                        .equals(
+                                simpleDateFormat.parse(
+                                        activities
+                                                .getCustomScheduleRuns()
+                                                .get(l)
+                                                .getActivityStartDate())))
+                        && (endCalendar
+                        .getTime()
+                        .before(
+                                simpleDateFormat.parse(
+                                        activities
+                                                .getCustomScheduleRuns()
+                                                .get(l)
+                                                .getActivityEndDate()))
+                        || endCalendar
+                        .getTime()
+                        .equals(
+                                simpleDateFormat.parse(
+                                        activities
+                                                .getCustomScheduleRuns()
+                                                .get(l)
+                                                .getActivityEndDate()))))) {
                     isOverlapping = true;
                     break;
                 }
@@ -2010,16 +2018,16 @@ public class SurveyActivitiesFragment extends Fragment
                     }
                 } else {
                     if (!isDatesOverlapping(
-                                    mArrayList.get(j).getActivities(),
-                                    i,
-                                    startCalendar,
-                                    endCalendar,
-                                    simpleDateFormat)
+                            mArrayList.get(j).getActivities(),
+                            i,
+                            startCalendar,
+                            endCalendar,
+                            simpleDateFormat)
                             && endCalendar
-                                    .getTime()
-                                    .after(
-                                            simpleDateFormat.parse(
-                                                    mArrayList.get(j).getLastUpdatedDate()))) {
+                            .getTime()
+                            .after(
+                                    simpleDateFormat.parse(
+                                            mArrayList.get(j).getLastUpdatedDate()))) {
                         updateRunsToActivityListAPIData(
                                 startDateFull, endDatefull, i, j, k, simpleDateFormat, endCalendar);
                     }
@@ -2056,25 +2064,25 @@ public class SurveyActivitiesFragment extends Fragment
                             .getStartDays());
 
             if (activityListData
-                            .getActivities()
-                            .get(i)
-                            .getFrequency()
-                            .getRuns()
-                            .get(k)
-                            .getStartTime()
-                            .equalsIgnoreCase("")
+                    .getActivities()
+                    .get(i)
+                    .getFrequency()
+                    .getRuns()
+                    .get(k)
+                    .getStartTime()
+                    .equalsIgnoreCase("")
                     || simpleDateFormat
-                            .parse(
-                                    activityListData
-                                            .getActivities()
-                                            .get(i)
-                                            .getFrequency()
-                                            .getRuns()
-                                            .get(k)
-                                            .getStartTime())
-                            .after(
-                                    simpleDateFormat.parse(
-                                            mArrayList.get(j).getLastUpdatedDate()))) {
+                    .parse(
+                            activityListData
+                                    .getActivities()
+                                    .get(i)
+                                    .getFrequency()
+                                    .getRuns()
+                                    .get(k)
+                                    .getStartTime())
+                    .after(
+                            simpleDateFormat.parse(
+                                    mArrayList.get(j).getLastUpdatedDate()))) {
                 activityListData
                         .getActivities()
                         .get(i)
@@ -2104,25 +2112,25 @@ public class SurveyActivitiesFragment extends Fragment
                             .getEndDays());
 
             if (activityListData
-                            .getActivities()
-                            .get(i)
-                            .getFrequency()
-                            .getRuns()
-                            .get(k)
-                            .getEndTime()
-                            .equalsIgnoreCase("")
+                    .getActivities()
+                    .get(i)
+                    .getFrequency()
+                    .getRuns()
+                    .get(k)
+                    .getEndTime()
+                    .equalsIgnoreCase("")
                     || simpleDateFormat
-                            .parse(
-                                    activityListData
-                                            .getActivities()
-                                            .get(i)
-                                            .getFrequency()
-                                            .getRuns()
-                                            .get(k)
-                                            .getEndTime())
-                            .after(
-                                    simpleDateFormat.parse(
-                                            mArrayList.get(j).getLastUpdatedDate()))) {
+                    .parse(
+                            activityListData
+                                    .getActivities()
+                                    .get(i)
+                                    .getFrequency()
+                                    .getRuns()
+                                    .get(k)
+                                    .getEndTime())
+                    .after(
+                            simpleDateFormat.parse(
+                                    mArrayList.get(j).getLastUpdatedDate()))) {
                 activityListData
                         .getActivities()
                         .get(i)
@@ -2180,8 +2188,8 @@ public class SurveyActivitiesFragment extends Fragment
             activityListData.getActivities().get(i).getFrequency().getRuns().clear();
 
             for (int m = 0;
-                    m < mArrayList.get(j).getActivities().getCustomScheduleRuns().size();
-                    m++) {
+                 m < mArrayList.get(j).getActivities().getCustomScheduleRuns().size();
+                 m++) {
                 if (simpleDateFormat
                         .parse(
                                 mArrayList
@@ -2251,12 +2259,20 @@ public class SurveyActivitiesFragment extends Fragment
 
     private void setStartDate(Date time, String startTime, int pos, int userRegListPos) {
         boolean setDate = false;
-        if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Current")) {
-            setDate = false;
-        } else if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Upcoming")) {
-            setDate = true;
-        } else if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Past")) {
-            setDate = false;
+        if (mArrayList.get(userRegListPos).getCurrentStatus() != null) {
+            if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Current")) {
+                setDate = false;
+            } else if (mArrayList
+                    .get(userRegListPos)
+                    .getCurrentStatus()
+                    .equalsIgnoreCase("Upcoming")) {
+                setDate = true;
+            } else if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Past")) {
+                setDate = false;
+            } else {
+                // Unknown
+                setDate = true;
+            }
         } else {
             // Unknown
             setDate = true;
@@ -2382,10 +2398,10 @@ public class SurveyActivitiesFragment extends Fragment
             for (int i = 0; i < studyVideoAdapter.items.size(); i++) {
                 if (studyVideoAdapter.items.get(i).getActivityId() != null
                         && studyVideoAdapter
-                                .items
-                                .get(i)
-                                .getActivityId()
-                                .equalsIgnoreCase(((SurveyActivity) mContext).mActivityId)) {
+                        .items
+                        .get(i)
+                        .getActivityId()
+                        .equalsIgnoreCase(((SurveyActivity) mContext).mActivityId)) {
                     position = i;
                     break;
                 }
@@ -2403,19 +2419,19 @@ public class SurveyActivitiesFragment extends Fragment
                 Toast.makeText(mContext, R.string.study_Joined_paused, Toast.LENGTH_SHORT).show();
             } else {
                 if (studyVideoAdapter
-                                .mStatus
-                                .get(position)
-                                .equalsIgnoreCase(SurveyActivitiesFragment.STATUS_CURRENT)
+                        .mStatus
+                        .get(position)
+                        .equalsIgnoreCase(SurveyActivitiesFragment.STATUS_CURRENT)
                         && (studyVideoAdapter
-                                        .mCurrentRunStatusForActivities
-                                        .get(position)
-                                        .getStatus()
-                                        .equalsIgnoreCase(SurveyActivitiesFragment.IN_PROGRESS)
-                                || studyVideoAdapter
-                                        .mCurrentRunStatusForActivities
-                                        .get(position)
-                                        .getStatus()
-                                        .equalsIgnoreCase(SurveyActivitiesFragment.YET_To_START))) {
+                        .mCurrentRunStatusForActivities
+                        .get(position)
+                        .getStatus()
+                        .equalsIgnoreCase(SurveyActivitiesFragment.IN_PROGRESS)
+                        || studyVideoAdapter
+                        .mCurrentRunStatusForActivities
+                        .get(position)
+                        .getStatus()
+                        .equalsIgnoreCase(SurveyActivitiesFragment.YET_To_START))) {
                     if (studyVideoAdapter
                             .mCurrentRunStatusForActivities
                             .get(position)
@@ -2436,9 +2452,9 @@ public class SurveyActivitiesFragment extends Fragment
                                 studyVideoAdapter.items.get(position));
                     } else {
                         Toast.makeText(
-                                        mContext,
-                                        mContext.getResources().getString(R.string.survey_message),
-                                        Toast.LENGTH_SHORT)
+                                mContext,
+                                mContext.getResources().getString(R.string.survey_message),
+                                Toast.LENGTH_SHORT)
                                 .show();
                     }
                 } else if (studyVideoAdapter
@@ -2610,15 +2626,15 @@ public class SurveyActivitiesFragment extends Fragment
                                                     .getActivityId())) {
                                 activityAvailable = true;
                                 if (activityListData
-                                                .getActivities()
-                                                .get(j)
-                                                .getState()
-                                                .equalsIgnoreCase(DELETE)
+                                        .getActivities()
+                                        .get(j)
+                                        .getState()
+                                        .equalsIgnoreCase(DELETE)
                                         && activityListDataDB
-                                                .getActivities()
-                                                .get(i)
-                                                .getState()
-                                                .equalsIgnoreCase(ACTIVE)) {
+                                        .getActivities()
+                                        .get(i)
+                                        .getState()
+                                        .equalsIgnoreCase(ACTIVE)) {
                                     RealmResults<ActivityRun> activityRuns =
                                             dbServiceSubscriber.getAllActivityRunFromDB(
                                                     ((SurveyActivity) mContext).getStudyId(),
@@ -2689,19 +2705,19 @@ public class SurveyActivitiesFragment extends Fragment
                     if (activitiesArrayList.get(i) != null
                             && activitiesArrayList.get(i).getSchedulingType() != null
                             && activitiesArrayList
-                                    .get(i)
-                                    .getSchedulingType()
-                                    .equalsIgnoreCase("AnchorDate")) {
+                            .get(i)
+                            .getSchedulingType()
+                            .equalsIgnoreCase("AnchorDate")) {
 
                         if (!activitiesArrayList.get(i).getStartTime().equalsIgnoreCase("")) {
                             if ((activitiesArrayList.get(i).getEndTime().equalsIgnoreCase("")
-                                            && activitiesArrayList.get(i).getAnchorDate() != null
-                                            && activitiesArrayList.get(i).getAnchorDate().getEnd()
-                                                    != null)
+                                    && activitiesArrayList.get(i).getAnchorDate() != null
+                                    && activitiesArrayList.get(i).getAnchorDate().getEnd()
+                                    != null)
                                     || !activitiesArrayList
-                                            .get(i)
-                                            .getEndTime()
-                                            .equalsIgnoreCase("")) {
+                                    .get(i)
+                                    .getEndTime()
+                                    .equalsIgnoreCase("")) {
                                 try {
                                     starttime =
                                             simpleDateFormat.parse(
@@ -2742,12 +2758,16 @@ public class SurveyActivitiesFragment extends Fragment
                             e.printStackTrace();
                         }
                         try {
-                            endtime =
-                                    simpleDateFormat.parse(
-                                            activitiesArrayList
-                                                    .get(i)
-                                                    .getEndTime()
-                                                    .split("\\.")[0]);
+                            if (!activitiesArrayList
+                                    .get(i)
+                                    .getEndTime()
+                                    .split("\\.")[0].equalsIgnoreCase(""))
+                                endtime =
+                                        simpleDateFormat.parse(
+                                                activitiesArrayList
+                                                        .get(i)
+                                                        .getEndTime()
+                                                        .split("\\.")[0]);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         } catch (Exception e1) {
@@ -2823,24 +2843,24 @@ public class SurveyActivitiesFragment extends Fragment
                                             .equalsIgnoreCase(YET_To_START)) {
                                         // Delete response data
                                         if (!runIds.get(
-                                                        activityIds.indexOf(
-                                                                activitiesArrayList
-                                                                        .get(i)
-                                                                        .getActivityId()))
+                                                activityIds.indexOf(
+                                                        activitiesArrayList
+                                                                .get(i)
+                                                                .getActivityId()))
                                                 .equalsIgnoreCase("-1")) {
                                             dbServiceSubscriber.deleteResponseDataFromDb(
                                                     mContext,
                                                     ((SurveyActivity) mContext).getStudyId()
                                                             + "_STUDYID_"
                                                             + activitiesArrayList
-                                                                    .get(i)
-                                                                    .getActivityId()
+                                                            .get(i)
+                                                            .getActivityId()
                                                             + "_"
                                                             + runIds.get(
-                                                                    activityIds.indexOf(
-                                                                            activitiesArrayList
-                                                                                    .get(i)
-                                                                                    .getActivityId())));
+                                                            activityIds.indexOf(
+                                                                    activitiesArrayList
+                                                                            .get(i)
+                                                                            .getActivityId())));
                                         }
                                     }
                                 }
@@ -2986,13 +3006,13 @@ public class SurveyActivitiesFragment extends Fragment
             ArrayList<String> otherStatusList = new ArrayList<>();
             for (int i = 0; i < currentactivityList.size(); i++) {
                 if (currentActivityStatus
-                                .get(i)
-                                .getStatus()
-                                .equalsIgnoreCase(SurveyActivitiesFragment.YET_To_START)
+                        .get(i)
+                        .getStatus()
+                        .equalsIgnoreCase(SurveyActivitiesFragment.YET_To_START)
                         || currentActivityStatus
-                                .get(i)
-                                .getStatus()
-                                .equalsIgnoreCase(SurveyActivitiesFragment.IN_PROGRESS)) {
+                        .get(i)
+                        .getStatus()
+                        .equalsIgnoreCase(SurveyActivitiesFragment.IN_PROGRESS)) {
                     yetToStartOrResumeList.add(currentactivityList.get(i));
                     yetToStartOrResumeActivityStatusList.add(currentActivityStatus.get(i));
                     yetToStartOrResumeStatusList.add(currentStatus.get(i));
@@ -3113,8 +3133,8 @@ public class SurveyActivitiesFragment extends Fragment
                     Frequency frequency = new Frequency();
                     RealmList<FrequencyRuns> frequencyRunses = new RealmList<>();
                     for (int j = 0;
-                            j < activitiesArrayList.get(k).getFrequency().getRuns().size();
-                            j++) {
+                         j < activitiesArrayList.get(k).getFrequency().getRuns().size();
+                         j++) {
                         FrequencyRuns frequencyRuns = new FrequencyRuns();
                         frequencyRuns.setEndTime(
                                 activitiesArrayList
@@ -3362,7 +3382,8 @@ public class SurveyActivitiesFragment extends Fragment
         }
 
         @Override
-        protected void onPreExecute() {}
+        protected void onPreExecute() {
+        }
     }
 
     public void updateStudyState(String completion, String adherence) {
@@ -3437,9 +3458,9 @@ public class SurveyActivitiesFragment extends Fragment
             for (int i = 0; i < activitiesArrayList1.size(); i++) {
                 if (activitiesArrayList1.get(i).getType() == null
                         || activitiesArrayList1
-                                .get(i)
-                                .getType()
-                                .equalsIgnoreCase("questionnaire")) {
+                        .get(i)
+                        .getType()
+                        .equalsIgnoreCase("questionnaire")) {
 
                     if (status.get(i).equalsIgnoreCase(STATUS_CURRENT)) {
                         isCurrentAvailable = true;
@@ -3716,16 +3737,16 @@ public class SurveyActivitiesFragment extends Fragment
                     }
                     if (locationPermission) {
                         if ((ActivityCompat.checkSelfPermission(
-                                                mContext, Manifest.permission.ACCESS_FINE_LOCATION)
-                                        != PackageManager.PERMISSION_GRANTED)
+                                mContext, Manifest.permission.ACCESS_FINE_LOCATION)
+                                != PackageManager.PERMISSION_GRANTED)
                                 || (ActivityCompat.checkSelfPermission(
-                                                mContext,
-                                                Manifest.permission.ACCESS_COARSE_LOCATION)
-                                        != PackageManager.PERMISSION_GRANTED)) {
+                                mContext,
+                                Manifest.permission.ACCESS_COARSE_LOCATION)
+                                != PackageManager.PERMISSION_GRANTED)) {
                             String[] permission =
-                                    new String[] {
-                                        Manifest.permission.ACCESS_FINE_LOCATION,
-                                        Manifest.permission.ACCESS_COARSE_LOCATION
+                                    new String[]{
+                                            Manifest.permission.ACCESS_FINE_LOCATION,
+                                            Manifest.permission.ACCESS_COARSE_LOCATION
                                     };
                             if (!hasPermissions(permission)) {
                                 ActivityCompat.requestPermissions(
@@ -3919,9 +3940,9 @@ public class SurveyActivitiesFragment extends Fragment
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_DENIED) {
                     Toast.makeText(
-                                    mContext,
-                                    R.string.current_locationwillnot_used,
-                                    Toast.LENGTH_SHORT)
+                            mContext,
+                            R.string.current_locationwillnot_used,
+                            Toast.LENGTH_SHORT)
                             .show();
                 }
                 startsurvey();
@@ -4017,9 +4038,9 @@ public class SurveyActivitiesFragment extends Fragment
                 } else if (response.equalsIgnoreCase("timeout")) {
                     metadataProcess();
                     Toast.makeText(
-                                    mContext,
-                                    mContext.getResources().getString(R.string.connection_timeout),
-                                    Toast.LENGTH_SHORT)
+                            mContext,
+                            mContext.getResources().getString(R.string.connection_timeout),
+                            Toast.LENGTH_SHORT)
                             .show();
                 } else if (Integer.parseInt(responseCode) == 500) {
                     try {
@@ -4049,7 +4070,8 @@ public class SurveyActivitiesFragment extends Fragment
                                     (JSONObject)
                                             new JSONObject(String.valueOf(jsonArray.get(0)))
                                                     .get("data");
-                            Type type = new TypeToken<Map<String, Object>>() {}.getType();
+                            Type type = new TypeToken<Map<String, Object>>() {
+                            }.getType();
                             Map<String, Object> myMap =
                                     gson.fromJson(String.valueOf(jsonObject1), type);
                             Object value = null;
@@ -4092,9 +4114,46 @@ public class SurveyActivitiesFragment extends Fragment
                         } else if (anchorDateSchedulingDetails
                                 .getSourceType()
                                 .equalsIgnoreCase("ParticipantProperty")) {
-                            mArrayList.get(this.position).setAnchorDate("");
-                            mArrayList.get(this.position).setVersion("");
-                            mArrayList.get(this.position).setDateOfEntry("");
+                            try{
+                                JSONObject jsonObject = new JSONObject(response);
+                                JSONArray jsonArray = (JSONArray) jsonObject.get("rows");
+                                Gson gson = new Gson();
+
+                                JSONObject jsonObject1 = (JSONObject) new JSONObject(String.valueOf(jsonArray.get(0))).get("data");
+                                Type type = new TypeToken<Map<String, Object>>() {
+                                }.getType();
+                                Map<String, Object> myMap = gson.fromJson(String.valueOf(jsonObject1), type);
+                                Object value = null;
+                                for (Map.Entry<String, Object> entry : myMap.entrySet()) {
+                                    String key = entry.getKey();
+                                    String valueobj = gson.toJson(entry.getValue());
+                                    Map<String, Object> vauleMap = gson.fromJson(String.valueOf(valueobj), type);
+                                    value = vauleMap.get("value");
+                                    if(key.equalsIgnoreCase(mArrayList.get(this.position).getPropertyId())){
+                                        try {
+                                            Date anchordate = AppController.getLabkeyDateFormat().parse("" + value);
+                                            value = AppController.getDateFormat().format(anchordate);
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        mArrayList.get(this.position).setAnchorDate(value.toString());
+                                    }else if(key.equalsIgnoreCase(mArrayList.get(this.position).getExternalPropertyId())){
+                                        mArrayList.get(this.position).setVersion(value.toString());
+                                    }else if(key.equalsIgnoreCase(mArrayList.get(this.position).getDateOfEntryId())){
+                                        try {
+                                            Date anchordate = AppController.getLabkeyDateFormat().parse("" + value);
+                                            value = AppController.getDateFormat().format(anchordate);
+                                        } catch (ParseException e) {
+                                            e.printStackTrace();
+                                        }
+                                        mArrayList.get(this.position).setDateOfEntry(value.toString());
+                                    }else{
+                                        Log.e("query","not proper");
+                                    }
+                                }
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }
                         }
 
                         callLabkeyService(this.position + 1);
@@ -4105,10 +4164,10 @@ public class SurveyActivitiesFragment extends Fragment
                 } else {
                     metadataProcess();
                     Toast.makeText(
-                                    mContext,
-                                    mContext.getResources()
-                                            .getString(R.string.unable_to_retrieve_data),
-                                    Toast.LENGTH_SHORT)
+                            mContext,
+                            mContext.getResources()
+                                    .getString(R.string.unable_to_retrieve_data),
+                            Toast.LENGTH_SHORT)
                             .show();
                 }
             } else {
@@ -4124,8 +4183,8 @@ public class SurveyActivitiesFragment extends Fragment
             AnchorDateSchedulingDetails anchorDateSchedulingDetails = mArrayList.get(position);
             if (anchorDateSchedulingDetails.getSourceType().equalsIgnoreCase("ActivityResponse")
                     && anchorDateSchedulingDetails
-                            .getActivityState()
-                            .equalsIgnoreCase("completed")) {
+                    .getActivityState()
+                    .equalsIgnoreCase("completed")) {
                 Realm realm = AppController.getRealmobj(mContext);
                 StepRecordCustom stepRecordCustom =
                         dbServiceSubscriber.getSurveyResponseFromDB(
@@ -4162,8 +4221,8 @@ public class SurveyActivitiesFragment extends Fragment
                     .equalsIgnoreCase("ParticipantProperty")) {
                 String query =
                         "sql=SELECT%20"
-                                + anchorDateSchedulingDetails.getSourceKey()
-                                + "%20FROM%20%22"
+                                + anchorDateSchedulingDetails.getPropertyId()+","+anchorDateSchedulingDetails.getExternalPropertyId()+","+anchorDateSchedulingDetails.getDateOfEntryId()
+                                + "%20FROM%20"
                                 + "ParticipantProperties"
                                 + "&participantId="
                                 + anchorDateSchedulingDetails.getParticipantId();

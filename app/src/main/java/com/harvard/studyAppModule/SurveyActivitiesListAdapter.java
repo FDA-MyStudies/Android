@@ -225,6 +225,7 @@ public class SurveyActivitiesListAdapter extends RecyclerView.Adapter<SurveyActi
                 } else {
                     startDate = new Date();
                 }
+                if(!items.get(position).getEndTime().split("\\.")[0].equalsIgnoreCase(""))
                 endDate = simpleDateFormat5.parse(items.get(position).getEndTime().split("\\.")[0]);
 
             } catch (ParseException e) {

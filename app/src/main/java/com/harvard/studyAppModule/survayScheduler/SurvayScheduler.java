@@ -563,6 +563,7 @@ public class SurvayScheduler {
             for (int i = 0; i < activityListDataDB.getActivities().size(); i++) {
 
                 try {
+                    if(!activityListDataDB.getActivities().get(i).getStartTime().split("\\.")[0].equalsIgnoreCase(""))
                     if (!checkafter(simpleDateFormat.parse(activityListDataDB.getActivities().get(i).getStartTime().split("\\.")[0]))) {
                         ActivityStatus activityStatus = getActivityStatus(activityData, studyId, activityListDataDB.getActivities().get(i).getActivityId(), calendarCurrentTime.getTime());
                         if (activityStatus != null) {
