@@ -533,7 +533,6 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
 
                                 Calendar currentday = Calendar.getInstance();
 
-                                    Log.e("currentday",""+currentday.getTime()+"   "+startCalender.getTime()+"   "+endCalender.getTime());
                                 if ((currentday.getTime().after(startCalender.getTime()) || currentday.getTime().equals(startCalender.getTime())) && (currentday.getTime().before(endCalender.getTime()) || currentday.getTime().equals(endCalender.getTime()))) {
                                     resources.add(mResourceArrayList.get(i));
                                 }
@@ -732,8 +731,8 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
     }
 
     private void metadataProcess() {
-        AppController.getHelperProgressDialog().dismissDialog();
         mSetResourceAdapter();
+        AppController.getHelperProgressDialog().dismissDialog();
     }
 
 

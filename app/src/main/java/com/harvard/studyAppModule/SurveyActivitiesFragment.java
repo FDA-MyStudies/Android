@@ -986,6 +986,10 @@ public class SurveyActivitiesFragment extends Fragment
                     dbServiceSubscriber.deleteStudyResourceDuplicateRow(mContext, mStudyId);
                     dbServiceSubscriber.saveResourceList(mContext, mStudyResource);
                 }
+
+
+                //updateActivityState
+                updateUserPreferenceForAllActivities();
             }
         } else {
             AppController.getHelperProgressDialog().dismissDialog();
@@ -2302,18 +2306,22 @@ public class SurveyActivitiesFragment extends Fragment
 
     private void setEndDate(Date time, String endTime, int pos, int userRegListPos) {
         boolean setDate = false;
-        if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Current")) {
-            if (time.after(new Date(mArrayList.get(userRegListPos).getLastUpdatedDate()))) {
+        if (mArrayList.get(userRegListPos).getCurrentStatus() != null) {
+            if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Current")) {
+                if (time.after(new Date(mArrayList.get(userRegListPos).getLastUpdatedDate()))) {
+                    setDate = true;
+                }
+            } else if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Upcoming")) {
                 setDate = true;
-            }
-        } else if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Upcoming")) {
-            setDate = true;
-        } else if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Past")) {
-            if (time.after(new Date(mArrayList.get(userRegListPos).getEndDate()))) {
+            } else if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Past")) {
+                if (time.after(new Date(mArrayList.get(userRegListPos).getEndDate()))) {
+                    setDate = true;
+                }
+            } else {
+                // Unknown
                 setDate = true;
             }
         } else {
-            // Unknown
             setDate = true;
         }
         dbServiceSubscriber.deleteActivityRunsFromDb(
@@ -3932,6 +3940,89 @@ public class SurveyActivitiesFragment extends Fragment
         userModulePresenter.performUpdateUserPreference(updatePreferenceEvent);
     }
 
+    public void updateUserPreferenceForAllActivities() {
+//        AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
+        HashMap<String, String> header = new HashMap();
+        header.put(
+                "auth",
+                AppController.getHelperSharedPreference()
+                        .readPreference(
+                                mContext, mContext.getResources().getString(R.string.auth), ""));
+        header.put(
+                "userId",
+                AppController.getHelperSharedPreference()
+                        .readPreference(
+                                mContext, mContext.getResources().getString(R.string.userid), ""));
+
+        JSONObject jsonObject = new JSONObject();
+
+        JSONArray activitylist = new JSONArray();
+        JSONObject activityStatus;
+        JSONObject activityRun = new JSONObject();
+        try {
+
+
+            for (int i = 0; i < activityListData.getActivities().size(); i++) {
+                activityStatus = new JSONObject();
+                activityStatus.put("activityState", activityListData.getActivities().get(i).getStatus());
+                activityStatus.put("activityId", activityListData.getActivities().get(i).getActivityId());
+                activityStatus.put("activityRunId", "");
+                activityStatus.put("bookmarked", "false");
+                activityStatus.put("activityVersion", activityListData.getActivities().get(i).getActivityVersion());
+
+                activityStatus.put(
+                        "activityStartDate",
+                        activityListData.getActivities().get(i).getStartTime());
+                activityStatus.put(
+                        "activityEndDate",
+                        activityListData.getActivities().get(i).getEndTime());
+                activityStatus.put(
+                        "anchorDateVersion",
+                        activityListData.getActivities().get(i).getActivityVersion());
+                //                    activityStatus.put("anchorDatecreatedDate", );
+                activityStatus.put(
+                        "lastModifiedDate",
+                        activityListData.getActivities().get(i).getLastModifiedDate());
+
+                if(activityListData.getActivities().get(i).getSchedulingType().equalsIgnoreCase("")){
+
+                }
+
+//                activityRun.put("total", activityListData.getActivities().get(i).);
+//                activityRun.put("completed", mActivityStatusData.getCompletedRun());
+//                activityRun.put("missed", mActivityStatusData.getMissedRun());
+
+                activityStatus.put("activityRun", activityRun);
+
+                activitylist.put(activityStatus);
+            }
+
+
+            jsonObject.put("studyId", activityListData.getStudyId());
+            jsonObject.put("activity", activitylist);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.e("activityRun", "" + jsonObject.toString());
+
+//        RegistrationServerConfigEvent registrationServerConfigEvent =
+//                new RegistrationServerConfigEvent(
+//                        "post_object",
+//                        URLs.UPDATE_ACTIVITY_PREFERENCE,
+//                        UPDATE_USERPREFERENCE_RESPONSECODE,
+//                        mContext,
+//                        LoginData.class,
+//                        null,
+//                        header,
+//                        jsonObject,
+//                        false,
+//                        this);
+//
+//        updatePreferenceEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
+//        UserModulePresenter userModulePresenter = new UserModulePresenter();
+//        userModulePresenter.performUpdateUserPreference(updatePreferenceEvent);
+    }
+
     @Override
     public void onRequestPermissionsResult(
             int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -4114,7 +4205,7 @@ public class SurveyActivitiesFragment extends Fragment
                         } else if (anchorDateSchedulingDetails
                                 .getSourceType()
                                 .equalsIgnoreCase("ParticipantProperty")) {
-                            try{
+                            try {
                                 JSONObject jsonObject = new JSONObject(response);
                                 JSONArray jsonArray = (JSONArray) jsonObject.get("rows");
                                 Gson gson = new Gson();
@@ -4129,7 +4220,7 @@ public class SurveyActivitiesFragment extends Fragment
                                     String valueobj = gson.toJson(entry.getValue());
                                     Map<String, Object> vauleMap = gson.fromJson(String.valueOf(valueobj), type);
                                     value = vauleMap.get("value");
-                                    if(key.equalsIgnoreCase(mArrayList.get(this.position).getPropertyId())){
+                                    if (key.equalsIgnoreCase(mArrayList.get(this.position).getPropertyId())) {
                                         try {
                                             Date anchordate = AppController.getLabkeyDateFormat().parse("" + value);
                                             value = AppController.getDateFormat().format(anchordate);
@@ -4137,9 +4228,9 @@ public class SurveyActivitiesFragment extends Fragment
                                             e.printStackTrace();
                                         }
                                         mArrayList.get(this.position).setAnchorDate(value.toString());
-                                    }else if(key.equalsIgnoreCase(mArrayList.get(this.position).getExternalPropertyId())){
+                                    } else if (key.equalsIgnoreCase(mArrayList.get(this.position).getExternalPropertyId())) {
                                         mArrayList.get(this.position).setVersion(value.toString());
-                                    }else if(key.equalsIgnoreCase(mArrayList.get(this.position).getDateOfEntryId())){
+                                    } else if (key.equalsIgnoreCase(mArrayList.get(this.position).getDateOfEntryId())) {
                                         try {
                                             Date anchordate = AppController.getLabkeyDateFormat().parse("" + value);
                                             value = AppController.getDateFormat().format(anchordate);
@@ -4147,11 +4238,11 @@ public class SurveyActivitiesFragment extends Fragment
                                             e.printStackTrace();
                                         }
                                         mArrayList.get(this.position).setDateOfEntry(value.toString());
-                                    }else{
-                                        Log.e("query","not proper");
+                                    } else {
+                                        Log.e("query", "not proper");
                                     }
                                 }
-                            }catch (Exception e){
+                            } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
@@ -4221,7 +4312,7 @@ public class SurveyActivitiesFragment extends Fragment
                     .equalsIgnoreCase("ParticipantProperty")) {
                 String query =
                         "sql=SELECT%20"
-                                + anchorDateSchedulingDetails.getPropertyId()+","+anchorDateSchedulingDetails.getExternalPropertyId()+","+anchorDateSchedulingDetails.getDateOfEntryId()
+                                + anchorDateSchedulingDetails.getPropertyId() + "," + anchorDateSchedulingDetails.getExternalPropertyId() + "," + anchorDateSchedulingDetails.getDateOfEntryId()
                                 + "%20FROM%20"
                                 + "ParticipantProperties"
                                 + "&participantId="
