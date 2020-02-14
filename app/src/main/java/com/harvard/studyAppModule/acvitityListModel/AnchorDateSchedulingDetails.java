@@ -33,7 +33,17 @@ public class AnchorDateSchedulingDetails {
 
     private String lastUpdatedDate;
 
+    private boolean shouldRefresh;
+
     private Activities activities;
+
+    public boolean isShouldRefresh() {
+        return shouldRefresh;
+    }
+
+    public void setShouldRefresh(boolean shouldRefresh) {
+        this.shouldRefresh = shouldRefresh;
+    }
 
     public Activities getActivities() {
         return activities;

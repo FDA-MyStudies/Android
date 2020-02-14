@@ -1194,8 +1194,18 @@ public class SurveyActivitiesFragment extends Fragment
                                                     .getActivities()
                                                     .get(j)
                                                     .getLastModifiedDate());
-                                    anchorDateSchedulingDetails.setActivities(
-                                            activityDataDB.getActivities().get(j));
+                                    anchorDateSchedulingDetails.setShouldRefresh(activityListData.getActivities().get(i).getAnchorDate().getPropertyMetadata().isShouldRefresh());
+
+                                    anchorDateSchedulingDetails.setActivities(activityDataDB.getActivities().get(j));
+//                                    anchorDateSchedulingDetails.getActivities().setActivityStartDate(activityDataDB
+//                                            .getActivities()
+//                                            .get(j)
+//                                            .getActivityStartDate());
+//                                    anchorDateSchedulingDetails.getActivities().setActivityEndDate(activityDataDB
+//                                            .getActivities()
+//                                            .get(j)
+//                                            .getActivityEndDate());
+
                                     //                                    if
                                     // (!activityDataDB.getActivities().get(i).getAnchorDateVersion().equalsIgnoreCase(anchorDateSchedulingDetails.getVersion())) {
                                     Calendar calendar = Calendar.getInstance();
@@ -4319,7 +4329,7 @@ public class SurveyActivitiesFragment extends Fragment
                 dbServiceSubscriber.closeRealmObj(realm);
             } else if (anchorDateSchedulingDetails
                     .getSourceType()
-                    .equalsIgnoreCase("ParticipantProperty")) {
+                    .equalsIgnoreCase("ParticipantProperty") && anchorDateSchedulingDetails.isShouldRefresh()) {
                 String query =
                         "sql=SELECT%20"
                                 + anchorDateSchedulingDetails.getPropertyId() + "," + anchorDateSchedulingDetails.getExternalPropertyId() + "," + anchorDateSchedulingDetails.getDateOfEntryId()
