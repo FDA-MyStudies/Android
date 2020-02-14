@@ -133,6 +133,7 @@ public class SurveyActivitiesFragment extends Fragment
         CustomActivitiesDailyDialogClass.DialogClick {
 
     private static final int UPDATE_USERPREFERENCE_RESPONSECODE = 102;
+    private static final int UPDATE_USERPREFERENCE_RESPONSECODE_INITIAL = 103;
     private static final int PERMISSION_REQUEST_CODE = 1000;
     private static final int GET_PREFERENCES = 112;
     private static final int STUDY_UPDATES = 113;
@@ -215,6 +216,7 @@ public class SurveyActivitiesFragment extends Fragment
     private ArrayList<ActivityStatus> currentRunStatusForActivities = new ArrayList<>();
     private StudyResource mStudyResource;
     StepsBuilder stepsBuilder;
+
 
     ArrayList<AnchorDateSchedulingDetails> mArrayList;
     ActivityData activityDataDB;
@@ -991,6 +993,10 @@ public class SurveyActivitiesFragment extends Fragment
                 //updateActivityState
                 updateUserPreferenceForAllActivities();
             }
+        } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE_INITIAL) {
+            LoginData loginData = (LoginData) response;
+            Log.e("errormsdfsfsg",""+loginData.getMessage());
+            Toast.makeText(mContext, loginData.getMessage(), Toast.LENGTH_SHORT).show();
         } else {
             AppController.getHelperProgressDialog().dismissDialog();
             onItemsLoadComplete();
@@ -2005,18 +2011,18 @@ public class SurveyActivitiesFragment extends Fragment
                             startCalendar,
                             endCalendar,
                             simpleDateFormat)) {
-                        /*RealmList<CustomScheduleRuns> customScheduleRuns = new RealmList<CustomScheduleRuns>();
+                        RealmList<CustomScheduleRuns> customScheduleRuns = new RealmList<CustomScheduleRuns>();
                         customScheduleRuns.addAll(mArrayList.get(j).getActivities().getCustomScheduleRuns());
-                        for(int m = 0; m < customScheduleRuns.size(); m++){
-                            if(simpleDateFormat.parse(customScheduleRuns.get(m).getActivityStartDate()).before(endCalendar.getTime())) {
-                              CustomScheduleRuns customScheduleRuns1 = new CustomScheduleRuns();
-                              customScheduleRuns1.setActivityStartDate(startDateFull);
-                              customScheduleRuns1.setActivityEndDate(endDatefull);
-                              customScheduleRuns.add(customScheduleRuns1);
-                              break;
+                        for (int m = 0; m < customScheduleRuns.size(); m++) {
+                            if (simpleDateFormat.parse(customScheduleRuns.get(m).getActivityStartDate()).before(endCalendar.getTime())) {
+                                CustomScheduleRuns customScheduleRuns1 = new CustomScheduleRuns();
+                                customScheduleRuns1.setActivityStartDate(startDateFull);
+                                customScheduleRuns1.setActivityEndDate(endDatefull);
+                                customScheduleRuns.add(customScheduleRuns1);
+                                break;
                             }
                         }
-                        dbServiceSubscriber.updateCustomRunsToActivityPreference(mRealm, ((SurveyActivity) mContext).getStudyId(), mArrayList.get(j).getTargetActivityId(), customScheduleRuns);*/
+                        dbServiceSubscriber.updateCustomRunsToActivityPreference(mRealm, ((SurveyActivity) mContext).getStudyId(), mArrayList.get(j).getTargetActivityId(), customScheduleRuns);
                         updateRunsToActivityListAPIData(
                                 startDateFull, endDatefull, i, j, k, simpleDateFormat, endCalendar);
                     }
@@ -3633,6 +3639,9 @@ public class SurveyActivitiesFragment extends Fragment
                         mActivityStatusData.getMissedRun(),
                         mActivityVersion);
                 launchSurvey(null);
+            } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE_INITIAL) {
+                Log.e("errormsg",""+errormsg);
+                Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     onItemsLoadComplete();
@@ -3960,44 +3969,52 @@ public class SurveyActivitiesFragment extends Fragment
         JSONObject activityStatus;
         JSONObject activityRun = new JSONObject();
         try {
+//            filterActivitiesArrayList1.add(activitiesArrayList1.get(i));
+//            filterStatus.add(status.get(i));
+//            filterCurrentRunStatusForActivities.add(currentRunStatusForActivities.get(i));
 
+            for (int i = 0; i < activitiesArrayList1.size(); i++) {
+                if (!activitiesArrayList1.get(i).getActivityId().equalsIgnoreCase("")) {
+                    activityStatus = new JSONObject();
+                    activityStatus.put("activityState", activitiesArrayList1.get(i).getStatus());
+                    activityStatus.put("activityId", activitiesArrayList1.get(i).getActivityId());
+                    activityStatus.put("activityRunId", "");
+                    activityStatus.put("bookmarked", "false");
+                    activityStatus.put("activityVersion", activitiesArrayList1.get(i).getActivityVersion());
 
-            for (int i = 0; i < activityListData.getActivities().size(); i++) {
-                activityStatus = new JSONObject();
-                activityStatus.put("activityState", activityListData.getActivities().get(i).getStatus());
-                activityStatus.put("activityId", activityListData.getActivities().get(i).getActivityId());
-                activityStatus.put("activityRunId", "");
-                activityStatus.put("bookmarked", "false");
-                activityStatus.put("activityVersion", activityListData.getActivities().get(i).getActivityVersion());
+                    activityStatus.put(
+                            "activityStartDate",
+                            activitiesArrayList1.get(i).getStartTime());
+                    activityStatus.put(
+                            "activityEndDate",
+                            activitiesArrayList1.get(i).getEndTime());
+                    activityStatus.put(
+                            "anchorDateVersion",
+                            activitiesArrayList1.get(i).getActivityVersion());
+                    //                    activityStatus.put("anchorDatecreatedDate", );
+                    activityStatus.put(
+                            "lastModifiedDate",
+                            activitiesArrayList1.get(i).getLastModifiedDate());
 
-                activityStatus.put(
-                        "activityStartDate",
-                        activityListData.getActivities().get(i).getStartTime());
-                activityStatus.put(
-                        "activityEndDate",
-                        activityListData.getActivities().get(i).getEndTime());
-                activityStatus.put(
-                        "anchorDateVersion",
-                        activityListData.getActivities().get(i).getActivityVersion());
-                //                    activityStatus.put("anchorDatecreatedDate", );
-                activityStatus.put(
-                        "lastModifiedDate",
-                        activityListData.getActivities().get(i).getLastModifiedDate());
+                    if (activitiesArrayList1.get(i).getFrequency() != null && activitiesArrayList1.get(i).getFrequency().getType().equalsIgnoreCase("Manually Schedule")) {
+                        JSONObject customRun;
+                        JSONArray jsonArray = new JSONArray();
+                        for (int j = 0; j < activitiesArrayList1.get(i).getFrequency().getRuns().size(); j++) {
+                            customRun = new JSONObject();
+                            customRun.put("activityStartDate", activitiesArrayList1.get(i).getFrequency().getRuns().get(j).getStartTime());
+                            customRun.put("activityEndDate", activitiesArrayList1.get(i).getFrequency().getRuns().get(j).getEndTime());
+                            jsonArray.put(customRun);
+                        }
+                        activityStatus.put("customScheduleRuns", jsonArray);
+                    }
 
-                if(activityListData.getActivities().get(i).getSchedulingType().equalsIgnoreCase("")){
-
+                    activityRun.put("total", currentRunStatusForActivities.get(i).getTotalRun());
+                    activityRun.put("completed", currentRunStatusForActivities.get(i).getCompletedRun());
+                    activityRun.put("missed", currentRunStatusForActivities.get(i).getMissedRun());
+                    activityStatus.put("activityRun", activityRun);
+                    activitylist.put(activityStatus);
                 }
-
-//                activityRun.put("total", activityListData.getActivities().get(i).);
-//                activityRun.put("completed", mActivityStatusData.getCompletedRun());
-//                activityRun.put("missed", mActivityStatusData.getMissedRun());
-
-                activityStatus.put("activityRun", activityRun);
-
-                activitylist.put(activityStatus);
             }
-
-
             jsonObject.put("studyId", activityListData.getStudyId());
             jsonObject.put("activity", activitylist);
         } catch (JSONException e) {
@@ -4005,22 +4022,23 @@ public class SurveyActivitiesFragment extends Fragment
         }
         Log.e("activityRun", "" + jsonObject.toString());
 
-//        RegistrationServerConfigEvent registrationServerConfigEvent =
-//                new RegistrationServerConfigEvent(
-//                        "post_object",
-//                        URLs.UPDATE_ACTIVITY_PREFERENCE,
-//                        UPDATE_USERPREFERENCE_RESPONSECODE,
-//                        mContext,
-//                        LoginData.class,
-//                        null,
-//                        header,
-//                        jsonObject,
-//                        false,
-//                        this);
-//
-//        updatePreferenceEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
-//        UserModulePresenter userModulePresenter = new UserModulePresenter();
-//        userModulePresenter.performUpdateUserPreference(updatePreferenceEvent);
+        UpdatePreferenceEvent updatePreferenceEvent = new UpdatePreferenceEvent();
+        RegistrationServerConfigEvent registrationServerConfigEvent =
+                new RegistrationServerConfigEvent(
+                        "post_object",
+                        URLs.UPDATE_ACTIVITY_PREFERENCE,
+                        UPDATE_USERPREFERENCE_RESPONSECODE_INITIAL,
+                        mContext,
+                        LoginData.class,
+                        null,
+                        header,
+                        jsonObject,
+                        false,
+                        this);
+
+        updatePreferenceEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
+        UserModulePresenter userModulePresenter = new UserModulePresenter();
+        userModulePresenter.performUpdateUserPreference(updatePreferenceEvent);
     }
 
     @Override
