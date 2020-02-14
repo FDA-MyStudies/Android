@@ -4001,8 +4001,8 @@ public class SurveyActivitiesFragment extends Fragment
                         JSONArray jsonArray = new JSONArray();
                         for (int j = 0; j < activitiesArrayList1.get(i).getFrequency().getRuns().size(); j++) {
                             customRun = new JSONObject();
-                            customRun.put("activityStartDate", activitiesArrayList1.get(i).getFrequency().getRuns().get(j).getStartTime());
-                            customRun.put("activityEndDate", activitiesArrayList1.get(i).getFrequency().getRuns().get(j).getEndTime());
+                            customRun.put("runStartDate", activitiesArrayList1.get(i).getFrequency().getRuns().get(j).getStartTime());
+                            customRun.put("runEndDate", activitiesArrayList1.get(i).getFrequency().getRuns().get(j).getEndTime());
                             jsonArray.put(customRun);
                         }
                         activityStatus.put("customScheduleRuns", jsonArray);
