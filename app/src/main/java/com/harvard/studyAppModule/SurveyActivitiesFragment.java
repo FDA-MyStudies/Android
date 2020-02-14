@@ -3967,7 +3967,7 @@ public class SurveyActivitiesFragment extends Fragment
 
         JSONArray activitylist = new JSONArray();
         JSONObject activityStatus;
-        JSONObject activityRun = new JSONObject();
+        JSONObject activityRun;
         try {
 //            filterActivitiesArrayList1.add(activitiesArrayList1.get(i));
 //            filterStatus.add(status.get(i));
@@ -3976,9 +3976,9 @@ public class SurveyActivitiesFragment extends Fragment
             for (int i = 0; i < activitiesArrayList1.size(); i++) {
                 if (!activitiesArrayList1.get(i).getActivityId().equalsIgnoreCase("")) {
                     activityStatus = new JSONObject();
-                    activityStatus.put("activityState", activitiesArrayList1.get(i).getStatus());
+                    activityStatus.put("activityState", status.get(i));
                     activityStatus.put("activityId", activitiesArrayList1.get(i).getActivityId());
-                    activityStatus.put("activityRunId", "");
+                    activityStatus.put("activityRunId", currentRunStatusForActivities.get(i).getCurrentRunId());
                     activityStatus.put("bookmarked", "false");
                     activityStatus.put("activityVersion", activitiesArrayList1.get(i).getActivityVersion());
 
@@ -3994,7 +3994,7 @@ public class SurveyActivitiesFragment extends Fragment
                     //                    activityStatus.put("anchorDatecreatedDate", );
                     activityStatus.put(
                             "lastModifiedDate",
-                            activitiesArrayList1.get(i).getLastModifiedDate());
+                            new Date());
 
                     if (activitiesArrayList1.get(i).getFrequency() != null && activitiesArrayList1.get(i).getFrequency().getType().equalsIgnoreCase("Manually Schedule")) {
                         JSONObject customRun;
@@ -4007,7 +4007,7 @@ public class SurveyActivitiesFragment extends Fragment
                         }
                         activityStatus.put("customScheduleRuns", jsonArray);
                     }
-
+                    activityRun = new JSONObject();
                     activityRun.put("total", currentRunStatusForActivities.get(i).getTotalRun());
                     activityRun.put("completed", currentRunStatusForActivities.get(i).getCompletedRun());
                     activityRun.put("missed", currentRunStatusForActivities.get(i).getMissedRun());
