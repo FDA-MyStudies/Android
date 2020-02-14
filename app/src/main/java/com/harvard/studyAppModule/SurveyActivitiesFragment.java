@@ -995,7 +995,7 @@ public class SurveyActivitiesFragment extends Fragment
             }
         } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE_INITIAL) {
             LoginData loginData = (LoginData) response;
-            Log.e("errormsdfsfsg",""+loginData.getMessage());
+            Log.e("errormsdfsfsg", "" + loginData.getMessage());
             Toast.makeText(mContext, loginData.getMessage(), Toast.LENGTH_SHORT).show();
         } else {
             AppController.getHelperProgressDialog().dismissDialog();
@@ -1451,6 +1451,10 @@ public class SurveyActivitiesFragment extends Fragment
                 && !mArrayList.get(j).getAnchorDate().equalsIgnoreCase("")) {
             String startTime = "";
             String endTime = "";
+            if (mArrayList.get(j).getAnchorDate() != null && !mArrayList.get(j).getAnchorDate().equalsIgnoreCase("") && activityListData.getActivities().get(i).getAnchorDate() != null) {
+                activityListData.getActivities().get(i).setAnchorDateVersion(mArrayList.get(j).getVersion());
+                activityListData.getActivities().get(i).setAnchorDatecreatedDate(mArrayList.get(j).getDateOfEntry());
+            }
             if (activityListData.getActivities().get(i).getAnchorDate() != null
                     && activityListData.getActivities().get(i).getAnchorDate().getStart() != null) {
                 if (!activityListData
@@ -3180,6 +3184,9 @@ public class SurveyActivitiesFragment extends Fragment
                     activitiesWS.setStatus(activitiesArrayList.get(k).getStatus());
                     activitiesWS.setTitle(activitiesArrayList.get(k).getTitle());
 
+                    activitiesWS.setAnchorDatecreatedDate(activitiesArrayList.get(k).getAnchorDatecreatedDate());
+                    activitiesWS.setAnchorDateVersion(activitiesArrayList.get(k).getAnchorDateVersion());
+
                     activitiesArrayList1.add(activitiesWS);
                 } else {
                     activitiesArrayList1.add(activitiesArrayList.get(k));
@@ -3640,7 +3647,7 @@ public class SurveyActivitiesFragment extends Fragment
                         mActivityVersion);
                 launchSurvey(null);
             } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE_INITIAL) {
-                Log.e("errormsg",""+errormsg);
+                Log.e("errormsg", "" + errormsg);
                 Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
             } else {
                 try {
@@ -3995,6 +4002,12 @@ public class SurveyActivitiesFragment extends Fragment
                     activityStatus.put(
                             "lastModifiedDate",
                             new Date());
+                    activityStatus.put(
+                            "anchorDateVersion",
+                            activitiesArrayList1.get(i).getAnchorDateVersion());
+                    activityStatus.put(
+                            "anchorDatecreatedDate",
+                            activitiesArrayList1.get(i).getAnchorDatecreatedDate());
 
                     if (activitiesArrayList1.get(i).getFrequency() != null && activitiesArrayList1.get(i).getFrequency().getType().equalsIgnoreCase("Manually Schedule")) {
                         JSONObject customRun;

@@ -33,6 +33,26 @@ public class ActivitiesWS extends RealmObject {
 
     private SchedulingAnchorDate anchorDate;
 
+    private String anchorDateVersion;
+
+    private String anchorDatecreatedDate;
+
+    public String getAnchorDateVersion() {
+        return anchorDateVersion;
+    }
+
+    public void setAnchorDateVersion(String anchorDateVersion) {
+        this.anchorDateVersion = anchorDateVersion;
+    }
+
+    public String getAnchorDatecreatedDate() {
+        return anchorDatecreatedDate;
+    }
+
+    public void setAnchorDatecreatedDate(String anchorDatecreatedDate) {
+        this.anchorDatecreatedDate = anchorDatecreatedDate;
+    }
+
     public String getLastModifiedDate() {
         return lastModifiedDate;
     }
