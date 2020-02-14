@@ -964,7 +964,7 @@ public class SurveyActivitiesFragment extends Fragment
 
         } else if (responseCode == UPDATE_STUDY_PREFERENCE) {
             // check for notification
-            AppController.getHelperProgressDialog().dismissDialog();
+//            AppController.getHelperProgressDialog().dismissDialog();
             mGetResourceListWebservice();
             onItemsLoadComplete();
             checkForNotification();
@@ -994,8 +994,8 @@ public class SurveyActivitiesFragment extends Fragment
                 updateUserPreferenceForAllActivities();
             }
         } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE_INITIAL) {
+            AppController.getHelperProgressDialog().dismissDialog();
             LoginData loginData = (LoginData) response;
-            Log.e("errormsdfsfsg", "" + loginData.getMessage());
             Toast.makeText(mContext, loginData.getMessage(), Toast.LENGTH_SHORT).show();
         } else {
             AppController.getHelperProgressDialog().dismissDialog();
@@ -3957,7 +3957,6 @@ public class SurveyActivitiesFragment extends Fragment
     }
 
     public void updateUserPreferenceForAllActivities() {
-//        AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
         HashMap<String, String> header = new HashMap();
         header.put(
                 "auth",
@@ -3976,10 +3975,6 @@ public class SurveyActivitiesFragment extends Fragment
         JSONObject activityStatus;
         JSONObject activityRun;
         try {
-//            filterActivitiesArrayList1.add(activitiesArrayList1.get(i));
-//            filterStatus.add(status.get(i));
-//            filterCurrentRunStatusForActivities.add(currentRunStatusForActivities.get(i));
-
             for (int i = 0; i < activitiesArrayList1.size(); i++) {
                 if (!activitiesArrayList1.get(i).getActivityId().equalsIgnoreCase("")) {
                     activityStatus = new JSONObject();
@@ -3988,26 +3983,11 @@ public class SurveyActivitiesFragment extends Fragment
                     activityStatus.put("activityRunId", currentRunStatusForActivities.get(i).getCurrentRunId());
                     activityStatus.put("bookmarked", "false");
                     activityStatus.put("activityVersion", activitiesArrayList1.get(i).getActivityVersion());
-
-                    activityStatus.put(
-                            "activityStartDate",
-                            activitiesArrayList1.get(i).getStartTime());
-                    activityStatus.put(
-                            "activityEndDate",
-                            activitiesArrayList1.get(i).getEndTime());
-                    activityStatus.put(
-                            "anchorDateVersion",
-                            activitiesArrayList1.get(i).getActivityVersion());
-                    //                    activityStatus.put("anchorDatecreatedDate", );
-                    activityStatus.put(
-                            "lastModifiedDate",
-                            new Date());
-                    activityStatus.put(
-                            "anchorDateVersion",
-                            activitiesArrayList1.get(i).getAnchorDateVersion());
-                    activityStatus.put(
-                            "anchorDatecreatedDate",
-                            activitiesArrayList1.get(i).getAnchorDatecreatedDate());
+                    activityStatus.put("activityStartDate", activitiesArrayList1.get(i).getStartTime());
+                    activityStatus.put("activityEndDate", activitiesArrayList1.get(i).getEndTime());
+                    activityStatus.put("lastModifiedDate", new Date());
+                    activityStatus.put("anchorDateVersion", activitiesArrayList1.get(i).getAnchorDateVersion());
+                    activityStatus.put("anchorDatecreatedDate", activitiesArrayList1.get(i).getAnchorDatecreatedDate());
 
                     if (activitiesArrayList1.get(i).getFrequency() != null && activitiesArrayList1.get(i).getFrequency().getType().equalsIgnoreCase("Manually Schedule")) {
                         JSONObject customRun;
@@ -4033,7 +4013,6 @@ public class SurveyActivitiesFragment extends Fragment
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e("activityRun", "" + jsonObject.toString());
 
         UpdatePreferenceEvent updatePreferenceEvent = new UpdatePreferenceEvent();
         RegistrationServerConfigEvent registrationServerConfigEvent =

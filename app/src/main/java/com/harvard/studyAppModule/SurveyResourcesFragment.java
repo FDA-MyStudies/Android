@@ -486,7 +486,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                             Calendar endCalender = Calendar.getInstance();
                             try {
                                 for (int j = 0; j < mArrayList.size(); j++) {
-                                    if (mResourceArrayList.get(i).getResourcesId().equalsIgnoreCase(mArrayList.get(j).getTargetActivityId())) {
+                                    if (mArrayList.get(j).getAnchorDate() != null && mResourceArrayList.get(i).getResourcesId().equalsIgnoreCase(mArrayList.get(j).getTargetActivityId())) {
                                         startCalender.setTime(AppController.getDateFormat().parse(mArrayList.get(j).getAnchorDate()));
                                         startCalender.add(Calendar.DATE, mResourceArrayList.get(i).getAvailability().getStartDays());
 
@@ -507,7 +507,9 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                                 }
 
                                 NotificationDbResources notificationsDb = null;
-                                RealmResults<NotificationDbResources> notificationsDbs = dbServiceSubscriber.getNotificationDbResources(mStudyHome.getAnchorDate().getQuestionInfo().getActivityId(), ((SurveyActivity) mContext).getStudyId(), RESOURCES, mRealm);
+                                RealmResults<NotificationDbResources> notificationsDbs = null;
+                                if (mStudyHome != null && mStudyHome.getAnchorDate() != null)
+                                    notificationsDbs = dbServiceSubscriber.getNotificationDbResources(mStudyHome.getAnchorDate().getQuestionInfo().getActivityId(), ((SurveyActivity) mContext).getStudyId(), RESOURCES, mRealm);
                                 if (notificationsDbs != null && notificationsDbs.size() > 0) {
                                     for (int j = 0; j < notificationsDbs.size(); j++) {
                                         if (notificationsDbs.get(j).getResourceId().equalsIgnoreCase(mResourceArrayList.get(i).getResourcesId())) {
@@ -516,7 +518,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                                         }
                                     }
                                 }
-                                if (notificationsDb == null) {
+                                if (notificationsDb == null && mStudyHome != null && mStudyHome.getAnchorDate() != null) {
                                     setRemainder(startCalender, mStudyHome.getAnchorDate().getQuestionInfo().getActivityId(), ((SurveyActivity) mContext).getStudyId(), mResourceArrayList.get(i).getNotificationText(), mResourceArrayList.get(i).getResourcesId());
                                 }
 
@@ -626,7 +628,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                         String exception = String.valueOf(jsonObject.get("exception"));
                         if (exception.contains("Query or table not found")) {
                             //call remaining service
-                            callLabkeyService(this.position+1);
+                            callLabkeyService(this.position + 1);
                         } else {
                             metadataProcess();
                         }
@@ -676,44 +678,44 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                             metadataProcess();
                         }
                     } else if (anchorDateSchedulingDetails.getSourceType().equalsIgnoreCase("ParticipantProperty")) {
-                        try{
-                        JSONObject jsonObject = new JSONObject(response);
-                        JSONArray jsonArray = (JSONArray) jsonObject.get("rows");
-                        Gson gson = new Gson();
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jsonArray = (JSONArray) jsonObject.get("rows");
+                            Gson gson = new Gson();
 
-                        JSONObject jsonObject1 = (JSONObject) new JSONObject(String.valueOf(jsonArray.get(0))).get("data");
-                        Type type = new TypeToken<Map<String, Object>>() {
-                        }.getType();
-                        Map<String, Object> myMap = gson.fromJson(String.valueOf(jsonObject1), type);
-                        Object value = null;
-                        for (Map.Entry<String, Object> entry : myMap.entrySet()) {
-                            String key = entry.getKey();
-                            String valueobj = gson.toJson(entry.getValue());
-                            Map<String, Object> vauleMap = gson.fromJson(String.valueOf(valueobj), type);
-                            value = vauleMap.get("value");
-                            if(key.equalsIgnoreCase(mArrayList.get(this.position).getPropertyId())){
-                            try {
-                                Date anchordate = AppController.getLabkeyDateFormat().parse("" + value);
-                                value = AppController.getDateFormat().format(anchordate);
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                                mArrayList.get(this.position).setAnchorDate(value.toString());
-                            }else if(key.equalsIgnoreCase(mArrayList.get(this.position).getExternalPropertyId())){
-                                mArrayList.get(this.position).setVersion(value.toString());
-                            }else if(key.equalsIgnoreCase(mArrayList.get(this.position).getDateOfEntryId())){
-                                try {
-                                    Date anchordate = AppController.getLabkeyDateFormat().parse("" + value);
-                                    value = AppController.getDateFormat().format(anchordate);
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
+                            JSONObject jsonObject1 = (JSONObject) new JSONObject(String.valueOf(jsonArray.get(0))).get("data");
+                            Type type = new TypeToken<Map<String, Object>>() {
+                            }.getType();
+                            Map<String, Object> myMap = gson.fromJson(String.valueOf(jsonObject1), type);
+                            Object value = null;
+                            for (Map.Entry<String, Object> entry : myMap.entrySet()) {
+                                String key = entry.getKey();
+                                String valueobj = gson.toJson(entry.getValue());
+                                Map<String, Object> vauleMap = gson.fromJson(String.valueOf(valueobj), type);
+                                value = vauleMap.get("value");
+                                if (key.equalsIgnoreCase(mArrayList.get(this.position).getPropertyId())) {
+                                    try {
+                                        Date anchordate = AppController.getLabkeyDateFormat().parse("" + value);
+                                        value = AppController.getDateFormat().format(anchordate);
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    mArrayList.get(this.position).setAnchorDate(value.toString());
+                                } else if (key.equalsIgnoreCase(mArrayList.get(this.position).getExternalPropertyId())) {
+                                    mArrayList.get(this.position).setVersion(value.toString());
+                                } else if (key.equalsIgnoreCase(mArrayList.get(this.position).getDateOfEntryId())) {
+                                    try {
+                                        Date anchordate = AppController.getLabkeyDateFormat().parse("" + value);
+                                        value = AppController.getDateFormat().format(anchordate);
+                                    } catch (ParseException e) {
+                                        e.printStackTrace();
+                                    }
+                                    mArrayList.get(this.position).setDateOfEntry(value.toString());
+                                } else {
+                                    Log.e("query", "not proper");
                                 }
-                                mArrayList.get(this.position).setDateOfEntry(value.toString());
-                            }else{
-                                Log.e("query","not proper");
                             }
-                        }
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
@@ -872,7 +874,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
 
     private void callLabkeyService(int position) {
         if (mArrayList.size() > position) {
-            Log.e("position",""+mArrayList.get(position).getTargetActivityId());
+            Log.e("position", "" + mArrayList.get(position).getTargetActivityId());
             AnchorDateSchedulingDetails anchorDateSchedulingDetails = mArrayList.get(position);
             if (anchorDateSchedulingDetails.getSourceType().equalsIgnoreCase("ActivityResponse") && anchorDateSchedulingDetails.getActivityState().equalsIgnoreCase("completed")) {
                 Realm realm = AppController.getRealmobj(mContext);
