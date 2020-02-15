@@ -4057,7 +4057,8 @@ public class SurveyActivitiesFragment extends Fragment
             for (int i = 0; i < activitiesArrayList1.size(); i++) {
                 if (!activitiesArrayList1.get(i).getActivityId().equalsIgnoreCase("")) {
                     activityStatus = new JSONObject();
-                    activityStatus.put("activityState", status.get(i));
+//                    activityStatus.put("activityState", status.get(i));
+                    activityStatus.put("activityState", currentRunStatusForActivities.get(i).getStatus());
                     activityStatus.put("activityId", activitiesArrayList1.get(i).getActivityId());
                     activityStatus.put("activityRunId", currentRunStatusForActivities.get(i).getCurrentRunId());
                     activityStatus.put("bookmarked", "false");
