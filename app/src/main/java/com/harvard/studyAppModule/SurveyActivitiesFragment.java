@@ -910,9 +910,10 @@ public class SurveyActivitiesFragment extends Fragment
             activityData.setMessage(activityData1.getMessage());
             activityData.setActivities(activities);
             activityData.setStudyId(((SurveyActivity) mContext).getStudyId());
-            activityDataDB =
-                    dbServiceSubscriber.getActivityPreference(
-                            ((SurveyActivity) mContext).getStudyId(), mRealm);
+            //commenting coz the values were wrong in db
+//            activityDataDB =
+//                    dbServiceSubscriber.getActivityPreference(
+//                            ((SurveyActivity) mContext).getStudyId(), mRealm);
             if (activityDataDB == null) {
                 for (int i = 0; i < activityData1.getActivities().size(); i++) {
                     activityData1
@@ -1170,6 +1171,8 @@ public class SurveyActivitiesFragment extends Fragment
                                             .getAnchorDate()
                                             .getPropertyMetadata()
                                             .getDateOfEntryId());
+                            //first time should always be called
+                            anchorDateSchedulingDetails.setShouldRefresh(true);
 
                             for (int j = 0; j < activityDataDB.getActivities().size(); j++) {
                                 if (activityDataDB
@@ -1177,8 +1180,9 @@ public class SurveyActivitiesFragment extends Fragment
                                         .get(j)
                                         .getActivityId()
                                         .equalsIgnoreCase(
-                                                anchorDateSchedulingDetails
-                                                        .getSourceActivityId())) {
+                                                activityListData.getActivities().get(i).getActivityId())) {
+                                    anchorDateSchedulingDetails.setActivities(activityDataDB.getActivities().get(j));
+
                                     anchorDateSchedulingDetails.setStartDate(
                                             activityDataDB
                                                     .getActivities()
@@ -1194,17 +1198,9 @@ public class SurveyActivitiesFragment extends Fragment
                                                     .getActivities()
                                                     .get(j)
                                                     .getLastModifiedDate());
+
                                     anchorDateSchedulingDetails.setShouldRefresh(activityListData.getActivities().get(i).getAnchorDate().getPropertyMetadata().isShouldRefresh());
 
-                                    anchorDateSchedulingDetails.setActivities(activityDataDB.getActivities().get(j));
-//                                    anchorDateSchedulingDetails.getActivities().setActivityStartDate(activityDataDB
-//                                            .getActivities()
-//                                            .get(j)
-//                                            .getActivityStartDate());
-//                                    anchorDateSchedulingDetails.getActivities().setActivityEndDate(activityDataDB
-//                                            .getActivities()
-//                                            .get(j)
-//                                            .getActivityEndDate());
 
                                     //                                    if
                                     // (!activityDataDB.getActivities().get(i).getAnchorDateVersion().equalsIgnoreCase(anchorDateSchedulingDetails.getVersion())) {
@@ -1275,6 +1271,67 @@ public class SurveyActivitiesFragment extends Fragment
                 }
             }
         }
+//        else if (activityListData != null && activityListData.getActivities() != null) {
+//            for (int i = 0; i < activityListData.getActivities().size(); i++) {
+//                if (activityListData.getActivities().get(i).getSchedulingType() != null) {
+//                    if (activityListData
+//                            .getActivities()
+//                            .get(i)
+//                            .getSchedulingType()
+//                            .equalsIgnoreCase("AnchorDate")) {
+//                        if (activityListData
+//                                .getActivities()
+//                                .get(i)
+//                                .getAnchorDate()
+//                                .getSourceType()
+//                                .equalsIgnoreCase("ParticipantProperty")) {
+//                            Studies studies =
+//                                    dbServiceSubscriber.getStudies(
+//                                            ((SurveyActivity) mContext).getStudyId(), mRealm);
+//
+//                            anchorDateSchedulingDetails = new AnchorDateSchedulingDetails();
+//                            anchorDateSchedulingDetails.setSchedulingType(
+//                                    activityListData.getActivities().get(i).getSchedulingType());
+//                            anchorDateSchedulingDetails.setSourceType(
+//                                    activityListData
+//                                            .getActivities()
+//                                            .get(i)
+//                                            .getAnchorDate()
+//                                            .getSourceType());
+//                            anchorDateSchedulingDetails.setStudyId(
+//                                    ((SurveyActivity) mContext).getStudyId());
+//                            anchorDateSchedulingDetails.setParticipantId(
+//                                    studies.getParticipantId());
+//                            anchorDateSchedulingDetails.setTargetActivityId(
+//                                    activityListData.getActivities().get(i).getActivityId());
+//                            anchorDateSchedulingDetails.setPropertyId(
+//                                    activityListData
+//                                            .getActivities()
+//                                            .get(i)
+//                                            .getAnchorDate()
+//                                            .getPropertyMetadata()
+//                                            .getPropertyId());
+//                            anchorDateSchedulingDetails.setExternalPropertyId(
+//                                    activityListData
+//                                            .getActivities()
+//                                            .get(i)
+//                                            .getAnchorDate()
+//                                            .getPropertyMetadata()
+//                                            .getExternalPropertyId());
+//                            anchorDateSchedulingDetails.setDateOfEntryId(
+//                                    activityListData
+//                                            .getActivities()
+//                                            .get(i)
+//                                            .getAnchorDate()
+//                                            .getPropertyMetadata()
+//                                            .getDateOfEntryId());
+//
+//                            mArrayList.add(anchorDateSchedulingDetails);
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
         if (!mArrayList.isEmpty()) {
             callLabkeyService(0);
@@ -1882,6 +1939,18 @@ public class SurveyActivitiesFragment extends Fragment
                         }
                     }
                 }
+            }
+        } else if (mArrayList.get(j).getStartDate() != null && !mArrayList.get(j).getStartDate().equalsIgnoreCase("")
+                && mArrayList.get(j).getEndDate() != null && !mArrayList.get(j).getEndDate().equalsIgnoreCase("")) {
+            if (mArrayList.get(j).getTargetActivityId().equalsIgnoreCase(activityListData.getActivities().get(i).getActivityId())) {
+                activityListData
+                        .getActivities()
+                        .get(i)
+                        .setStartTime(mArrayList.get(j).getStartDate());
+                activityListData
+                        .getActivities()
+                        .get(i)
+                        .setEndTime(mArrayList.get(j).getEndDate());
             }
         }
     }
@@ -4287,6 +4356,7 @@ public class SurveyActivitiesFragment extends Fragment
                         .show();
             }
         }
+
     }
 
     private void callLabkeyService(int position) {
@@ -4329,15 +4399,19 @@ public class SurveyActivitiesFragment extends Fragment
                 dbServiceSubscriber.closeRealmObj(realm);
             } else if (anchorDateSchedulingDetails
                     .getSourceType()
-                    .equalsIgnoreCase("ParticipantProperty") && anchorDateSchedulingDetails.isShouldRefresh()) {
-                String query =
-                        "sql=SELECT%20"
-                                + anchorDateSchedulingDetails.getPropertyId() + "," + anchorDateSchedulingDetails.getExternalPropertyId() + "," + anchorDateSchedulingDetails.getDateOfEntryId()
-                                + "%20FROM%20"
-                                + "ParticipantProperties"
-                                + "&participantId="
-                                + anchorDateSchedulingDetails.getParticipantId();
-                new ResponseData(position, anchorDateSchedulingDetails, query).execute();
+                    .equalsIgnoreCase("ParticipantProperty")) {
+                if (anchorDateSchedulingDetails.isShouldRefresh()) {
+                    String query =
+                            "sql=SELECT%20"
+                                    + anchorDateSchedulingDetails.getPropertyId() + "," + anchorDateSchedulingDetails.getExternalPropertyId() + "," + anchorDateSchedulingDetails.getDateOfEntryId()
+                                    + "%20FROM%20"
+                                    + "ParticipantProperties"
+                                    + "&participantId="
+                                    + anchorDateSchedulingDetails.getParticipantId();
+                    new ResponseData(position, anchorDateSchedulingDetails, query).execute();
+                } else {
+                    callLabkeyService(position + 1);
+                }
             } else {
                 callLabkeyService(position + 1);
             }
