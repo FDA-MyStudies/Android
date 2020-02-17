@@ -1230,14 +1230,14 @@ public class SurveyActivitiesFragment extends Fragment
                                                 .getActivityEndDate()
                                                 .equalsIgnoreCase("")) {
                                             startDate.setTime(
-                                                    new SimpleDateFormat("dd/MM/yyyy")
+                                                    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
                                                             .parse(
                                                                     activityDataDB
                                                                             .getActivities()
                                                                             .get(j)
                                                                             .getActivityStartDate()));
                                             endDate.setTime(
-                                                    new SimpleDateFormat("dd/MM/yyyy")
+                                                    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
                                                             .parse(
                                                                     activityDataDB
                                                                             .getActivities()
