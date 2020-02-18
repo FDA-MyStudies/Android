@@ -1230,31 +1230,31 @@ public class SurveyActivitiesFragment extends Fragment
                                                 .getActivityEndDate()
                                                 .equalsIgnoreCase("")) {
                                             startDate.setTime(
-                                                    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+                                                    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
                                                             .parse(
                                                                     activityDataDB
                                                                             .getActivities()
                                                                             .get(j)
-                                                                            .getActivityStartDate()));
+                                                                            .getActivityStartDate().split("\\.")[0]));
                                             endDate.setTime(
-                                                    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+                                                    new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
                                                             .parse(
                                                                     activityDataDB
                                                                             .getActivities()
                                                                             .get(j)
-                                                                            .getActivityEndDate()));
+                                                                            .getActivityEndDate().split("\\.")[0]));
 
-                                            if (calendar.after(startDate)
-                                                    && calendar.before(endDate)) {
+                                            if (isWithinRange(startDate.getTime(), endDate.getTime())) {
                                                 anchorDateSchedulingDetails.setCurrentStatus(
-                                                        "Current");
-                                            } else if (calendar.before(startDate)) {
+                                                    STATUS_CURRENT);
+                                            } else if (checkafter(startDate.getTime())) {
                                                 anchorDateSchedulingDetails.setCurrentStatus(
-                                                        "Upcoming");
+                                                    STATUS_UPCOMING);
                                             } else {
                                                 anchorDateSchedulingDetails.setCurrentStatus(
-                                                        "Past");
+                                                    STATUS_COMPLETED);
                                             }
+
                                         } else {
                                             anchorDateSchedulingDetails.setCurrentStatus("Unknown");
                                         }
@@ -1577,13 +1577,13 @@ public class SurveyActivitiesFragment extends Fragment
 
             boolean calculateStartDate, calculateEndDate;
             if (mArrayList.get(j).getCurrentStatus() != null) {
-                if (mArrayList.get(j).getCurrentStatus().equalsIgnoreCase("Current")) {
+                if (mArrayList.get(j).getCurrentStatus().equalsIgnoreCase(STATUS_CURRENT)) {
                     calculateStartDate = false;
                     calculateEndDate = true;
-                } else if (mArrayList.get(j).getCurrentStatus().equalsIgnoreCase("Upcoming")) {
+                } else if (mArrayList.get(j).getCurrentStatus().equalsIgnoreCase(STATUS_UPCOMING)) {
                     calculateStartDate = true;
                     calculateEndDate = true;
-                } else if (mArrayList.get(j).getCurrentStatus().equalsIgnoreCase("Past")) {
+                } else if (mArrayList.get(j).getCurrentStatus().equalsIgnoreCase(STATUS_COMPLETED)) {
                     calculateStartDate = false;
                     calculateEndDate = true;
                 } else {
@@ -2087,14 +2087,14 @@ public class SurveyActivitiesFragment extends Fragment
             endCalendar.setTime(simpleDateFormat.parse(endDatefull));
 
             if (activityListData.getActivities().get(i).getFrequency().isAddNewRuns()) {
-                if (mArrayList.get(j).getCurrentStatus().equalsIgnoreCase("Upcoming")) {
+                if (mArrayList.get(j).getCurrentStatus().equalsIgnoreCase("Upcoming") || mArrayList.get(j).getCurrentStatus().equalsIgnoreCase("Unknown")) {
                     if (!isDatesOverlapping(
                             mArrayList.get(j).getActivities(),
                             i,
                             startCalendar,
                             endCalendar,
                             simpleDateFormat)) {
-                        RealmList<CustomScheduleRuns> customScheduleRuns = new RealmList<CustomScheduleRuns>();
+                        /*RealmList<CustomScheduleRuns> customScheduleRuns = new RealmList<CustomScheduleRuns>();
                         customScheduleRuns.addAll(mArrayList.get(j).getActivities().getCustomScheduleRuns());
                         for (int m = 0; m < customScheduleRuns.size(); m++) {
                             if (simpleDateFormat.parse(customScheduleRuns.get(m).getActivityStartDate()).before(endCalendar.getTime())) {
@@ -2105,7 +2105,7 @@ public class SurveyActivitiesFragment extends Fragment
                                 break;
                             }
                         }
-                        dbServiceSubscriber.updateCustomRunsToActivityPreference(mRealm, ((SurveyActivity) mContext).getStudyId(), mArrayList.get(j).getTargetActivityId(), customScheduleRuns);
+                        dbServiceSubscriber.updateCustomRunsToActivityPreference(mRealm, ((SurveyActivity) mContext).getStudyId(), mArrayList.get(j).getTargetActivityId(), customScheduleRuns);*/
                         updateRunsToActivityListAPIData(
                                 startDateFull, endDatefull, i, j, k, simpleDateFormat, endCalendar);
                     }
@@ -2116,11 +2116,11 @@ public class SurveyActivitiesFragment extends Fragment
                             startCalendar,
                             endCalendar,
                             simpleDateFormat)
-                            && endCalendar
+                            && (mArrayList.get(j).getLastUpdatedDate() == null || endCalendar
                             .getTime()
                             .after(
                                     simpleDateFormat.parse(
-                                            mArrayList.get(j).getLastUpdatedDate()))) {
+                                            mArrayList.get(j).getLastUpdatedDate())))) {
                         updateRunsToActivityListAPIData(
                                 startDateFull, endDatefull, i, j, k, simpleDateFormat, endCalendar);
                     }
@@ -2280,66 +2280,78 @@ public class SurveyActivitiesFragment extends Fragment
         try {
             activityListData.getActivities().get(i).getFrequency().getRuns().clear();
 
-            for (int m = 0;
-                 m < mArrayList.get(j).getActivities().getCustomScheduleRuns().size();
-                 m++) {
-                if (simpleDateFormat
-                        .parse(
-                                mArrayList
-                                        .get(j)
-                                        .getActivities()
-                                        .getCustomScheduleRuns()
-                                        .get(m)
-                                        .getActivityStartDate())
-                        .after(endCalendar.getTime())) {
+            if (mArrayList.get(j).getActivities() != null) {
+                for (int m = 0;
+                     m < mArrayList.get(j).getActivities().getCustomScheduleRuns().size();
+                     m++) {
+                    if (simpleDateFormat
+                            .parse(
+                                    mArrayList
+                                            .get(j)
+                                            .getActivities()
+                                            .getCustomScheduleRuns()
+                                            .get(m)
+                                            .getActivityStartDate())
+                            .after(endCalendar.getTime())) {
+                        FrequencyRuns frequencyRuns = new FrequencyRuns();
+                        frequencyRuns.setStartTime(startDate);
+                        frequencyRuns.setEndTime(endDate);
+                        activityListData
+                                .getActivities()
+                                .get(i)
+                                .getFrequency()
+                                .getRuns()
+                                .add(frequencyRuns);
+                    }
                     FrequencyRuns frequencyRuns = new FrequencyRuns();
-                    frequencyRuns.setStartTime(startDate);
-                    frequencyRuns.setEndTime(endDate);
+                    frequencyRuns.setStartTime(
+                            mArrayList
+                                    .get(j)
+                                    .getActivities()
+                                    .getCustomScheduleRuns()
+                                    .get(m)
+                                    .getActivityStartDate());
+                    frequencyRuns.setEndTime(
+                            mArrayList
+                                    .get(j)
+                                    .getActivities()
+                                    .getCustomScheduleRuns()
+                                    .get(m)
+                                    .getActivityEndDate());
+                    activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
                     activityListData
                             .getActivities()
                             .get(i)
-                            .getFrequency()
-                            .getRuns()
-                            .add(frequencyRuns);
+                            .setStartTime(
+                                    activityListData
+                                            .getActivities()
+                                            .get(i)
+                                            .getFrequency()
+                                            .getRuns()
+                                            .get(0)
+                                            .getStartTime());
+                    activityListData
+                            .getActivities()
+                            .get(i)
+                            .setEndTime(
+                                    activityListData
+                                            .getActivities()
+                                            .get(i)
+                                            .getFrequency()
+                                            .getRuns()
+                                            .get(k)
+                                            .getEndTime());
                 }
+            } else {
                 FrequencyRuns frequencyRuns = new FrequencyRuns();
-                frequencyRuns.setStartTime(
-                        mArrayList
-                                .get(j)
-                                .getActivities()
-                                .getCustomScheduleRuns()
-                                .get(m)
-                                .getActivityStartDate());
-                frequencyRuns.setEndTime(
-                        mArrayList
-                                .get(j)
-                                .getActivities()
-                                .getCustomScheduleRuns()
-                                .get(m)
-                                .getActivityEndDate());
-                activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
+                frequencyRuns.setStartTime(startDate);
+                frequencyRuns.setEndTime(endDate);
                 activityListData
-                        .getActivities()
-                        .get(i)
-                        .setStartTime(
-                                activityListData
-                                        .getActivities()
-                                        .get(i)
-                                        .getFrequency()
-                                        .getRuns()
-                                        .get(0)
-                                        .getStartTime());
-                activityListData
-                        .getActivities()
-                        .get(i)
-                        .setEndTime(
-                                activityListData
-                                        .getActivities()
-                                        .get(i)
-                                        .getFrequency()
-                                        .getRuns()
-                                        .get(k)
-                                        .getEndTime());
+                    .getActivities()
+                    .get(i)
+                    .getFrequency()
+                    .getRuns()
+                    .add(frequencyRuns);
             }
             dbServiceSubscriber.deleteActivityRunsFromDb(
                     mContext,
@@ -2353,14 +2365,14 @@ public class SurveyActivitiesFragment extends Fragment
     private void setStartDate(Date time, String startTime, int pos, int userRegListPos) {
         boolean setDate = false;
         if (mArrayList.get(userRegListPos).getCurrentStatus() != null) {
-            if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Current")) {
+            if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase(STATUS_CURRENT)) {
                 setDate = false;
             } else if (mArrayList
                     .get(userRegListPos)
                     .getCurrentStatus()
-                    .equalsIgnoreCase("Upcoming")) {
+                    .equalsIgnoreCase(STATUS_UPCOMING)) {
                 setDate = true;
-            } else if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Past")) {
+            } else if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase(STATUS_COMPLETED)) {
                 setDate = false;
             } else {
                 // Unknown
@@ -2396,13 +2408,13 @@ public class SurveyActivitiesFragment extends Fragment
     private void setEndDate(Date time, String endTime, int pos, int userRegListPos) {
         boolean setDate = false;
         if (mArrayList.get(userRegListPos).getCurrentStatus() != null) {
-            if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Current")) {
+            if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase(STATUS_CURRENT)) {
                 if (time.after(new Date(mArrayList.get(userRegListPos).getLastUpdatedDate()))) {
                     setDate = true;
                 }
-            } else if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Upcoming")) {
+            } else if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase(STATUS_UPCOMING)) {
                 setDate = true;
-            } else if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase("Past")) {
+            } else if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase(STATUS_COMPLETED)) {
                 if (time.after(new Date(mArrayList.get(userRegListPos).getEndDate()))) {
                     setDate = true;
                 }
