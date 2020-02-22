@@ -29,13 +29,33 @@ public class AnchorDateSchedulingDetails {
 
     private String startDate;
 
+    private String UserRegStartDate;
+
     private String endDate;
+
+    private String UserRegEndDate;
 
     private String lastUpdatedDate;
 
     private boolean shouldRefresh;
 
     private Activities activities;
+
+    public String getUserRegStartDate() {
+        return UserRegStartDate;
+    }
+
+    public void setUserRegStartDate(String userRegStartDate) {
+        UserRegStartDate = userRegStartDate;
+    }
+
+    public String getUserRegEndDate() {
+        return UserRegEndDate;
+    }
+
+    public void setUserRegEndDate(String userRegEndDate) {
+        UserRegEndDate = userRegEndDate;
+    }
 
     public boolean isShouldRefresh() {
         return shouldRefresh;

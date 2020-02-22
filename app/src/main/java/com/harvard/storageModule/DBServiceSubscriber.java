@@ -63,7 +63,7 @@ public class DBServiceSubscriber {
     private Realm realm;
 
 
-    public void updateStudyPreference(Context context,Studies studies, double completion, double adherence) {
+    public void updateStudyPreference(Context context, Studies studies, double completion, double adherence) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         studies.setCompletion((int) completion);
@@ -72,7 +72,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void insert(Context context,DatabaseEvent event) {
+    public void insert(Context context, DatabaseEvent event) {
         if (event.getmOperation().equals(INSERT_AND_UPDATE_OPERATION)) {
             realm = AppController.getRealmobj(context);
             realm.beginTransaction();
@@ -94,7 +94,7 @@ public class DBServiceSubscriber {
         return realm.where(MotivationalNotification.class).equalTo("studyId", studyId).findFirst();
     }
 
-    public void saveMotivationalNotificationToDB(Context context,MotivationalNotification motivationalNotification) {
+    public void saveMotivationalNotificationToDB(Context context, MotivationalNotification motivationalNotification) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(motivationalNotification);
@@ -102,7 +102,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void deleteMotivationalNotification(Context context,final String studyId) {
+    public void deleteMotivationalNotification(Context context, final String studyId) {
         realm = AppController.getRealmobj(context);
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -118,7 +118,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void deleteActivityWSList(Context context,ActivityListData activityListData, String activityId) {
+    public void deleteActivityWSList(Context context, ActivityListData activityListData, String activityId) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         for (int i = 0; i < activityListData.getActivities().size(); i++) {
@@ -131,7 +131,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void addActivityWSList(Context context,ActivityListData activityListData, ActivitiesWS activitiesWS) {
+    public void addActivityWSList(Context context, ActivityListData activityListData, ActivitiesWS activitiesWS) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         activityListData.getActivities().add(activitiesWS);
@@ -187,10 +187,11 @@ public class DBServiceSubscriber {
         Activities activities = null;
         if (activityData != null && activityData.getActivities() != null)
             for (int i = 0; i < activityData.getActivities().size(); i++) {
-                if (activityData.getActivities().get(i).getStudyId().equalsIgnoreCase(studyId) && activityData.getActivities().get(i).getActivityId().equalsIgnoreCase(surveyId)) {
-                    activities = activityData.getActivities().get(i);
-                    break;
-                }
+                if (activityData.getActivities().get(i) != null && activityData.getActivities().get(i).getStudyId() != null && activityData.getActivities().get(i).getActivityId() != null)
+                    if (activityData.getActivities().get(i).getStudyId().equalsIgnoreCase(studyId) && activityData.getActivities().get(i).getActivityId().equalsIgnoreCase(surveyId)) {
+                        activities = activityData.getActivities().get(i);
+                        break;
+                    }
             }
         return activities;
     }
@@ -248,7 +249,7 @@ public class DBServiceSubscriber {
         return realm.where(ActivityRun.class).equalTo("studyId", studyId).equalTo("activityId", activityID).sort("runId", Sort.ASCENDING).findAll();
     }
 
-    public void updateActivityRunToDB(Context context,String activityID, String studyId, int runId) {
+    public void updateActivityRunToDB(Context context, String activityID, String studyId, int runId) {
         realm = AppController.getRealmobj(context);
         ActivityRun activityRun = realm.where(ActivityRun.class).equalTo("studyId", studyId).equalTo("activityId", activityID).equalTo("runId", runId).findFirst();
         realm.beginTransaction();
@@ -257,7 +258,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void saveStudyListToDB(Context context,Study study) {
+    public void saveStudyListToDB(Context context, Study study) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(study);
@@ -265,7 +266,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void savePendingIntentId(Context context,PendingIntents pendingIntents) {
+    public void savePendingIntentId(Context context, PendingIntents pendingIntents) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         realm.copyToRealm(pendingIntents);
@@ -273,7 +274,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void savePendingIntentIdResources(Context context,PendingIntentsResources pendingIntents) {
+    public void savePendingIntentIdResources(Context context, PendingIntentsResources pendingIntents) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         realm.copyToRealm(pendingIntents);
@@ -302,7 +303,7 @@ public class DBServiceSubscriber {
     }
 
     // replaced saveUserPreferencesToDB
-    public void saveStudyPreferencesToDB(Context context,StudyData studies) {
+    public void saveStudyPreferencesToDB(Context context, StudyData studies) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(studies);
@@ -311,7 +312,7 @@ public class DBServiceSubscriber {
     }
 
     // updateUserPreferenceToDb
-    public void updateStudyPreferenceToDb(Context context,String lastUpdatedStudyId, boolean lastUpdatedBookMark, String lastUpdatedStatusStatus) {
+    public void updateStudyPreferenceToDb(Context context, String lastUpdatedStudyId, boolean lastUpdatedBookMark, String lastUpdatedStatusStatus) {
         realm = AppController.getRealmobj(context);
         Studies studies = realm.where(Studies.class).equalTo("studyId", lastUpdatedStudyId).findFirst();
         realm.beginTransaction();
@@ -336,7 +337,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void updateStudyPreferenceVersion(Context context,String version, Studies studies) {
+    public void updateStudyPreferenceVersion(Context context, String version, Studies studies) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         if (studies != null) {
@@ -347,7 +348,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void updateActivityPreferenceVersion(Context context,String version, Activities activities) {
+    public void updateActivityPreferenceVersion(Context context, String version, Activities activities) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         if (activities != null) {
@@ -358,7 +359,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void updateNotificationToDb(Context context,NotificationDb notificationDb) {
+    public void updateNotificationToDb(Context context, NotificationDb notificationDb) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         if (notificationDb != null) {
@@ -368,7 +369,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void updateNotificationToDb(Context context,NotificationDbResources notificationDb) {
+    public void updateNotificationToDb(Context context, NotificationDbResources notificationDb) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         if (notificationDb != null) {
@@ -401,7 +402,7 @@ public class DBServiceSubscriber {
         return realm.where(StudyList.class).equalTo("studyId", studyId).findFirst();
     }
 
-    public void saveStudyInfoToDB(Context context,StudyHome studyHome) {
+    public void saveStudyInfoToDB(Context context, StudyHome studyHome) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(studyHome);
@@ -409,7 +410,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void saveStudyDashboardToDB(Context context,DashboardData dashboardData) {
+    public void saveStudyDashboardToDB(Context context, DashboardData dashboardData) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(dashboardData);
@@ -427,7 +428,7 @@ public class DBServiceSubscriber {
         return realm.where(DashboardData.class).equalTo("studyId", studyId).findFirst();
     }
 
-    public void deleteStudyInfoFromDb(Context context,final String studyId) {
+    public void deleteStudyInfoFromDb(Context context, final String studyId) {
         realm = AppController.getRealmobj(context);
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -460,7 +461,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void deleteActivityRunsFromDb(Context context,final String activityId, final String studyId) {
+    public void deleteActivityRunsFromDb(Context context, final String activityId, final String studyId) {
         realm = AppController.getRealmobj(context);
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -476,7 +477,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void deleteActivityRunsFromDbByStudyID(Context context,final String studyId) {
+    public void deleteActivityRunsFromDbByStudyID(Context context, final String studyId) {
         realm = AppController.getRealmobj(context);
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -513,7 +514,7 @@ public class DBServiceSubscriber {
         });
     }
 
-    public void deleteActivityObjectFromDb(Context context,final String activityId, final String studyId) {
+    public void deleteActivityObjectFromDb(Context context, final String activityId, final String studyId) {
         realm = AppController.getRealmobj(context);
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -555,7 +556,7 @@ public class DBServiceSubscriber {
     }
 
 
-    public void deleteAllRun(Context context,final RealmResults<ActivityRun> activityRuns) {
+    public void deleteAllRun(Context context, final RealmResults<ActivityRun> activityRuns) {
         realm = AppController.getRealmobj(context);
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -571,7 +572,7 @@ public class DBServiceSubscriber {
     }
 
 
-    public void deleteResponseDataFromDb(Context context,final String taskId) {
+    public void deleteResponseDataFromDb(Context context, final String taskId) {
         realm = AppController.getRealmobj(context);
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -612,7 +613,7 @@ public class DBServiceSubscriber {
         return realm.where(NotificationData.class).findFirst();
     }
 
-    public void saveConsentDocumentToDB(Context context,ConsentDocumentData mConsentDocumentData) {
+    public void saveConsentDocumentToDB(Context context, ConsentDocumentData mConsentDocumentData) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(mConsentDocumentData);
@@ -624,7 +625,7 @@ public class DBServiceSubscriber {
         return realm.where(StudyUpdate.class).equalTo("studyId", studyId).findFirst();
     }
 
-    public void saveStudyUpdateListdataToDB(Context context,StudyUpdateListdata studyUpdateListdata) {
+    public void saveStudyUpdateListdataToDB(Context context, StudyUpdateListdata studyUpdateListdata) {
         realm = AppController.getRealmobj(context);
         StudyUpdateListdata studyUpdateListdata1 = realm.where(StudyUpdateListdata.class).findFirst();
         if (studyUpdateListdata1 == null) {
@@ -692,7 +693,7 @@ public class DBServiceSubscriber {
     }
 
     // UpdateUserPreferenceDB
-    public void updateStudyPreferenceDB(Context context,String studyId, String status, String enrolleddate, String participantId, String version) {
+    public void updateStudyPreferenceDB(Context context, String studyId, String status, String enrolleddate, String participantId, String version) {
         realm = AppController.getRealmobj(context);
         Studies studies = realm.where(Studies.class).equalTo("studyId", studyId).findFirst();
         realm.beginTransaction();
@@ -716,7 +717,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void updateStudyPreferenceVersionDB(Context context,String studyId, String version) {
+    public void updateStudyPreferenceVersionDB(Context context, String studyId, String version) {
         realm = AppController.getRealmobj(context);
         Studies studies = realm.where(Studies.class).equalTo("studyId", studyId).findFirst();
         realm.beginTransaction();
@@ -735,7 +736,7 @@ public class DBServiceSubscriber {
     }
 
 
-    public void updateStudyWithddrawnDB(Context context,String studyId, String status) {
+    public void updateStudyWithddrawnDB(Context context, String studyId, String status) {
         realm = AppController.getRealmobj(context);
         Studies studies = realm.where(Studies.class).equalTo("studyId", studyId).findFirst();
         realm.beginTransaction();
@@ -748,7 +749,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void updateStudyWithStudyId(Context context,String studyId, Study study, String version) {
+    public void updateStudyWithStudyId(Context context, String studyId, Study study, String version) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         for (int i = 0; i < study.getStudies().size(); i++) {
@@ -761,7 +762,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void savePdfData(Context context,String studyId, String pdfPath) {
+    public void savePdfData(Context context, String studyId, String pdfPath) {
         realm = AppController.getRealmobj(context);
         ConsentPdfData consentPdfData;
         consentPdfData = realm.where(ConsentPdfData.class).equalTo("StudyId", studyId).findFirst();
@@ -778,7 +779,7 @@ public class DBServiceSubscriber {
 
 
     // updateUserPreferenceActivityDB
-    public void updateActivityPreferenceDB(Context context,String activityId, String studyId, int runId, String status, int totalRun, int completedRun, int missedRun, String activityVersion) {
+    public void updateActivityPreferenceDB(Context context, String activityId, String studyId, int runId, String status, int totalRun, int completedRun, int missedRun, String activityVersion) {
         realm = AppController.getRealmobj(context);
         Activities activities = getActivityPreferenceBySurveyId(studyId, activityId, realm);
         realm.beginTransaction();
@@ -855,7 +856,7 @@ public class DBServiceSubscriber {
         return realm.where(StepRecordCustom.class).max("id");
     }
 
-    public void updateStepRecord(Context context,StepRecordCustom stepRecordCustom) {
+    public void updateStepRecord(Context context, StepRecordCustom stepRecordCustom) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(stepRecordCustom);
@@ -863,7 +864,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void updateActivityState(Context context,ActivityData activityData) {
+    public void updateActivityState(Context context, ActivityData activityData) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(activityData);
@@ -897,7 +898,7 @@ public class DBServiceSubscriber {
         return steps;
     }
 
-    public void saveActivity(Context context,ActivityObj activityObj) {
+    public void saveActivity(Context context, ActivityObj activityObj) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         realm.copyToRealm(activityObj);
@@ -1003,7 +1004,7 @@ public class DBServiceSubscriber {
         return realm.where(StepRecordCustom.class).equalTo("activityID", activityId).equalTo("stepId", key).greaterThanOrEqualTo("started", calendar.getTime()).lessThanOrEqualTo("completed", calendar1.getTime()).findAll();
     }
 
-    public void saveResourceList(Context context,StudyResource studyResourceData) {
+    public void saveResourceList(Context context, StudyResource studyResourceData) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(studyResourceData);
@@ -1011,7 +1012,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void deleteResourcesFromDb(Context context,final String studyId) {
+    public void deleteResourcesFromDb(Context context, final String studyId) {
         realm = AppController.getRealmobj(context);
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -1050,7 +1051,7 @@ public class DBServiceSubscriber {
     }
 
     // Rajeesh
-    public void deleteStudyResourceDuplicateRow(Context context,final String studyId) {
+    public void deleteStudyResourceDuplicateRow(Context context, final String studyId) {
         realm = AppController.getRealmobj(context);
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -1073,7 +1074,7 @@ public class DBServiceSubscriber {
         return realm.where(StudyResource.class).equalTo("mStudyId", studyId).findFirst();
     }
 
-    public void saveConsentPDF(Context context,ConsentPDF consentPDF) {
+    public void saveConsentPDF(Context context, ConsentPDF consentPDF) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(consentPDF);
@@ -1095,7 +1096,7 @@ public class DBServiceSubscriber {
     }
 
     // save offline data
-    public void saveOfflineData(Context  context,OfflineData offlineData) {
+    public void saveOfflineData(Context context, OfflineData offlineData) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(offlineData);
@@ -1113,7 +1114,7 @@ public class DBServiceSubscriber {
     }
 
     // remove data from perticular index
-    public void deleteOfflineDataRow(Context context,final int index) {
+    public void deleteOfflineDataRow(Context context, final int index) {
         realm = AppController.getRealmobj(context);
 
         realm.executeTransaction(new Realm.Transaction() {
@@ -1129,7 +1130,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void deleteActivityDataRow(Context context,final String studyId) {
+    public void deleteActivityDataRow(Context context, final String studyId) {
         realm = AppController.getRealmobj(context);
 
         realm.executeTransaction(new Realm.Transaction() {
@@ -1143,6 +1144,11 @@ public class DBServiceSubscriber {
                             if (activityData.getActivities().get(i).getActivityRun() != null) {
                                 activityData.getActivities().get(i).getActivityRun().deleteFromRealm();
                             }
+                            if (activityData.getActivities().get(i).getCustomScheduleRuns() != null) {
+                                for (int j = 0; j < activityData.getActivities().get(i).getCustomScheduleRuns().size(); j++) {
+                                    activityData.getActivities().get(i).getCustomScheduleRuns().get(j).deleteFromRealm();
+                                }
+                            }
                             activityData.getActivities().get(i).deleteFromRealm();
                         }
                         activityData.deleteFromRealm();
@@ -1155,7 +1161,7 @@ public class DBServiceSubscriber {
         closeRealmObj(realm);
     }
 
-    public void deleteActivityWSData(Context context,final String studyId) {
+    public void deleteActivityWSData(Context context, final String studyId) {
         realm = AppController.getRealmobj(context);
 
         realm.executeTransaction(new Realm.Transaction() {
@@ -1202,7 +1208,7 @@ public class DBServiceSubscriber {
     }
 
     // save UserProfile Data
-    public void saveUserProfileData(Context context,UserProfileData userProfileData) {
+    public void saveUserProfileData(Context context, UserProfileData userProfileData) {
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(userProfileData);
