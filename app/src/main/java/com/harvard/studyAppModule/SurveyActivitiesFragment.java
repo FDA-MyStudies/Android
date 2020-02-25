@@ -2887,96 +2887,116 @@ public class SurveyActivitiesFragment extends Fragment
                                       Log.e("fda", "Both the dates are in past.");
 
                                   }*/
-            int customRunSize = mArrayList.get(j).getActivities().getCustomScheduleRuns().size();
-            if (simpleDateFormat.parse(
-                mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
-                    .getActivityStartDate()).after(new Date()) && simpleDateFormat.parse(
-                mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
-                    .getActivityEndDate()).after(new Date())) {
-              if (simpleDateFormat.parse(startDateFull).before(new Date()) && simpleDateFormat
-                  .parse(endDatefull).before(new Date())) {
-                FrequencyRuns frequencyRuns = new FrequencyRuns();
-                frequencyRuns.setStartTime(
-                    mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
-                        .getActivityStartDate());
-                frequencyRuns.setEndTime(
-                    mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
-                        .getActivityEndDate());
-                activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
-              } else if (simpleDateFormat.parse(startDateFull).before(new Date())
-                  && simpleDateFormat.parse(endDatefull).after(new Date())) {
-                FrequencyRuns frequencyRuns = new FrequencyRuns();
-                frequencyRuns.setStartTime(simpleDateFormat.format(new Date()));
-                frequencyRuns.setEndTime(endDatefull);
-                activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
-              } else {//  newRun.startDate > currentDate, newRun.endDate > currentDate
-                FrequencyRuns frequencyRuns = new FrequencyRuns();
-                frequencyRuns.setStartTime(startDateFull);
-                frequencyRuns.setEndTime(endDatefull);
-                activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
+            if (mArrayList.get(j).getVersion()
+                .equalsIgnoreCase(mArrayList.get(j).getActivities().getAnchorDateVersion())) {
+              int customRunSize = mArrayList.get(j).getActivities().getCustomScheduleRuns().size();
+              if (simpleDateFormat.parse(
+                  mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
+                      .getActivityStartDate()).after(new Date()) && simpleDateFormat.parse(
+                  mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
+                      .getActivityEndDate()).after(new Date())) {
+                if (simpleDateFormat.parse(startDateFull).before(new Date()) && simpleDateFormat
+                    .parse(endDatefull).before(new Date())) {
+                  FrequencyRuns frequencyRuns = new FrequencyRuns();
+                  frequencyRuns.setStartTime(
+                      mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
+                          .getActivityStartDate());
+                  frequencyRuns.setEndTime(
+                      mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
+                          .getActivityEndDate());
+                  activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
+                } else if (simpleDateFormat.parse(startDateFull).before(new Date())
+                    && simpleDateFormat.parse(endDatefull).after(new Date())) {
+                  FrequencyRuns frequencyRuns = new FrequencyRuns();
+                  frequencyRuns.setStartTime(simpleDateFormat.format(new Date()));
+                  frequencyRuns.setEndTime(endDatefull);
+                  activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
+                } else {//  newRun.startDate > currentDate, newRun.endDate > currentDate
+                  FrequencyRuns frequencyRuns = new FrequencyRuns();
+                  frequencyRuns.setStartTime(startDateFull);
+                  frequencyRuns.setEndTime(endDatefull);
+                  activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
+                }
+              } else if (simpleDateFormat.parse(
+                  mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
+                      .getActivityStartDate()).before(new Date()) && simpleDateFormat.parse(
+                  mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
+                      .getActivityEndDate()).after(new Date())) {
+                if (simpleDateFormat.parse(startDateFull).before(new Date()) && simpleDateFormat
+                    .parse(endDatefull).before(new Date())) {
+                  FrequencyRuns frequencyRuns = new FrequencyRuns();
+                  frequencyRuns.setStartTime(
+                      mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
+                          .getActivityStartDate());
+                  frequencyRuns.setEndTime(
+                      mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
+                          .getActivityEndDate());
+                  activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
+                } else if (simpleDateFormat.parse(startDateFull).before(new Date())
+                    && simpleDateFormat.parse(endDatefull).after(new Date())) {
+                  FrequencyRuns frequencyRuns = new FrequencyRuns();
+                  frequencyRuns.setStartTime(
+                      mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
+                          .getActivityStartDate());
+                  frequencyRuns.setEndTime(endDatefull);
+                  activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
+                } else {//  newRun.startDate > currentDate, newRun.endDate > currentDate
+                  FrequencyRuns frequencyRuns = new FrequencyRuns();
+                  frequencyRuns.setStartTime(
+                      mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
+                          .getActivityStartDate());
+                  frequencyRuns.setEndTime(endDatefull);
+                  activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
+                }
+              } else if (simpleDateFormat.parse(
+                  mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
+                      .getActivityStartDate()).before(new Date()) && simpleDateFormat.parse(
+                  mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
+                      .getActivityEndDate()).before(new Date())) {
+                if (simpleDateFormat.parse(startDateFull).before(new Date()) && simpleDateFormat
+                    .parse(endDatefull).before(new Date())) {
+                  FrequencyRuns frequencyRuns = new FrequencyRuns();
+                  frequencyRuns.setStartTime(
+                      mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
+                          .getActivityStartDate());
+                  frequencyRuns.setEndTime(
+                      mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
+                          .getActivityEndDate());
+                  activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
+                } else if (simpleDateFormat.parse(startDateFull).before(new Date())
+                    && simpleDateFormat.parse(endDatefull).after(new Date())) {
+                  FrequencyRuns frequencyRuns = new FrequencyRuns();
+                  frequencyRuns.setStartTime(
+                      mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
+                          .getActivityStartDate());
+                  frequencyRuns.setEndTime(endDatefull);
+                  activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
+                } else {//  newRun.startDate > currentDate, newRun.endDate > currentDate
+                  FrequencyRuns frequencyRuns = new FrequencyRuns();
+                  frequencyRuns.setStartTime(
+                      mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
+                          .getActivityStartDate());
+                  frequencyRuns.setEndTime(endDatefull);
+                  activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
+                }
               }
-            } else if (simpleDateFormat.parse(
-                mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
-                    .getActivityStartDate()).before(new Date()) && simpleDateFormat.parse(
-                mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
-                    .getActivityEndDate()).after(new Date())) {
-              if (simpleDateFormat.parse(startDateFull).before(new Date()) && simpleDateFormat
-                  .parse(endDatefull).before(new Date())) {
-                FrequencyRuns frequencyRuns = new FrequencyRuns();
-                frequencyRuns.setStartTime(
-                    mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
-                        .getActivityStartDate());
-                frequencyRuns.setEndTime(
-                    mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
-                        .getActivityEndDate());
-                activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
-              } else if (simpleDateFormat.parse(startDateFull).before(new Date())
-                  && simpleDateFormat.parse(endDatefull).after(new Date())) {
-                FrequencyRuns frequencyRuns = new FrequencyRuns();
-                frequencyRuns.setStartTime(
-                    mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
-                        .getActivityStartDate());
-                frequencyRuns.setEndTime(endDatefull);
-                activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
-              } else {//  newRun.startDate > currentDate, newRun.endDate > currentDate
-                FrequencyRuns frequencyRuns = new FrequencyRuns();
-                frequencyRuns.setStartTime(
-                    mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
-                        .getActivityStartDate());
-                frequencyRuns.setEndTime(endDatefull);
-                activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
-              }
-            } else if (simpleDateFormat.parse(
-                mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
-                    .getActivityStartDate()).before(new Date()) && simpleDateFormat.parse(
-                mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
-                    .getActivityEndDate()).before(new Date())) {
-              if (simpleDateFormat.parse(startDateFull).before(new Date()) && simpleDateFormat
-                  .parse(endDatefull).before(new Date())) {
-                FrequencyRuns frequencyRuns = new FrequencyRuns();
-                frequencyRuns.setStartTime(
-                    mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
-                        .getActivityStartDate());
-                frequencyRuns.setEndTime(
-                    mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
-                        .getActivityEndDate());
-                activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
-              } else if (simpleDateFormat.parse(startDateFull).before(new Date())
-                  && simpleDateFormat.parse(endDatefull).after(new Date())) {
-                FrequencyRuns frequencyRuns = new FrequencyRuns();
-                frequencyRuns.setStartTime(
-                    mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
-                        .getActivityStartDate());
-                frequencyRuns.setEndTime(endDatefull);
-                activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
-              } else {//  newRun.startDate > currentDate, newRun.endDate > currentDate
-                FrequencyRuns frequencyRuns = new FrequencyRuns();
-                frequencyRuns.setStartTime(
-                    mArrayList.get(j).getActivities().getCustomScheduleRuns().get(customRunSize - 1)
-                        .getActivityStartDate());
-                frequencyRuns.setEndTime(endDatefull);
-                activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
-              }
+            } else {
+              FrequencyRuns frequencyRuns = new FrequencyRuns();
+              frequencyRuns.setStartTime(
+                  mArrayList
+                      .get(j)
+                      .getActivities()
+                      .getCustomScheduleRuns()
+                      .get(f)
+                      .getActivityStartDate());
+              frequencyRuns.setEndTime(
+                  mArrayList
+                      .get(j)
+                      .getActivities()
+                      .getCustomScheduleRuns()
+                      .get(f)
+                      .getActivityEndDate());
+              activityListData.getActivities().get(i).getFrequency().getRuns().add(frequencyRuns);
             }
           }
 
