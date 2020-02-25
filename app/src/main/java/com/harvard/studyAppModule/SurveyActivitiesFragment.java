@@ -1183,7 +1183,13 @@ public class SurveyActivitiesFragment extends Fragment
                           + activityDataDB.getActivities().get(j).getActivityStartDate() + "   "
                           + activityDataDB.getActivities().get(j).getActivityEndDate());
                   anchorDateSchedulingDetails.setActivities(activityDataDB.getActivities().get(j));
-
+                  if(activityDataDB.getActivities().get(j) != null && activityDataDB.getActivities().get(j).getCustomScheduleRuns()!= null && activityListData.getActivities().get(i).getAnchorDate() != null && activityListData.getActivities().get(i).getAnchorDate().getSourceType().equalsIgnoreCase("ParticipantProperty")) {
+                    Log.e("teatPP", "activityId = " + activityDataDB.getActivities().get(j).getActivityId());
+                     Log.e("teatPP", "size = " + activityDataDB.getActivities().get(j).getCustomScheduleRuns().size());
+                    if (activityDataDB.getActivities().get(j).getCustomScheduleRuns().size() > 0) {
+                      Log.e("teatPP", activityDataDB.getActivities().get(j).getCustomScheduleRuns().get(0).getActivityStartDate());
+                    }
+                  }
                   anchorDateSchedulingDetails.setStartDate(
                       activityDataDB
                           .getActivities()
@@ -2775,7 +2781,7 @@ public class SurveyActivitiesFragment extends Fragment
         }
 
       } else {
-        addNewRunsFalseScenario(i, j, k, simpleDateFormat, startTime, endTime);
+        addNewRunsFalseScenario(i, j, k, simpleDateFormat, startDateFull, endDatefull);
       }
     } catch (ParseException e) {
       e.printStackTrace();
@@ -2791,7 +2797,9 @@ public class SurveyActivitiesFragment extends Fragment
       String endDatefull) {
     // start runs
     try {
-      activityListData.getActivities().get(i).getFrequency().getRuns().clear();
+      if (activityListData.getActivities() != null) {
+        activityListData.getActivities().get(i).getFrequency().getRuns().clear();
+      }
       if (mArrayList.get(j).getActivities() == null || mArrayList.get(j).getActivities().getCustomScheduleRuns() == null ||  mArrayList.get(j).getActivities().getCustomScheduleRuns().size() == 0) {
         FrequencyRuns frequencyRuns = new FrequencyRuns();
         frequencyRuns.setStartTime(startDateFull);
@@ -2802,6 +2810,32 @@ public class SurveyActivitiesFragment extends Fragment
             .getFrequency()
             .getRuns()
             .add(frequencyRuns);
+        activityListData
+            .getActivities()
+            .get(i)
+            .setStartTime(
+                activityListData
+                    .getActivities()
+                    .get(i)
+                    .getFrequency()
+                    .getRuns()
+                    .get(0)
+                    .getStartTime());
+        activityListData
+            .getActivities()
+            .get(i)
+            .setEndTime(
+                activityListData
+                    .getActivities()
+                    .get(i)
+                    .getFrequency()
+                    .getRuns()
+                    .get( activityListData
+                        .getActivities()
+                        .get(i)
+                        .getFrequency()
+                        .getRuns().size() - 1)
+                    .getEndTime());
       } else {
         for (int f = 0; f < mArrayList.get(j).getActivities().getCustomScheduleRuns().size();
             f++) {

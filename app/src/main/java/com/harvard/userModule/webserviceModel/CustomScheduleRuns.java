@@ -3,23 +3,25 @@ package com.harvard.userModule.webserviceModel;
 import io.realm.RealmObject;
 
 public class CustomScheduleRuns extends RealmObject {
-    private String activityStartDate;
+//    private String activityStartDate;
+    private String runStartDate;
 
-    private String activityEndDate;
+//    private String activityEndDate;
+    private String runEndDate;
 
     public String getActivityStartDate() {
-        return activityStartDate;
+        return runStartDate;
     }
 
     public void setActivityStartDate(String activityStartDate) {
-        this.activityStartDate = activityStartDate;
+        this.runStartDate = activityStartDate;
     }
 
     public String getActivityEndDate() {
-        return activityEndDate;
+        return runEndDate;
     }
 
     public void setActivityEndDate(String activityEndDate) {
-        this.activityEndDate = activityEndDate;
+        this.runEndDate = activityEndDate;
     }
 }
