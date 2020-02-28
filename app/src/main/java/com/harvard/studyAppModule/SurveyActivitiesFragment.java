@@ -1580,14 +1580,14 @@ public class SurveyActivitiesFragment extends Fragment
         && !mArrayList.get(j).getAnchorDate().equalsIgnoreCase("")) {
       String startTime = "";
       String endTime = "";
-      if (mArrayList.get(j).getAnchorDate() != null && !mArrayList.get(j).getAnchorDate()
+      /*if (mArrayList.get(j).getAnchorDate() != null && !mArrayList.get(j).getAnchorDate()
           .equalsIgnoreCase("")
           && activityListData.getActivities().get(i).getAnchorDate() != null) {
         activityListData.getActivities().get(i)
             .setAnchorDateVersion(mArrayList.get(j).getVersion());
         activityListData.getActivities().get(i)
             .setAnchorDatecreatedDate(mArrayList.get(j).getDateOfEntry());
-      }
+      }*/
       if (activityListData.getActivities().get(i).getAnchorDate() != null
           && activityListData.getActivities().get(i).getAnchorDate().getStart() != null) {
         if (!activityListData
@@ -1697,6 +1697,14 @@ public class SurveyActivitiesFragment extends Fragment
           .getFrequency()
           .getType()
           .equalsIgnoreCase("One Time")) {
+        if (mArrayList.get(j).getAnchorDate() != null && !mArrayList.get(j).getAnchorDate()
+            .equalsIgnoreCase("")
+            && activityListData.getActivities().get(i).getAnchorDate() != null) {
+          activityListData.getActivities().get(i)
+              .setAnchorDateVersion(mArrayList.get(j).getVersion());
+          activityListData.getActivities().get(i)
+              .setAnchorDatecreatedDate(mArrayList.get(j).getDateOfEntry());
+        }
         Calendar calendar;
         if (activityListData.getActivities().get(i).getAnchorDate() != null
             && activityListData.getActivities().get(i).getAnchorDate().getStart()
@@ -1759,6 +1767,14 @@ public class SurveyActivitiesFragment extends Fragment
           .getFrequency()
           .getType()
           .equalsIgnoreCase("Daily")) {
+        if (mArrayList.get(j).getAnchorDate() != null && !mArrayList.get(j).getAnchorDate()
+            .equalsIgnoreCase("")
+            && activityListData.getActivities().get(i).getAnchorDate() != null) {
+          activityListData.getActivities().get(i)
+              .setAnchorDateVersion(mArrayList.get(j).getVersion());
+          activityListData.getActivities().get(i)
+              .setAnchorDatecreatedDate(mArrayList.get(j).getDateOfEntry());
+        }
         if (activityListData
             .getActivities()
             .get(i)
@@ -1822,6 +1838,14 @@ public class SurveyActivitiesFragment extends Fragment
           .getFrequency()
           .getType()
           .equalsIgnoreCase("Weekly")) {
+        if (mArrayList.get(j).getAnchorDate() != null && !mArrayList.get(j).getAnchorDate()
+            .equalsIgnoreCase("")
+            && activityListData.getActivities().get(i).getAnchorDate() != null) {
+          activityListData.getActivities().get(i)
+              .setAnchorDateVersion(mArrayList.get(j).getVersion());
+          activityListData.getActivities().get(i)
+              .setAnchorDatecreatedDate(mArrayList.get(j).getDateOfEntry());
+        }
         if (activityListData
             .getActivities()
             .get(i)
@@ -1893,6 +1917,14 @@ public class SurveyActivitiesFragment extends Fragment
           .getFrequency()
           .getType()
           .equalsIgnoreCase("Monthly")) {
+        if (mArrayList.get(j).getAnchorDate() != null && !mArrayList.get(j).getAnchorDate()
+            .equalsIgnoreCase("")
+            && activityListData.getActivities().get(i).getAnchorDate() != null) {
+          activityListData.getActivities().get(i)
+              .setAnchorDateVersion(mArrayList.get(j).getVersion());
+          activityListData.getActivities().get(i)
+              .setAnchorDatecreatedDate(mArrayList.get(j).getDateOfEntry());
+        }
         if (activityListData
             .getActivities()
             .get(i)
@@ -2461,6 +2493,14 @@ public class SurveyActivitiesFragment extends Fragment
       endCalendar.setTime(simpleDateFormat.parse(endDatefull));
 
       if (activityListData.getActivities().get(i).getFrequency().isAddNewRuns()) {
+        if (mArrayList.get(j).getAnchorDate() != null && !mArrayList.get(j).getAnchorDate()
+            .equalsIgnoreCase("")
+            && activityListData.getActivities().get(i).getAnchorDate() != null) {
+          activityListData.getActivities().get(i)
+              .setAnchorDateVersion(mArrayList.get(j).getVersion());
+          activityListData.getActivities().get(i)
+              .setAnchorDatecreatedDate(mArrayList.get(j).getDateOfEntry());
+        }
         ActivityData activityData =
             dbServiceSubscriber.getActivityPreference(
                 ((SurveyActivity) mContext).getStudyId(), mRealm);
@@ -2801,6 +2841,14 @@ public class SurveyActivitiesFragment extends Fragment
         activityListData.getActivities().get(i).getFrequency().getRuns().clear();
       }
       if (mArrayList.get(j).getActivities() == null || mArrayList.get(j).getActivities().getCustomScheduleRuns() == null ||  mArrayList.get(j).getActivities().getCustomScheduleRuns().size() == 0) {
+        if (mArrayList.get(j).getAnchorDate() != null && !mArrayList.get(j).getAnchorDate()
+            .equalsIgnoreCase("")
+            && activityListData.getActivities().get(i).getAnchorDate() != null) {
+          activityListData.getActivities().get(i)
+              .setAnchorDateVersion(mArrayList.get(j).getVersion());
+          activityListData.getActivities().get(i)
+              .setAnchorDatecreatedDate(mArrayList.get(j).getDateOfEntry());
+        }
         FrequencyRuns frequencyRuns = new FrequencyRuns();
         frequencyRuns.setStartTime(startDateFull);
         frequencyRuns.setEndTime(endDatefull);
@@ -2887,6 +2935,14 @@ public class SurveyActivitiesFragment extends Fragment
                                       Log.e("fda", "Both the dates are in past.");
 
                                   }*/
+            if (mArrayList.get(j).getAnchorDate() != null && !mArrayList.get(j).getAnchorDate()
+                .equalsIgnoreCase("")
+                && activityListData.getActivities().get(i).getAnchorDate() != null) {
+              activityListData.getActivities().get(i)
+                  .setAnchorDateVersion(mArrayList.get(j).getActivities().getAnchorDateVersion());
+              activityListData.getActivities().get(i)
+                  .setAnchorDatecreatedDate(mArrayList.get(j).getDateOfEntry());
+            }
             if (mArrayList.get(j).getVersion()
                 .equalsIgnoreCase(mArrayList.get(j).getActivities().getAnchorDateVersion())) {
               int customRunSize = mArrayList.get(j).getActivities().getCustomScheduleRuns().size();
