@@ -1415,11 +1415,11 @@ public class SurveyActivitiesFragment extends Fragment
                     .getSchedulingType()
                     .equalsIgnoreCase("ParticipantProperty") && !activityListData
                     .getActivities()
-                    .get(i).getFrequency().getType().equalsIgnoreCase("Manually Schedule")
-                    && activityListData.getActivities().get(i).getStartTime()
-                    .equalsIgnoreCase(mArrayList.get(j).getUserRegStartDate()) && activityListData
-                    .getActivities().get(i).getEndTime()
-                    .equalsIgnoreCase(mArrayList.get(j).getUserRegEndDate())) {
+                    .get(i).getFrequency().getType().equalsIgnoreCase("Manually Schedule")) {
+//                    && activityListData.getActivities().get(i).getStartTime()
+//                    .equalsIgnoreCase(mArrayList.get(j).getUserRegStartDate()) && activityListData
+//                    .getActivities().get(i).getEndTime()
+//                    .equalsIgnoreCase(mArrayList.get(j).getUserRegEndDate())) {
                   dbServiceSubscriber.deleteActivityRunsFromDb(
                       mContext,
                       activityListData
