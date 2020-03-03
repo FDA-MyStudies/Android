@@ -1412,7 +1412,7 @@ public class SurveyActivitiesFragment extends Fragment
                 if (activityListData
                     .getActivities()
                     .get(i)
-                    .getSchedulingType()
+                    .getAnchorDate().getSourceType()
                     .equalsIgnoreCase("ParticipantProperty") && !activityListData
                     .getActivities()
                     .get(i).getFrequency().getType().equalsIgnoreCase("Manually Schedule")) {
@@ -2526,6 +2526,8 @@ public class SurveyActivitiesFragment extends Fragment
                     activityListData.getActivities().get(i).getActivityId(),
                     calendarCurrentTime.getTime());
             }*/
+            Log.e("PP_Test", "getVersion = " +mArrayList.get(j).getVersion());
+            Log.e("PP_Test", "getAnchorDateVersion = " + mArrayList.get(j).getActivities().getAnchorDateVersion());
         if ((mArrayList.get(j).getActivities() == null) || (
             mArrayList.get(j).getActivities().getAnchorDateVersion() == null) || ((
             !isDatesOverlapping(
@@ -2824,6 +2826,8 @@ public class SurveyActivitiesFragment extends Fragment
         addNewRunsFalseScenario(i, j, k, simpleDateFormat, startDateFull, endDatefull);
       }
     } catch (ParseException e) {
+      e.printStackTrace();
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
@@ -3756,7 +3760,7 @@ public class SurveyActivitiesFragment extends Fragment
                   .getEndTime().equalsIgnoreCase("")
                   && activitiesArrayList.get(i).getAnchorDate() != null
                   && activitiesArrayList.get(i).getAnchorDate().getEnd()
-                  != null)
+                  == null)
                   || (activitiesArrayList
                   .get(i)
                   .getEndTime() != null && !activitiesArrayList
