@@ -1775,6 +1775,52 @@ public class SurveyActivitiesFragment extends Fragment
           activityListData.getActivities().get(i)
               .setAnchorDatecreatedDate(mArrayList.get(j).getDateOfEntry());
         }
+
+        if (calculateEndDate
+            && activityListData
+            .getActivities()
+            .get(i)
+            .getEndTime()
+            .equalsIgnoreCase("")) {
+          Calendar calendar = Calendar.getInstance();
+          /*try {
+            calendar.setTime(
+                simpleDateFormat.parse(
+                    activityListData.getActivities().get(i).getStartTime()));
+          } catch (ParseException e) {
+            e.printStackTrace();
+          }*/
+
+          //new update started
+          try {
+            calendar.setTime(
+                simpleDateFormat.parse(
+                    mArrayList.get(j).getAnchorDate()));
+            calendar.add(
+                Calendar.DATE,
+                activityListData
+                    .getActivities()
+                    .get(i)
+                    .getAnchorDate()
+                    .getStart()
+                    .getAnchorDays());
+          } catch (ParseException e) {
+            e.printStackTrace();
+          }
+          //new update ended
+          calendar.add(
+              Calendar.DATE,
+              activityListData
+                  .getActivities()
+                  .get(i)
+                  .getAnchorDate()
+                  .getEnd()
+                  .getRepeatInterval());
+          //
+          // activityListData.getActivities().get(i).setEndTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + endTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
+          setEndDateForOtherFrequency(calendar.getTime(), endTime, i, j);
+        }
+
         if (activityListData
             .getActivities()
             .get(i)
@@ -1796,6 +1842,20 @@ public class SurveyActivitiesFragment extends Fragment
             } catch (ParseException e) {
               e.printStackTrace();
             }
+            String startDateTime = dateSimpleDateFormat.format(calendar.getTime())
+                + "T"
+                + startTime
+                + ".000"
+                + timezoneSimpleDateFormat.format(calendar.getTime());
+            try {
+              if(mArrayList.get(j).getCurrentStatus().equalsIgnoreCase(STATUS_UPCOMING)) {
+                  if(!activityListData.getActivities().get(i).getEndTime().equalsIgnoreCase("") && simpleDateFormat.parse(activityListData.getActivities().get(i).getEndTime()).after(new Date()) && simpleDateFormat.parse(startDateTime).before(simpleDateFormat.parse(activityListData.getActivities().get(i).getEndTime())) && simpleDateFormat.parse(startDateTime).before(new Date())) {
+                    calendar = Calendar.getInstance();
+                  }
+              }
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
             //
             // activityListData.getActivities().get(i).setStartTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + startTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
             setStartDate(calendar.getTime(), startTime, i, j);
@@ -1806,32 +1866,7 @@ public class SurveyActivitiesFragment extends Fragment
                 .setStartTime(mArrayList.get(j).getStartDate());
           }
         }
-        if (calculateEndDate
-            && activityListData
-            .getActivities()
-            .get(i)
-            .getEndTime()
-            .equalsIgnoreCase("")) {
-          Calendar calendar = Calendar.getInstance();
-          try {
-            calendar.setTime(
-                simpleDateFormat.parse(
-                    activityListData.getActivities().get(i).getStartTime()));
-          } catch (ParseException e) {
-            e.printStackTrace();
-          }
-          calendar.add(
-              Calendar.DATE,
-              activityListData
-                  .getActivities()
-                  .get(i)
-                  .getAnchorDate()
-                  .getEnd()
-                  .getRepeatInterval());
-          //
-          // activityListData.getActivities().get(i).setEndTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + endTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
-          setEndDate(calendar.getTime(), endTime, i, j);
-        }
+
       } else if (activityListData
           .getActivities()
           .get(i)
@@ -1846,6 +1881,51 @@ public class SurveyActivitiesFragment extends Fragment
           activityListData.getActivities().get(i)
               .setAnchorDatecreatedDate(mArrayList.get(j).getDateOfEntry());
         }
+        if (calculateEndDate
+            && activityListData
+            .getActivities()
+            .get(i)
+            .getEndTime()
+            .equalsIgnoreCase("")) {
+          Calendar calendar = Calendar.getInstance();
+          /*try {
+            calendar.setTime(
+                simpleDateFormat.parse(
+                    activityListData.getActivities().get(i).getStartTime()));
+          } catch (ParseException e) {
+            e.printStackTrace();
+          }*/
+
+          //new update started
+          try {
+            calendar.setTime(
+                simpleDateFormat.parse(
+                    mArrayList.get(j).getAnchorDate()));
+            calendar.add(
+                Calendar.DATE,
+                activityListData
+                    .getActivities()
+                    .get(i)
+                    .getAnchorDate()
+                    .getStart()
+                    .getAnchorDays());
+          } catch (ParseException e) {
+            e.printStackTrace();
+          }
+          //new update ended
+          calendar.add(
+              Calendar.WEEK_OF_YEAR,
+              activityListData
+                  .getActivities()
+                  .get(i)
+                  .getAnchorDate()
+                  .getEnd()
+                  .getRepeatInterval());
+          //
+          // activityListData.getActivities().get(i).setEndTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + endTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
+          setEndDateForOtherFrequency(calendar.getTime(), endTime, i, j);
+        }
+
         if (activityListData
             .getActivities()
             .get(i)
@@ -1867,7 +1947,20 @@ public class SurveyActivitiesFragment extends Fragment
             } catch (ParseException e) {
               e.printStackTrace();
             }
-
+            String startDateTime = dateSimpleDateFormat.format(calendar.getTime())
+                + "T"
+                + startTime
+                + ".000"
+                + timezoneSimpleDateFormat.format(calendar.getTime());
+            try {
+              if(mArrayList.get(j).getCurrentStatus().equalsIgnoreCase(STATUS_UPCOMING)) {
+                if(!activityListData.getActivities().get(i).getEndTime().equalsIgnoreCase("") && simpleDateFormat.parse(activityListData.getActivities().get(i).getEndTime()).after(new Date()) && simpleDateFormat.parse(startDateTime).before(simpleDateFormat.parse(activityListData.getActivities().get(i).getEndTime())) && simpleDateFormat.parse(startDateTime).before(new Date())) {
+                  calendar = Calendar.getInstance();
+                }
+              }
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
             //
             // activityListData.getActivities().get(i).setStartTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + startTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
             setStartDate(calendar.getTime(), startTime, i, j);
@@ -1876,39 +1969,6 @@ public class SurveyActivitiesFragment extends Fragment
                 .getActivities()
                 .get(i)
                 .setStartTime(mArrayList.get(j).getStartDate());
-          }
-        }
-        if (calculateEndDate
-            && activityListData
-            .getActivities()
-            .get(i)
-            .getEndTime()
-            .equalsIgnoreCase("")) {
-          Calendar calendar = Calendar.getInstance();
-          try {
-            calendar.setTime(
-                simpleDateFormat.parse(
-                    activityListData.getActivities().get(i).getStartTime()));
-          } catch (ParseException e) {
-            e.printStackTrace();
-          }
-          calendar.add(
-              Calendar.WEEK_OF_YEAR,
-              activityListData
-                  .getActivities()
-                  .get(i)
-                  .getAnchorDate()
-                  .getEnd()
-                  .getRepeatInterval());
-          //
-          // activityListData.getActivities().get(i).setEndTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + endTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
-          setEndDate(calendar.getTime(), endTime, i, j);
-          if (activityListData.getActivities().get(i).getActivityId()
-              .equalsIgnoreCase("ActiveRFtrue")) {
-            Log.e(activityListData.getActivities().get(i).getActivityId(),
-                "" + activityListData.getActivities().get(i).getStartTime() + "   "
-                    + activityListData.getActivities().get(i).getEndTime() + "   " + calendar
-                    .getTime());
           }
         }
       } else if (activityListData
@@ -1925,6 +1985,51 @@ public class SurveyActivitiesFragment extends Fragment
           activityListData.getActivities().get(i)
               .setAnchorDatecreatedDate(mArrayList.get(j).getDateOfEntry());
         }
+        if (calculateEndDate
+            && activityListData
+            .getActivities()
+            .get(i)
+            .getEndTime()
+            .equalsIgnoreCase("")) {
+          Calendar calendar = Calendar.getInstance();
+          /*try {
+            calendar.setTime(
+                simpleDateFormat.parse(
+                    activityListData.getActivities().get(i).getStartTime()));
+          } catch (ParseException e) {
+            e.printStackTrace();
+          }*/
+
+          //new update started
+          try {
+            calendar.setTime(
+                simpleDateFormat.parse(
+                    mArrayList.get(j).getAnchorDate()));
+            calendar.add(
+                Calendar.DATE,
+                activityListData
+                    .getActivities()
+                    .get(i)
+                    .getAnchorDate()
+                    .getStart()
+                    .getAnchorDays());
+          } catch (ParseException e) {
+            e.printStackTrace();
+          }
+          //new update ended
+          calendar.add(
+              Calendar.MONTH,
+              activityListData
+                  .getActivities()
+                  .get(i)
+                  .getAnchorDate()
+                  .getEnd()
+                  .getRepeatInterval());
+          //
+          // activityListData.getActivities().get(i).setEndTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + endTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
+          setEndDateForOtherFrequency(calendar.getTime(), endTime, i, j);
+        }
+
         if (activityListData
             .getActivities()
             .get(i)
@@ -1946,6 +2051,20 @@ public class SurveyActivitiesFragment extends Fragment
             } catch (ParseException e) {
               e.printStackTrace();
             }
+            String startDateTime = dateSimpleDateFormat.format(calendar.getTime())
+                + "T"
+                + startTime
+                + ".000"
+                + timezoneSimpleDateFormat.format(calendar.getTime());
+            try {
+              if(mArrayList.get(j).getCurrentStatus().equalsIgnoreCase(STATUS_UPCOMING)) {
+                if(!activityListData.getActivities().get(i).getEndTime().equalsIgnoreCase("") && simpleDateFormat.parse(activityListData.getActivities().get(i).getEndTime()).after(new Date()) && simpleDateFormat.parse(startDateTime).before(simpleDateFormat.parse(activityListData.getActivities().get(i).getEndTime())) && simpleDateFormat.parse(startDateTime).before(new Date())) {
+                  calendar = Calendar.getInstance();
+                }
+              }
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
             //
             // activityListData.getActivities().get(i).setStartTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + startTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
             setStartDate(calendar.getTime(), startTime, i, j);
@@ -1955,32 +2074,6 @@ public class SurveyActivitiesFragment extends Fragment
                 .get(i)
                 .setStartTime(mArrayList.get(j).getStartDate());
           }
-        }
-        if (calculateEndDate
-            && activityListData
-            .getActivities()
-            .get(i)
-            .getEndTime()
-            .equalsIgnoreCase("")) {
-          Calendar calendar = Calendar.getInstance();
-          try {
-            calendar.setTime(
-                simpleDateFormat.parse(
-                    activityListData.getActivities().get(i).getStartTime()));
-          } catch (ParseException e) {
-            e.printStackTrace();
-          }
-          calendar.add(
-              Calendar.MONTH,
-              activityListData
-                  .getActivities()
-                  .get(i)
-                  .getAnchorDate()
-                  .getEnd()
-                  .getRepeatInterval());
-          //
-          // activityListData.getActivities().get(i).setEndTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + endTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
-          setEndDate(calendar.getTime(), endTime, i, j);
         }
       } else {
         // custom runs
@@ -3348,6 +3441,65 @@ public class SurveyActivitiesFragment extends Fragment
             setDate = true;
           }
         } catch (ParseException e) {
+          e.printStackTrace();
+        }
+      } else {
+        // Unknown
+        setDate = true;
+      }
+    } else {
+      setDate = true;
+    }
+        /*dbServiceSubscriber.deleteActivityRunsFromDb(
+                mContext,
+                activityListData.getActivities().get(pos).getActivityId(),
+                activityListData.getStudyId());*/
+    if (mArrayList.get(userRegListPos).getAnchorDate() != null && !mArrayList.get(userRegListPos)
+        .getAnchorDate().equalsIgnoreCase("")) {
+      if (setDate) {
+        activityListData.getActivities().get(pos)
+            .setLastModifiedDate(simpleDateFormat.format(new Date()));
+        activityListData
+            .getActivities()
+            .get(pos)
+            .setEndTime(
+                dateSimpleDateFormat.format(time)
+                    + "T"
+                    + endTime
+                    + ".000"
+                    + timezoneSimpleDateFormat.format(time));
+      } else {
+        activityListData
+            .getActivities()
+            .get(pos)
+            .setEndTime(mArrayList.get(userRegListPos).getEndDate());
+      }
+    }
+  }
+
+  private void setEndDateForOtherFrequency(Date time, String endTime, int pos, int userRegListPos) {
+    boolean setDate = false;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+    if (mArrayList.get(userRegListPos).getCurrentStatus() != null) {
+      if (mArrayList.get(userRegListPos).getCurrentStatus().equalsIgnoreCase(STATUS_CURRENT)) {
+        try {
+          if (time
+              .after(simpleDateFormat.parse(mArrayList.get(userRegListPos).getLastUpdatedDate()))) {
+            setDate = true;
+          }
+        } catch (ParseException e) {
+          e.printStackTrace();
+        }
+      } else if (mArrayList.get(userRegListPos).getCurrentStatus()
+          .equalsIgnoreCase(STATUS_UPCOMING)) {
+        setDate = true;
+      } else if (mArrayList.get(userRegListPos).getCurrentStatus()
+          .equalsIgnoreCase(STATUS_COMPLETED)) {
+        try {
+          if (time.after(new Date())) {
+            setDate = true;
+          }
+        } catch (Exception e) {
           e.printStackTrace();
         }
       } else {
