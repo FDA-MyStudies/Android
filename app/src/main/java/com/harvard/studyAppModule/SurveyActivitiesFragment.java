@@ -4841,6 +4841,7 @@ public class SurveyActivitiesFragment extends Fragment
         launchSurvey(null);
       } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE_INITIAL) {
         Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
+        AppController.getHelperProgressDialog().dismissDialog();
       } else {
         try {
           onItemsLoadComplete();
