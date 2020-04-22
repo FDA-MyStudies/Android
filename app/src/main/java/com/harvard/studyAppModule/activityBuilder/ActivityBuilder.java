@@ -57,7 +57,7 @@ public class ActivityBuilder extends OrderedTask {
                 }
             }
 
-            if (stepsData.getResultType().equalsIgnoreCase("textScale") || stepsData.getResultType().equalsIgnoreCase("imageChoice") || stepsData.getResultType().equalsIgnoreCase("textChoice") || stepsData.getResultType().equalsIgnoreCase("boolean")) {
+            if (stepsData.getResultType().equalsIgnoreCase("textScale") || stepsData.getResultType().equalsIgnoreCase("imageChoice") || stepsData.getResultType().equalsIgnoreCase("textChoice") || stepsData.getResultType().equalsIgnoreCase("boolean") || stepsData.getResultType().equalsIgnoreCase("valuePicker")) {
 
                 if (stepsData != null && stepsData.getDestinations().size() == 1 && stepsData.getDestinations().get(0).getCondition().equalsIgnoreCase("") && stepsData.getDestinations().get(0).getDestination().equalsIgnoreCase("")) {
                     return null;
@@ -302,7 +302,7 @@ public class ActivityBuilder extends OrderedTask {
                         Map<String, StepResult> map = taskResult.getResults();
                         for (Map.Entry<String, StepResult> pair : map.entrySet()) {
                             if (pair.getKey().equalsIgnoreCase(activityQuestionStep.get(i).getKey())) {
-                                if (activityQuestionStep.get(i).getResultType().equalsIgnoreCase("textScale") || activityQuestionStep.get(i).getResultType().equalsIgnoreCase("imageChoice") || activityQuestionStep.get(i).getResultType().equalsIgnoreCase("textChoice") || activityQuestionStep.get(i).getResultType().equalsIgnoreCase("boolean")) {
+                                if (activityQuestionStep.get(i).getResultType().equalsIgnoreCase("textScale") || activityQuestionStep.get(i).getResultType().equalsIgnoreCase("imageChoice") || activityQuestionStep.get(i).getResultType().equalsIgnoreCase("textChoice") || activityQuestionStep.get(i).getResultType().equalsIgnoreCase("boolean")|| activityQuestionStep.get(i).getResultType().equalsIgnoreCase("valuePicker")) {
                                     try {
                                         if (pair.getValue() != null) {
                                             String answer = null;
@@ -344,6 +344,7 @@ public class ActivityBuilder extends OrderedTask {
                                             }
                                             if (activityQuestionStep.get(i).getDestinations().get(k).getCondition().equalsIgnoreCase(answer)) {
                                                 identifier = activityQuestionStep.get(i).getKey();
+                                                break;
                                             }
                                         }
                                     } catch (Exception e) {
@@ -446,6 +447,12 @@ public class ActivityBuilder extends OrderedTask {
                             }
                         }
                     }
+                    if((!identifier.equalsIgnoreCase("")) && (activityQuestionStep.get(i).getResultType().equalsIgnoreCase("textScale") || activityQuestionStep.get(i).getResultType().equalsIgnoreCase("imageChoice") || activityQuestionStep.get(i).getResultType().equalsIgnoreCase("textChoice") || activityQuestionStep.get(i).getResultType().equalsIgnoreCase("boolean")|| activityQuestionStep.get(i).getResultType().equalsIgnoreCase("valuePicker"))) {
+                        break;
+                    }
+                }
+                if((!identifier.equalsIgnoreCase("")) && (activityQuestionStep.get(i).getResultType().equalsIgnoreCase("textScale") || activityQuestionStep.get(i).getResultType().equalsIgnoreCase("imageChoice") || activityQuestionStep.get(i).getResultType().equalsIgnoreCase("textChoice") || activityQuestionStep.get(i).getResultType().equalsIgnoreCase("boolean")|| activityQuestionStep.get(i).getResultType().equalsIgnoreCase("valuePicker"))) {
+                    break;
                 }
             }
             for (int j = 0; j < steps.size(); j++) {

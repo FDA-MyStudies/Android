@@ -74,7 +74,7 @@ public class TextAnswerFormatRegex extends ChoiceAnswerFormatCustom {
 
 
     public boolean isAnswerValid(String text) {
-        if (text != null && text.length() > 0 && (mMaximumLength == UNLIMITED_LENGTH || text.length() <= mMaximumLength) && validate(text)) {
+        if (text != null && text.trim().length() > 0 && (mMaximumLength == UNLIMITED_LENGTH || text.length() <= mMaximumLength) && validate(text)) {
             return true;
         }
         return false;

@@ -180,6 +180,10 @@ public class valuePickerQuestion<T> implements StepBody {
 
     @Override
     public BodyAnswer getBodyAnswerState() {
+        if(resultValue==null)
+        {
+            return BodyAnswer.INVALID;
+        }
         return BodyAnswer.VALID;
     }
 }
