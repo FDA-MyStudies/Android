@@ -367,6 +367,10 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         version = (TextView) findViewById(R.id.version);
         setVersion(version);
 
+        if (!AppConfig.isGatewayResourceRequired) {
+            mResourcesLayout.setVisibility(View.GONE);
+        }
+
         mBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

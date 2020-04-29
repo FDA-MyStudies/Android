@@ -152,8 +152,7 @@
     <string name="validation_code_error">Please enter verification code.</string>
     <string name="terms_and_condition_validation">Please agree to terms and conditions.</string>
     <string name="account_verification">your account is verified.</string>
-    <string name="password_validation">Your password must contain :
-                                       8 to 64 characters,lower case letter,upper case letter,numeric,special characters !  # $ % &amp; \' () * + , - . : ; &lt; &gt; = ? @ [] ^ _  { } | ~</string>
+    <string name="password_validation">Your password MUST be 8&#8212;64 characters and contain each of the following: An uppercase letter, A lower case letter, A number 0&#8212;9, a special character: \ ! # % &amp; ‘ () * + , &#8212; . : &lt; &gt; = ? @ [] ^ _ { } | ~ *</string>
     <string name="signout_message">Are you sure you want to signout ?</string>
     <string name="password_same_error">Old password and New password should not be same.</string>
     <string name="password_mismatch_error">The Password and Confirm password fields don\'t match.</string>

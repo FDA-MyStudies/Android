@@ -8,6 +8,9 @@ public class AppConfig {
     static String Standalone = "standalone";
     public static String AppType = GateWay;
     public static String StudyId = "Demo2";
+    public static boolean isGatewayResourceRequired = false;
+    public static boolean isStudyConsentRequired = false;
+    public static boolean isStudyConsentRequiredInOverview = false;
 
 
     //AppId

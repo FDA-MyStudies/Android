@@ -580,21 +580,40 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
             mBottombar1.setVisibility(View.VISIBLE);
             mVisitWebsiteButton.setClickable(false);
             mLernMoreButton.setClickable(false);
-            mConsentLay.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    try {
-                        Intent intent = new Intent(StudyInfoActivity.this, WebViewActivity.class);
-                        intent.putExtra("consent", mConsentDocumentData.getConsent().getContent());
-                        startActivity(intent);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+            if (AppConfig.isStudyConsentRequiredInOverview) {
+                mConsentLay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            Intent intent = new Intent(StudyInfoActivity.this, WebViewActivity.class);
+                            intent.putExtra("consent", mConsentDocumentData.getConsent().getContent());
+                            startActivity(intent);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            });
+                });
+            }
+            else {
+                mConsentLay.setVisibility(View.GONE);
+            }
         } else {
-            mBottombar.setVisibility(View.VISIBLE);
-            mBottombar1.setVisibility(View.GONE);
+            if (AppConfig.isStudyConsentRequiredInOverview) {
+                mBottombar.setVisibility(View.VISIBLE);
+                mBottombar1.setVisibility(View.GONE);
+            } else {
+                mBottombar.setVisibility(View.INVISIBLE);
+                mBottombar1.setVisibility(View.VISIBLE);
+                mVisitWebsiteButton.setClickable(false);
+                mConsentLayButton.setText(getResources().getString(R.string.visit_website));
+                mConsentLay.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mStudyHome.getStudyWebsite()));
+                        startActivity(browserIntent);
+                    }
+                });
+            }
             mVisitWebsiteButton.setClickable(true);
             mLernMoreButton.setClickable(true);
         }
