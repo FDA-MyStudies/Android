@@ -596,7 +596,8 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
                 });
             }
             else {
-                mConsentLay.setVisibility(View.GONE);
+//                mConsentLay.setVisibility(View.GONE);
+                mBottombar1.setVisibility(View.GONE);
             }
         } else {
             if (AppConfig.isStudyConsentRequiredInOverview) {
