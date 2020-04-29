@@ -5,7 +5,8 @@ public class URLs {
 
 
 //    public static String BASE_URL_WCP_SERVER = "https://hpwcp-stage.lkcompliant.net/StudyMetaData/"; //UAT
-    public static String BASE_URL_WCP_SERVER = "http://18.222.7.100:8080/StudyMetaData/"; //UAT
+//    public static String BASE_URL_WCP_SERVER = "http://18.222.7.100:8080/StudyMetaData/"; //UAT
+    public static String BASE_URL_WCP_SERVER = "https://hpwcp-stage.lkcompliant.net/StudyMetaData/"; //UAT
 //    public static String BASE_URL_WCP_SERVER = "http://192.168.0.44:3429/StudyMetaData/"; //UAT
 //    public static String BASE_URL_REGISTRATION_SERVER = "http://192.168.0.44:8085/labkey/fdahpUserRegWS/"; //UAT
     public static String BASE_URL_REGISTRATION_SERVER = "https://hpreg-stage.lkcompliant.net/fdahpUserRegWS/"; //UAT
