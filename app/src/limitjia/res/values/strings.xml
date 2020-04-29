@@ -17,8 +17,8 @@
     <string name="validated">You\'re In</string>
     <string name="you_are_eligible">You\'re In</string>
     <string name="gateway_welcome1">Using Mobile Devices to Power Research</string>
-    <string name="termsurl">https://www.fda.gov/AboutFDA/AboutThisWebsite/WebsitePolicies/</string>
-    <string name="privacyurl">https://www.fda.gov/AboutFDA/AboutThisWebsite/WebsitePolicies/#privacy</string>
+    <string name="termsurl">https://carragroup.org/privacy-policy</string>
+    <string name="privacyurl">https://carragroup.org/privacy-policy</string>
 
     <string name="view_consent">View Consent</string>
     <string name="visit_website">Visit Website</string>
