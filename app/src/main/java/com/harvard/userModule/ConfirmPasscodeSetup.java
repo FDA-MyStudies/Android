@@ -12,9 +12,19 @@ import android.widget.Toast;
 
 import com.harvard.R;
 import com.harvard.passcodeModule.PasscodeView;
+import com.harvard.userModule.event.UpdateUserProfileEvent;
+import com.harvard.userModule.webserviceModel.UpdateUserProfileData;
 import com.harvard.utils.AppController;
+import com.harvard.utils.URLs;
+import com.harvard.webserviceModule.apiHelper.ApiCall;
+import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
 
-public class ConfirmPasscodeSetup extends AppCompatActivity {
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+
+public class ConfirmPasscodeSetup extends AppCompatActivity implements ApiCall.OnAsyncRequestComplete{
 
     private RelativeLayout mBackBtn;
     private AppCompatTextView mTitle;
@@ -22,6 +32,7 @@ public class ConfirmPasscodeSetup extends AppCompatActivity {
     private AppCompatTextView mCancelTxt;
     private PasscodeView mPasscodeView;
     private int JOIN_STUDY_RESPONSE = 100;
+    private int UPDATE_USER_PROFILE = 101;
     TextView mPasscodetitle;
     TextView mPasscodedesc;
     TextView forgot;
@@ -89,38 +100,59 @@ public class ConfirmPasscodeSetup extends AppCompatActivity {
                     AppController.getHelperSharedPreference().writePreference(ConfirmPasscodeSetup.this, getString(R.string.initialpasscodeset), "Yes");
                     AppController.getHelperSharedPreference().writePreference(ConfirmPasscodeSetup.this, getString(R.string.usepasscode), "yes");
 //                    AppController.getHelperSharedPreference().writePreference(ConfirmPasscodeSetup.this, getString(R.string.passcode), passcode);
-                    new CreateNewPasscode().execute(passcode);
-                    if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").equalsIgnoreCase("StudyInfo")) {
-                        mPasscodeView.clearText();
-                        Intent intent = new Intent(ConfirmPasscodeSetup.this, SignupProcessCompleteActivity.class);
-                        intent.putExtra("from", "StudyInfo");
-                        startActivityForResult(intent, JOIN_STUDY_RESPONSE);
-                    } else if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").equalsIgnoreCase("profile")) {
-                        mPasscodeView.clearText();
-                        Intent intent = new Intent();
-                        setResult(RESULT_OK, intent);
-                        finish();
-                    } else if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").equalsIgnoreCase("profile_change")) {
-                        mPasscodeView.clearText();
-                        Intent intent = new Intent();
-                        setResult(RESULT_OK, intent);
-                        finish();
-                    } else if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").equalsIgnoreCase("signin")) {
-                        mPasscodeView.clearText();
-                        Intent intent = new Intent();
-                        setResult(RESULT_OK, intent);
-                        finish();
-                    } else {
-                        mPasscodeView.clearText();
-                        Intent intent = new Intent(ConfirmPasscodeSetup.this, SignupProcessCompleteActivity.class);
-                        startActivity(intent);
-                    }
+                    callUpdateProfileWebService();
                 } else {
                     Toast.makeText(ConfirmPasscodeSetup.this, R.string.passcodeNotMatching, Toast.LENGTH_SHORT).show();
                     mPasscodeView.clearText();
                 }
             }
         });
+    }
+
+    @Override
+    public <T> void asyncResponse(T response, int responseCode) {
+        AppController.getHelperProgressDialog().dismissDialog();
+        if (responseCode == UPDATE_USER_PROFILE) {
+            finishPassSetup();
+        }
+    }
+
+    private void finishPassSetup() {
+        new CreateNewPasscode().execute(getIntent().getStringExtra("passcode"));
+        if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").equalsIgnoreCase("StudyInfo")) {
+            mPasscodeView.clearText();
+            Intent intent = new Intent(ConfirmPasscodeSetup.this, SignupProcessCompleteActivity.class);
+            intent.putExtra("from", "StudyInfo");
+            startActivityForResult(intent, JOIN_STUDY_RESPONSE);
+        } else if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").equalsIgnoreCase("profile")) {
+            mPasscodeView.clearText();
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+            finish();
+        } else if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").equalsIgnoreCase("profile_change")) {
+            mPasscodeView.clearText();
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+            finish();
+        } else if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").equalsIgnoreCase("signin")) {
+            mPasscodeView.clearText();
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
+            finish();
+        } else {
+            mPasscodeView.clearText();
+            Intent intent = new Intent(ConfirmPasscodeSetup.this, SignupProcessCompleteActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
+        AppController.getHelperProgressDialog().dismissDialog();
+        if (responseCode == UPDATE_USER_PROFILE) {
+            Toast.makeText(this, "Couldn't update profile", Toast.LENGTH_SHORT).show();
+            finishPassSetup();
+        }
     }
 
     private class CreateNewPasscode extends AsyncTask<String, String, String> {
@@ -159,5 +191,28 @@ public class ConfirmPasscodeSetup extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    private void callUpdateProfileWebService() {
+        AppController.getHelperProgressDialog().showProgress(ConfirmPasscodeSetup.this, "", "", false);
+        UpdateUserProfileEvent updateUserProfileEvent = new UpdateUserProfileEvent();
+        HashMap<String, String> params = new HashMap<>();
+        params.put("auth", AppController.getHelperSharedPreference().readPreference(ConfirmPasscodeSetup.this, getString(R.string.auth), ""));
+        params.put("userId", AppController.getHelperSharedPreference().readPreference(ConfirmPasscodeSetup.this, getString(R.string.userid), ""));
+
+        JSONObject jsonObjBody = new JSONObject();
+        JSONObject settingJson = new JSONObject();
+        try {
+            settingJson.put("passcode", true);
+
+            jsonObjBody.put("settings", settingJson);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post_object", URLs.UPDATE_USER_PROFILE, UPDATE_USER_PROFILE, ConfirmPasscodeSetup.this, UpdateUserProfileData.class, null, params, jsonObjBody, false, this);
+        updateUserProfileEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
+        UserModulePresenter userModulePresenter = new UserModulePresenter();
+        userModulePresenter.performUpdateUserProfile(updateUserProfileEvent);
     }
 }

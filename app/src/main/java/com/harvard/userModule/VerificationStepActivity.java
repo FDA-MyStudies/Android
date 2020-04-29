@@ -1,9 +1,11 @@
 package com.harvard.userModule;
 
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
@@ -197,11 +199,28 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
                 AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.email), "" + mEmailId);
 
 
-                Intent intent = new Intent(VerificationStepActivity.this, NewPasscodeSetupActivity.class);
-                intent.putExtra("from", "StudyInfo");
-                startActivityForResult(intent, JOIN_STUDY_RESPONSE);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(VerificationStepActivity.this, R.style.MyAlertDialogStyle);
+                alertDialogBuilder.setTitle(VerificationStepActivity.this.getApplicationInfo().loadLabel(VerificationStepActivity.this.getPackageManager()).toString());
+                alertDialogBuilder.setMessage("Do you want to set passcode for the app?").setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(VerificationStepActivity.this, NewPasscodeSetupActivity.class);
+                                intent.putExtra("from", "StudyInfo");
+                                startActivityForResult(intent, JOIN_STUDY_RESPONSE);
 
-                AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.initialpasscodeset), "NO");
+                                AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.initialpasscodeset), "NO");
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.initialpasscodeset), "yes");
+                                Intent intent = new Intent();
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+                        });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             } else {
                 AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.userid), "" + mUserId);
                 AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.auth), "" + mAuth);
@@ -209,9 +228,26 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
                 AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.email), "" + mEmailId);
 
 
-                Intent intent = new Intent(VerificationStepActivity.this, NewPasscodeSetupActivity.class);
-                startActivity(intent);
-                AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.initialpasscodeset), "NO");
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(VerificationStepActivity.this, R.style.MyAlertDialogStyle);
+                alertDialogBuilder.setTitle(VerificationStepActivity.this.getApplicationInfo().loadLabel(VerificationStepActivity.this.getPackageManager()).toString());
+                alertDialogBuilder.setMessage("Do you want to set passcode for the app?").setCancelable(false)
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(VerificationStepActivity.this, NewPasscodeSetupActivity.class);
+                                startActivity(intent);
+                                AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.initialpasscodeset), "NO");
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.initialpasscodeset), "yes");
+                                Intent intent = new Intent();
+                                setResult(RESULT_OK, intent);
+                                finish();
+                            }
+                        });
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
             }
         } else if (responseCode == RESEND_CONFIRMATION) {
             Toast.makeText(this, getResources().getString(R.string.resend_success), Toast.LENGTH_SHORT).show();

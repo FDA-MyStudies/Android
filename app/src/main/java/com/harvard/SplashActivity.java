@@ -124,7 +124,7 @@ public class SplashActivity extends AppCompatActivity implements VersionChecker.
                 }
             }
         } else if (requestCode == PASSCODE_RESPONSE) {
-            loadsplash();
+            startmain();
         }
     }
 
