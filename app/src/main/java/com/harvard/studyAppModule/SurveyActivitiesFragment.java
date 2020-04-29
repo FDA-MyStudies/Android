@@ -1952,9 +1952,11 @@ public class SurveyActivitiesFragment extends Fragment
                 + startTime
                 + ".000"
                 + timezoneSimpleDateFormat.format(calendar.getTime());
+            boolean isCurrentTime = false;
             try {
               if(mArrayList.get(j).getCurrentStatus().equalsIgnoreCase(STATUS_UPCOMING)) {
                 if(!activityListData.getActivities().get(i).getEndTime().equalsIgnoreCase("") && simpleDateFormat.parse(activityListData.getActivities().get(i).getEndTime()).after(new Date()) && simpleDateFormat.parse(startDateTime).before(simpleDateFormat.parse(activityListData.getActivities().get(i).getEndTime())) && simpleDateFormat.parse(startDateTime).before(new Date())) {
+                  isCurrentTime = true;
                   calendar = Calendar.getInstance();
                 }
               }
@@ -1963,7 +1965,11 @@ public class SurveyActivitiesFragment extends Fragment
             }
             //
             // activityListData.getActivities().get(i).setStartTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + startTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
-            setStartDate(calendar.getTime(), startTime, i, j);
+            if (isCurrentTime) {
+              setStartDate(calendar.getTime(), AppController.getHourMinuteSecondFormat().format(calendar.getTime()), i, j);
+            } else {
+              setStartDate(calendar.getTime(), startTime, i, j);
+            }
           } else {
             activityListData
                 .getActivities()
@@ -2056,14 +2062,21 @@ public class SurveyActivitiesFragment extends Fragment
                 + startTime
                 + ".000"
                 + timezoneSimpleDateFormat.format(calendar.getTime());
+            boolean isCurrentTime = false;
             try {
               if(mArrayList.get(j).getCurrentStatus().equalsIgnoreCase(STATUS_UPCOMING)) {
                 if(!activityListData.getActivities().get(i).getEndTime().equalsIgnoreCase("") && simpleDateFormat.parse(activityListData.getActivities().get(i).getEndTime()).after(new Date()) && simpleDateFormat.parse(startDateTime).before(simpleDateFormat.parse(activityListData.getActivities().get(i).getEndTime())) && simpleDateFormat.parse(startDateTime).before(new Date())) {
+                  isCurrentTime = true;
                   calendar = Calendar.getInstance();
                 }
               }
             } catch (Exception e) {
               e.printStackTrace();
+            }
+            if (isCurrentTime) {
+              setStartDate(calendar.getTime(), AppController.getHourMinuteSecondFormat().format(calendar.getTime()), i, j);
+            } else {
+              setStartDate(calendar.getTime(), startTime, i, j);
             }
             //
             // activityListData.getActivities().get(i).setStartTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + startTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));

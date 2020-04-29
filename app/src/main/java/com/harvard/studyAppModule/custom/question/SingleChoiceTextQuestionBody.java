@@ -303,7 +303,7 @@ public class SingleChoiceTextQuestionBody<T> implements StepBody, CompoundButton
     public BodyAnswer getBodyAnswerState() {
         if (currentSelected.isEmpty()) {
             return new BodyAnswer(false, R.string.rsb_invalid_answer_choice);
-        } else if (OtherOptionMandatory && currentSelected.contains(OtherOptionValue) && otherText.getText().toString().equalsIgnoreCase("")) {
+        } else if (OtherOptionMandatory && currentSelected.contains(OtherOptionValue) && otherText.getText().toString().trim().equalsIgnoreCase("")) {
             return new BodyAnswer(false, R.string.otherValuetxt);
         } else {
             return BodyAnswer.VALID;
