@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.harvard.R;
 import com.harvard.gatewayModule.GatewayActivity;
+import com.harvard.studyAppModule.StudyActivity;
 import com.harvard.userModule.event.ResendEmailEvent;
 import com.harvard.userModule.event.VerifyUserEvent;
 import com.harvard.userModule.webserviceModel.LoginData;
@@ -241,9 +242,14 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.initialpasscodeset), "yes");
-                                Intent intent = new Intent();
-                                setResult(RESULT_OK, intent);
-                                finish();
+                                //                                Intent intent = new Intent();
+//                                setResult(RESULT_OK, intent);
+//                                finish();
+
+                                Intent intent = new Intent(VerificationStepActivity.this, StudyActivity.class);
+                                ComponentName cn = intent.getComponent();
+                                Intent mainIntent = Intent.makeRestartActivityTask(cn);
+                                startActivity(mainIntent);
                             }
                         });
                 AlertDialog alertDialog = alertDialogBuilder.create();
