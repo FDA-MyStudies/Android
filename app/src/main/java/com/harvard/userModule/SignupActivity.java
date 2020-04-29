@@ -27,8 +27,6 @@ import com.harvard.BuildConfig;
 import com.harvard.R;
 import com.harvard.studyAppModule.StandaloneActivity;
 import com.harvard.studyAppModule.StudyActivity;
-import com.harvard.studyAppModule.StudyModulePresenter;
-import com.harvard.userModule.event.GetTermsAndConditionEvent;
 import com.harvard.userModule.event.RegisterUserEvent;
 import com.harvard.userModule.event.UpdateUserProfileEvent;
 import com.harvard.userModule.model.TermsAndConditionData;
@@ -39,7 +37,6 @@ import com.harvard.utils.SetDialogHelper;
 import com.harvard.utils.URLs;
 import com.harvard.webserviceModule.apiHelper.ApiCall;
 import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
-import com.harvard.webserviceModule.events.WCPConfigEvent;
 
 import org.json.JSONException;
 import org.json.JSONObject;

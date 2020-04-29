@@ -9,7 +9,7 @@ import io.realm.RealmObject;
 public class Review extends RealmObject{
     private String reasonForConsent;
 
-    private String signatureContent;
+    private String reviewHTML;
 
     private String signatureTitle;
 
@@ -22,11 +22,11 @@ public class Review extends RealmObject{
     }
 
     public String getSignatureContent() {
-        return signatureContent;
+        return reviewHTML;
     }
 
     public void setSignatureContent(String signatureContent) {
-        this.signatureContent = signatureContent;
+        this.reviewHTML = signatureContent;
     }
 
     public String getSignatureTitle() {
