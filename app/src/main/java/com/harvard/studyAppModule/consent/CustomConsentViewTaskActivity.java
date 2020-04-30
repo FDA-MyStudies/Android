@@ -178,7 +178,7 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
             eligibilityConsent = dbServiceSubscriber.getConsentMetadata(studyId, mRealm);
             mConsent = eligibilityConsent.getConsent();
             ConsentBuilder consentBuilder = new ConsentBuilder();
-            List<Step> consentstep = consentBuilder.createsurveyquestion(CustomConsentViewTaskActivity.this, mConsent, pdfTitle);
+            List<Step> consentstep = consentBuilder.createsurveyquestion(CustomConsentViewTaskActivity.this, mConsent, pdfTitle, getIntent().getStringExtra(TYPE));
 
             task = new OrderedTask(CONSENT, consentstep);
             enrollId = getIntent().getStringExtra(ENROLLID);
@@ -194,7 +194,7 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
             eligibilityConsent = dbServiceSubscriber.getConsentMetadata(studyId, mRealm);
             mConsent = eligibilityConsent.getConsent();
             ConsentBuilder consentBuilder = new ConsentBuilder();
-            List<Step> consentstep = consentBuilder.createsurveyquestion(CustomConsentViewTaskActivity.this, mConsent, pdfTitle);
+            List<Step> consentstep = consentBuilder.createsurveyquestion(CustomConsentViewTaskActivity.this, mConsent, pdfTitle, getIntent().getStringExtra(TYPE));
             task = new OrderedTask(CONSENT, consentstep);
 
             enrollId = (String) savedInstanceState.getSerializable(ENROLLID);
@@ -818,7 +818,11 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
 
             body.put("consent", consentbody);
 
-            body.put("sharing", SharingConsent);
+            if (getIntent().getStringExtra(TYPE) != null && getIntent().getStringExtra(TYPE).equalsIgnoreCase("update")) {
+                body.put("sharing", "");
+            } else {
+                body.put("sharing", SharingConsent);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -981,7 +981,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         eligibilityType = type;
         Toast.makeText(mContext, mContext.getResources().getString(R.string.please_review_the_updated_consent), Toast.LENGTH_SHORT).show();
         ConsentBuilder consentBuilder = new ConsentBuilder();
-        List<Step> consentstep = consentBuilder.createsurveyquestion(mContext, consent, mtitle);
+        List<Step> consentstep = consentBuilder.createsurveyquestion(mContext, consent, mtitle, "update");
         Task consentTask = new OrderedTask(CONSENT, consentstep);
         Intent intent = CustomConsentViewTaskActivity.newIntent(mContext, consentTask, mStudyId, "", mtitle, eligibilityType, "update");
         startActivityForResult(intent, CONSENT_RESPONSECODE);

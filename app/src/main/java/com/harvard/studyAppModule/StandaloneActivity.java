@@ -750,7 +750,7 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
         eligibilityType = type;
         Toast.makeText(StandaloneActivity.this, getResources().getString(R.string.please_review_the_updated_consent), Toast.LENGTH_SHORT).show();
         ConsentBuilder consentBuilder = new ConsentBuilder();
-        List<Step> consentstep = consentBuilder.createsurveyquestion(StandaloneActivity.this, consent, mtitle);
+        List<Step> consentstep = consentBuilder.createsurveyquestion(StandaloneActivity.this, consent, mtitle, "update");
         Task consentTask = new OrderedTask(CONSENT, consentstep);
         Intent intent = CustomConsentViewTaskActivity.newIntent(StandaloneActivity.this, consentTask, mStudyId, "", mtitle, eligibilityType, "update");
         startActivityForResult(intent, CONSENT_RESPONSECODE);

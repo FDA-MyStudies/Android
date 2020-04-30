@@ -576,8 +576,7 @@ public class SurveyActivitiesFragment extends Fragment
             ((SurveyActivity) mContext).getStudyId(), mRealm);
     mTitl = studyList.getTitle();
     ConsentBuilder consentBuilder = new ConsentBuilder();
-    List<Step> consentStep =
-        consentBuilder.createsurveyquestion(mContext, consent, studyList.getTitle());
+    List<Step> consentStep = consentBuilder.createsurveyquestion(mContext, consent, studyList.getTitle(), "update");
     Task consentTask = new OrderedTask(StudyFragment.CONSENT, consentStep);
     Intent intent =
         CustomConsentViewTaskActivity.newIntent(

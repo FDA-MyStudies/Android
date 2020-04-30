@@ -174,7 +174,9 @@ public class HttpRequest {
             conn.setConnectTimeout(180000);
             conn.setRequestMethod("POST");
             conn.setDoInput(true);
-            conn.setRequestProperty("Content-Type", "application/json");
+            if (params.size() > 0) {
+                conn.setRequestProperty("Content-Type", "application/json");
+            }
             if (serverType.equalsIgnoreCase("WCP")) {
                 String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
                 conn.setRequestProperty("Authorization", "Basic " + encoding);
@@ -197,7 +199,9 @@ public class HttpRequest {
 
             OutputStream os = conn.getOutputStream();
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
-            writer.write(getPostDataString(params));
+            if (params.size() > 0) {
+                writer.write(getPostDataString(params));
+            }
 
             writer.flush();
             writer.close();

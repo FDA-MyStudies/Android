@@ -76,7 +76,7 @@ public class EligibleActivity extends AppCompatActivity implements ApiCall.OnAsy
 
     private void startconsent(Consent consent) {
         ConsentBuilder consentBuilder = new ConsentBuilder();
-        List<Step> consentstep = consentBuilder.createsurveyquestion(this, consent, getIntent().getStringExtra("title"));
+        List<Step> consentstep = consentBuilder.createsurveyquestion(this, consent, getIntent().getStringExtra("title"), getIntent().getStringExtra("type"));
         Task consentTask = new OrderedTask(CONSENT, consentstep);
         Intent intent = CustomConsentViewTaskActivity.newIntent(this, consentTask, getIntent().getStringExtra("studyId"), getIntent().getStringExtra("enrollId"), getIntent().getStringExtra("title"), getIntent().getStringExtra("eligibility"), getIntent().getStringExtra("type"));
         startActivityForResult(intent, CONSENT_RESPONSECODE);

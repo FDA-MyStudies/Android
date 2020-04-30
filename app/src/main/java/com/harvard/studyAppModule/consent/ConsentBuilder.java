@@ -36,7 +36,7 @@ import io.realm.RealmList;
 public class ConsentBuilder {
 
 
-    public ArrayList<Step> createsurveyquestion(Context context, Consent consent, String pdftitle) {
+    public ArrayList<Step> createsurveyquestion(Context context, Consent consent, String pdftitle, String consentUpdate) {
         ArrayList<Step> visualSteps = new ArrayList<>();
         ConsentSection consentSection;
         ConsentVisualStep visualStep;
@@ -207,7 +207,9 @@ public class ConsentBuilder {
             consentSharingStep.setAnswerFormat(choiceAnswerFormat);
             consentSharingStep.setOptional(false);
             consentSharingStep.setStepTitle(R.string.notxt);
-            visualSteps.add(consentSharingStep);
+            if (consentUpdate == null || !consentUpdate.equalsIgnoreCase("update")) {
+                visualSteps.add(consentSharingStep);
+            }
         }
 
         if (consent.getReview() != null && consent.getReview().getSignatureContent() != null && !consent.getReview().getSignatureContent().equalsIgnoreCase("")) {
