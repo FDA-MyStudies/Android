@@ -389,12 +389,16 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
                     jsonArray1.put(mRealmStudie.get(i).getStudyId());
                 }
                 obj.put("deleteData", jsonArray1);
+            } else {
+                obj = new JSONObject(json);
+                JSONArray jsonArray1 = new JSONArray();
+                obj.put("deleteData", jsonArray1);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
         try {
-            RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("delete", URLs.DELETE_ACCOUNT, DELETE_ACCOUNT_REPSONSECODE, DeleteAccountActivity.this, LoginData.class, null, header, obj, false, this);
+            RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("delete_object", URLs.DELETE_ACCOUNT, DELETE_ACCOUNT_REPSONSECODE, DeleteAccountActivity.this, LoginData.class, null, header, obj, false, this);
             deleteAccountEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
             UserModulePresenter userModulePresenter = new UserModulePresenter();
             userModulePresenter.performDeleteAccount(deleteAccountEvent);

@@ -925,7 +925,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("delete", URLs.DELETE_ACCOUNT, DELETE_ACCOUNT_REPSONSECODE, mContext, LoginData.class, null, header, obj, false, this);
+        RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("delete_object", URLs.DELETE_ACCOUNT, DELETE_ACCOUNT_REPSONSECODE, mContext, LoginData.class, null, header, obj, false, this);
         deleteAccountEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
         UserModulePresenter userModulePresenter = new UserModulePresenter();
         userModulePresenter.performDeleteAccount(deleteAccountEvent);

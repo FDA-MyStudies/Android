@@ -766,8 +766,8 @@ public class HttpRequest {
                     }
                 }
                 httppost.addHeader("Content-Type", "application/json");
-                httppost.addHeader("applicationId", "123");
-                httppost.addHeader("orgId", "12");
+                httppost.addHeader(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
+                httppost.addHeader(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
 
                 StringEntity params1 = new StringEntity(getPostDataString(params));
                 httppost.setEntity(params1);
@@ -959,8 +959,8 @@ public class HttpRequest {
                     }
                 }
                 httppost.addHeader("Content-Type", "application/json");
-                httppost.addHeader("applicationId", "123");
-                httppost.addHeader("orgId", "12");
+                httppost.addHeader(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
+                httppost.addHeader(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
                 StringEntity params1 = new StringEntity(jsonObject.toString());
                 httppost.setEntity(params1);
 
@@ -1150,8 +1150,8 @@ public class HttpRequest {
                     }
                 }
                 httppost.addHeader("Content-Type", "application/json");
-                httppost.addHeader("applicationId", "123");
-                httppost.addHeader("orgId", "12");
+                httppost.addHeader(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
+                httppost.addHeader(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
                 StringEntity params1 = new StringEntity(jsonArray.toString());
                 httppost.setEntity(params1);
 
