@@ -6,6 +6,7 @@
     <string name="join">Join</string>
     <string name="studyId">studyId</string>
 
+    <string name="app_name_icon">MyStudies</string>
     <string name="app_name">MyStudies</string>
     <string name="ok">OK</string>
     <string name="app_stage">development</string>

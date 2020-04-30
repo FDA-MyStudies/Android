@@ -140,7 +140,7 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
     EligibilityConsent eligibilityConsent;
     StudyList studyList;
     String pdfPath;
-    String SharingConsent = "n/a";
+    String SharingConsent = "NA";
 
     public static Intent newIntent(Context context, Task task, String studyId, String enrollId, String pdfTitle, String eligibility, String type) {
         Intent intent = new Intent(context, CustomConsentViewTaskActivity.class);
@@ -445,10 +445,27 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
     private void enrollId() {
         EnrollIdEvent enrollIdEvent = new EnrollIdEvent();
         HashMap<String, String> params = new HashMap<>();
-        params.put("studyId", getIntent().getStringExtra(STUDYID));
-        params.put("token", getIntent().getStringExtra(ENROLLID));
-
-        ResponseServerConfigEvent responseServerConfigEvent = new ResponseServerConfigEvent("post_json", URLs.ENROLL_ID, ENROLL_ID_RESPONSECODE, CustomConsentViewTaskActivity.this, ResponseServerData.class, params, null, null, false, CustomConsentViewTaskActivity.this);
+        //        params.put("studyId", getIntent().getStringExtra(STUDYID));
+//        params.put("token", getIntent().getStringExtra(ENROLLID));
+        String SharingConsent = "NA";
+        try {
+            StepResult result = taskResult.getStepResult("sharing");
+            if (result != null) {
+                JSONObject resultObj = new JSONObject(result.getResults().toString());
+                SharingConsent = resultObj.get("answer").toString();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(SharingConsent.equalsIgnoreCase("true")) {
+            SharingConsent = "true";
+        }
+        else if(SharingConsent.equalsIgnoreCase("false")) {
+            SharingConsent = "false";
+        }
+//        params.put("allowDataSharing", SharingConsent);
+        String url = URLs.ENROLL_ID + "studyId=" + getIntent().getStringExtra(STUDYID) + "&token=" + getIntent().getStringExtra(ENROLLID) + "&allowDataSharing=" + SharingConsent;
+        ResponseServerConfigEvent responseServerConfigEvent = new ResponseServerConfigEvent("post_json", url, ENROLL_ID_RESPONSECODE, CustomConsentViewTaskActivity.this, ResponseServerData.class, params, null, null, false, CustomConsentViewTaskActivity.this);
 
         enrollIdEvent.setResponseServerConfigEvent(responseServerConfigEvent);
         StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
@@ -618,7 +635,12 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
+            if(SharingConsent.equalsIgnoreCase("true")) {
+                SharingConsent = "true";
+            }
+            else if(SharingConsent.equalsIgnoreCase("false")) {
+                SharingConsent = "false";
+            }
 
 
 

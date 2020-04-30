@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name_icon">CARRA Registry</string>
     <string name="app_name">CARRA Registry</string>
     <string name="fda_listens">CARRA Registry</string>
     <string name="website">https://carragroup.org/</string>
