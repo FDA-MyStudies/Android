@@ -85,6 +85,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
     private static final String RUN_START_DATE = "ViewTaskActivity.RunStartDate";
     private static final String RUN_END_DATE = "ViewTaskActivity.RunEndDate";
     private static final String BRANCHING = "ViewTaskActivity.branching";
+    public static final String FREQUENCY_TYPE = "ViewTaskActivity.frequencyType";
 
     private StepSwitcherCustom root;
 
@@ -105,7 +106,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
     Realm realm;
     public static String RESOURCES = "resources";
 
-    public static Intent newIntent(Context context, String surveyId, String studyId, int mCurrentRunId, String mActivityStatus, int missedRun, int completedRun, int totalRun, String mActivityVersion, Date currentRunStartDate, Date currentRunEndDate, String activityId, boolean branching) {
+    public static Intent newIntent(Context context, String surveyId, String studyId, int mCurrentRunId, String mActivityStatus, int missedRun, int completedRun, int totalRun, String mActivityVersion, Date currentRunStartDate, Date currentRunEndDate, String activityId, boolean branching, String frequencyType) {
         Intent intent = new Intent(context, CustomSurveyViewTaskActivity.class);
         intent.putExtra(EXTRA_STUDYID, surveyId);
         intent.putExtra(STUDYID, studyId);
@@ -121,6 +122,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         intent.putExtra(ACTIVITY_VERSION, mActivityVersion);
         intent.putExtra(ACTIVITYID, activityId);
         intent.putExtra(BRANCHING, branching);
+        intent.putExtra(FREQUENCY_TYPE, frequencyType);
         return intent;
     }
 
@@ -424,6 +426,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         intent.putExtra(COMPLETED_RUN, getIntent().getIntExtra(COMPLETED_RUN, 0));
         intent.putExtra(TOTAL_RUN, getIntent().getIntExtra(TOTAL_RUN, 0));
         intent.putExtra(ACTIVITY_VERSION, getIntent().getStringExtra(ACTIVITY_VERSION));
+        intent.putExtra(FREQUENCY_TYPE, getIntent().getStringExtra(FREQUENCY_TYPE));
         startActivityForResult(intent, 123);
     }
 

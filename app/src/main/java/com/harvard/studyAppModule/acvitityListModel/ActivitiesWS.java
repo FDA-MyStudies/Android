@@ -13,6 +13,8 @@ public class ActivitiesWS extends RealmObject {
 
     private String title;
 
+    private String lastModified;
+
     private Frequency frequency;
 
     private String endTime;
@@ -159,5 +161,13 @@ public class ActivitiesWS extends RealmObject {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(String lastModified) {
+        this.lastModified = lastModified;
     }
 }

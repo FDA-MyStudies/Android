@@ -123,6 +123,7 @@ public class ChartActivity extends AppCompatActivity {
                 textView.setBackgroundColor(getResources().getColor(R.color.dark_gray));
                 textView.setTextColor(Color.BLACK);
                 textView.setText(dashboardData.getDashboard().getCharts().get(i).getDisplayName());
+                String displayname = dashboardData.getDashboard().getCharts().get(i).getDisplayName();
 
                 final LineChart chart = new LineChart(ChartActivity.this);
                 chart.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 600));
@@ -241,17 +242,18 @@ public class ChartActivity extends AppCompatActivity {
                         }
                     }
                 } else if (chartDataSource.getTimeRangeType().equalsIgnoreCase("runs")) {
-                    RealmResults<ActivityRun> activityRuns = dbServiceSubscriber.getAllActivityRunFromDB(getIntent().getStringExtra("studyId"), chartDataSource.getActivity().getActivityId(), mRealm);
-                    linearLayout1 = new LinearLayout(ChartActivity.this);
-                    SimpleDateFormat simpleDateFormat = AppController.getDateFormat();
-                    dateType = RUN;
-                    dateTypeArray.add(RUN);
-                    mFromDayVals.add(simpleDateFormat.format(new Date()));
-                    mToDayVals.add(simpleDateFormat.format(new Date()));
-                    filteredXValues.clear();
-                    ArrayList<RunChart> runCharts = new ArrayList<>();
-                    List<List<RunChart>> lists = new ArrayList<>();
-                    for (int k = 0; k < activityRuns.size(); k++) {
+                    ActivitiesWS activitiesWS = dbServiceSubscriber.getActivityItem(getIntent().getStringExtra("studyId"), chartDataSource.getActivity().getActivityId(), mRealm);
+                    if (activitiesWS.getFrequency().getType().equalsIgnoreCase("OnGoing")) {
+                        RealmResults<ActivityRun> activityRuns = dbServiceSubscriber.getAllActivityRunFromDB(getIntent().getStringExtra("studyId"), chartDataSource.getActivity().getActivityId(), mRealm);
+                        linearLayout1 = new LinearLayout(ChartActivity.this);
+                        SimpleDateFormat simpleDateFormat = AppController.getDateFormat();
+                        dateType = RUN;
+                        dateTypeArray.add(RUN);
+                        mFromDayVals.add(simpleDateFormat.format(new Date()));
+                        mToDayVals.add(simpleDateFormat.format(new Date()));
+                        filteredXValues.clear();
+                        ArrayList<RunChart> runCharts = new ArrayList<>();
+                        List<List<RunChart>> lists = new ArrayList<>();
                         lists.clear();
                         Date runCompletedDate = null;
                         String runAnswer = null;
@@ -286,36 +288,114 @@ public class ChartActivity extends AppCompatActivity {
                                     }
                                 }
 
-                                if (runId.equalsIgnoreCase("" + activityRuns.get(k).getRunId())) {
+//                                    if (runId.equalsIgnoreCase("" + activityRuns.get(k).getRunId())) {
 
-                                    runAnswer = answer;
-                                    runAnswerData = data;
-                                    runCompletedDate = stepRecordCustomList.get(l).completed;
-                                    break;
-                                }
+                                runAnswer = answer;
+                                runAnswerData = data;
+                                runCompletedDate = stepRecordCustomList.get(l).completed;
+
+//                                    }
+                                RunChart runChart = new RunChart();
+                                runChart.setCompletedDate(runCompletedDate);
+                                runChart.setResult(runAnswer);
+                                runChart.setResultData(runAnswerData);
+                                int runIdForChart = l + 1;
+                                runChart.setRunId(""+runIdForChart);
+                                runChart.setStartDate(stepRecordCustomList.get(l).started);
+                                runChart.setEnddDate(stepRecordCustomList.get(l).completed);
+                                runCharts.add(runChart);
                             }
                         }
-                        RunChart runChart = new RunChart();
-                        runChart.setCompletedDate(runCompletedDate);
-                        runChart.setResult(runAnswer);
-                        runChart.setResultData(runAnswerData);
-                        runChart.setRunId("" + activityRuns.get(k).getRunId());
-                        runChart.setStartDate(activityRuns.get(k).getStartDate());
-                        runChart.setEnddDate(activityRuns.get(k).getEndDate());
-                        runCharts.add(runChart);
-                    }
-                    //new chart
-                    lists = split(runCharts, 5);
-                    filteredXValues.clear();
-                    entryList.clear();
-                    if (lists.size() > 0) {
-                        for (int l = 0; l < lists.get(0).size(); l++) {
-                            if (lists.get(0).get(l).getResult() != null)
-                                entryList.add(new Entry(Float.parseFloat(lists.get(0).get(l).getResult()), Integer.parseInt(lists.get(0).get(l).getRunId()) - 1, lists.get(0).get(l).getResultData()));
-                            filteredXValues.add("" + (Integer.parseInt(lists.get(0).get(l).getRunId())));
+
+                        //new chart
+                        lists = split(runCharts, 5);
+                        filteredXValues.clear();
+                        entryList.clear();
+                        if (lists.size() > 0) {
+                            for (int l = 0; l < lists.get(0).size(); l++) {
+                                if (lists.get(0).get(l).getResult() != null)
+                                    entryList.add(new Entry(Float.parseFloat(lists.get(0).get(l).getResult()), Integer.parseInt(lists.get(0).get(l).getRunId()) - 1, lists.get(0).get(l).getResultData()));
+                                filteredXValues.add("" + (Integer.parseInt(lists.get(0).get(l).getRunId())));
+                            }
                         }
+                        addTimeLayoutRuns(lists, RUN, chartDataSource.getTimeRangeType(), chart, stepRecordCustomList, filteredXValues, entryList, activityRuns, i, dashboardData.getDashboard().getCharts().get(i).getConfiguration().getSettings().get(0).getBarColor(), chartDataSource.getActivity().getActivityId(), 0);
+                    } else {
+                        RealmResults<ActivityRun> activityRuns = dbServiceSubscriber.getAllActivityRunFromDB(getIntent().getStringExtra("studyId"), chartDataSource.getActivity().getActivityId(), mRealm);
+                        linearLayout1 = new LinearLayout(ChartActivity.this);
+                        SimpleDateFormat simpleDateFormat = AppController.getDateFormat();
+                        dateType = RUN;
+                        dateTypeArray.add(RUN);
+                        mFromDayVals.add(simpleDateFormat.format(new Date()));
+                        mToDayVals.add(simpleDateFormat.format(new Date()));
+                        filteredXValues.clear();
+                        ArrayList<RunChart> runCharts = new ArrayList<>();
+                        List<List<RunChart>> lists = new ArrayList<>();
+                        for (int k = 0; k < activityRuns.size(); k++) {
+                            lists.clear();
+                            Date runCompletedDate = null;
+                            String runAnswer = null;
+                            String runAnswerData = null;
+                            for (int l = 0; l < stepRecordCustomList.size(); l++) {
+                                if (stepRecordCustomList.get(l).taskId.contains("_")) {
+                                    String taskId[] = stepRecordCustomList.get(l).taskId.split("_STUDYID_");
+                                    String runId = taskId[1].substring(taskId[1].lastIndexOf("_") + 1, taskId[1].length());
+                                    JSONObject jsonObject;
+                                    String answer = "";
+                                    String data = "";
+                                    try {
+                                        jsonObject = new JSONObject(stepRecordCustomList.get(l).result);
+                                        String Id[] = stepRecordCustomList.get(l).activityID.split("_STUDYID_");
+                                        ActivitiesWS activityObj = dbServiceSubscriber.getActivityObj(Id[1], Id[0], mRealm);
+                                        if (activityObj.getType().equalsIgnoreCase("task")) {
+                                            JSONObject answerjson = new JSONObject(jsonObject.getString("answer"));
+                                            answer = answerjson.getString("duration");
+                                            answer = Double.toString(Integer.parseInt(answer) / 60f);
+                                            data = "min \nfor\n" + answerjson.getString("value") + " kicks";
+                                        } else {
+                                            answer = jsonObject.getString("answer");
+                                            data = "";
+                                        }
+                                        if (answer == null || answer.equalsIgnoreCase("")) {
+                                            answer = "0";
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        if (answer.equalsIgnoreCase("")) {
+                                            answer = "0";
+                                        }
+                                    }
+
+                                    if (runId.equalsIgnoreCase("" + activityRuns.get(k).getRunId())) {
+
+                                        runAnswer = answer;
+                                        runAnswerData = data;
+                                        runCompletedDate = stepRecordCustomList.get(l).completed;
+                                        break;
+                                    }
+                                }
+                            }
+                            RunChart runChart = new RunChart();
+                            runChart.setCompletedDate(runCompletedDate);
+                            runChart.setResult(runAnswer);
+                            runChart.setResultData(runAnswerData);
+                            runChart.setRunId("" + activityRuns.get(k).getRunId());
+                            runChart.setStartDate(activityRuns.get(k).getStartDate());
+                            runChart.setEnddDate(activityRuns.get(k).getEndDate());
+                            runCharts.add(runChart);
+                        }
+                        //new chart
+                        lists = split(runCharts, 5);
+                        filteredXValues.clear();
+                        entryList.clear();
+                        if (lists.size() > 0) {
+                            for (int l = 0; l < lists.get(0).size(); l++) {
+                                if (lists.get(0).get(l).getResult() != null)
+                                    entryList.add(new Entry(Float.parseFloat(lists.get(0).get(l).getResult()), Integer.parseInt(lists.get(0).get(l).getRunId()) - 1, lists.get(0).get(l).getResultData()));
+                                filteredXValues.add("" + (Integer.parseInt(lists.get(0).get(l).getRunId())));
+                            }
+                        }
+                        addTimeLayoutRuns(lists, RUN, chartDataSource.getTimeRangeType(), chart, stepRecordCustomList, filteredXValues, entryList, activityRuns, i, dashboardData.getDashboard().getCharts().get(i).getConfiguration().getSettings().get(0).getBarColor(), chartDataSource.getActivity().getActivityId(), 0);
                     }
-                    addTimeLayoutRuns(lists, RUN, chartDataSource.getTimeRangeType(), chart, stepRecordCustomList, filteredXValues, entryList, activityRuns, i, dashboardData.getDashboard().getCharts().get(i).getConfiguration().getSettings().get(0).getBarColor(), chartDataSource.getActivity().getActivityId(), 0);
                 } else if (chartDataSource.getTimeRangeType().equalsIgnoreCase("hours_of_day")) {
                     final RealmResults<ActivityRun> activityRuns = dbServiceSubscriber.getAllActivityRunforDate(chartDataSource.getActivity().getActivityId(), getIntent().getStringExtra("studyId"), new Date(), mRealm);
                     addTimeLayout(DAY, chartDataSource.getTimeRangeType(), chart, stepRecordCustomList, filteredXValues, entryList, activityRuns, i, dashboardData.getDashboard().getCharts().get(i).getConfiguration().getSettings().get(0).getBarColor(), chartDataSource.getActivity().getActivityId());
@@ -531,6 +611,14 @@ public class ChartActivity extends AppCompatActivity {
 
             leftArrow.setImageResource(R.drawable.arrow2_left);
             leftArrow.setPadding(10, 10, 10, 10);
+
+            if (dashboardData.getDashboard().getCharts().get(position).isScrollable()) {
+                rightArrow.setVisibility(View.VISIBLE);
+                leftArrow.setVisibility(View.VISIBLE);
+            } else {
+                rightArrow.setVisibility(View.GONE);
+                leftArrow.setVisibility(View.GONE);
+            }
 
             leftArrow.setOnClickListener(new View.OnClickListener() {
                 @Override

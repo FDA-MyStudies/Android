@@ -10,6 +10,7 @@ import com.harvard.studyAppModule.SurveyActivitiesFragment;
 import com.harvard.studyAppModule.activityBuilder.model.ActivityRun;
 import com.harvard.studyAppModule.acvitityListModel.ActivitiesWS;
 import com.harvard.studyAppModule.acvitityListModel.ActivityListData;
+import com.harvard.studyAppModule.acvitityListModel.Frequency;
 import com.harvard.studyAppModule.survayScheduler.model.ActivityStatus;
 import com.harvard.studyAppModule.survayScheduler.model.CompletionAdeherenceCalc;
 import com.harvard.userModule.webserviceModel.Activities;
@@ -33,6 +34,7 @@ import io.realm.Sort;
 
 public class SurvayScheduler {
     public static final String FREQUENCY_TYPE_ONE_TIME = "One Time";
+    public static final String FREQUENCY_TYPE_ON_GOING = "OnGoing";
     public static final String FREQUENCY_TYPE_WITHIN_A_DAY = "Within a day";
     public static final String FREQUENCY_TYPE_DAILY = "Daily";
     public static final String FREQUENCY_TYPE_WEEKLY = "Weekly";
@@ -78,7 +80,7 @@ public class SurvayScheduler {
 
     }
 
-    public void setRuns(ActivitiesWS activity, String studyId, Date startTime, Date endTime, Date joiningTime, Context context) {
+    public void setRuns(ActivitiesWS activity, String studyId, Date startTime, Date endTime, Date joiningTime, Context context, RealmResults<ActivityRun> activityRuns) {
         this.mStartTime = startTime;
         this.mEndTime = endTime;
         this.mStudyId = studyId;
@@ -98,6 +100,8 @@ public class SurvayScheduler {
                 setScheduledRun(activity, offset);
             } else if (activity.getFrequency().getType().equalsIgnoreCase(FREQUENCY_TYPE_ONE_TIME)) {
                 setOneTimeRun(activity, offset);
+            } else if (activity.getFrequency().getType().equalsIgnoreCase(FREQUENCY_TYPE_ON_GOING)) {
+                setOnGoingRun(activity, offset, activityRuns);
             }
         }
     }
@@ -233,6 +237,32 @@ public class SurvayScheduler {
                 if (!removeOffset(activityRun.getEndDate(), offset).before(new Date()))
                     notificationModuleSubscriber.generateActivityLocalNotification(activityRun, mContext, FREQUENCY_TYPE_ONE_TIME, offset);
             }
+        }
+    }
+
+    private void setOnGoingRun(ActivitiesWS activity, int offset, RealmResults<ActivityRun> activityRuns) {
+        SimpleDateFormat simpleDateFormat = AppController.getDateFormatUTC1();
+        ActivityRun activityRun = null;
+        try {
+            Calendar calendarStart = Calendar.getInstance();
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.YEAR, 50);
+            Date endDate = calendar.getTime();
+            int runId = 0;
+            if(activityRuns != null) {
+                runId = activityRuns.size();
+                runId = runId + 1;
+            } else {
+                runId = 1;
+            }
+            activityRun = getActivityRun(activity.getActivityId(), mStudyId, false, appleyOffset(calendarStart.getTime(), offset), appleyOffset(endDate, offset), runId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (activityRun != null) {
+            insertAndUpdateToDB(mContext,activityRun);
         }
     }
 
@@ -410,124 +440,167 @@ public class SurvayScheduler {
     }
 
     // if currentRunId = 0 then no need to show the current run in UI
-    public ActivityStatus getActivityStatus(ActivityData activityData, String studyId, String activityId, Date currentDate) {
-        String activityStatus = SurveyActivitiesFragment.YET_To_START;
-        int currentRunId = 0;
-
-        RealmResults<ActivityRun> activityRuns = dbServiceSubscriber.getAllActivityRunFromDB(studyId, activityId, mRealm);
-        activityRuns = activityRuns.sort("runId", Sort.ASCENDING);
-        int totalRun = activityRuns.size();
-        int missedRun = 0;
-        int completedRun = 0;
-        Date currentRunStartDate = null;
-        Date currentRunEndDate = null;
-        boolean runAvailable = false;
-        Activities activitiesForStatus = null;
-        ActivityStatus activityStatusData = new ActivityStatus();
-        SimpleDateFormat simpleDateFormat = AppController.getDateFormatUTC();
-
-        ActivityRun activityRun = null;
-        ActivityRun activityPreviousRun = null;
-        boolean previousRun = true;
-        for (int i = 0; i < activityRuns.size(); i++) {
-            Date activityRunStDate = null;
-            Date activityRunEndDate = null;
-            try {
-                activityRunStDate = simpleDateFormat.parse(simpleDateFormat.format(activityRuns.get(i).getStartDate()));
-                activityRunEndDate = simpleDateFormat.parse(simpleDateFormat.format(activityRuns.get(i).getEndDate()));
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-            if ((currentDate.equals(activityRunStDate) || currentDate.after(activityRunStDate)) && (currentDate.equals(activityRunEndDate) || currentDate.before(activityRunEndDate))) {
-                activityRun = activityRuns.get(i);
-            } else if (currentDate.after(activityRunStDate)) {
-                activityPreviousRun = activityRuns.get(i);
-                previousRun = false;
-            }
-        }
-
-        if (activityRun != null) {
-            runAvailable = true;
-            currentRunId = activityRun.getRunId();
-            currentRunStartDate = activityRun.getStartDate();
-            currentRunEndDate = activityRun.getEndDate();
-        } else {
-            if (activityPreviousRun != null) {
-                currentRunId = activityPreviousRun.getRunId();
-                currentRunStartDate = activityPreviousRun.getStartDate();
-                currentRunEndDate = activityPreviousRun.getEndDate();
-            }
-        }
-        boolean activityIdAvailable = false;
-        if (activityData.getActivities() != null) {
-            for (int i = 0; i < activityData.getActivities().size(); i++) {
-                if (activityData.getActivities().get(i).getActivityId().equalsIgnoreCase(activityId)) {
-                    activitiesForStatus = activityData.getActivities().get(i);
-                    if (activitiesForStatus.getActivityRunId() != null && !activitiesForStatus.getActivityRunId().equalsIgnoreCase("")) {
-                        activityIdAvailable = true;
+    public ActivityStatus getActivityStatus(ActivityData activityData, String studyId, String activityId, Date currentDate, String frequencyType, Context context) {
+        if (frequencyType.equalsIgnoreCase(FREQUENCY_TYPE_ON_GOING)) {
+            String activityStatus = SurveyActivitiesFragment.YET_To_START;
+            Activities activitiesForStatus = null;
+            Date currentRunStartDate = null;
+            Date currentRunEndDate = null;
+            ActivityStatus activityStatusData = new ActivityStatus();
+            if (activityData.getActivities() != null) {
+                for (int i = 0; i < activityData.getActivities().size(); i++) {
+                    if (activityData.getActivities().get(i).getActivityId().equalsIgnoreCase(activityId)) {
+                        activitiesForStatus = activityData.getActivities().get(i);
                     }
                 }
             }
-        }
-
-        if (runAvailable && activityIdAvailable) {
-            if (currentRunId == Integer.parseInt(activitiesForStatus.getActivityRunId())) {
+            RealmResults<ActivityRun> activityRuns = dbServiceSubscriber.getAllActivityRunFromDB(studyId, activityId, mRealm);
+            if(activitiesForStatus != null) {
                 activityStatus = activitiesForStatus.getStatus();
+                if(activityStatus.equalsIgnoreCase(SurveyActivitiesFragment.COMPLETED)){
+                    ActivitiesWS activitiesWS = new ActivitiesWS();
+                    Frequency frequency = new Frequency();
+                    frequency.setType(FREQUENCY_TYPE_ON_GOING);
+                    activitiesWS.setActivityId(activityId);
+                    activitiesWS.setFrequency(frequency);
+                    setRuns(activitiesWS, studyId, null, null, null, context, activityRuns);
+                    activityRuns = dbServiceSubscriber.getAllActivityRunFromDB(studyId, activityId, mRealm);
+                    activityStatus = SurveyActivitiesFragment.YET_To_START;
+                    dbServiceSubscriber.updateActivityPreferenceDB(context, activityId, studyId, activityRuns.size(), SurveyActivitiesFragment.YET_To_START, activitiesForStatus.getActivityRun().getCompleted() + 1, activitiesForStatus.getActivityRun().getCompleted(), 0, activitiesForStatus.getActivityVersion());
+                }
+                activityStatusData.setCompletedRun(activitiesForStatus.getActivityRun().getCompleted());
             } else {
-                activityStatus = SurveyActivitiesFragment.YET_To_START;
+                activityStatusData.setCompletedRun(0);
             }
-        } else if (runAvailable) {
-            activityStatus = SurveyActivitiesFragment.YET_To_START;
-        } else if (activityIdAvailable) {
-            if (currentRunId == Integer.parseInt(activitiesForStatus.getActivityRunId())) {
-                if (activitiesForStatus.getStatus().equalsIgnoreCase(SurveyActivitiesFragment.COMPLETED)) {
+            currentRunStartDate = activityRuns.get(activityRuns.size() - 1).getStartDate();
+            currentRunEndDate = activityRuns.get(activityRuns.size() - 1).getEndDate();
+            activityStatusData.setCurrentRunId(activityStatusData.getCompletedRun() + 1);
+            activityStatusData.setMissedRun(0);
+            activityStatusData.setCurrentRunStartDate(currentRunStartDate);
+            activityStatusData.setCurrentRunEndDate(currentRunEndDate);
+            activityStatusData.setStatus(activityStatus);
+            activityStatusData.setTotalRun(activityStatusData.getCompletedRun() + 1);
+            activityStatusData.setRunIdAvailable(true);
+            return activityStatusData;
+        }
+        else {
+            String activityStatus = SurveyActivitiesFragment.YET_To_START;
+            int currentRunId = 0;
+
+            RealmResults<ActivityRun> activityRuns = dbServiceSubscriber.getAllActivityRunFromDB(studyId, activityId, mRealm);
+            activityRuns = activityRuns.sort("runId", Sort.ASCENDING);
+            int totalRun = activityRuns.size();
+            int missedRun = 0;
+            int completedRun = 0;
+            Date currentRunStartDate = null;
+            Date currentRunEndDate = null;
+            boolean runAvailable = false;
+            Activities activitiesForStatus = null;
+            ActivityStatus activityStatusData = new ActivityStatus();
+            SimpleDateFormat simpleDateFormat = AppController.getDateFormatUTC();
+
+            ActivityRun activityRun = null;
+            ActivityRun activityPreviousRun = null;
+            boolean previousRun = true;
+            for (int i = 0; i < activityRuns.size(); i++) {
+                Date activityRunStDate = null;
+                Date activityRunEndDate = null;
+                try {
+                    activityRunStDate = simpleDateFormat.parse(simpleDateFormat.format(activityRuns.get(i).getStartDate()));
+                    activityRunEndDate = simpleDateFormat.parse(simpleDateFormat.format(activityRuns.get(i).getEndDate()));
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                if ((currentDate.equals(activityRunStDate) || currentDate.after(activityRunStDate)) && (currentDate.equals(activityRunEndDate) || currentDate.before(activityRunEndDate))) {
+                    activityRun = activityRuns.get(i);
+                } else if (currentDate.after(activityRunStDate)) {
+                    activityPreviousRun = activityRuns.get(i);
+                    previousRun = false;
+                }
+            }
+
+            if (activityRun != null) {
+                runAvailable = true;
+                currentRunId = activityRun.getRunId();
+                currentRunStartDate = activityRun.getStartDate();
+                currentRunEndDate = activityRun.getEndDate();
+            } else {
+                if (activityPreviousRun != null) {
+                    currentRunId = activityPreviousRun.getRunId();
+                    currentRunStartDate = activityPreviousRun.getStartDate();
+                    currentRunEndDate = activityPreviousRun.getEndDate();
+                }
+            }
+            boolean activityIdAvailable = false;
+            if (activityData.getActivities() != null) {
+                for (int i = 0; i < activityData.getActivities().size(); i++) {
+                    if (activityData.getActivities().get(i).getActivityId().equalsIgnoreCase(activityId)) {
+                        activitiesForStatus = activityData.getActivities().get(i);
+                        if (activitiesForStatus.getActivityRunId() != null && !activitiesForStatus.getActivityRunId().equalsIgnoreCase("")) {
+                            activityIdAvailable = true;
+                        }
+                    }
+                }
+            }
+
+            if (runAvailable && activityIdAvailable) {
+                if (currentRunId == Integer.parseInt(activitiesForStatus.getActivityRunId())) {
                     activityStatus = activitiesForStatus.getStatus();
+                } else {
+                    activityStatus = SurveyActivitiesFragment.YET_To_START;
+                }
+            } else if (runAvailable) {
+                activityStatus = SurveyActivitiesFragment.YET_To_START;
+            } else if (activityIdAvailable) {
+                if (currentRunId == Integer.parseInt(activitiesForStatus.getActivityRunId())) {
+                    if (activitiesForStatus.getStatus().equalsIgnoreCase(SurveyActivitiesFragment.COMPLETED)) {
+                        activityStatus = activitiesForStatus.getStatus();
+                    } else {
+                        activityStatus = SurveyActivitiesFragment.INCOMPLETE;
+                    }
                 } else {
                     activityStatus = SurveyActivitiesFragment.INCOMPLETE;
                 }
             } else {
-                activityStatus = SurveyActivitiesFragment.INCOMPLETE;
+                if (activityPreviousRun == null) {
+                    activityStatus = SurveyActivitiesFragment.YET_To_START;
+                } else {
+                    activityStatus = SurveyActivitiesFragment.INCOMPLETE;
+                }
             }
-        } else {
-            if (activityPreviousRun == null) {
-                activityStatus = SurveyActivitiesFragment.YET_To_START;
+
+            Activities activities = dbServiceSubscriber.getActivityPreferenceBySurveyId(studyId, activityId, mRealm);
+            if (activities != null && activities.getActivityRun() != null) {
+                completedRun = activities.getActivityRun().getCompleted();
+            }
+            if (currentRunId <= 0) {
+                missedRun = 0;
+                currentRunStartDate = new Date();
+                currentRunEndDate = new Date();
             } else {
-                activityStatus = SurveyActivitiesFragment.INCOMPLETE;
+                missedRun = currentRunId - completedRun;
             }
-        }
 
-        Activities activities = dbServiceSubscriber.getActivityPreferenceBySurveyId(studyId, activityId, mRealm);
-        if (activities != null && activities.getActivityRun() != null) {
-            completedRun = activities.getActivityRun().getCompleted();
-        }
-        if (currentRunId <= 0) {
-            missedRun = 0;
-            currentRunStartDate = new Date();
-            currentRunEndDate = new Date();
-        } else {
-            missedRun = currentRunId - completedRun;
-        }
+            if (runAvailable && !activityStatus.equalsIgnoreCase(SurveyActivitiesFragment.COMPLETED)) {
+                missedRun--;
+            }
 
-        if (runAvailable && !activityStatus.equalsIgnoreCase(SurveyActivitiesFragment.COMPLETED)) {
-            missedRun--;
-        }
+            if (missedRun < 0) {
+                missedRun = 0;
+            }
 
-        if (missedRun < 0) {
-            missedRun = 0;
+            activityStatusData.setCompletedRun(completedRun);
+            activityStatusData.setCurrentRunId(currentRunId);
+            activityStatusData.setMissedRun(missedRun);
+            activityStatusData.setCurrentRunStartDate(currentRunStartDate);
+            activityStatusData.setCurrentRunEndDate(currentRunEndDate);
+            activityStatusData.setStatus(activityStatus);
+            activityStatusData.setTotalRun(totalRun);
+            activityStatusData.setRunIdAvailable(runAvailable);
+            return activityStatusData;
         }
-
-        activityStatusData.setCompletedRun(completedRun);
-        activityStatusData.setCurrentRunId(currentRunId);
-        activityStatusData.setMissedRun(missedRun);
-        activityStatusData.setCurrentRunStartDate(currentRunStartDate);
-        activityStatusData.setCurrentRunEndDate(currentRunEndDate);
-        activityStatusData.setStatus(activityStatus);
-        activityStatusData.setTotalRun(totalRun);
-        activityStatusData.setRunIdAvailable(runAvailable);
-        return activityStatusData;
     }
-
 
     private Activities getActivitiesDb(ActivityData activityData, String activityId) {
         Activities activities = null;
@@ -564,8 +637,8 @@ public class SurvayScheduler {
 
                 try {
                     if(!activityListDataDB.getActivities().get(i).getStartTime().split("\\.")[0].equalsIgnoreCase(""))
-                    if (!checkafter(simpleDateFormat.parse(activityListDataDB.getActivities().get(i).getStartTime().split("\\.")[0]))) {
-                        ActivityStatus activityStatus = getActivityStatus(activityData, studyId, activityListDataDB.getActivities().get(i).getActivityId(), calendarCurrentTime.getTime());
+                        if (!activityListDataDB.getActivities().get(i).getFrequency().getType().equalsIgnoreCase("OnGoing") && !activityListDataDB.getActivities().get(i).getState().equalsIgnoreCase("deleted")) {
+                        ActivityStatus activityStatus = getActivityStatus(activityData, studyId, activityListDataDB.getActivities().get(i).getActivityId(), calendarCurrentTime.getTime(), "", mContext);
                         if (activityStatus != null) {
                             if (activityStatus.getCompletedRun() >= 0) {
                                 completed = completed + activityStatus.getCompletedRun();
@@ -578,8 +651,6 @@ public class SurvayScheduler {
                             }
                         }
                     }
-                } catch (ParseException e) {
-                    e.printStackTrace();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -113,7 +113,7 @@ public class FDAApplication extends Application {
         Realm.init(this);
         RealmEncryptionHelper realmEncryptionHelper = RealmEncryptionHelper.initHelper(this, getString(R.string.app_name));
         byte[] key = realmEncryptionHelper.getEncryptKey();
-
+        String s = bytesToHex(key);
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)
                         .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
@@ -122,6 +122,17 @@ public class FDAApplication extends Application {
                                 .build())
                         .build());
     }
+    private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
+    public static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 2];
+        for (int j = 0; j < bytes.length; j++) {
+            int v = bytes[j] & 0xFF;
+            hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+            hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
+        }
+        return new String(hexChars);
+    }
+
 
     private void startEventProcessing() {
         mRegistry = new FDAEventBusRegistry(this);

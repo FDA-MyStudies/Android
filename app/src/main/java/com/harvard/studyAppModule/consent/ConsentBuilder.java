@@ -200,8 +200,8 @@ public class ConsentBuilder {
             consentSharingStep.setText(consent.getSharing().getText());
             consentSharingStep.setTitle(consent.getSharing().getTitle());
             Choice[] choices = new Choice[2];
-            choices[0] = new Choice("Share my data with " + consent.getSharing().getShortDesc() + " and qualified researchers worldwide", "yes", "yes");
-            choices[1] = new Choice("Only share my data with " + consent.getSharing().getLongDesc(), "no", "no");
+            choices[0] = new Choice("Share my data with " + consent.getSharing().getShortDesc() + " and qualified researchers worldwide", "True", "yes");
+            choices[1] = new Choice("Only share my data with " + consent.getSharing().getLongDesc(), "False", "no");
 
             AnswerFormat choiceAnswerFormat = new ChoiceAnswerFormat(AnswerFormat.ChoiceAnswerStyle.SingleChoice, choices);
             consentSharingStep.setAnswerFormat(choiceAnswerFormat);

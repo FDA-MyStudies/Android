@@ -180,7 +180,11 @@ public class SurveyActivitiesListAdapter extends RecyclerView.Adapter<SurveyActi
                     holder.mProcess.setVisibility(View.GONE);
                 }
                 holder.mRun.setVisibility(View.VISIBLE);
-                holder.mRun.setText(mContext.getResources().getString(R.string.run) + ": " + mCurrentRunStatusForActivities.get(position).getCurrentRunId() + "/" + mCurrentRunStatusForActivities.get(position).getTotalRun() + ", " + mCurrentRunStatusForActivities.get(position).getCompletedRun() + " " + mContext.getResources().getString(R.string.done2) + ", " + mCurrentRunStatusForActivities.get(position).getMissedRun() + " " + mContext.getResources().getString(R.string.missed));
+                if (items.get(position).getFrequency().getType().equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_ON_GOING)) {
+                    holder.mRun.setText("Run(s): " + mCurrentRunStatusForActivities.get(position).getCompletedRun() + " " + mContext.getResources().getString(R.string.done2));
+                } else {
+                    holder.mRun.setText(mContext.getResources().getString(R.string.run) + ": " + mCurrentRunStatusForActivities.get(position).getCurrentRunId() + "/" + mCurrentRunStatusForActivities.get(position).getTotalRun() + ", " + mCurrentRunStatusForActivities.get(position).getCompletedRun() + " " + mContext.getResources().getString(R.string.done2) + ", " + mCurrentRunStatusForActivities.get(position).getMissedRun() + " " + mContext.getResources().getString(R.string.missed));
+                }
             }
             // completed status incomplete/complete settings
             if (mStatus.get(holder.getAdapterPosition()).equalsIgnoreCase(SurveyActivitiesFragment.STATUS_COMPLETED)) {
@@ -303,6 +307,14 @@ public class SurveyActivitiesListAdapter extends RecyclerView.Adapter<SurveyActi
                     } else {
                         holder.mDate.setText(mContext.getResources().getString(R.string.from) + " : " + simpleDateFormat2.format(startDate));
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                holder.mTime.setVisibility(View.GONE);
+                holder.more.setVisibility(View.GONE);
+            }  else if (items.get(position).getFrequency().getType().equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_ON_GOING)) {
+                try {
+                    holder.mDate.setText("");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

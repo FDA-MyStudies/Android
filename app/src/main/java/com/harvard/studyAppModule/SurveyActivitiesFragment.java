@@ -2258,7 +2258,7 @@ public class SurveyActivitiesFragment extends Fragment
             activityData,
             ((SurveyActivity) mContext).getStudyId(),
             activityListData.getActivities().get(i).getActivityId(),
-            calendarCurrentTime.getTime());
+            calendarCurrentTime.getTime(), activityListData.getActivities().get(i).getFrequency().getType(), mContext);
 
     try {
       SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
@@ -4027,7 +4027,7 @@ public class SurveyActivitiesFragment extends Fragment
                   starttime,
                   endtime,
                   joiningDate,
-                  mContext);
+                  mContext, null);
             }
           } else if (activityIds.size() > 0) {
             // remove runs for these Ids and set runs once again
@@ -4043,7 +4043,7 @@ public class SurveyActivitiesFragment extends Fragment
                     starttime,
                     endtime,
                     joiningDate,
-                    mContext);
+                    mContext, null);
               }
               // delete activity object that used for survey
               dbServiceSubscriber.deleteActivityObjectFromDb(
@@ -4103,22 +4103,28 @@ public class SurveyActivitiesFragment extends Fragment
               calendarCurrentTime.getTimeInMillis()
                   - survayScheduler.getOffset(mContext));
           if (!deleted) {
-            ActivityStatus activityStatus =
-                survayScheduler.getActivityStatus(
-                    activityData,
-                    ((SurveyActivity) mContext).getStudyId(),
-                    activitiesArrayList.get(i).getActivityId(),
-                    calendarCurrentTime.getTime());
-            if (activityStatus != null) {
-              if (activityStatus.getCompletedRun() >= 0) {
-                completed = completed + activityStatus.getCompletedRun();
+            ActivityStatus activityStatus = null;
+            if (!activitiesArrayList.get(i).getFrequency().getType().equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_ON_GOING) || (activitiesArrayList.get(i).getFrequency().getType().equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_ON_GOING) && !activitiesArrayList.get(i).getState().equalsIgnoreCase("deleted"))) {
+              activityStatus = survayScheduler.getActivityStatus(activityData, ((SurveyActivity) mContext).getStudyId(), activitiesArrayList.get(i).getActivityId(), calendarCurrentTime.getTime(), activitiesArrayList.get(i).getFrequency().getType(), mContext);
+            }
+            try {
+//                        if (activityStatus != null && !activitiesArrayList.get(i).getFrequency().getType().equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_ON_GOING) && !checkafter(AppController.getDateFormatUTC1().parse(activitiesArrayList.get(i).getStartTime().split("\\.")[0]))) {
+              if (activityStatus != null && !activitiesArrayList.get(i).getFrequency().getType().equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_ON_GOING) && !activitiesArrayList.get(i).getState().equalsIgnoreCase("deleted")) {
+
+                if (activityStatus.getCompletedRun() >= 0)
+                {
+                  completed = completed + activityStatus.getCompletedRun();
+                }
+                if (activityStatus.getMissedRun() >= 0) {
+                  missed = missed + activityStatus.getMissedRun();
+                }
+                if (activityStatus.getTotalRun() >= 0) {
+                  total = total + activityStatus.getTotalRun();
+                }
+
               }
-              if (activityStatus.getMissedRun() >= 0) {
-                missed = missed + activityStatus.getMissedRun();
-              }
-              if (activityStatus.getTotalRun() >= 0) {
-                total = total + activityStatus.getTotalRun();
-              }
+            } catch (Exception e) {
+              e.printStackTrace();
             }
             if (!activitiesArrayList.get(i).getState().equalsIgnoreCase("deleted")) {
               if (starttime != null) {
@@ -4222,27 +4228,38 @@ public class SurveyActivitiesFragment extends Fragment
       }
 
       ArrayList<ActivitiesWS> yetToStartOrResumeList = new ArrayList<>();
+      ArrayList<ActivitiesWS> onGoingYetToStartOrResumeList = new ArrayList<>();
       ArrayList<ActivitiesWS> otherList = new ArrayList<>();
+      ArrayList<ActivitiesWS> onGoingOtherList = new ArrayList<>();
       ArrayList<ActivityStatus> yetToStartOrResumeActivityStatusList = new ArrayList<>();
+      ArrayList<ActivityStatus> onGoingYetToStartOrResumeActivityStatusList = new ArrayList<>();
       ArrayList<ActivityStatus> otherActivityStatusList = new ArrayList<>();
+      ArrayList<ActivityStatus> onGoingOtherActivityStatusList = new ArrayList<>();
       ArrayList<String> yetToStartOrResumeStatusList = new ArrayList<>();
+      ArrayList<String> onGoingYetToStartOrResumeStatusList = new ArrayList<>();
       ArrayList<String> otherStatusList = new ArrayList<>();
+      ArrayList<String> onGoingOtherStatusList = new ArrayList<>();
       for (int i = 0; i < currentactivityList.size(); i++) {
-        if (currentActivityStatus
-            .get(i)
-            .getStatus()
-            .equalsIgnoreCase(SurveyActivitiesFragment.YET_To_START)
-            || currentActivityStatus
-            .get(i)
-            .getStatus()
-            .equalsIgnoreCase(SurveyActivitiesFragment.IN_PROGRESS)) {
-          yetToStartOrResumeList.add(currentactivityList.get(i));
-          yetToStartOrResumeActivityStatusList.add(currentActivityStatus.get(i));
-          yetToStartOrResumeStatusList.add(currentStatus.get(i));
+        if (currentActivityStatus.get(i).getStatus().equalsIgnoreCase(SurveyActivitiesFragment.YET_To_START) || currentActivityStatus.get(i).getStatus().equalsIgnoreCase(SurveyActivitiesFragment.IN_PROGRESS)) {
+          if (currentactivityList.get(i).getFrequency().getType().equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_ON_GOING)) {
+            onGoingYetToStartOrResumeList.add(currentactivityList.get(i));
+            onGoingYetToStartOrResumeActivityStatusList.add(currentActivityStatus.get(i));
+            onGoingYetToStartOrResumeStatusList.add(currentStatus.get(i));
+          } else {
+            yetToStartOrResumeList.add(currentactivityList.get(i));
+            yetToStartOrResumeActivityStatusList.add(currentActivityStatus.get(i));
+            yetToStartOrResumeStatusList.add(currentStatus.get(i));
+          }
         } else {
-          otherList.add(currentactivityList.get(i));
-          otherActivityStatusList.add(currentActivityStatus.get(i));
-          otherStatusList.add(currentStatus.get(i));
+          if (currentactivityList.get(i).getFrequency().getType().equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_ON_GOING)) {
+            onGoingOtherList.add(currentactivityList.get(i));
+            onGoingOtherActivityStatusList.add(currentActivityStatus.get(i));
+            onGoingOtherStatusList.add(currentStatus.get(i));
+          } else {
+            otherList.add(currentactivityList.get(i));
+            otherActivityStatusList.add(currentActivityStatus.get(i));
+            otherStatusList.add(currentStatus.get(i));
+          }
         }
       }
       try {
@@ -4260,14 +4277,53 @@ public class SurveyActivitiesFragment extends Fragment
       } catch (Exception e) {
         e.printStackTrace();
       }
+      ArrayList<ActivitiesWS> onGoingActvityList = new ArrayList<>();
+      onGoingActvityList.addAll(onGoingYetToStartOrResumeList);
+      onGoingActvityList.addAll(onGoingOtherList);
+
+      ArrayList<ActivityStatus> onGoingActivityStatusList = new ArrayList<>();
+      onGoingActivityStatusList.addAll(onGoingYetToStartOrResumeActivityStatusList);
+      onGoingActivityStatusList.addAll(onGoingOtherActivityStatusList);
+
+      ArrayList<String> onGoingStatusList = new ArrayList<>();
+      onGoingStatusList.addAll(onGoingYetToStartOrResumeStatusList);
+      onGoingStatusList.addAll(onGoingOtherStatusList);
+
+      for (int i = 0; i < onGoingActvityList.size(); i++) {
+        for (int j = i; j < onGoingActvityList.size(); j++) {
+          try {
+            if(AppController.getDateFormatUTC().parse(onGoingActvityList.get(j).getLastModified()).after(AppController.getDateFormatUTC().parse(onGoingActvityList.get(i).getLastModified()))) {
+              ActivitiesWS replaceWithActivityList = onGoingActvityList.get(j);
+              onGoingActvityList.set(j, onGoingActvityList.get(i));
+              onGoingActvityList.set(i, replaceWithActivityList);
+
+              ActivityStatus replaceWithActivityStatus = onGoingActivityStatusList.get(j);
+              onGoingActivityStatusList.set(j, onGoingActivityStatusList.get(i));
+              onGoingActivityStatusList.set(i, replaceWithActivityStatus);
+
+              String replaceWithStatus = onGoingStatusList.get(j);
+              onGoingStatusList.set(j, onGoingStatusList.get(i));
+              onGoingStatusList.set(i, replaceWithStatus);
+
+            }
+          } catch (ParseException e) {
+            e.printStackTrace();
+          }
+        }
+      }
+
       currentactivityList.addAll(yetToStartOrResumeList);
+      currentactivityList.addAll(onGoingActvityList);
       currentactivityList.addAll(otherList);
 
       currentActivityStatus.addAll(yetToStartOrResumeActivityStatusList);
+      currentActivityStatus.addAll(onGoingActivityStatusList);
       currentActivityStatus.addAll(otherActivityStatusList);
 
       currentStatus.addAll(yetToStartOrResumeStatusList);
+      currentStatus.addAll(onGoingStatusList);
       currentStatus.addAll(otherStatusList);
+
 
       for (int i = 0; i < upcomingactivityList.size(); i++) {
         for (int j = i; j < upcomingactivityList.size(); j++) {
@@ -5022,7 +5078,7 @@ public class SurveyActivitiesFragment extends Fragment
             mActivityStatusData.getCurrentRunStartDate(),
             mActivityStatusData.getCurrentRunEndDate(),
             mActivityObj.getSurveyId(),
-            mBranching);
+            mBranching, selectedActivity.getFrequency().getType());
     startActivityForResult(intent, 123);
   }
 

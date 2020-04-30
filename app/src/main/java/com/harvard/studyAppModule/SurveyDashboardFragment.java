@@ -1271,6 +1271,10 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                     }
                 } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK) {
                     try {
+                        ActivitiesWS activityObj1 = dbServiceSubscriber.getActivityObj(responseInfoActiveTaskModel.getActivityId(), studyId, mRealm);
+                        if (activityObj1.getFrequency().getType().equalsIgnoreCase("OnGoing")) {
+                            dbServiceSubscriber.deleteResponseDataFromDbByActivityIDStudyId(mContext, studyId + "_STUDYID_" + responseInfoActiveTaskModel.getActivityId());
+                        }
                         SimpleDateFormat simpleDateFormat = AppController.getLabkeyDateFormat();
                         JSONObject jsonObject = new JSONObject(response);
                         JSONArray jsonArray = (JSONArray) jsonObject.get("rows");
@@ -1298,6 +1302,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
+                            int f = 1;
                             for (Map.Entry<String, Object> entry : myMap.entrySet()) {
                                 String key = entry.getKey();
                                 String valueobj = gson.toJson(entry.getValue());
@@ -1314,17 +1319,37 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                                         && !key.equalsIgnoreCase("duration")
                                         && !key.equalsIgnoreCase(stepKey + "Id")
                                         && !key.equalsIgnoreCase("Created")) {
+                                    ActivitiesWS activityObj = dbServiceSubscriber.getActivityObj(responseInfoActiveTaskModel.getActivityId(), studyId, mRealm);
                                     int runId = dbServiceSubscriber.getActivityRunForStatsAndCharts(responseInfoActiveTaskModel.getActivityId(), studyId, completedDate, mRealm);
-                                    if (key.equalsIgnoreCase("count")) {
+                                    if (activityObj.getFrequency().getType().equalsIgnoreCase("OnGoing")) {
+                                        if (key.equalsIgnoreCase("count")) {
+                                            stepRecordCustom.setStepId(stepKey);
+                                            stepRecordCustom.setTaskStepID(studyId + "_STUDYID_" + responseInfoActiveTaskModel.getActivityId() + "_" + i + "_" + stepKey);
+                                        } else {
+                                            stepRecordCustom.setStepId(key);
+                                            stepRecordCustom.setTaskStepID(studyId + "_STUDYID_" + responseInfoActiveTaskModel.getActivityId() + "_" + i + "_" + key);
+                                        }
+                                        stepRecordCustom.setTaskId(studyId + "_STUDYID_" + responseInfoActiveTaskModel.getActivityId() + "_" + i);
+                                    } else {
+                                        if (key.equalsIgnoreCase("count")) {
+                                            stepRecordCustom.setStepId(stepKey);
+                                            stepRecordCustom.setTaskStepID(studyId + "_STUDYID_" + responseInfoActiveTaskModel.getActivityId() + "_" + runId + "_" + stepKey);
+                                        } else {
+                                            stepRecordCustom.setStepId(key);
+                                            stepRecordCustom.setTaskStepID(studyId + "_STUDYID_" + responseInfoActiveTaskModel.getActivityId() + "_" + runId + "_" + key);
+                                        }
+                                        stepRecordCustom.setTaskId(studyId + "_STUDYID_" + responseInfoActiveTaskModel.getActivityId() + "_" + runId);
+                                    }
+                                    /*if (key.equalsIgnoreCase("count")) {
                                         stepRecordCustom.setStepId(stepKey);
                                         stepRecordCustom.setTaskStepID(studyId + "_STUDYID_" + responseInfoActiveTaskModel.getActivityId() + "_" + runId + "_" + stepKey);
                                     } else {
                                         stepRecordCustom.setStepId(key);
                                         stepRecordCustom.setTaskStepID(studyId + "_STUDYID_" + responseInfoActiveTaskModel.getActivityId() + "_" + runId + "_" + key);
                                     }
+                                    stepRecordCustom.setTaskId(studyId + "_STUDYID_" + responseInfoActiveTaskModel.getActivityId() + "_" + runId);*/
                                     stepRecordCustom.setStudyId(studyId);
                                     stepRecordCustom.setActivityID(studyId + "_STUDYID_" + responseInfoActiveTaskModel.getActivityId());
-                                    stepRecordCustom.setTaskId(studyId + "_STUDYID_" + responseInfoActiveTaskModel.getActivityId() + "_" + runId);
 
                                     stepRecordCustom.setCompleted(completedDate);
                                     stepRecordCustom.setStarted(completedDate);
@@ -1336,7 +1361,6 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                                         e.printStackTrace();
                                     }
 
-                                    ActivitiesWS activityObj = dbServiceSubscriber.getActivityObj(responseInfoActiveTaskModel.getActivityId(), studyId, mRealm);
                                     if (activityObj.getType().equalsIgnoreCase("task")) {
                                         JSONObject jsonObject3 = new JSONObject();
                                         jsonObject3.put("value", value);
@@ -1356,6 +1380,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                                         stepRecordCustom.setId(currentIdNum.intValue() + 1);
                                     }
                                     dbServiceSubscriber.updateStepRecord(mContext, stepRecordCustom);
+                                    f++;
                                 }
                             }
                         }

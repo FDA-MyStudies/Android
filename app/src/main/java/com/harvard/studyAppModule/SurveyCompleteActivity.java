@@ -18,8 +18,10 @@ import com.harvard.R;
 import com.harvard.storageModule.DBServiceSubscriber;
 import com.harvard.studyAppModule.activityBuilder.CustomSurveyViewTaskActivity;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.ActivityObj;
+import com.harvard.studyAppModule.acvitityListModel.ActivitiesWS;
 import com.harvard.studyAppModule.custom.Result.StepRecordCustom;
 import com.harvard.studyAppModule.events.ProcessResponseEvent;
+import com.harvard.studyAppModule.survayScheduler.SurvayScheduler;
 import com.harvard.userModule.UserModulePresenter;
 import com.harvard.userModule.event.UpdatePreferenceEvent;
 import com.harvard.userModule.webserviceModel.Activities;
@@ -463,7 +465,11 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
             int currentRun = getIntent().getIntExtra(CustomSurveyViewTaskActivity.RUNID, 0);
             int missedRun = currentRun - completedRun;
 
-            activityRun.put("total", getIntent().getIntExtra(CustomSurveyViewTaskActivity.TOTAL_RUN, 0));
+            if (getIntent().getStringExtra(CustomSurveyViewTaskActivity.FREQUENCY_TYPE).equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_ON_GOING)) {
+                activityRun.put("total", completedRun + 1);
+            } else {
+                activityRun.put("total", getIntent().getIntExtra(CustomSurveyViewTaskActivity.TOTAL_RUN, 0));
+            }
             activityRun.put("completed", completedRun);
             activityRun.put("missed", missedRun);
 
@@ -537,7 +543,10 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
             if (studies != null) {
                 dbServiceSubscriber.updateStudyPreference(this,studies, completion, adherence);
             }
-            dbServiceSubscriber.updateActivityRunToDB(this,activityId[1], getIntent().getStringExtra(CustomSurveyViewTaskActivity.STUDYID), getIntent().getIntExtra(CustomSurveyViewTaskActivity.RUNID, 0));
+            ActivitiesWS activityObj = dbServiceSubscriber.getActivityObj(activityId[1], getIntent().getStringExtra(CustomSurveyViewTaskActivity.STUDYID), realm);
+            if (!activityObj.getFrequency().getType().equalsIgnoreCase("OnGoing")) {
+                dbServiceSubscriber.updateActivityRunToDB(this, activityId[1], getIntent().getStringExtra(CustomSurveyViewTaskActivity.STUDYID), getIntent().getIntExtra(CustomSurveyViewTaskActivity.RUNID, 0));
+            }
             Intent intent = new Intent();
             setResult(RESULT_OK, intent);
             finish();
@@ -610,7 +619,10 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
                 int missedRun = currentRun - completedRun;
                 String activityId[] = surveyId.split("_STUDYID_");
                 dbServiceSubscriber.updateActivityPreferenceDB(this,activityId[1], getIntent().getStringExtra(CustomSurveyViewTaskActivity.STUDYID), getIntent().getIntExtra(CustomSurveyViewTaskActivity.RUNID, 0), SurveyActivitiesFragment.COMPLETED, getIntent().getIntExtra(CustomSurveyViewTaskActivity.TOTAL_RUN, 0), completedRun, missedRun, getIntent().getStringExtra(CustomSurveyViewTaskActivity.ACTIVITY_VERSION));
-                dbServiceSubscriber.updateActivityRunToDB(this,activityId[1], getIntent().getStringExtra(CustomSurveyViewTaskActivity.STUDYID), getIntent().getIntExtra(CustomSurveyViewTaskActivity.RUNID, 0));
+                ActivitiesWS activityObj = dbServiceSubscriber.getActivityObj(activityId[1], getIntent().getStringExtra(CustomSurveyViewTaskActivity.STUDYID), realm);
+                if (!activityObj.getFrequency().getType().equalsIgnoreCase("OnGoing")) {
+                    dbServiceSubscriber.updateActivityRunToDB(this, activityId[1], getIntent().getStringExtra(CustomSurveyViewTaskActivity.STUDYID), getIntent().getIntExtra(CustomSurveyViewTaskActivity.RUNID, 0));
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -833,7 +845,10 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
             int currentRun = getIntent().getIntExtra(CustomSurveyViewTaskActivity.RUNID, 0);
             int missedRun = currentRun - completedRun;
             dbServiceSubscriber.updateActivityPreferenceDB(this,activityId[1], getIntent().getStringExtra(CustomSurveyViewTaskActivity.STUDYID), getIntent().getIntExtra(CustomSurveyViewTaskActivity.RUNID, 0), SurveyActivitiesFragment.COMPLETED, getIntent().getIntExtra(CustomSurveyViewTaskActivity.TOTAL_RUN, 0), completedRun, missedRun, getIntent().getStringExtra(CustomSurveyViewTaskActivity.ACTIVITY_VERSION));
-            dbServiceSubscriber.updateActivityRunToDB(this,activityId[1], getIntent().getStringExtra(CustomSurveyViewTaskActivity.STUDYID), getIntent().getIntExtra(CustomSurveyViewTaskActivity.RUNID, 0));
+            ActivitiesWS activityObj1 = dbServiceSubscriber.getActivityObj(activityId[1], getIntent().getStringExtra(CustomSurveyViewTaskActivity.STUDYID), realm);
+            if (!activityObj1.getFrequency().getType().equalsIgnoreCase("OnGoing")) {
+                dbServiceSubscriber.updateActivityRunToDB(this, activityId[1], getIntent().getStringExtra(CustomSurveyViewTaskActivity.STUDYID), getIntent().getIntExtra(CustomSurveyViewTaskActivity.RUNID, 0));
+            }
             Intent intent = new Intent();
             setResult(RESULT_OK, intent);
             finish();

@@ -140,6 +140,7 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
     EligibilityConsent eligibilityConsent;
     StudyList studyList;
     String pdfPath;
+    String SharingConsent = "n/a";
 
     public static Intent newIntent(Context context, Task task, String studyId, String enrollId, String pdfTitle, String eligibility, String type) {
         Intent intent = new Intent(context, CustomConsentViewTaskActivity.class);
@@ -608,7 +609,15 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
             JSONObject lastNameObj = formResultObj.getJSONObject("Last Name");
             JSONObject lastNameResult = lastNameObj.getJSONObject("results");
             String lastName = lastNameResult.getString("answer");
-
+            try {
+                StepResult result = taskResult.getStepResult("sharing");
+                if (result != null) {
+                    JSONObject resultObj = new JSONObject(result.getResults().toString());
+                    SharingConsent = resultObj.get("answer").toString();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
 
 
@@ -787,7 +796,7 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
 
             body.put("consent", consentbody);
 
-            body.put("sharing", "");
+            body.put("sharing", SharingConsent);
         } catch (JSONException e) {
             e.printStackTrace();
         }

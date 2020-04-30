@@ -514,6 +514,27 @@ public class DBServiceSubscriber {
         });
     }
 
+    public void deleteResponseDataFromDbByActivityIDStudyId(Context context,final String activityID_StudyId) {
+        realm = AppController.getRealmobj(context);
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                try {
+                    RealmResults<StepRecordCustom> rows = realm.where(StepRecordCustom.class).equalTo("activityID", activityID_StudyId).findAll();
+                    for (int i = 0; i < rows.size(); i++) {
+                        if (rows.get(i).getTextChoices() != null) {
+                            rows.get(i).getTextChoices().deleteAllFromRealm();
+                        }
+                    }
+                    rows.deleteAllFromRealm();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        closeRealmObj(realm);
+    }
+
     public void deleteActivityObjectFromDb(Context context, final String activityId, final String studyId) {
         realm = AppController.getRealmobj(context);
         realm.executeTransaction(new Realm.Transaction() {

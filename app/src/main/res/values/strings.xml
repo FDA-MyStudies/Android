@@ -180,7 +180,7 @@
     <string name="subject_empty">Please enter your subject.</string>
     <string name="message_empty">Please enter your message.</string>
     <string name="submitted_message">Successfully submited</string>
-    <string name="contact_us_message">Thank you. Your Form has been successfully submitted!</string>
+    <string name="contact_us_message">Thank you for contacting us. We will get back to you as soon as possible.</string>
     <string name="feedback_message">Thank you for providing feedback. Your gesture is appreciated.</string>
     <string name="feedback_empty">Please enter your feedback.</string>
     <string name="feedback_submit_success">Thank you. Your Form has been successfully submitted!</string>
