@@ -68,8 +68,8 @@ android {
         limitjia {
             dimension 'version'
             applicationId "com.carrastudies.limitjia"
-            versionCode 10
-            versionName "1.0"
+            versionCode 18
+            versionName "1.0.1"
         }
         sparc {
             dimension 'version'

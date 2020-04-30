@@ -18,5 +18,5 @@ public class AppConfig {
     public static String APP_ID_VALUE = "FMSA001";
     //OrgId
     public static String ORG_ID_KEY = "orgId";
-    public static String ORG_ID_VALUE = "OrgName";
+    public static String ORG_ID_VALUE = "FDAHPH";
 }
