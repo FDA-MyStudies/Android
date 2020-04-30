@@ -202,7 +202,7 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(VerificationStepActivity.this, R.style.MyAlertDialogStyle);
                 alertDialogBuilder.setTitle(VerificationStepActivity.this.getApplicationInfo().loadLabel(VerificationStepActivity.this.getPackageManager()).toString());
-                alertDialogBuilder.setMessage("Do you want to set passcode for the app?").setCancelable(false)
+                alertDialogBuilder.setMessage("Do you want to set a passcode for the app?").setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(VerificationStepActivity.this, NewPasscodeSetupActivity.class);
@@ -231,7 +231,7 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(VerificationStepActivity.this, R.style.MyAlertDialogStyle);
                 alertDialogBuilder.setTitle(VerificationStepActivity.this.getApplicationInfo().loadLabel(VerificationStepActivity.this.getPackageManager()).toString());
-                alertDialogBuilder.setMessage("Do you want to set passcode for the app?").setCancelable(false)
+                alertDialogBuilder.setMessage("Do you want to set a passcode for the app?").setCancelable(false)
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(VerificationStepActivity.this, NewPasscodeSetupActivity.class);
