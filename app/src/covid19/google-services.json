@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "585664449457",
+    "firebase_url": "https://covid19-47e64.firebaseio.com",
+    "project_id": "covid19-47e64",
+    "storage_bucket": "covid19-47e64.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:585664449457:android:391bd716d052389b4dcb90",
+        "android_client_info": {
+          "package_name": "com.harvard.covid19"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "585664449457-apqaderq9jh2hl6gi725p1ka0h7u19qu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXrk_V_WLzNac_Q6-uCIWLl2_5MrHnWGk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "585664449457-apqaderq9jh2hl6gi725p1ka0h7u19qu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

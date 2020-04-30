@@ -38,6 +38,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.KeyPairGenerator;
@@ -615,13 +616,14 @@ public class AppController{
     }
 
     // convert ivBytes to String
+    // convert ivBytes to String
     public static String ivBytesToString() {
         String ivBytesConvertString = "";
         try {
             SecureRandom rand = new SecureRandom();
             byte[] ivBytes = new byte[16];
             rand.nextBytes(ivBytes);
-            ivBytesConvertString = new String(Base64.encode(ivBytes, Base64.DEFAULT), "UTF-8");
+            ivBytesConvertString = new String(Base64.encode(ivBytes, Base64.DEFAULT), StandardCharsets.UTF_8);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -630,15 +632,15 @@ public class AppController{
 
     // convert  String to ivBytes
     public static byte[] stringToIvBytes(String val) {
-        byte[] ivBytes = null;
-        try {
-            ivBytes = val.getBytes("UTF-8");
-        } catch (Exception e) {
-            e.printStackTrace();
+        byte[] ivBytes;
+        byte[] ivBytes_test = new byte[16];
+        ivBytes = val.getBytes(StandardCharsets.UTF_8);
+        for (int i = 0; i < 16; i++) {
+            ivBytes_test[i] = ivBytes[i];
         }
-        return ivBytes;
+        return ivBytes_test;
     }
-
+    // encrypt the pdf file and return File
     // encrypt the pdf file and return File
     public static File genarateEncryptedConsentPDF(String filePath, String timeStamp) {
         try {
@@ -657,7 +659,8 @@ public class AppController{
             byte[] ivBytes = AppController.stringToIvBytes(val2);
 
             try {
-                encipher.init(Cipher.ENCRYPT_MODE, skey, new IvParameterSpec(Base64.decode(ivBytes, Base64.DEFAULT)));
+
+                encipher.init(Cipher.ENCRYPT_MODE, skey, new IvParameterSpec(ivBytes));
             } catch (InvalidAlgorithmParameterException e) {
                 e.printStackTrace();
             }
@@ -693,7 +696,7 @@ public class AppController{
             String getStringIvByte = AppController.refreshKeys("iv");
             byte[] ivBytes = AppController.stringToIvBytes(getStringIvByte);
             try {
-                encipher.init(Cipher.DECRYPT_MODE, skey, new IvParameterSpec(Base64.decode(ivBytes, Base64.DEFAULT)));
+                encipher.init(Cipher.DECRYPT_MODE, skey, new IvParameterSpec(ivBytes));
             } catch (InvalidAlgorithmParameterException e) {
                 e.printStackTrace();
             }
@@ -740,7 +743,7 @@ public class AppController{
     studyId-------> handling bookmark duplicate(only using the class studyinfo other class pass it "")
     activityId----> handling SurveyActivitiesFragment duplication other class pass it ""
      */
-    public static void pendingService(Context context,int number, String httpMethod, String url, String normalParam, String jsonParam, String serverType, String userProfileId, String studyId, String activityId) {
+    public static void pendingService(Context context, int number, String httpMethod, String url, String normalParam, String jsonParam, String serverType, String userProfileId, String studyId, String activityId) {
 
         try {
             OfflineData offlineData = new OfflineData();
@@ -757,7 +760,7 @@ public class AppController{
             offlineData.setActivityId(activityId);
             offlineData.setStatus(false);
             DBServiceSubscriber db = new DBServiceSubscriber();
-            db.saveOfflineData(context,offlineData);
+            db.saveOfflineData(context, offlineData);
         } catch (Exception e) {
             e.printStackTrace();
         }

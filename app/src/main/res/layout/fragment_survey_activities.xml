@@ -49,7 +49,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:text="@string/study_activities"
-                android:textColor="@color/colorPrimaryBlack" />
+                android:textColor="@color/colorPrimary" />
 
             <RelativeLayout
                 android:id="@+id/filterBtn"

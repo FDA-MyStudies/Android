@@ -367,7 +367,7 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
                             }
                             JSONObject activejsonObject = new JSONObject(StepRecord.get(j).getResult());
                             JSONObject answerjsonobj = activejsonObject.getJSONObject("answer");
-                            durationobj.put("value", answerjsonobj.getString("duration"));
+                            durationobj.put("value", Integer.parseInt(answerjsonobj.getString("duration")));
 
                             JSONObject valueobj = new JSONObject();
                             valueobj.put("resultType", "numeric");

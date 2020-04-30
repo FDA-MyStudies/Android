@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "789178312682",
+    "firebase_url": "https://fda-demo-503fc.firebaseio.com",
+    "project_id": "fda-demo-503fc",
+    "storage_bucket": "fda-demo-503fc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:789178312682:android:de79a56c2b322365baf493",
+        "android_client_info": {
+          "package_name": "com.harvard.fdademo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "789178312682-o8gu6vacn9hcft4mffoco46s1uiioa1g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqJPHKOz_dgCy7HPiqySSMqKFhyOZwhUY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "789178312682-o8gu6vacn9hcft4mffoco46s1uiioa1g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
