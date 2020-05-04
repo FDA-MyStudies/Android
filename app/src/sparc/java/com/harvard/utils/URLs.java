@@ -35,6 +35,8 @@ public class URLs {
     public static String UPDATE_ELIGIBILITY_CONSENT = "updateEligibilityConsentStatus.api";
     public static String REFRESH_TOKEN = BASE_URL_REGISTRATION_SERVER + "refreshToken.api";
     public static String CONSENTPDF = "consentPDF.api";
+    public static String CONTACT_US = "contactUs.api";
+    public static String FEEDBACK = "feedback.api";
     /**
      * WCP server
      */
@@ -43,8 +45,6 @@ public class URLs {
     public static String SPECIFIC_STUDY = "study";
     public static String STUDY_UPDATES = "studyUpdates";
     public static String ACTIVITY_LIST = "activityList";
-    public static String CONTACT_US = "contactUs";
-    public static String FEEDBACK = "feedback";
     public static String RESOURCE_LIST = "resources";
     public static String NOTIFICATIONS = "notifications";
     public static String DASHBOARD_INFO = "studyDashboard";

@@ -16,6 +16,7 @@ import com.harvard.studyAppModule.studyModel.ReachOut;
 import com.harvard.utils.AppController;
 import com.harvard.utils.URLs;
 import com.harvard.webserviceModule.apiHelper.ApiCall;
+import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
 import com.harvard.webserviceModule.events.WCPConfigEvent;
 
 import java.util.HashMap;
@@ -89,13 +90,23 @@ public class FeedbackActivity extends AppCompatActivity implements ApiCall.OnAsy
 
     private void callmFeedbackWebservice() {
         AppController.getHelperProgressDialog().showProgress(FeedbackActivity.this, "", "", false);
-        ContactUsEvent contactUsEvent = new ContactUsEvent();
+        /*ContactUsEvent contactUsEvent = new ContactUsEvent();
         HashMap<String, String> params = new HashMap<>();
         params.put("subject", mSubject.getText().toString());
         params.put("body", mFeedbackEdittext.getText().toString());
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("post", URLs.FEEDBACK, FEEDBACK, FeedbackActivity.this, ReachOut.class, params, null, null, false, this);
 
         contactUsEvent.setWcpConfigEvent(wcpConfigEvent);
+        StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
+        studyModulePresenter.performContactUsEvent(contactUsEvent);*/
+
+        ContactUsEvent contactUsEvent = new ContactUsEvent();
+        HashMap<String, String> params = new HashMap<>();
+        params.put("subject", mSubject.getText().toString());
+        params.put("body", mFeedbackEdittext.getText().toString());
+        RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.FEEDBACK, FEEDBACK, FeedbackActivity.this, ReachOut.class, params, null, null, false, this);
+
+        contactUsEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
         StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
         studyModulePresenter.performContactUsEvent(contactUsEvent);
     }

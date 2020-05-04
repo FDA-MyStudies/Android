@@ -68,26 +68,26 @@ android {
         limitjia {
             dimension 'version'
             applicationId "com.carrastudies.limitjia"
-            versionCode 18
+            versionCode 19
             versionName "1.0.1"
         }
         sparc {
             dimension 'version'
             applicationId "com.ccf.sparc"
-            versionCode 16
+            versionCode 17
             versionName "1.0"
         }
-        fdademo {
+        /*fdademo {
             dimension 'version'
             applicationId "com.harvard.fdademo"
             versionCode 3
             versionName "1.0"
-        }
+        }*/
         covid19 {
             dimension 'version'
             applicationId "com.harvard.covid19"
-            versionCode 6
-            versionName "1.0"
+            versionCode 7
+            versionName "1.0.1"
         }
     }
 }

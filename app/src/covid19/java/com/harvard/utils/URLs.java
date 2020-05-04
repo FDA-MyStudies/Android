@@ -10,13 +10,14 @@ public class URLs {
 //    public static String BASE_URL_WCP_SERVER = "http://18.222.7.100:8080/StudyMetaData/";
 //    public static String BASE_URL_WCP_SERVER = "http://18.222.7.100:8080/StudyMetaData/"; //uat
 //    public static String BASE_URL_WCP_SERVER = "http://18.222.7.100:8080/StudyMetaData/"; //uat
-    public static String BASE_URL_WCP_SERVER = "https://hpwcp-stage.lkcompliant.net/StudyMetaData/"; //uat
+//    public static String BASE_URL_WCP_SERVER = "https://hpwcp-stage.lkcompliant.net/StudyMetaData/"; //uat
+    public static String BASE_URL_WCP_SERVER = "https://hpwcp.lkcompliant.net/StudyMetaData/"; //uat
 //    public static String BASE_URL_WCP_SERVER = "http://192.168.0.44:3429/StudyMetaData/"; //local
 //        public static String BASE_URL_REGISTRATION_SERVER = "https://hpreg-stage.lkcompliant.net/fdahpUserRegWS/"; //UAT
-        public static String BASE_URL_REGISTRATION_SERVER = "https://hpreg-stage.lkcompliant.net/fdahpUserRegWS/"; //AWS
-//    public static String BASE_URL_REGISTRATION_SERVER = "https://hpreg.lkcompliant.net/fdahpUserRegWS/"; //Production
-        public static String BASE_URL_RESPONSE_SERVER = "https://hpresp-stage.lkcompliant.net/"; //UAT
-//    public static String BASE_URL_RESPONSE_SERVER = "https://hpresp.lkcompliant.net/"; //Production
+//        public static String BASE_URL_REGISTRATION_SERVER = "https://hpreg-stage.lkcompliant.net/fdahpUserRegWS/"; //AWS
+    public static String BASE_URL_REGISTRATION_SERVER = "https://hpreg.lkcompliant.net/fdahpUserRegWS/"; //Production
+//        public static String BASE_URL_RESPONSE_SERVER = "https://hpresp-stage.lkcompliant.net/"; //UAT
+    public static String BASE_URL_RESPONSE_SERVER = "https://hpresp.lkcompliant.net/"; //Production
 
 
     /**
@@ -40,6 +41,8 @@ public class URLs {
     public static String UPDATE_ELIGIBILITY_CONSENT = "updateEligibilityConsentStatus.api";
     public static String REFRESH_TOKEN = BASE_URL_REGISTRATION_SERVER + "refreshToken.api";
     public static String CONSENTPDF = "consentPDF.api";
+    public static String CONTACT_US = "contactUs.api";
+    public static String FEEDBACK = "feedback.api";
     /**
      * WCP server
      */
@@ -50,8 +53,6 @@ public class URLs {
     public static String SPECIFIC_STUDY = "study";
     public static String STUDY_UPDATES = "studyUpdates";
     public static String ACTIVITY_LIST = "activityList";
-    public static String CONTACT_US = "contactUs";
-    public static String FEEDBACK = "feedback";
     public static String RESOURCE_LIST = "resources";
     public static String NOTIFICATIONS = "notifications";
     public static String DASHBOARD_INFO = "studyDashboard";

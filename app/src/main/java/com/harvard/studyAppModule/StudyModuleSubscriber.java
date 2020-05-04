@@ -57,7 +57,7 @@ public class StudyModuleSubscriber extends BaseSubscriber {
     }
 
     public void onEvent(ContactUsEvent contactUsEvent) {
-        FDAEventBus.postEvent(contactUsEvent.getWcpConfigEvent());
+        FDAEventBus.postEvent(contactUsEvent.getmRegistrationServerConfigEvent());
     }
 
     public void onEvent(FeedbackEvent feedbackEvent) {

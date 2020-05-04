@@ -1,5 +1,6 @@
 package com.harvard.studyAppModule.events;
 
+import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
 import com.harvard.webserviceModule.events.WCPConfigEvent;
 
 /**
@@ -7,13 +8,13 @@ import com.harvard.webserviceModule.events.WCPConfigEvent;
  */
 
 public class ContactUsEvent {
-    private WCPConfigEvent wcpConfigEvent;
+    private RegistrationServerConfigEvent mRegistrationServerConfigEvent;
 
-    public WCPConfigEvent getWcpConfigEvent() {
-        return wcpConfigEvent;
+    public RegistrationServerConfigEvent getmRegistrationServerConfigEvent() {
+        return mRegistrationServerConfigEvent;
     }
 
-    public void setWcpConfigEvent(WCPConfigEvent wcpConfigEvent) {
-        this.wcpConfigEvent = wcpConfigEvent;
+    public void setmRegistrationServerConfigEvent(RegistrationServerConfigEvent mRegistrationServerConfigEvent) {
+        this.mRegistrationServerConfigEvent = mRegistrationServerConfigEvent;
     }
 }

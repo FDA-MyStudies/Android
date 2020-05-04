@@ -10,12 +10,17 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.harvard.BuildConfig;
 import com.harvard.R;
 import com.harvard.studyAppModule.events.ContactUsEvent;
 import com.harvard.studyAppModule.studyModel.ReachOut;
+import com.harvard.userModule.UserModulePresenter;
+import com.harvard.userModule.event.RegisterUserEvent;
+import com.harvard.userModule.webserviceModel.RegistrationData;
 import com.harvard.utils.AppController;
 import com.harvard.utils.URLs;
 import com.harvard.webserviceModule.apiHelper.ApiCall;
+import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
 import com.harvard.webserviceModule.events.WCPConfigEvent;
 
 import java.util.HashMap;
@@ -118,7 +123,8 @@ public class ContactUsActivity extends AppCompatActivity implements ApiCall.OnAs
 
     private void callContactUsWebservice() {
         AppController.getHelperProgressDialog().showProgress(ContactUsActivity.this, "", "", false);
-        ContactUsEvent contactUsEvent = new ContactUsEvent();
+
+        /*ContactUsEvent contactUsEvent = new ContactUsEvent();
         HashMap<String, String> params = new HashMap<>();
         params.put("subject", mSubject.getText().toString());
         params.put("body", mMessage.getText().toString());
@@ -128,7 +134,20 @@ public class ContactUsActivity extends AppCompatActivity implements ApiCall.OnAs
 
         contactUsEvent.setWcpConfigEvent(wcpConfigEvent);
         StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
+        studyModulePresenter.performContactUsEvent(contactUsEvent);*/
+
+        ContactUsEvent contactUsEvent = new ContactUsEvent();
+        HashMap<String, String> params = new HashMap<>();
+        params.put("subject", mSubject.getText().toString());
+        params.put("body", mMessage.getText().toString());
+        params.put("firstName", mFirstName.getText().toString());
+        params.put("email", mEmail.getText().toString());
+        RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.CONTACT_US, CONTACT_US, ContactUsActivity.this, ReachOut.class, params, null, null, false, this);
+
+        contactUsEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
+        StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
         studyModulePresenter.performContactUsEvent(contactUsEvent);
+
     }
 
     @Override
