@@ -1726,8 +1726,17 @@ public class SurveyActivitiesFragment extends Fragment
             } catch (ParseException e) {
               e.printStackTrace();
             }
+              StudyData studyPreferences = dbServiceSubscriber.getStudyPreference(mRealm);
+              SurvayScheduler survayScheduler = new SurvayScheduler(dbServiceSubscriber, mRealm);
+              Date joiningDate =
+                      survayScheduler.getJoiningDateOfStudy(
+                              studyPreferences, ((SurveyActivity) mContext).getStudyId());
             // activityListData.getActivities().get(i).setStartTime(dateSimpleDateFormat.format(calendar.getTime()) + "T" + startTime + ".000" + timezoneSimpleDateFormat.format(calendar.getTime()));
-            setStartDate(calendar.getTime(), startTime, i, j);
+              if (joiningDate.before(calendar.getTime())) {
+                  setStartDate(calendar.getTime(), startTime, i, j);
+              } else {
+                  setStartDate(joiningDate, AppController.getHourMinuteSecondFormat().format(joiningDate), i, j);
+              }
           } else {
             activityListData
                 .getActivities()
