@@ -14,6 +14,7 @@
 
     <!--Added additionally for sparc-->
     <string name="join_study">Join IBD PROdigy</string>
+    <string name="per_completion">There are no more activities for this study in the COVID MyStudies app. Thank you for your participation.</string>
     <string name="view_consent">IBD PROdigy Registration</string>
     <string name="visit_website">Visit Crohn’s &amp; Colitis Foundation</string>
     <string name="consent_pdf">App Registration</string>

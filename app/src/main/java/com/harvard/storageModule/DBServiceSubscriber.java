@@ -1,14 +1,12 @@
 package com.harvard.storageModule;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.harvard.notificationModule.PendingIntents;
 import com.harvard.notificationModule.model.NotificationDb;
 import com.harvard.offlineModule.model.OfflineData;
 import com.harvard.storageModule.events.DatabaseEvent;
 import com.harvard.studyAppModule.SurveyActivitiesFragment;
-import com.harvard.studyAppModule.SurveyActivity;
 import com.harvard.studyAppModule.activityBuilder.model.ActivityRun;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.ActivityObj;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.Steps;

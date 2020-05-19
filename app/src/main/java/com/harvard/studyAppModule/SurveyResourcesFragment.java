@@ -202,6 +202,9 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
 
                 callGetStudyInfoWebservice();
             }
+            else {
+                AppController.getHelperProgressDialog().dismissDialog();
+            }
 
 
         } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {

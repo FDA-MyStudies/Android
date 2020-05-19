@@ -14,6 +14,7 @@ import com.harvard.webserviceModule.apiHelper.Responsemodel;
 
 import java.io.StringReader;
 import java.net.HttpURLConnection;
+import java.util.HashMap;
 
 public class VersionChecker extends AsyncTask<String, String, String> {
 
@@ -34,7 +35,7 @@ public class VersionChecker extends AsyncTask<String, String, String> {
         newVersion = currentVersion();
         VersionModel versionModel;
         try {
-            Responsemodel responsemodel = HttpRequest.getRequest(versionUrl, null, "");
+            Responsemodel responsemodel = HttpRequest.getRequest(versionUrl, null, "WCP");
 
             if (responsemodel.getResponseCode().equalsIgnoreCase("" + HttpURLConnection.HTTP_OK)) {
                 versionModel = parseJson(responsemodel, VersionModel.class);
@@ -69,7 +70,11 @@ public class VersionChecker extends AsyncTask<String, String, String> {
         if ((currentVersion != null && currentVersion.equalsIgnoreCase(newVersion)) || newVersion == null) {
             upgrade.isUpgrade(false, newVersion, force);
         } else {
-            upgrade.isUpgrade(true, newVersion, force);
+            if (force) {
+                upgrade.isUpgrade(true, newVersion, force);
+            } else {
+                upgrade.isUpgrade(false, newVersion, force);
+            }
         }
     }
 

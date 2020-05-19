@@ -15,6 +15,7 @@
 
     <!--Added additionally for LimitJia-->
     <string name="join_study">Get Started&#33;</string>
+    <string name="per_completion">There are no more activities for this study in the COVID MyStudies app. Thank you for your participation.</string>
     <string name="validated">You\'re In</string>
     <string name="you_are_eligible">You\'re In</string>
     <string name="gateway_welcome1">Using Mobile Devices to Power Research</string>

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.harvard.gatewayModule.GatewayActivity;
@@ -41,7 +42,7 @@ public class SplashActivity extends AppCompatActivity implements VersionChecker.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-
+        Log.e("rohith",getPackageName());
         version = currentVersion();
         if (CommonUtils.isRooted(SplashActivity.this)) {
             Toast.makeText(SplashActivity.this, getResources().getString(R.string.rooted_device), Toast.LENGTH_LONG).show();
@@ -171,7 +172,7 @@ public class SplashActivity extends AppCompatActivity implements VersionChecker.
         this.newVersion = newVersion;
         this.force = force;
         if (b) {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SplashActivity.this, R.style.MyAlertDialogStyle);
+            /*AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(SplashActivity.this, R.style.MyAlertDialogStyle);
             alertDialogBuilder.setTitle("Upgrade");
             alertDialogBuilder.setMessage("Please upgrade the app to continue.").setCancelable(false)
                     .setPositiveButton("Upgrade", new DialogInterface.OnClickListener() {
@@ -198,7 +199,10 @@ public class SplashActivity extends AppCompatActivity implements VersionChecker.
                         }
                     });
             AlertDialog alertDialog = alertDialogBuilder.create();
-            alertDialog.show();
+            alertDialog.show();*/
+            Intent intent = new Intent(SplashActivity.this, UpgradeAppActivity.class);
+            startActivity(intent);
+            finish();
         } else {
             if (AppController.getHelperSharedPreference().readPreference(SplashActivity.this, getString(R.string.initialpasscodeset), "yes").equalsIgnoreCase("no")) {
                 Intent intent = new Intent(SplashActivity.this, NewPasscodeSetupActivity.class);

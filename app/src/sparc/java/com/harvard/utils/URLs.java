@@ -26,9 +26,7 @@ public class URLs {
     public static String UPDATE_STUDY_PREFERENCE = "updateStudyState.api";
     public static String UPDATE_ACTIVITY_PREFERENCE = "updateActivityState.api";
     public static String LOGOUT = "logout.api";
-    public static String CONSENT_METADATA = "eligibilityConsent";
     public static String DELETE_ACCOUNT = "deactivate.api";
-    public static String ACTIVITY = "activity";
     public static String STUDY_STATE = "studyState.api";
     public static String ACTIVITY_STATE = "activityState.api";
     public static String WITHDRAW = "withdraw.api";
@@ -49,6 +47,8 @@ public class URLs {
     public static String NOTIFICATIONS = "notifications";
     public static String DASHBOARD_INFO = "studyDashboard";
     public static String GET_CONSENT_DOC = "consentDocument";
+    public static String CONSENT_METADATA = "eligibilityConsent";
+    public static String ACTIVITY = "activity";
     /**
      * Response server
      */

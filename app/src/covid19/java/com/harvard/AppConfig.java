@@ -15,7 +15,8 @@ public class AppConfig {
 
     //AppId
     public static String APP_ID_KEY = "applicationId";
-    public static String APP_ID_VALUE = "COVFH001";
+    public static String APP_ID_VALUE = "COVFH001"; //prod
+//    public static String APP_ID_VALUE = "COVFHTEST"; //test
     //OrgId
     public static String ORG_ID_KEY = "orgId";
     public static String ORG_ID_VALUE = "FDAHPH";

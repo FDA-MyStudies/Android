@@ -19,6 +19,7 @@
     <string name="view_consent">View Consent</string>
     <string name="visit_website">Visit Website</string>
     <string name="join_study">Join Study</string>
+    <string name="per_completion">There are no more activities for this study in the COVID MyStudies app. Thank you for your participation.</string>
 
     <!--must change strings-->
     <string name="FileProvider_authorities">com.myfileprovider.demo</string>
