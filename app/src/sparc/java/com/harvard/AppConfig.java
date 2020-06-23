@@ -13,9 +13,10 @@ public class AppConfig {
     public static boolean isStudyConsentRequiredInOverview = false;
 
 
-    //AppId
+    //AppIdar
     public static String APP_ID_KEY = "applicationId";
-    public static String APP_ID_VALUE = "CCFSIBD001";
+//    public static String APP_ID_VALUE = "CCFSBP001";//live
+    public static String APP_ID_VALUE = "CCFSIBD001";//test
     //OrgId
     public static String ORG_ID_KEY = "orgId";
     public static String ORG_ID_VALUE = "CACFND";

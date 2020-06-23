@@ -503,18 +503,25 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
             LoginData loginData = (LoginData) response;
             if (loginData != null) {
 
-                //calculate completion and adherence
-                int completed = Integer.parseInt(AppController.getHelperSharedPreference().readPreference(SurveyCompleteActivity.this, getResources().getString(R.string.completedRuns), ""));
-                int missed = Integer.parseInt(AppController.getHelperSharedPreference().readPreference(SurveyCompleteActivity.this, getResources().getString(R.string.missedRuns), ""));
-                int total = Integer.parseInt(AppController.getHelperSharedPreference().readPreference(SurveyCompleteActivity.this, getResources().getString(R.string.totalRuns), ""));
+                if (getIntent().getStringExtra(CustomSurveyViewTaskActivity.FREQUENCY_TYPE).equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_ON_GOING)) {
+                    updateActivityPreferenceAndReturnActivityID();
+                    Intent intent = new Intent();
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } else {
+                    //calculate completion and adherence
+                    int completed = Integer.parseInt(AppController.getHelperSharedPreference().readPreference(SurveyCompleteActivity.this, getResources().getString(R.string.completedRuns), ""));
+                    int missed = Integer.parseInt(AppController.getHelperSharedPreference().readPreference(SurveyCompleteActivity.this, getResources().getString(R.string.missedRuns), ""));
+                    int total = Integer.parseInt(AppController.getHelperSharedPreference().readPreference(SurveyCompleteActivity.this, getResources().getString(R.string.totalRuns), ""));
 
-                if ((double) total > 0)
-                    completion = (((double) completed + (double) missed + 1d) / (double) total) * 100d;
+                    if ((double) total > 0)
+                        completion = (((double) completed + (double) missed + 1d) / (double) total) * 100d;
 
-                if (((double) completed + (double) missed + 1d) > 0)
-                    adherence = (((double) completed + 1d) / ((double) completed + (double) missed + 1d)) * 100d;
+                    if (((double) completed + (double) missed + 1d) > 0)
+                        adherence = (((double) completed + 1d) / ((double) completed + (double) missed + 1d)) * 100d;
 
-                updateStudyState("" + (int) completion, "" + (int) adherence);
+                    updateStudyState("" + (int) completion, "" + (int) adherence);
+                }
 
 
             } else {
@@ -522,15 +529,7 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
                 Toast.makeText(this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == UPDATE_STUDY_PREFERENCE) {
-            AppController.getHelperProgressDialog().dismissDialog();
-            String surveyId = getIntent().getStringExtra(CustomSurveyViewTaskActivity.EXTRA_STUDYID);
-            surveyId = surveyId.substring(0, surveyId.lastIndexOf("_"));
-            String activityId[] = surveyId.split("_STUDYID_");
-            int completedRun = getIntent().getIntExtra(CustomSurveyViewTaskActivity.COMPLETED_RUN, 0);
-            completedRun = completedRun + 1;
-            int currentRun = getIntent().getIntExtra(CustomSurveyViewTaskActivity.RUNID, 0);
-            int missedRun = currentRun - completedRun;
-            dbServiceSubscriber.updateActivityPreferenceDB(this,activityId[1], getIntent().getStringExtra(CustomSurveyViewTaskActivity.STUDYID), getIntent().getIntExtra(CustomSurveyViewTaskActivity.RUNID, 0), SurveyActivitiesFragment.COMPLETED, getIntent().getIntExtra(CustomSurveyViewTaskActivity.TOTAL_RUN, 0), completedRun, missedRun, getIntent().getStringExtra(CustomSurveyViewTaskActivity.ACTIVITY_VERSION));
+            String activityId[] = updateActivityPreferenceAndReturnActivityID();
             StudyData studyData = dbServiceSubscriber.getStudyPreferencesListFromDB(realm);
             Studies studies = null;
             if (studyData != null) {
@@ -543,16 +542,26 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
             if (studies != null) {
                 dbServiceSubscriber.updateStudyPreference(this,studies, completion, adherence);
             }
-            ActivitiesWS activityObj = dbServiceSubscriber.getActivityObj(activityId[1], getIntent().getStringExtra(CustomSurveyViewTaskActivity.STUDYID), realm);
-            if (!activityObj.getFrequency().getType().equalsIgnoreCase("OnGoing")) {
-                dbServiceSubscriber.updateActivityRunToDB(this, activityId[1], getIntent().getStringExtra(CustomSurveyViewTaskActivity.STUDYID), getIntent().getIntExtra(CustomSurveyViewTaskActivity.RUNID, 0));
-            }
+            dbServiceSubscriber.updateActivityRunToDB(this, activityId[1], getIntent().getStringExtra(CustomSurveyViewTaskActivity.STUDYID), getIntent().getIntExtra(CustomSurveyViewTaskActivity.RUNID, 0));
             Intent intent = new Intent();
             setResult(RESULT_OK, intent);
             finish();
         } else {
             AppController.getHelperProgressDialog().dismissDialog();
         }
+    }
+
+    private String[] updateActivityPreferenceAndReturnActivityID() {
+        AppController.getHelperProgressDialog().dismissDialog();
+        String surveyId = getIntent().getStringExtra(CustomSurveyViewTaskActivity.EXTRA_STUDYID);
+        surveyId = surveyId.substring(0, surveyId.lastIndexOf("_"));
+        String activityId[] = surveyId.split("_STUDYID_");
+        int completedRun = getIntent().getIntExtra(CustomSurveyViewTaskActivity.COMPLETED_RUN, 0);
+        completedRun = completedRun + 1;
+        int currentRun = getIntent().getIntExtra(CustomSurveyViewTaskActivity.RUNID, 0);
+        int missedRun = currentRun - completedRun;
+        dbServiceSubscriber.updateActivityPreferenceDB(this,activityId[1], getIntent().getStringExtra(CustomSurveyViewTaskActivity.STUDYID), getIntent().getIntExtra(CustomSurveyViewTaskActivity.RUNID, 0), SurveyActivitiesFragment.COMPLETED, getIntent().getIntExtra(CustomSurveyViewTaskActivity.TOTAL_RUN, 0), completedRun, missedRun, getIntent().getStringExtra(CustomSurveyViewTaskActivity.ACTIVITY_VERSION));
+        return activityId;
     }
 
     @Override
@@ -603,7 +612,9 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
                 if (((double) completed + (double) missed + 1d) > 0)
                     adherence = (((double) completed + 1d) / ((double) completed + (double) missed + 1d)) * 100d;
 
-                AppController.pendingService(this,number, "post_object", URLs.UPDATE_STUDY_PREFERENCE, "", getStudyPreferenceJson("" + (int) completion, "" + (int) adherence).toString(), "registration", "", "", "");
+                if (!getIntent().getStringExtra(CustomSurveyViewTaskActivity.FREQUENCY_TYPE).equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_ON_GOING)) {
+                    AppController.pendingService(this,number, "post_object", URLs.UPDATE_STUDY_PREFERENCE, "", getStudyPreferenceJson("" + (int) completion, "" + (int) adherence).toString(), "registration", "", "", "");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -831,7 +842,9 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
                 if (((double) completed + (double) missed + 1d) > 0)
                     adherence = (((double) completed + 1d) / ((double) completed + (double) missed + 1d)) * 100d;
 
-                AppController.pendingService(this,number, "post_object", URLs.UPDATE_STUDY_PREFERENCE, "", getStudyPreferenceJson("" + (int) completion, "" + (int) adherence).toString(), "registration", "", "", "");
+                if (!getIntent().getStringExtra(CustomSurveyViewTaskActivity.FREQUENCY_TYPE).equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_ON_GOING)) {
+                    AppController.pendingService(this,number, "post_object", URLs.UPDATE_STUDY_PREFERENCE, "", getStudyPreferenceJson("" + (int) completion, "" + (int) adherence).toString(), "registration", "", "", "");
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

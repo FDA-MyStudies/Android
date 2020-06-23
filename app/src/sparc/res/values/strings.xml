@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name_icon">IBD PROdigy</string>
+    <!--<string name="app_name_icon">IBD PROdigy</string>--><!--live-->
+    <string name="app_name_icon">IBD PROdigy Test</string><!--test-->
     <string name="app_name">IBD PROdigy</string>
     <string name="fda_listens">IBD PROdigy</string>
     <string name="website">https://www.crohnscolitisfoundation.org/</string>

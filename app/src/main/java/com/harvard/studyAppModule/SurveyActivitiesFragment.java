@@ -4703,12 +4703,17 @@ public class SurveyActivitiesFragment extends Fragment
           mContext, motivationalNotification1);
 
       dbServiceSubscriber.closeRealmObj(mRealm);
+
       double adherence = 0;
-      if (((double) completed + (double) missed + 1d) > 0) {
+      if (((double) completed + (double) missed) != 0) {
+        adherence = ((double) completed / ((double) completed + (double) missed)) * 100;
+      }
+
+     /* if (((double) completed + (double) missed + 1d) > 0) {
         adherence =
             (((double) completed + 1d) / ((double) completed + (double) missed + 1d))
                 * 100d;
-      }
+      }*/
 
       updateStudyState("" + (int) completion, "" + (int) adherence);
     }
