@@ -9,7 +9,6 @@ import android.os.Build;
 import android.support.multidex.MultiDex;
 
 import com.crashlytics.android.Crashlytics;
-import com.facebook.stetho.Stetho;
 import com.harvard.notificationModule.NotificationModuleSubscriber;
 import com.harvard.passcodeModule.PasscodeSetupActivity;
 import com.harvard.storageModule.DBServiceSubscriber;
@@ -20,7 +19,6 @@ import com.harvard.utils.AppController;
 import com.harvard.utils.AppVisibilityDetector;
 import com.harvard.utils.realm.RealmEncryptionHelper;
 import com.harvard.webserviceModule.WebserviceSubscriber;
-import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
 import org.researchstack.backbone.StorageAccess;
 import org.researchstack.backbone.storage.database.AppDatabase;
@@ -114,13 +112,13 @@ public class FDAApplication extends Application {
         RealmEncryptionHelper realmEncryptionHelper = RealmEncryptionHelper.initHelper(this, getString(R.string.app_name));
         byte[] key = realmEncryptionHelper.getEncryptKey();
         String s = bytesToHex(key);
-        Stetho.initialize(
-                Stetho.newInitializerBuilder(this)
-                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).withLimit(10000)
-                                .withDefaultEncryptionKey(key)
-                                .build())
-                        .build());
+//        Stetho.initialize(
+//                Stetho.newInitializerBuilder(this)
+//                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+//                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).withLimit(10000)
+//                                .withDefaultEncryptionKey(key)
+//                                .build())
+//                        .build());
     }
     private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
     public static String bytesToHex(byte[] bytes) {

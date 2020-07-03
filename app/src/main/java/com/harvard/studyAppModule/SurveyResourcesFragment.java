@@ -715,7 +715,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                                     }
                                     mArrayList.get(this.position).setDateOfEntry(value.toString());
                                 } else {
-                                    Log.e("query", "not proper");
+//                                    Log.e("query", "not proper");
                                 }
                             }
                         } catch (Exception e) {
@@ -879,7 +879,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
 
     private void callLabkeyService(int position) {
         if (mArrayList.size() > position) {
-            Log.e("position", "" + mArrayList.get(position).getTargetActivityId());
+//            Log.e("position", "" + mArrayList.get(position).getTargetActivityId());
             AnchorDateSchedulingDetails anchorDateSchedulingDetails = mArrayList.get(position);
             if (anchorDateSchedulingDetails.getSourceType().equalsIgnoreCase("ActivityResponse") && anchorDateSchedulingDetails.getActivityState().equalsIgnoreCase("completed")) {
                 Realm realm = AppController.getRealmobj(mContext);

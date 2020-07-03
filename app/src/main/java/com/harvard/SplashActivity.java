@@ -42,7 +42,7 @@ public class SplashActivity extends AppCompatActivity implements VersionChecker.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        Log.e("rohith",getPackageName());
+//        Log.e("rohith",getPackageName());
         version = currentVersion();
         if (CommonUtils.isRooted(SplashActivity.this)) {
             Toast.makeText(SplashActivity.this, getResources().getString(R.string.rooted_device), Toast.LENGTH_LONG).show();

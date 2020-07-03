@@ -1182,16 +1182,16 @@ public class SurveyActivitiesFragment extends Fragment
                     .getActivityId()
                     .equalsIgnoreCase(
                         activityListData.getActivities().get(i).getActivityId())) {
-                  Log.e("resetting for ",
-                      "" + activityListData.getActivities().get(i).getActivityId() + "  "
-                          + activityDataDB.getActivities().get(j).getActivityStartDate() + "   "
-                          + activityDataDB.getActivities().get(j).getActivityEndDate());
+//                  Log.e("resetting for ",
+//                      "" + activityListData.getActivities().get(i).getActivityId() + "  "
+//                          + activityDataDB.getActivities().get(j).getActivityStartDate() + "   "
+//                          + activityDataDB.getActivities().get(j).getActivityEndDate());
                   anchorDateSchedulingDetails.setActivities(activityDataDB.getActivities().get(j));
                   if(activityDataDB.getActivities().get(j) != null && activityDataDB.getActivities().get(j).getCustomScheduleRuns()!= null && activityListData.getActivities().get(i).getAnchorDate() != null && activityListData.getActivities().get(i).getAnchorDate().getSourceType().equalsIgnoreCase("ParticipantProperty")) {
-                    Log.e("teatPP", "activityId = " + activityDataDB.getActivities().get(j).getActivityId());
-                     Log.e("teatPP", "size = " + activityDataDB.getActivities().get(j).getCustomScheduleRuns().size());
+//                    Log.e("teatPP", "activityId = " + activityDataDB.getActivities().get(j).getActivityId());
+//                     Log.e("teatPP", "size = " + activityDataDB.getActivities().get(j).getCustomScheduleRuns().size());
                     if (activityDataDB.getActivities().get(j).getCustomScheduleRuns().size() > 0) {
-                      Log.e("teatPP", activityDataDB.getActivities().get(j).getCustomScheduleRuns().get(0).getActivityStartDate());
+//                      Log.e("teatPP", activityDataDB.getActivities().get(j).getCustomScheduleRuns().get(0).getActivityStartDate());
                     }
                   }
                   anchorDateSchedulingDetails.setStartDate(
@@ -2102,7 +2102,7 @@ public class SurveyActivitiesFragment extends Fragment
           }
         }
       } else {
-        // custom runs
+        // custom runsS
         if (activityListData
             .getActivities()
             .get(i)
@@ -2645,8 +2645,8 @@ public class SurveyActivitiesFragment extends Fragment
                     activityListData.getActivities().get(i).getActivityId(),
                     calendarCurrentTime.getTime());
             }*/
-            Log.e("PP_Test", "getVersion = " +mArrayList.get(j).getVersion());
-            Log.e("PP_Test", "getAnchorDateVersion = " + mArrayList.get(j).getActivities().getAnchorDateVersion());
+//            Log.e("PP_Test", "getVersion = " +mArrayList.get(j).getVersion());
+//            Log.e("PP_Test", "getAnchorDateVersion = " + mArrayList.get(j).getActivities().getAnchorDateVersion());
         if ((mArrayList.get(j).getActivities() == null) || (
             mArrayList.get(j).getActivities().getAnchorDateVersion() == null) || ((
             !isDatesOverlapping(
@@ -5628,7 +5628,7 @@ public class SurveyActivitiesFragment extends Fragment
                     }
                     mArrayList.get(this.position).setDateOfEntry(value.toString());
                   } else {
-                    Log.e("query", "not proper");
+//                    Log.e("query", "not proper");
                   }
                 }
               } catch (Exception e) {
@@ -5701,15 +5701,26 @@ public class SurveyActivitiesFragment extends Fragment
           .getSourceType()
           .equalsIgnoreCase("ParticipantProperty")) {
         if (anchorDateSchedulingDetails.isShouldRefresh()) {
-          String query =
-              "sql=SELECT%20"
-                  + anchorDateSchedulingDetails.getPropertyId() + "," + anchorDateSchedulingDetails
-                  .getExternalPropertyId() + "," + anchorDateSchedulingDetails.getDateOfEntryId()
-                  + "%20FROM%20"
-                  + "ParticipantProperties"
-                  + "&participantId="
-                  + anchorDateSchedulingDetails.getParticipantId();
-          new ResponseData(position, anchorDateSchedulingDetails, query).execute();
+            String query;
+            if (anchorDateSchedulingDetails
+                    .getExternalPropertyId().equalsIgnoreCase("") ||
+                    anchorDateSchedulingDetails.getDateOfEntryId().equalsIgnoreCase("")) {
+                query = "sql=SELECT%20"
+                        + anchorDateSchedulingDetails.getPropertyId()
+                        + "%20FROM%20"
+                        + "ParticipantProperties"
+                        + "&participantId="
+                        + anchorDateSchedulingDetails.getParticipantId();
+            } else {
+                query = "sql=SELECT%20"
+                        + anchorDateSchedulingDetails.getPropertyId() + "," + anchorDateSchedulingDetails
+                        .getExternalPropertyId() + "," + anchorDateSchedulingDetails.getDateOfEntryId()
+                        + "%20FROM%20"
+                        + "ParticipantProperties"
+                        + "&participantId="
+                        + anchorDateSchedulingDetails.getParticipantId();
+            }
+            new ResponseData(position, anchorDateSchedulingDetails, query).execute();
         } else {
           callLabkeyService(position + 1);
         }
