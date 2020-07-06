@@ -29,8 +29,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -89,6 +91,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     private AppCompatImageView mNotificatioStatus;
     private AppCompatTextView mNewUsrReachoutLabel;
     private AppCompatTextView mSignUpLabel;
+    private Switch searchSwitch;
     private RelativeLayout mSignOutLayout;
     private AppCompatTextView mSignOutLabel;
     private int mPreviousValue = 0;// 0 means signup 1 means signout
@@ -363,6 +366,17 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         mCancel = (AppCompatTextView) findViewById(R.id.mCancel);
         mClearLayout = (RelativeLayout) findViewById(R.id.mClearLayout);
         mSearchEditText = (AppCompatEditText) findViewById(R.id.mSearchEditText);
+        searchSwitch =  findViewById(R.id.searchSwitch);
+        searchSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                if(checked) {
+                    mSearchEditText.setHint("Search Token");
+                } else {
+                    mSearchEditText.setHint("Search Keyword");
+                }
+            }
+        });
 
         version = (TextView) findViewById(R.id.version);
         setVersion(version);
@@ -398,6 +412,8 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                 mSearchToolBarLayout.setVisibility(View.VISIBLE);
                 mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                 mSearchEditText.setText("");
+                mSearchEditText.setHint("Search Keyword");
+                searchSwitch.setChecked(false);
                 // forcecfully set focus
                 mSearchEditText.post(new Runnable() {
                     @Override
@@ -428,6 +444,11 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                 if (s.length() > 0) {
                     mClearLayout.setVisibility(View.VISIBLE);
                 } else {
+                    if (searchSwitch.isChecked()) {
+                        mSearchEditText.setHint("Search Token");
+                    } else {
+                        mSearchEditText.setHint("Search Keyword");
+                    }
                     mClearLayout.setVisibility(View.INVISIBLE);
                     mStudyFragment.setStudyFilteredStudyList();
                 }
@@ -983,6 +1004,10 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         if (dbServiceSubscriber != null && mRealm != null)
             dbServiceSubscriber.closeRealmObj(mRealm);
         super.onDestroy();
+    }
+
+    public boolean isSearchByToken() {
+        return searchSwitch.isChecked();
     }
 
     public String getSearchKey() {

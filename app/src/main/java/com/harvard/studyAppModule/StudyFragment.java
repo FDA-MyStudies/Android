@@ -540,10 +540,15 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         if (jsonObjectString.equalsIgnoreCase("")) {
             // chkng for showing search list (scenario search--->go details screen----> return back; )
             String searchKey = ((StudyActivity) getActivity()).getSearchKey();
+            boolean isSearchByToken = ((StudyActivity) getActivity()).isSearchByToken();
             if (searchKey != null) {
                 // search list retain
 
-                studyListAdapter = new StudyListAdapter(mContext, searchResult(searchKey), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
+                if (isSearchByToken) {
+                    studyListAdapter = new StudyListAdapter(mContext, searchByStudyId(searchKey), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
+                } else {
+                    studyListAdapter = new StudyListAdapter(mContext, searchResult(searchKey), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
+                }
             } else {
                 studyListAdapter = new StudyListAdapter(mContext, copyOfFilteredStudyList(), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
             }
@@ -643,9 +648,14 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                 Toast.makeText(mContext, mContext.getResources().getString(R.string.search_data_empty), Toast.LENGTH_SHORT).show();
             //chking that-----> currently is it working search functionality,
             String searchKey = ((StudyActivity) getActivity()).getSearchKey();
+            boolean isSearchByToken = ((StudyActivity) getActivity()).isSearchByToken();
             if (searchKey != null) {
                 // search list retain
-                studyListAdapter = new StudyListAdapter(mContext, searchResult(searchKey), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
+                if (isSearchByToken) {
+                    studyListAdapter = new StudyListAdapter(mContext, searchByStudyId(searchKey), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
+                } else {
+                    studyListAdapter = new StudyListAdapter(mContext, searchResult(searchKey), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
+                }
             } else {
                 studyListAdapter = new StudyListAdapter(mContext, copyOfFilteredStudyList(), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
             }
@@ -1297,7 +1307,12 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
 
     public void searchFromFilteredStudyList(String searchKey) {
         try {
-            searchResult(searchKey);
+            boolean isSearchByToken = ((StudyActivity) getActivity()).isSearchByToken();
+            if (isSearchByToken) {
+                searchByStudyId(searchKey);
+            } else {
+                searchResult(searchKey);
+            }
             if (mSearchResultList.size() == 0) {
                 Toast.makeText(mContext, mContext.getResources().getString(R.string.search_data_not_available), Toast.LENGTH_LONG).show();
             }
@@ -1327,6 +1342,29 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                         mSearchResultList.add(tempStudyOrFilteredList.get(i));
                         mSearchFilteredCompletionAdeherenceCalcs.add(mFilteredCompletionAdeherenceCalcs.get(i));
                     } else if (tempStudyOrFilteredList.get(i).getTagline().toLowerCase().contains(searchKey.toLowerCase())) {
+                        mSearchResultList.add(tempStudyOrFilteredList.get(i));
+                        mSearchFilteredCompletionAdeherenceCalcs.add(mFilteredCompletionAdeherenceCalcs.get(i));
+                    }
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mSearchResultList;
+    }
+
+    private RealmList<StudyList> searchByStudyId(String searchedStudyId) {
+        try {
+            RealmList<StudyList> tempStudyOrFilteredList = copyOfFilteredStudyList();
+            if (tempStudyOrFilteredList.size() > 0) {
+                if (mSearchResultList.size() > 0)
+                    mSearchResultList.clear();
+                if (mSearchFilteredCompletionAdeherenceCalcs.size() > 0)
+                    mSearchFilteredCompletionAdeherenceCalcs.clear();
+                for (int i = 0; tempStudyOrFilteredList.size() > i; i++) {
+                    if (tempStudyOrFilteredList.get(i).getStudyId().equalsIgnoreCase(searchedStudyId)) {
                         mSearchResultList.add(tempStudyOrFilteredList.get(i));
                         mSearchFilteredCompletionAdeherenceCalcs.add(mFilteredCompletionAdeherenceCalcs.get(i));
                     }
