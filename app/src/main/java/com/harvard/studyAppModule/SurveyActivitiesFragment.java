@@ -1081,7 +1081,36 @@ public class SurveyActivitiesFragment extends Fragment
               anchorDateSchedulingDetails.setTargetActivityId(
                   activityListData.getActivities().get(i).getActivityId());
 
-              for (int j = 0; j < activityDataDB.getActivities().size(); j++) {
+
+              /*
+              * getting activity status start
+              */
+              SurvayScheduler survayScheduler = new SurvayScheduler(dbServiceSubscriber, mRealm);
+              Date currentDate = new Date();
+              String currentDateString = AppController.getDateFormatUTC().format(currentDate);
+              try {
+                currentDate = AppController.getDateFormatUTC().parse(currentDateString);
+              } catch (ParseException e) {
+                e.printStackTrace();
+              }
+              Calendar calendarCurrentTime = Calendar.getInstance();
+              calendarCurrentTime.setTime(currentDate);
+              calendarCurrentTime.setTimeInMillis(
+                      calendarCurrentTime.getTimeInMillis()
+                              - survayScheduler.getOffset(mContext));
+              ActivityStatus activityStatus = null;
+              ActivityData activityData =
+                      dbServiceSubscriber.getActivityPreference(
+                              ((SurveyActivity) mContext).getStudyId(), mRealm);
+              activityStatus = survayScheduler.getActivityStatus(activityData, ((SurveyActivity) mContext).getStudyId(), anchorDateSchedulingDetails.getSourceActivityId(), calendarCurrentTime.getTime(), activityListData.getActivities().get(i).getFrequency().getType(), mContext);
+              anchorDateSchedulingDetails.setActivityState(activityStatus.getStatus());
+              mArrayList.add(anchorDateSchedulingDetails);
+              /*
+              * getting activity status end
+              */
+
+
+              /*for (int j = 0; j < activityDataDB.getActivities().size(); j++) {
                 if (activityDataDB
                     .getActivities()
                     .get(j)
@@ -1094,7 +1123,7 @@ public class SurveyActivitiesFragment extends Fragment
                   mArrayList.add(anchorDateSchedulingDetails);
                   break;
                 }
-              }
+              }*/
             } else if (activityListData
                 .getActivities()
                 .get(i)
@@ -1592,6 +1621,12 @@ public class SurveyActivitiesFragment extends Fragment
         activityListData.getActivities().get(i)
             .setAnchorDatecreatedDate(mArrayList.get(j).getDateOfEntry());
       }*/
+      SimpleDateFormat simpleDateFormatTime = new SimpleDateFormat("HH:mm:ss");
+      if(activityListData.getActivities().get(i).getAnchorDate() != null
+              && activityListData.getActivities().get(i).getAnchorDate().getStart() != null
+              && activityListData.getActivities().get(i).getAnchorDate().getStart().getTime() == null) {
+        activityListData.getActivities().get(i).getAnchorDate().getStart().setTime(simpleDateFormatTime.format(Calendar.getInstance().getTime()));
+      }
       if (activityListData.getActivities().get(i).getAnchorDate() != null
           && activityListData.getActivities().get(i).getAnchorDate().getStart() != null) {
         if (!activityListData
