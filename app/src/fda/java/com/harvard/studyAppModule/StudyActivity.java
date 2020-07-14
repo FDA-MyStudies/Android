@@ -22,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -91,7 +92,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     private AppCompatImageView mNotificatioStatus;
     private AppCompatTextView mNewUsrReachoutLabel;
     private AppCompatTextView mSignUpLabel;
-    private Switch searchSwitch;
+    private SwitchCompat searchSwitch;
     private RelativeLayout mSignOutLayout;
     private AppCompatTextView mSignOutLabel;
     private int mPreviousValue = 0;// 0 means signup 1 means signout
@@ -371,9 +372,9 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                 if(checked) {
-                    mSearchEditText.setHint("Search Token");
+                    mSearchEditText.setHint("Enter keyword(s)");
                 } else {
-                    mSearchEditText.setHint("Search Keyword");
+                    mSearchEditText.setHint("Enter a token");
                 }
             }
         });
@@ -412,7 +413,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                 mSearchToolBarLayout.setVisibility(View.VISIBLE);
                 mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                 mSearchEditText.setText("");
-                mSearchEditText.setHint("Search Keyword");
+                mSearchEditText.setHint("Enter a token");
                 searchSwitch.setChecked(false);
                 // forcecfully set focus
                 mSearchEditText.post(new Runnable() {
@@ -445,9 +446,9 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                     mClearLayout.setVisibility(View.VISIBLE);
                 } else {
                     if (searchSwitch.isChecked()) {
-                        mSearchEditText.setHint("Search Token");
+                        mSearchEditText.setHint("Enter keyword(s)");
                     } else {
-                        mSearchEditText.setHint("Search Keyword");
+                        mSearchEditText.setHint("Enter a token");
                     }
                     mClearLayout.setVisibility(View.INVISIBLE);
                     mStudyFragment.setStudyFilteredStudyList();
@@ -1007,7 +1008,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public boolean isSearchByToken() {
-        return searchSwitch.isChecked();
+        return !searchSwitch.isChecked();
     }
 
     public String getSearchKey() {

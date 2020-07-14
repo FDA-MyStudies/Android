@@ -176,13 +176,55 @@
                 android:textColor="@color/colorSecondary"
                 android:textSize="15sp" />
 
-            <Switch
+            <!--<Switch
                 android:id="@+id/searchSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/colorPrimaryBlack"
                 android:theme="@style/BrandedSwitch.control"
-                android:text="Search Token"/>
+                android:text="Search Token"/>-->
+            <TextView
+                android:id="@+id/switchtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textColor="@color/colorPrimaryBlack"
+                android:textSize="16dp"
+                android:text="Search study by"/>
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/searchSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/switchtext"
+                android:background="@null"
+                android:button="@drawable/searchswitch"
+                android:thumb="@null"
+                app:track="@null"/>
+            <LinearLayout
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/searchSwitch"
+                android:layout_alignRight="@+id/searchSwitch"
+                android:layout_alignTop="@+id/searchSwitch"
+                android:layout_alignBottom="@+id/searchSwitch"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="16dp"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:text="token"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="16dp"
+                    android:textColor="@color/colorSecondary"
+                    android:gravity="center"
+                    android:text="keyword"/>
+            </LinearLayout>
             <RelativeLayout
                 android:id="@+id/searchMainLay"
                 android:layout_width="match_parent"
