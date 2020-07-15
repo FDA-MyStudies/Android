@@ -550,7 +550,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                 // search list retain
 
                 if (isSearchByToken) {
-                    studyListAdapter = new StudyListAdapter(mContext, searchByStudyId(searchKey), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
+                    studyListAdapter = new StudyListAdapter(mContext, searchByStudyId(((StudyActivity)mContext).getSearchedStudy()), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
                 } else {
                     studyListAdapter = new StudyListAdapter(mContext, searchResult(searchKey), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
                 }
@@ -657,7 +657,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
             if (searchKey != null) {
                 // search list retain
                 if (isSearchByToken) {
-                    studyListAdapter = new StudyListAdapter(mContext, searchByStudyId(searchKey), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
+                    studyListAdapter = new StudyListAdapter(mContext, searchByStudyId(((StudyActivity)mContext).getSearchedStudy()), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
                 } else {
                     studyListAdapter = new StudyListAdapter(mContext, searchResult(searchKey), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
                 }
@@ -1418,6 +1418,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    ((StudyActivity)mContext).setSearchedStudy(studyId);
                     searchByStudyId(studyId);
                     if (mSearchResultList.size() == 0) {
                         Toast.makeText(mContext, mContext.getResources().getString(R.string.search_data_not_available), Toast.LENGTH_LONG).show();
@@ -1426,6 +1427,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                     studyListAdapter.notifyDataSetChanged();
                 } else if (Integer.parseInt(responseCode) == 400 || Integer.parseInt(responseCode) == 404) {
                     //Update UI
+                    ((StudyActivity)mContext).setSearchedStudy("");
                     searchByStudyId("");
                     if (mSearchResultList.size() == 0) {
                         Toast.makeText(mContext, mContext.getResources().getString(R.string.search_data_not_available), Toast.LENGTH_LONG).show();
@@ -1528,6 +1530,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
 
 
     public void setStudyFilteredStudyList() {
+        ((StudyActivity)mContext).setSearchedStudy("");
         if (mSearchResultList.size() > 0)
             mSearchResultList.clear();
         if (studyListAdapter != null) {

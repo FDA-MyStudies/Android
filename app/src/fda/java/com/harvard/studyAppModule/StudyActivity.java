@@ -116,7 +116,16 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     AppCompatEditText mSearchEditText;
     RelativeLayout mClearLayout;
     private String intentFrom = "";
+    private String searchedStudy = "";
     private BroadcastReceiver mReceiver;
+
+    public String getSearchedStudy() {
+        return searchedStudy;
+    }
+
+    public void setSearchedStudy(String searchedStudy) {
+        this.searchedStudy = searchedStudy;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
