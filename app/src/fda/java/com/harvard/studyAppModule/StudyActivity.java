@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.NotificationManagerCompat;
@@ -93,6 +94,8 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     private AppCompatTextView mNewUsrReachoutLabel;
     private AppCompatTextView mSignUpLabel;
     private SwitchCompat searchSwitch;
+    private TextView tokenText;
+    private TextView keywordText;
     private RelativeLayout mSignOutLayout;
     private AppCompatTextView mSignOutLabel;
     private int mPreviousValue = 0;// 0 means signup 1 means signout
@@ -368,13 +371,30 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         mClearLayout = (RelativeLayout) findViewById(R.id.mClearLayout);
         mSearchEditText = (AppCompatEditText) findViewById(R.id.mSearchEditText);
         searchSwitch =  findViewById(R.id.searchSwitch);
+        tokenText =  findViewById(R.id.tokenText);
+        keywordText =  findViewById(R.id.keywordText);
         searchSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
                 if(checked) {
                     mSearchEditText.setHint("Enter keyword(s)");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        tokenText.setTextColor(getColor(R.color.colorSecondary));
+                        keywordText.setTextColor(getColor(R.color.white));
+                    } else {
+                        tokenText.setTextColor(getResources().getColor(R.color.colorSecondary));
+                        keywordText.setTextColor(getResources().getColor(R.color.white));
+                    }
+
                 } else {
                     mSearchEditText.setHint("Enter a token");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        tokenText.setTextColor(getColor(R.color.white));
+                        keywordText.setTextColor(getColor(R.color.colorSecondary));
+                    } else {
+                        tokenText.setTextColor(getResources().getColor(R.color.white));
+                        keywordText.setTextColor(getResources().getColor(R.color.colorSecondary));
+                    }
                 }
             }
         });
@@ -414,6 +434,13 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                 mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                 mSearchEditText.setText("");
                 mSearchEditText.setHint("Enter a token");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    tokenText.setTextColor(getColor(R.color.white));
+                    keywordText.setTextColor(getColor(R.color.colorSecondary));
+                } else {
+                    tokenText.setTextColor(getResources().getColor(R.color.white));
+                    keywordText.setTextColor(getResources().getColor(R.color.colorSecondary));
+                }
                 searchSwitch.setChecked(false);
                 // forcecfully set focus
                 mSearchEditText.post(new Runnable() {
@@ -447,8 +474,22 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                 } else {
                     if (searchSwitch.isChecked()) {
                         mSearchEditText.setHint("Enter keyword(s)");
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            tokenText.setTextColor(getColor(R.color.colorSecondary));
+                            keywordText.setTextColor(getColor(R.color.white));
+                        } else {
+                            tokenText.setTextColor(getResources().getColor(R.color.colorSecondary));
+                            keywordText.setTextColor(getResources().getColor(R.color.white));
+                        }
                     } else {
                         mSearchEditText.setHint("Enter a token");
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            tokenText.setTextColor(getColor(R.color.white));
+                            keywordText.setTextColor(getColor(R.color.colorSecondary));
+                        } else {
+                            tokenText.setTextColor(getResources().getColor(R.color.white));
+                            keywordText.setTextColor(getResources().getColor(R.color.colorSecondary));
+                        }
                     }
                     mClearLayout.setVisibility(View.INVISIBLE);
                     mStudyFragment.setStudyFilteredStudyList();

@@ -161,7 +161,7 @@ public class HttpRequest {
      * @param mHeadersData --> null if no header
      * @return Responsemodel
      */
-    static Responsemodel postRequestsWithHashmap(String url, HashMap<String, String> params, HashMap<String, String> mHeadersData, String serverType) {
+    public static Responsemodel postRequestsWithHashmap(String url, HashMap<String, String> params, HashMap<String, String> mHeadersData, String serverType) {
         Responsemodel responseModel = new Responsemodel();
         String response = "";
         String responseData = "";
