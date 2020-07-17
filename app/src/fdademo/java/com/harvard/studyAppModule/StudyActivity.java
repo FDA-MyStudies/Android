@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.NotificationManagerCompat;
@@ -22,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,8 +31,10 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -89,6 +93,9 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     private AppCompatImageView mNotificatioStatus;
     private AppCompatTextView mNewUsrReachoutLabel;
     private AppCompatTextView mSignUpLabel;
+    private SwitchCompat searchSwitch;
+    private TextView tokenText;
+    private TextView keywordText;
     private RelativeLayout mSignOutLayout;
     private AppCompatTextView mSignOutLabel;
     private int mPreviousValue = 0;// 0 means signup 1 means signout
@@ -109,7 +116,16 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     AppCompatEditText mSearchEditText;
     RelativeLayout mClearLayout;
     private String intentFrom = "";
+    private String searchedStudy = "";
     private BroadcastReceiver mReceiver;
+
+    public String getSearchedStudy() {
+        return searchedStudy;
+    }
+
+    public void setSearchedStudy(String searchedStudy) {
+        this.searchedStudy = searchedStudy;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,8 +146,6 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             setFont();
             // default settings
             loadstudylist();
-
-            mReachoutLayout.setVisibility(View.GONE);
         }
     }
 
@@ -365,6 +379,34 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         mCancel = (AppCompatTextView) findViewById(R.id.mCancel);
         mClearLayout = (RelativeLayout) findViewById(R.id.mClearLayout);
         mSearchEditText = (AppCompatEditText) findViewById(R.id.mSearchEditText);
+        searchSwitch =  findViewById(R.id.searchSwitch);
+        tokenText =  findViewById(R.id.tokenText);
+        keywordText =  findViewById(R.id.keywordText);
+        searchSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean checked) {
+                if(checked) {
+                    mSearchEditText.setHint("Enter keyword(s)");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        tokenText.setTextColor(getColor(R.color.colorSecondary));
+                        keywordText.setTextColor(getColor(R.color.white));
+                    } else {
+                        tokenText.setTextColor(getResources().getColor(R.color.colorSecondary));
+                        keywordText.setTextColor(getResources().getColor(R.color.white));
+                    }
+
+                } else {
+                    mSearchEditText.setHint("Enter a token");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        tokenText.setTextColor(getColor(R.color.white));
+                        keywordText.setTextColor(getColor(R.color.colorSecondary));
+                    } else {
+                        tokenText.setTextColor(getResources().getColor(R.color.white));
+                        keywordText.setTextColor(getResources().getColor(R.color.colorSecondary));
+                    }
+                }
+            }
+        });
 
         version = (TextView) findViewById(R.id.version);
         setVersion(version);
@@ -400,6 +442,15 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                 mSearchToolBarLayout.setVisibility(View.VISIBLE);
                 mDrawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
                 mSearchEditText.setText("");
+                mSearchEditText.setHint("Enter a token");
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    tokenText.setTextColor(getColor(R.color.white));
+                    keywordText.setTextColor(getColor(R.color.colorSecondary));
+                } else {
+                    tokenText.setTextColor(getResources().getColor(R.color.white));
+                    keywordText.setTextColor(getResources().getColor(R.color.colorSecondary));
+                }
+                searchSwitch.setChecked(false);
                 // forcecfully set focus
                 mSearchEditText.post(new Runnable() {
                     @Override
@@ -430,6 +481,25 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                 if (s.length() > 0) {
                     mClearLayout.setVisibility(View.VISIBLE);
                 } else {
+                    if (searchSwitch.isChecked()) {
+                        mSearchEditText.setHint("Enter keyword(s)");
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            tokenText.setTextColor(getColor(R.color.colorSecondary));
+                            keywordText.setTextColor(getColor(R.color.white));
+                        } else {
+                            tokenText.setTextColor(getResources().getColor(R.color.colorSecondary));
+                            keywordText.setTextColor(getResources().getColor(R.color.white));
+                        }
+                    } else {
+                        mSearchEditText.setHint("Enter a token");
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            tokenText.setTextColor(getColor(R.color.white));
+                            keywordText.setTextColor(getColor(R.color.colorSecondary));
+                        } else {
+                            tokenText.setTextColor(getResources().getColor(R.color.white));
+                            keywordText.setTextColor(getResources().getColor(R.color.colorSecondary));
+                        }
+                    }
                     mClearLayout.setVisibility(View.INVISIBLE);
                     mStudyFragment.setStudyFilteredStudyList();
                 }
@@ -466,7 +536,8 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             public void onClick(View view) {
                 mSearchEditText.setText("");
                 setToolBarEnable();
-                hideKeyboard();
+//                hideKeyboard();
+                hideKeyboardForSearchCancel();
                 mStudyFragment.setStudyFilteredStudyList();
 
             }
@@ -531,6 +602,15 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    private void hideKeyboardForSearchCancel() {
+        try {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(mSearchEditText.getWindowToken(), 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void setToolBarEnable() {
         mSearchToolBarLayout.setVisibility(View.GONE);
         mToolBarLayout.setVisibility(View.VISIBLE);
@@ -573,8 +653,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             mSigninImg.setBackground(getResources().getDrawable(R.drawable.signin_menu1));
             mSigninLabel.setText(getResources().getString(R.string.sign_in_btn));
             mSignOutLayout.setVisibility(View.GONE);
-            mReachoutLayout.setVisibility(View.GONE);
-            mNewUsrReachoutLayout.setVisibility(View.VISIBLE);
+            mReachoutLayout.setVisibility(View.VISIBLE);
             //set Reach out details to new user,
             mNewUsrReachoutImg.setBackground(getResources().getDrawable(R.drawable.newuser_menu1));
             mNewUsrReachoutLabel.setText(getResources().getString(R.string.side_menu_new_user));
@@ -587,7 +666,6 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             mSigninLabel.setText(getResources().getString(R.string.profile_small));
             mSignOutLayout.setVisibility(View.VISIBLE);
             mReachoutLayout.setVisibility(View.GONE);
-            mNewUsrReachoutLayout.setVisibility(View.GONE);
             //set Reach out details to new user,
             mNewUsrReachoutImg.setBackground(getResources().getDrawable(R.drawable.reachout_menu1));
             mNewUsrReachoutLabel.setText(getResources().getString(R.string.side_menu_reach_out));
@@ -987,6 +1065,10 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         if (dbServiceSubscriber != null && mRealm != null)
             dbServiceSubscriber.closeRealmObj(mRealm);
         super.onDestroy();
+    }
+
+    public boolean isSearchByToken() {
+        return !searchSwitch.isChecked();
     }
 
     public String getSearchKey() {

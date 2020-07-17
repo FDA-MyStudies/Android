@@ -536,7 +536,8 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             public void onClick(View view) {
                 mSearchEditText.setText("");
                 setToolBarEnable();
-                hideKeyboard();
+//                hideKeyboard();
+                hideKeyboardForSearchCancel();
                 mStudyFragment.setStudyFilteredStudyList();
 
             }
@@ -596,6 +597,15 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         try {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void hideKeyboardForSearchCancel() {
+        try {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(mSearchEditText.getWindowToken(), 0);
         } catch (Exception e) {
             e.printStackTrace();
         }
