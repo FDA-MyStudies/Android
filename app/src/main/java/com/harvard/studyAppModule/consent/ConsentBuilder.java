@@ -216,7 +216,7 @@ public class ConsentBuilder {
             visualSteps.add(multiStep2);
 
 
-            //2 nd
+            //2 nd page
 
         FormStep formStep2 = new FormStep("consentLarSecond",
                 "Please specify your relationship to the participant.",
