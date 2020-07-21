@@ -83,12 +83,12 @@ android {
             versionCode 3
             versionName "1.0"
         }*/
-        covid19 {
+        /*covid19 {
             dimension 'version'
             applicationId "com.harvard.covid19"
             versionCode 13
             versionName "1.0.1"
-        }
+        }*/
     }
 }
 
