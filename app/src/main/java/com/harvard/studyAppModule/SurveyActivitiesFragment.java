@@ -1081,7 +1081,36 @@ public class SurveyActivitiesFragment extends Fragment
               anchorDateSchedulingDetails.setTargetActivityId(
                   activityListData.getActivities().get(i).getActivityId());
 
-              for (int j = 0; j < activityDataDB.getActivities().size(); j++) {
+
+              /*
+              * getting activity status start
+              */
+              SurvayScheduler survayScheduler = new SurvayScheduler(dbServiceSubscriber, mRealm);
+              Date currentDate = new Date();
+              String currentDateString = AppController.getDateFormatUTC().format(currentDate);
+              try {
+                currentDate = AppController.getDateFormatUTC().parse(currentDateString);
+              } catch (ParseException e) {
+                e.printStackTrace();
+              }
+              Calendar calendarCurrentTime = Calendar.getInstance();
+              calendarCurrentTime.setTime(currentDate);
+              calendarCurrentTime.setTimeInMillis(
+                      calendarCurrentTime.getTimeInMillis()
+                              - survayScheduler.getOffset(mContext));
+              ActivityStatus activityStatus = null;
+              ActivityData activityData =
+                      dbServiceSubscriber.getActivityPreference(
+                              ((SurveyActivity) mContext).getStudyId(), mRealm);
+              activityStatus = survayScheduler.getActivityStatus(activityData, ((SurveyActivity) mContext).getStudyId(), anchorDateSchedulingDetails.getSourceActivityId(), calendarCurrentTime.getTime(), activityListData.getActivities().get(i).getFrequency().getType(), mContext);
+              anchorDateSchedulingDetails.setActivityState(activityStatus.getStatus());
+              mArrayList.add(anchorDateSchedulingDetails);
+              /*
+              * getting activity status end
+              */
+
+
+              /*for (int j = 0; j < activityDataDB.getActivities().size(); j++) {
                 if (activityDataDB
                     .getActivities()
                     .get(j)
@@ -1094,7 +1123,7 @@ public class SurveyActivitiesFragment extends Fragment
                   mArrayList.add(anchorDateSchedulingDetails);
                   break;
                 }
-              }
+              }*/
             } else if (activityListData
                 .getActivities()
                 .get(i)
@@ -1592,6 +1621,12 @@ public class SurveyActivitiesFragment extends Fragment
         activityListData.getActivities().get(i)
             .setAnchorDatecreatedDate(mArrayList.get(j).getDateOfEntry());
       }*/
+      SimpleDateFormat simpleDateFormatTime = new SimpleDateFormat("HH:mm:ss");
+      if(activityListData.getActivities().get(i).getAnchorDate() != null
+              && activityListData.getActivities().get(i).getAnchorDate().getStart() != null
+              && activityListData.getActivities().get(i).getAnchorDate().getStart().getTime() == null) {
+        activityListData.getActivities().get(i).getAnchorDate().getStart().setTime(simpleDateFormatTime.format(Calendar.getInstance().getTime()));
+      }
       if (activityListData.getActivities().get(i).getAnchorDate() != null
           && activityListData.getActivities().get(i).getAnchorDate().getStart() != null) {
         if (!activityListData
@@ -4562,44 +4597,7 @@ public class SurveyActivitiesFragment extends Fragment
       if (motivationalNotification == null) {
         if (completion >= 100) {
           hundredPc = true;
-            if (mContext.getPackageName().equalsIgnoreCase("com.harvard.covid19")) {
-                SetDialogHelper.setNeutralDialog(
-                        mContext,
-                        mContext.getResources().getString(R.string.per_completion),
-                        false,
-                        mContext.getResources().getString(R.string.ok),
-                        mContext.getResources().getString(R.string.app_name));
-            } else {
-                SetDialogHelper.setNeutralDialog(
-                        mContext,
-                        mContext.getResources().getString(R.string.study)
-                                + " "
-                                + title
-                                + " "
-                                + mContext.getResources().getString(R.string.percent_complete1),
-                        false,
-                        mContext.getResources().getString(R.string.ok),
-                        mContext.getResources().getString(R.string.app_name));
-            }
-        } else if (completion >= 50) {
           fiftyPc = true;
-
-        } else if (missed > 0) {
-          SetDialogHelper.setNeutralDialog(
-              mContext,
-              mContext.getResources().getString(R.string.missed_activity)
-                  + " "
-                  + ((SurveyActivity) mContext).getTitle1()
-                  + " "
-                  + mContext.getResources().getString(R.string.we_encourage),
-              false,
-              mContext.getResources().getString(R.string.ok),
-              mContext.getResources().getString(R.string.app_name));
-        }
-      } else if (!motivationalNotification.isFiftyPc()
-          && !motivationalNotification.isHundredPc()) {
-        if (completion >= 100) {
-          hundredPc = true;
           if (mContext.getPackageName().equalsIgnoreCase("com.harvard.covid19")) {
             SetDialogHelper.setNeutralDialog(
                     mContext,
@@ -4621,6 +4619,66 @@ public class SurveyActivitiesFragment extends Fragment
           }
         } else if (completion >= 50) {
           fiftyPc = true;
+          SetDialogHelper.setNeutralDialog(
+                  mContext,
+                  mContext.getResources().getString(R.string.study)
+                          + " "
+                          + title
+                          + " "
+                          + mContext.getResources().getString(R.string.percent_complete2),
+                  false,
+                  mContext.getResources().getString(R.string.ok),
+                  mContext.getResources().getString(R.string.app_name));
+        } else if (missed > 0) {
+          SetDialogHelper.setNeutralDialog(
+                  mContext,
+                  mContext.getResources().getString(R.string.missed_activity),
+                  false,
+                  mContext.getResources().getString(R.string.ok),
+                  mContext.getResources().getString(R.string.app_name));
+        }
+      } else if (!motivationalNotification.isFiftyPc() && !motivationalNotification.isHundredPc()) {
+        if (completion >= 100) {
+          hundredPc = true;
+          fiftyPc = true;
+          if (mContext.getPackageName().equalsIgnoreCase("com.harvard.covid19")) {
+            SetDialogHelper.setNeutralDialog(
+                    mContext,
+                    mContext.getResources().getString(R.string.per_completion),
+                    false,
+                    mContext.getResources().getString(R.string.ok),
+                    mContext.getResources().getString(R.string.app_name));
+          } else {
+            SetDialogHelper.setNeutralDialog(
+                    mContext,
+                    mContext.getResources().getString(R.string.study)
+                            + " "
+                            + title
+                            + " "
+                            + mContext.getResources().getString(R.string.percent_complete1),
+                    false,
+                    mContext.getResources().getString(R.string.ok),
+                    mContext.getResources().getString(R.string.app_name));
+          }
+        } else if (completion >= 50) {
+          fiftyPc = true;
+          SetDialogHelper.setNeutralDialog(
+                  mContext,
+                  mContext.getResources().getString(R.string.study)
+                          + " "
+                          + title
+                          + " "
+                          + mContext.getResources().getString(R.string.percent_complete2),
+                  false,
+                  mContext.getResources().getString(R.string.ok),
+                  mContext.getResources().getString(R.string.app_name));
+        } else if (motivationalNotification.getMissed() != missed) {
+          SetDialogHelper.setNeutralDialog(
+                  mContext,
+                  mContext.getResources().getString(R.string.missed_activity),
+                  false,
+                  mContext.getResources().getString(R.string.ok),
+                  mContext.getResources().getString(R.string.app_name));
         }
       } else if (!motivationalNotification.isHundredPc()) {
         if (completion >= 100) {
@@ -4644,45 +4702,22 @@ public class SurveyActivitiesFragment extends Fragment
                     mContext.getResources().getString(R.string.ok),
                     mContext.getResources().getString(R.string.app_name));
           }
-        }
-
-      } else if (!motivationalNotification.isFiftyPc()) {
-        if (!motivationalNotification.isHundredPc() && completion >= 50) {
-          fiftyPc = true;
-          if (mContext.getPackageName().equalsIgnoreCase("com.harvard.covid19")) {
-            SetDialogHelper.setNeutralDialog(
-                    mContext,
-                    mContext.getResources().getString(R.string.per_completion),
-                    false,
-                    mContext.getResources().getString(R.string.ok),
-                    mContext.getResources().getString(R.string.app_name));
-          } else {
-            SetDialogHelper.setNeutralDialog(
-                    mContext,
-                    mContext.getResources().getString(R.string.study)
-                            + " "
-                            + title
-                            + " "
-                            + mContext.getResources().getString(R.string.percent_complete1),
-                    false,
-                    mContext.getResources().getString(R.string.ok),
-                    mContext.getResources().getString(R.string.app_name));
-          }
-        } else if (motivationalNotification.isHundredPc()) {
-          fiftyPc = true;
+        } else if (motivationalNotification.getMissed() != missed) {
+          SetDialogHelper.setNeutralDialog(
+                  mContext,
+                  mContext.getResources().getString(R.string.missed_activity),
+                  false,
+                  mContext.getResources().getString(R.string.ok),
+                  mContext.getResources().getString(R.string.app_name));
         }
 
       } else if (motivationalNotification.getMissed() != missed) {
         SetDialogHelper.setNeutralDialog(
-            mContext,
-            mContext.getResources().getString(R.string.missed_activity)
-                + " "
-                + ((SurveyActivity) mContext).getTitle1()
-                + " "
-                + mContext.getResources().getString(R.string.we_encourage),
-            false,
-            mContext.getResources().getString(R.string.ok),
-            mContext.getResources().getString(R.string.app_name));
+                mContext,
+                mContext.getResources().getString(R.string.missed_activity),
+                false,
+                mContext.getResources().getString(R.string.ok),
+                mContext.getResources().getString(R.string.app_name));
       }
 
       if (motivationalNotification != null && motivationalNotification.isHundredPc()) {
@@ -4699,8 +4734,7 @@ public class SurveyActivitiesFragment extends Fragment
       motivationalNotification1.setFiftyPc(fiftyPc);
       motivationalNotification1.setHundredPc(hundredPc);
       motivationalNotification1.setMissed(missed);
-      dbServiceSubscriber.saveMotivationalNotificationToDB(
-          mContext, motivationalNotification1);
+      dbServiceSubscriber.saveMotivationalNotificationToDB(mContext, motivationalNotification1);
 
       dbServiceSubscriber.closeRealmObj(mRealm);
 

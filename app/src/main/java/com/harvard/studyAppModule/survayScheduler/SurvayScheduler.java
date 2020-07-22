@@ -11,6 +11,7 @@ import com.harvard.studyAppModule.activityBuilder.model.ActivityRun;
 import com.harvard.studyAppModule.acvitityListModel.ActivitiesWS;
 import com.harvard.studyAppModule.acvitityListModel.ActivityListData;
 import com.harvard.studyAppModule.acvitityListModel.Frequency;
+import com.harvard.studyAppModule.acvitityListModel.FrequencyRuns;
 import com.harvard.studyAppModule.survayScheduler.model.ActivityStatus;
 import com.harvard.studyAppModule.survayScheduler.model.CompletionAdeherenceCalc;
 import com.harvard.userModule.webserviceModel.Activities;
@@ -21,10 +22,12 @@ import com.harvard.utils.AppController;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.TimeZone;
 
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -319,10 +322,24 @@ public class SurvayScheduler {
         if (mStartTime != null) {
             Calendar endCalendar = Calendar.getInstance();
             endCalendar.setTime(mEndTime);
-
+            SimpleDateFormat simpleDateFormat = AppController.getDateFormatUTC1();
+            /*try {
+                for(int k = 0; k < activity.getFrequency().getRuns().size(); k++) {
+                    for(int l = k + 1; l < activity.getFrequency().getRuns().size(); l++) {
+                        Date startDateK = simpleDateFormat.parse(activity.getFrequency().getRuns().get(k).getStartTime().split("\\.")[0]);
+                        Date startDateL = simpleDateFormat.parse(activity.getFrequency().getRuns().get(l).getStartTime().split("\\.")[0]);
+                        if(startDateK.after(startDateL)) {
+                            FrequencyRuns frequencyRunsK = activity.getFrequency().getRuns().get(k);
+                            activity.getFrequency().getRuns().set(k, activity.getFrequency().getRuns().get(l));
+                            activity.getFrequency().getRuns().set(l, frequencyRunsK);
+                       }
+                    }
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }*/
             int run = 1;
             for (int j = 0; j < activity.getFrequency().getRuns().size(); j++) {
-                SimpleDateFormat simpleDateFormat = AppController.getDateFormatUTC1();
                 ActivityRun activityRun = null;
                 try {
                     if (mJoiningTime.after(simpleDateFormat.parse(activity.getFrequency().getRuns().get(j).getEndTime().split("\\.")[0]))) {
