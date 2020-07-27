@@ -228,6 +228,8 @@
 
     <string name="participant_relationship2">Please specify the relationship to the participant</string>
 
+    <string name="participant_first_last_name">Please enter the participant\'s first and last name below</string>
+
     <string name="last_name1">Last Name</string>
     <string name="last_name2">Last name</string>
     <string name="last_name3">Required</string>

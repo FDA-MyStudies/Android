@@ -13,6 +13,16 @@ public class Review extends RealmObject{
 
     private String signatureTitle;
 
+    private String consentByLAR;
+
+    public String getConsentByLAR() {
+        return consentByLAR;
+    }
+
+    public void setConsentByLAR(String consentByLAR) {
+        this.consentByLAR = consentByLAR;
+    }
+
     public String getReasonForConsent() {
         return reasonForConsent;
     }

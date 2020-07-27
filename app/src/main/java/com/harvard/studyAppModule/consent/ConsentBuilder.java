@@ -6,9 +6,11 @@ import com.harvard.EligibilityModule.StepsBuilder;
 import com.harvard.R;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.Steps;
 import com.harvard.studyAppModule.consent.ConsentSharingStepCustom.ConsentSharingStepCustom;
+import com.harvard.studyAppModule.consent.consentLARStep.ConsentLARStep;
 import com.harvard.studyAppModule.consent.model.Consent;
 import com.harvard.studyAppModule.consent.model.ConsentSectionCustomImage;
 import com.harvard.studyAppModule.custom.AnswerFormatCustom;
+import com.harvard.studyAppModule.custom.ChoiceAnswerFormatCustom;
 import com.harvard.studyAppModule.custom.QuestionStepCustom;
 import com.harvard.studyAppModule.custom.question.ChoiceText;
 import com.harvard.studyAppModule.custom.question.SingleChoiceTextAnswerFormat;
@@ -201,14 +203,16 @@ public class ConsentBuilder {
         }
 
 
-        //need to set two screens
+        if (consent.getReview().getConsentByLAR().equalsIgnoreCase("Yes")) {
+            //need to set two screens
 
-             QuestionStepCustom multiStep2 = new QuestionStepCustom("consentLarFirst");
+            QuestionStepCustom multiStep2 = new QuestionStepCustom("consentLarFirst");
+            multiStep2.setStepTitle(R.string.notxt);
             ChoiceText[] choices2 = new ChoiceText[2];
-                 choices2[0] = new ChoiceText("I am signing the consent form on behalf of myself ", "1", "",null);
-                 choices2[1] = new ChoiceText("I am signing the consent form on behalf of the paitent/participant in the capacity of legally authorized representative", "1", "",null);
+            choices2[0] = new ChoiceText("I am signing the consent form on behalf of myself ", "1", "", null);
+            choices2[1] = new ChoiceText("I am signing the consent form on behalf of the patient/participant in the capacity of legally authorized representative", "2", "", null);
 
-        SingleChoiceTextAnswerFormat choiceAnswerFormat2 = new SingleChoiceTextAnswerFormat(AnswerFormatCustom.CustomAnswerStyle.SingleTextChoice, choices2);
+            SingleChoiceTextAnswerFormat choiceAnswerFormat2 = new SingleChoiceTextAnswerFormat(AnswerFormatCustom.CustomAnswerStyle.SingleTextChoice, choices2);
             multiStep2.setTitle("The next few steps will capture your informed consent for participation in this study");
             multiStep2.setText("Please select the appropriate option below");
             multiStep2.setAnswerFormat1(choiceAnswerFormat2);
@@ -218,43 +222,14 @@ public class ConsentBuilder {
 
             //2 nd page
 
-        FormStep formStep2 = new FormStep("consentLarSecond",
-                "Please specify your relationship to the participant.",
-                "");
-        formStep2.setStepTitle(R.string.notxt);
-
-        TextAnswerFormat format2 = new TextAnswerFormat();
-        format2.setIsMultipleLines(false);
-
-
-
-        QuestionStep relationship = new QuestionStep(context.getResources().getString(R.string.participant_relationship1), context.getResources().getString(R.string.notxt), format2);
-
-        TextAnswerFormatRegex textAnswerFormat = new TextAnswerFormatRegex(100, "", "Please provide valid input");
-        textAnswerFormat.setIsMultipleLines(true);
-        QuestionStepCustom textstep = new QuestionStepCustom(context.getResources().getString(R.string.participant_first_name1), "Please enter the participtant first and last name below", textAnswerFormat);
-        textstep.setText("Participtant First Name");
-        textstep.setPlaceholder(context.getResources().getString(R.string.first_name3));
-        textstep.setAnswerFormat1(textAnswerFormat);
-        textstep.setOptional(false);
-
-
-
-        //QuestionStep fullName2 = new QuestionStep(context.getResources().getString(R.string.participant_first_name1), context.getResources().getString(R.string.participant_first_name2), format2);
-        QuestionStep lastName2= new QuestionStep(context.getResources().getString(R.string.participant_last_name1), context.getResources().getString(R.string.participant_last_name2), format2);
-       // fullName2.setPlaceholder(context.getResources().getString(R.string.first_name3));
-        lastName2.setPlaceholder(context.getResources().getString(R.string.last_name3));
-        relationship.setPlaceholder(context.getResources().getString(R.string.first_name3));
-        List<QuestionStep> questionSteps2 = new ArrayList<>();
-        questionSteps2.add(relationship);
-       // questionSteps2.add(fullName2);
-        questionSteps2.add(textstep);
-
-        questionSteps2.add(lastName2);
-
-        formStep2.setFormSteps(questionSteps2);
-        formStep2.setOptional(false);
-        visualSteps.add(formStep2);
+            ConsentLARStep formStep2 = new ConsentLARStep("consentLarSecond");
+            formStep2.setStepTitle(R.string.notxt);
+            Choice[] choices1 = new Choice[0];
+            AnswerFormat choiceAnswerFormat1 = new ChoiceAnswerFormat(AnswerFormat.ChoiceAnswerStyle.MultipleChoice, choices1);
+            formStep2.setAnswerFormat(choiceAnswerFormat1);
+            formStep2.setOptional(false);
+            visualSteps.add(formStep2);
+        }
 
 
         if (!consent.getSharing().getTitle().equalsIgnoreCase("") && !consent.getSharing().getText().equalsIgnoreCase("") && !consent.getSharing().getShortDesc().equalsIgnoreCase("") && !consent.getSharing().getLongDesc().equalsIgnoreCase("")) {

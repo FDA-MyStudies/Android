@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -81,6 +82,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -94,7 +97,7 @@ import io.realm.RealmList;
 /**
  * Created by Naveen Raj on 03/01/2017.
  */
-public class CustomConsentViewTaskActivity extends AppCompatActivity implements StepCallbacks, ApiCall.OnAsyncRequestComplete, ApiCallResponseServer.OnAsyncRequestComplete {
+public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implements StepCallbacks, ApiCall.OnAsyncRequestComplete, ApiCallResponseServer.OnAsyncRequestComplete {
     public static final String EXTRA_TASK = "ViewTaskActivity.ExtraTask";
     public static final String EXTRA_TASK_RESULT = "ViewTaskActivity.ExtraTaskResult";
     public static final String EXTRA_STEP = "ViewTaskActivity.ExtraStep";
@@ -112,7 +115,7 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
     private final int ENROLL_ID_RESPONSECODE = 100;
 
     private Step currentStep;
-    private Task task;
+    private ConsentBuilderTask task;
     private TaskResult taskResult;
     Step nextStep, checkNextStep;
     private String studyId;
@@ -176,7 +179,7 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
             ConsentBuilder consentBuilder = new ConsentBuilder();
             List<Step> consentstep = consentBuilder.createsurveyquestion(CustomConsentViewTaskActivity.this, mConsent, pdfTitle, getIntent().getStringExtra(TYPE));
 
-            task = new OrderedTask(CONSENT, consentstep);
+            task = new ConsentBuilderTask(CONSENT, consentstep);
             enrollId = getIntent().getStringExtra(ENROLLID);
 
             eligibility = getIntent().getStringExtra(ELIGIBILITY);
@@ -191,7 +194,7 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
             mConsent = eligibilityConsent.getConsent();
             ConsentBuilder consentBuilder = new ConsentBuilder();
             List<Step> consentstep = consentBuilder.createsurveyquestion(CustomConsentViewTaskActivity.this, mConsent, pdfTitle, getIntent().getStringExtra(TYPE));
-            task = new OrderedTask(CONSENT, consentstep);
+            task = new ConsentBuilderTask(CONSENT, consentstep);
 
             enrollId = (String) savedInstanceState.getSerializable(ENROLLID);
 
@@ -237,10 +240,15 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
                 saveAndFinish();
             } else {
                 String checkIdentifier;
-                if (mConsent.getSharing().getTitle().equalsIgnoreCase("") && mConsent.getSharing().getText().equalsIgnoreCase("") && mConsent.getSharing().getShortDesc().equalsIgnoreCase("") && mConsent.getSharing().getLongDesc().equalsIgnoreCase("")) {
-                    checkIdentifier = "review";
+//                mConsent.getReview().setConsentByLAR("Yes");
+                if(mConsent.getReview() != null && mConsent.getReview().getConsentByLAR() != null && mConsent.getReview().getConsentByLAR().equalsIgnoreCase("Yes")) {
+                    checkIdentifier = "consentLarFirst";
                 } else {
-                    checkIdentifier = "sharing";
+                    if (mConsent.getSharing().getTitle().equalsIgnoreCase("") && mConsent.getSharing().getText().equalsIgnoreCase("") && mConsent.getSharing().getShortDesc().equalsIgnoreCase("") && mConsent.getSharing().getLongDesc().equalsIgnoreCase("")) {
+                        checkIdentifier = "review";
+                    } else {
+                        checkIdentifier = "sharing";
+                    }
                 }
 
                 if (mConsent.getComprehension().getQuestions().size() > 0 && nextStep.getIdentifier().equalsIgnoreCase(checkIdentifier)) {
@@ -344,7 +352,7 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
         if (previousStep == null) {
             finish();
         } else {
-            if (currentStep.getIdentifier().equalsIgnoreCase("sharing") || ((currentStep.getIdentifier().equalsIgnoreCase("review") && !previousStep.getIdentifier().equalsIgnoreCase("sharing")))) {
+            if (currentStep.getIdentifier().equalsIgnoreCase("consentLarFirst") || (currentStep.getIdentifier().equalsIgnoreCase("sharing") && (!previousStep.getIdentifier().equalsIgnoreCase("consentLarSecond") && (!previousStep.getIdentifier().equalsIgnoreCase("consentLarFirst")))) || ((currentStep.getIdentifier().equalsIgnoreCase("review") && (!previousStep.getIdentifier().equalsIgnoreCase("sharing") && (!previousStep.getIdentifier().equalsIgnoreCase("consentLarFirst")) && (!previousStep.getIdentifier().equalsIgnoreCase("consentLarSecond")))))) {
                 finish();
             } else {
                 if (calcPassScore(previousStep, taskResult)) {
@@ -613,6 +621,25 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
             String signatureDate = (String) taskResult.getStepResult("Signature")
                     .getResultForIdentifier(ConsentSignatureStepLayout.KEY_SIGNATURE_DATE);
 
+            String larRelationship = "";
+            String larFirstName = "";
+            String larLastName = "";
+
+            ArrayList<String> larUserResponses = new ArrayList<>();
+            try {
+                T[] larResultArray = (T[]) taskResult.getStepResult("consentLarSecond").getResult();
+                if (larResultArray != null && larResultArray.length > 0) {
+                    larUserResponses.addAll((Collection<? extends String>) Arrays.asList(larResultArray));
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if(larUserResponses.size() == 3) {
+                larRelationship = larUserResponses.get(0);
+                larFirstName = larUserResponses.get(1);
+                larLastName = larUserResponses.get(2);
+            }
+
             String formResult = new Gson().toJson(taskResult.getStepResult(getResources().getString(R.string.signature_form_step)).getResults());
             JSONObject formResultObj = new JSONObject(formResult);
             JSONObject fullNameObj = formResultObj.getJSONObject("First Name");
@@ -693,39 +720,92 @@ public class CustomConsentViewTaskActivity extends AppCompatActivity implements 
 //            for (Element element : list) {
 //                consentItem.add(element);
 //            }
-            StringBuilder docBuilder = new StringBuilder(
-                    "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
-            String participant = getResources().getString(R.string.participant);
-            docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", participant));
-            String detail = getResources().getString(R.string.agree_participate_research_study);
-            docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", detail));
-            consentItem.add(Html.fromHtml(docBuilder.toString()).toString());
+            if (larUserResponses.size() == 0) {
+                StringBuilder docBuilder = new StringBuilder(
+                        "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
+                String participant = getResources().getString(R.string.participant);
+                docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", participant));
+                String detail = getResources().getString(R.string.agree_participate_research_study);
+                docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", detail));
+                consentItem.add(Html.fromHtml(docBuilder.toString()).toString());
 
-            byte[] signatureBytes;
-            Image myImg = null;
-            if (signatureBase64 != null) {
-                signatureBytes = Base64.decode(signatureBase64, Base64.DEFAULT);
-                myImg = Image.getInstance(signatureBytes);
-                myImg.setScaleToFitHeight(true);
-                myImg.scalePercent(50f);
+                byte[] signatureBytes;
+                Image myImg = null;
+                if (signatureBase64 != null) {
+                    signatureBytes = Base64.decode(signatureBase64, Base64.DEFAULT);
+                    myImg = Image.getInstance(signatureBytes);
+                    myImg.setScaleToFitHeight(true);
+                    myImg.scalePercent(50f);
+                }
+
+                PdfPTable table = new PdfPTable(3);
+                table.setWidthPercentage(100);
+                table.addCell(getCell(firstName + " " + lastName, PdfPCell.ALIGN_CENTER));
+                table.addCell(getImage(myImg, PdfPCell.ALIGN_CENTER));
+                table.addCell(getCell(signatureDate, PdfPCell.ALIGN_CENTER));
+                consentItem.add(table);
+
+
+                PdfPTable table1 = new PdfPTable(3);
+                table1.setWidthPercentage(100);
+                table1.addCell(getCell(getResources().getString(R.string.participans_name), PdfPCell.ALIGN_CENTER));
+                table1.addCell(getCell(getResources().getString(R.string.participants_signature), PdfPCell.ALIGN_CENTER));
+                table1.addCell(getCell(getResources().getString(R.string.date), PdfPCell.ALIGN_CENTER));
+                consentItem.add(table1);
+
+                document.add(consentItem);
+            } else {
+                StringBuilder docBuilder = new StringBuilder(
+                        "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
+                String lar = "Consent by a Legally Authorized Representative";
+                docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", lar));
+                String detail = "I am signing the consent document on behalf of the participant, as a legally-authorized\n" +
+                        "representative of the participant.";
+                docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", detail));
+                docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", "Participant first name: " + larFirstName));
+                docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", "Participant last name: " + larLastName));
+                consentItem.add(Html.fromHtml(docBuilder.toString()).toString());
+
+                byte[] signatureBytes;
+                Image myImg = null;
+                if (signatureBase64 != null) {
+                    signatureBytes = Base64.decode(signatureBase64, Base64.DEFAULT);
+                    myImg = Image.getInstance(signatureBytes);
+                    myImg.setScaleToFitHeight(true);
+                    myImg.scalePercent(50f);
+                }
+
+                PdfPTable table = new PdfPTable(3);
+                table.setWidthPercentage(100);
+                table.addCell(getImage(myImg, PdfPCell.ALIGN_CENTER));
+                table.addCell(getCell(" ", PdfPCell.ALIGN_CENTER));
+                table.addCell(getCell(signatureDate, PdfPCell.ALIGN_CENTER));
+                consentItem.add(table);
+
+                PdfPTable table1 = new PdfPTable(3);
+                table1.setWidthPercentage(100);
+                table1.addCell(getCell(getResources().getString(R.string.participants_signature), PdfPCell.ALIGN_CENTER));
+                table1.addCell(getCell(" ", PdfPCell.ALIGN_CENTER));
+                table1.addCell(getCell(getResources().getString(R.string.date), PdfPCell.ALIGN_CENTER));
+                consentItem.add(table1);
+
+                PdfPTable table2 = new PdfPTable(3);
+                table2.setWidthPercentage(100);
+                table2.addCell(getCell(firstName, PdfPCell.ALIGN_CENTER));
+                table2.addCell(getCell(lastName, PdfPCell.ALIGN_CENTER));
+                table2.addCell(getCell(larRelationship, PdfPCell.ALIGN_CENTER));
+                consentItem.add(table2);
+
+
+                PdfPTable table3 = new PdfPTable(3);
+                table3.setWidthPercentage(100);
+                table3.addCell(getCell("First Name", PdfPCell.ALIGN_CENTER));
+                table3.addCell(getCell("Last Name", PdfPCell.ALIGN_CENTER));
+                table3.addCell(getCell("Relationship to Patient", PdfPCell.ALIGN_CENTER));
+                consentItem.add(table3);
+
+                document.add(consentItem);
             }
-
-            PdfPTable table = new PdfPTable(3);
-            table.setWidthPercentage(100);
-            table.addCell(getCell(firstName + " " + lastName, PdfPCell.ALIGN_CENTER));
-            table.addCell(getImage(myImg, PdfPCell.ALIGN_CENTER));
-            table.addCell(getCell(signatureDate, PdfPCell.ALIGN_CENTER));
-            consentItem.add(table);
-
-
-            PdfPTable table1 = new PdfPTable(3);
-            table1.setWidthPercentage(100);
-            table1.addCell(getCell(getResources().getString(R.string.participans_name), PdfPCell.ALIGN_CENTER));
-            table1.addCell(getCell(getResources().getString(R.string.participants_signature), PdfPCell.ALIGN_CENTER));
-            table1.addCell(getCell(getResources().getString(R.string.date), PdfPCell.ALIGN_CENTER));
-            consentItem.add(table1);
-
-            document.add(consentItem);
             document.close();
 
             // encrypt the genarated pdf
