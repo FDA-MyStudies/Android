@@ -801,7 +801,7 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
                 table3.setWidthPercentage(100);
                 table3.addCell(getCell("First Name", PdfPCell.ALIGN_CENTER));
                 table3.addCell(getCell("Last Name", PdfPCell.ALIGN_CENTER));
-                table3.addCell(getCell("Relationship to Patient", PdfPCell.ALIGN_CENTER));
+                table3.addCell(getCell("Relationship to Participant", PdfPCell.ALIGN_CENTER));
                 consentItem.add(table3);
 
                 document.add(consentItem);

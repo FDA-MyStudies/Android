@@ -222,11 +222,11 @@
     <string name="first_name1">First Name</string>
     <string name="first_name2">First name</string>
     <string name="first_name3">Required</string>
-    <string name="participant_first_name1">Participant First Name</string>
-    <string name="participant_first_name2">Participant First Name</string>
+    <string name="participant_first_name1">Participant\'s First Name</string>
+    <string name="participant_first_name2">Participant\'s First Name</string>
     <string name="participant_relationship1">Participantrelationship</string>
 
-    <string name="participant_relationship2">Please specify the relationship to the participant</string>
+    <string name="participant_relationship2">Please specify the relationship to your participant</string>
 
     <string name="participant_first_last_name">Please enter the participant\'s first and last name below</string>
 
@@ -234,8 +234,8 @@
     <string name="last_name2">Last name</string>
     <string name="last_name3">Required</string>
 
-    <string name="participant_last_name1">Participant Last Name</string>
-    <string name="participant_last_name2">Participant Last Name</string>
+    <string name="participant_last_name1">Participant\'s Last Name</string>
+    <string name="participant_last_name2">Participant\'s Last Name</string>
 
 
     <string name="next1">next</string>

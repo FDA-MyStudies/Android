@@ -209,8 +209,8 @@ public class ConsentBuilder {
             QuestionStepCustom multiStep2 = new QuestionStepCustom("consentLarFirst");
             multiStep2.setStepTitle(R.string.notxt);
             ChoiceText[] choices2 = new ChoiceText[2];
-            choices2[0] = new ChoiceText("I am signing the consent form on behalf of myself ", "1", "", null);
-            choices2[1] = new ChoiceText("I am signing the consent form on behalf of the patient/participant in the capacity of legally authorized representative", "2", "", null);
+            choices2[0] = new ChoiceText("I am signing the consent form on behalf of myself.", "1", "", null);
+            choices2[1] = new ChoiceText("I am signing the consent form or on behalf of the patient/participant in the capacity of a legally authorized representative.", "2", "", null);
 
             SingleChoiceTextAnswerFormat choiceAnswerFormat2 = new SingleChoiceTextAnswerFormat(AnswerFormatCustom.CustomAnswerStyle.SingleTextChoice, choices2);
             multiStep2.setTitle("The next few steps will capture your informed consent for participation in this study");

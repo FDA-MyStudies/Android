@@ -2,6 +2,7 @@ package com.harvard.studyAppModule.consent.consentLARStep;
 
 import android.content.res.Resources;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -125,16 +126,19 @@ public class ConsentLARStepBody<T> implements StepBody {
         patientRelationship.setTextSize(16f);
         patientRelationship.setHint(parent.getContext().getResources().getString(R.string.first_name3));
         patientRelationship.setLayoutParams(params1);
+        patientRelationship.setFilters(new InputFilter[] {new InputFilter.LengthFilter(250)});
         patientFirstName = new EditText(inflater.getContext());
         patientFirstName.setTextColor(inflater.getContext().getResources().getColor(R.color.colorPrimaryBlack));
         patientFirstName.setTextSize(16f);
         patientFirstName.setHint(parent.getContext().getResources().getString(R.string.first_name3));
         patientFirstName.setLayoutParams(params1);
+        patientFirstName.setFilters(new InputFilter[] {new InputFilter.LengthFilter(100)});
         patientLastName = new EditText(inflater.getContext());
         patientLastName.setTextColor(inflater.getContext().getResources().getColor(R.color.colorPrimaryBlack));
         patientLastName.setTextSize(16f);
         patientLastName.setHint(parent.getContext().getResources().getString(R.string.first_name3));
         patientLastName.setLayoutParams(params1);
+        patientLastName.setFilters(new InputFilter[] {new InputFilter.LengthFilter(100)});
         if (userResponses != null && userResponses.size() > 0) {
             for(int i = 0; i < userResponses.size(); i++) {
                 if (i == 0) {
