@@ -507,6 +507,7 @@
     <string name="agree_participate_research_study">I agree to participate in this research study.</string>
     <string name="participans_name">Participant\'s Name</string>
     <string name="participants_signature">Participant\'s Signature</string>
+    <string name="participants_signature_lar">Signature</string>
     <string name="date">Date</string>
     <string name="done2">done</string>
     <string name="as_scheduled">As Scheduled</string>

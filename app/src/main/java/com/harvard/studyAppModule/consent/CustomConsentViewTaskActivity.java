@@ -784,7 +784,7 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
 
                 PdfPTable table1 = new PdfPTable(3);
                 table1.setWidthPercentage(100);
-                table1.addCell(getCell(getResources().getString(R.string.participants_signature), PdfPCell.ALIGN_CENTER));
+                table1.addCell(getCell(getResources().getString(R.string.participants_signature_lar), PdfPCell.ALIGN_CENTER));
                 table1.addCell(getCell(" ", PdfPCell.ALIGN_CENTER));
                 table1.addCell(getCell(getResources().getString(R.string.date), PdfPCell.ALIGN_CENTER));
                 consentItem.add(table1);
