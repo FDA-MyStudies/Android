@@ -5370,6 +5370,7 @@ public class SurveyActivitiesFragment extends Fragment
           activities1.setActivityStartDate(activitiesArrayList1.get(i).getStartTime());
           activities1.setActivityEndDate(activitiesArrayList1.get(i).getEndTime());
           activities1.setLastModifiedDate(simpleDateFormat.format(new Date()));
+          activities1.setStudyId(((SurveyActivity) mContext).getStudyId());
           activities1.setAnchorDateVersion(activitiesArrayList1.get(i).getAnchorDateVersion());
           activities1
               .setAnchorDatecreatedDate(activitiesArrayList1.get(i).getAnchorDatecreatedDate());

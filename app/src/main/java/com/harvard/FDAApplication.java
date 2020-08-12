@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.multidex.MultiDex;
+import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
 import com.harvard.notificationModule.NotificationModuleSubscriber;
@@ -112,6 +113,7 @@ public class FDAApplication extends Application {
         RealmEncryptionHelper realmEncryptionHelper = RealmEncryptionHelper.initHelper(this, getString(R.string.app_name));
         byte[] key = realmEncryptionHelper.getEncryptKey();
         String s = bytesToHex(key);
+        Log.e("rohith", "bytesToHex = " + s);
 //        Stetho.initialize(
 //                Stetho.newInitializerBuilder(this)
 //                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
