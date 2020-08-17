@@ -62,7 +62,7 @@ android {
         fda {
             dimension 'version'
             applicationId "com.harvard.fda"
-            versionCode 106
+            versionCode 108
             versionName "8.8"
         }
         limitjia {

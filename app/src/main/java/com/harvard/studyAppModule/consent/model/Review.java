@@ -1,5 +1,8 @@
 package com.harvard.studyAppModule.consent.model;
 
+import java.util.ArrayList;
+
+import io.realm.RealmList;
 import io.realm.RealmObject;
 
 /**
@@ -15,6 +18,10 @@ public class Review extends RealmObject{
 
     private String consentByLAR;
 
+    private String additionalSignature;
+
+    private RealmList<String> signatures;
+
     public String getConsentByLAR() {
         return consentByLAR;
     }
@@ -29,6 +36,22 @@ public class Review extends RealmObject{
 
     public void setReasonForConsent(String reasonForConsent) {
         this.reasonForConsent = reasonForConsent;
+    }
+
+    public String getAdditionalSignature() {
+        return additionalSignature;
+    }
+
+    public void setAdditionalSignature(String additionalSignature) {
+        this.additionalSignature = additionalSignature;
+    }
+
+    public RealmList<String> getSignatures() {
+        return signatures;
+    }
+
+    public void setSignatures(RealmList<String> signatures) {
+        this.signatures = signatures;
     }
 
     public String getSignatureContent() {

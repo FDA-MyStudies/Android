@@ -753,7 +753,7 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
                 table1.addCell(getCell(getResources().getString(R.string.date), PdfPCell.ALIGN_CENTER));
                 consentItem.add(table1);
 
-                document.add(consentItem);
+//                document.add(consentItem);
             } else {
                 StringBuilder docBuilder = new StringBuilder(
                         "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
@@ -804,8 +804,40 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
                 table3.addCell(getCell("Relationship to Participant", PdfPCell.ALIGN_CENTER));
                 consentItem.add(table3);
 
-                document.add(consentItem);
+//                document.add(consentItem);
             }
+            if(eligibilityConsent.getConsent().getReview().getAdditionalSignature() != null && eligibilityConsent.getConsent().getReview().getAdditionalSignature().equalsIgnoreCase("yes")) {
+                StringBuilder docBuilder = new StringBuilder(
+                        "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
+                String additionalSignatureTitle = "Study Staff Signature(s)";
+                docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", additionalSignatureTitle));
+                consentItem.add(Html.fromHtml(docBuilder.toString()).toString());
+                for(int i = 0; i < eligibilityConsent.getConsent().getReview().getSignatures().size(); i++) {
+                    StringBuilder docBuilder1 = new StringBuilder(
+                            "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
+                    String signatureTitle = eligibilityConsent.getConsent().getReview().getSignatures().get(i);
+                    docBuilder1.append(String.format("<p style=\"text-align: center\">%1$s</p>", signatureTitle));
+                    consentItem.add(Html.fromHtml(docBuilder1.toString()).toString());
+
+                    PdfPTable table2 = new PdfPTable(4);
+                    table2.setWidthPercentage(100);
+                    table2.addCell(getCell("", PdfPCell.ALIGN_CENTER));
+                    table2.addCell(getCell("", PdfPCell.ALIGN_CENTER));
+                    table2.addCell(getCell("", PdfPCell.ALIGN_CENTER));
+                    table2.addCell(getCell("", PdfPCell.ALIGN_CENTER));
+                    consentItem.add(table2);
+
+
+                    PdfPTable table3 = new PdfPTable(4);
+                    table3.setWidthPercentage(100);
+                    table3.addCell(getCell("First Name", PdfPCell.ALIGN_CENTER));
+                    table3.addCell(getCell("Last Name", PdfPCell.ALIGN_CENTER));
+                    table3.addCell(getCell("Signature", PdfPCell.ALIGN_CENTER));
+                    table3.addCell(getCell("Date", PdfPCell.ALIGN_CENTER));
+                    consentItem.add(table3);
+                }
+            }
+            document.add(consentItem);
             document.close();
 
             // encrypt the genarated pdf
