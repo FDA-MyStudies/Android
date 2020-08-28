@@ -210,7 +210,7 @@ public class ConsentBuilder {
             multiStep2.setStepTitle(R.string.notxt);
             ChoiceText[] choices2 = new ChoiceText[2];
             choices2[0] = new ChoiceText("I am signing the consent form on behalf of myself.", "1", "", null);
-            choices2[1] = new ChoiceText("I am signing the consent form or on behalf of the patient/participant in the capacity of a legally authorized representative.", "2", "", null);
+            choices2[1] = new ChoiceText("I am signing the consent form on behalf of the study participant as their legally authorized representative.", "2", "", null);
 
             SingleChoiceTextAnswerFormat choiceAnswerFormat2 = new SingleChoiceTextAnswerFormat(AnswerFormatCustom.CustomAnswerStyle.SingleTextChoice, choices2);
             multiStep2.setTitle("The next few steps will capture your informed consent for participation in this study");
@@ -321,10 +321,11 @@ public class ConsentBuilder {
         signature.setRequiresSignatureImage(true);
 
         ConsentSignatureStep signatureStep = new ConsentSignatureStep(context.getResources().getString(R.string.signature));
+        signatureStep.setSignatureDateFormat("MM/dd/yyyy");
         signatureStep.setStepTitle(R.string.notxt);
         signatureStep.setTitle(context.getString(R.string.signtitle));
         signatureStep.setText(context.getString(R.string.signdesc));
-        signatureStep.setSignatureDateFormat(signature.getSignatureDateFormatString());
+//        signatureStep.setSignatureDateFormat(signature.getSignatureDateFormatString());
         signatureStep.setOptional(false);
         signatureStep.setStepLayoutClass(ConsentSignatureStepLayout.class);
 
