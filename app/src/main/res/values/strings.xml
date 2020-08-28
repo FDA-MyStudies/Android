@@ -222,9 +222,22 @@
     <string name="first_name1">First Name</string>
     <string name="first_name2">First name</string>
     <string name="first_name3">Required</string>
+    <string name="participant_first_name1">Participant\'s First Name</string>
+    <string name="participant_first_name2">Participant\'s First Name</string>
+    <string name="participant_relationship1">Participantrelationship</string>
+
+    <string name="participant_relationship2">Please specify the relationship to your participant</string>
+
+    <string name="participant_first_last_name">Please enter the participant\'s first and last name below</string>
+
     <string name="last_name1">Last Name</string>
     <string name="last_name2">Last name</string>
     <string name="last_name3">Required</string>
+
+    <string name="participant_last_name1">Participant\'s Last Name</string>
+    <string name="participant_last_name2">Participant\'s Last Name</string>
+
+
     <string name="next1">next</string>
     <string name="exit_message">Are you sure you want to exit?</string>
     <string name="end_task">End Task</string>
@@ -494,6 +507,7 @@
     <string name="agree_participate_research_study">I agree to participate in this research study.</string>
     <string name="participans_name">Participant\'s Name</string>
     <string name="participants_signature">Participant\'s Signature</string>
+    <string name="participants_signature_lar">Signature</string>
     <string name="date">Date</string>
     <string name="done2">done</string>
     <string name="as_scheduled">As Scheduled</string>

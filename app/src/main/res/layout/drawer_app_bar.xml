@@ -10,7 +10,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:clickable="false"
         android:paddingLeft="18dp"
@@ -22,7 +22,7 @@
         <RelativeLayout
             android:id="@+id/mToolBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="?attr/actionBarSize"
             android:visibility="visible">
 
             <RelativeLayout
@@ -159,7 +159,7 @@
         <RelativeLayout
             android:id="@+id/mSearchToolBarLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:layout_marginTop="12dp"
             android:visibility="gone">
@@ -168,17 +168,72 @@
                 android:id="@+id/mCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_alignBottom="@+id/searchMainLay"
+                android:layout_alignTop="@+id/searchMainLay"
                 android:layout_alignParentRight="true"
                 android:paddingLeft="5dp"
-                android:paddingTop="5dp"
+                android:gravity="center"
                 android:text="Cancel"
                 android:textColor="@color/colorSecondary"
                 android:textSize="15sp" />
 
+            <!--<Switch
+                android:id="@+id/searchSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryBlack"
+                android:theme="@style/BrandedSwitch.control"
+                android:text="Search Token"/>-->
+            <TextView
+                android:id="@+id/switchtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:textColor="@color/colorPrimaryBlack"
+                android:textSize="16dp"
+                android:text="Search study by"/>
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/searchSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/switchtext"
+                android:background="@null"
+                android:button="@drawable/searchswitch"
+                android:thumb="@null"
+                app:track="@null"/>
+            <LinearLayout
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/searchSwitch"
+                android:layout_alignRight="@+id/searchSwitch"
+                android:layout_alignTop="@+id/searchSwitch"
+                android:layout_alignBottom="@+id/searchSwitch"
+                android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tokenText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="16dp"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:text="token"/>
+                <TextView
+                    android:id="@+id/keywordText"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:textSize="16dp"
+                    android:textColor="@color/colorSecondary"
+                    android:gravity="center"
+                    android:text="keyword"/>
+            </LinearLayout>
             <RelativeLayout
+                android:id="@+id/searchMainLay"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/searchSwitch"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_toLeftOf="@id/mCancel">
 
@@ -200,11 +255,13 @@
                     <RelativeLayout
                         android:id="@+id/mClearLayout"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:paddingLeft="5dp"
                         android:paddingRight="10dp"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp"
                         android:visibility="gone">
 
                         <android.support.v7.widget.AppCompatImageView

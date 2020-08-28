@@ -4,8 +4,8 @@ package com.harvard.utils;
 public class URLs {
 
 
-    public static String BASE_URL_WCP_SERVER = "http://18.222.7.100:8080/StudyMetaData/";
-//    public static String BASE_URL_WCP_SERVER = "https://hpwcp.lkcompliant.net/StudyMetaData/"; //production
+//    public static String BASE_URL_WCP_SERVER = "http://18.222.7.100:8080/StudyMetaData/";
+    public static String BASE_URL_WCP_SERVER = "https://hpwcp.lkcompliant.net/StudyMetaData/"; //production
 //    public static String BASE_URL_WCP_SERVER = "https://hpwcp-stage.lkcompliant.net/StudyMetaData/"; //UAT
 //    public static String BASE_URL_WCP_SERVER = "http://192.168.0.190:7878/StudyMetaData/"; //UAT
 //    public static String BASE_URL_REGISTRATION_SERVER = "http://192.168.0.44:8085/labkey/fdahpUserRegWS/"; //UAT
@@ -56,6 +56,7 @@ public class URLs {
     public static String VALIDATE_ENROLLMENT_ID = "mobileappstudy-validateenrollmenttoken.api?";
     public static String ENROLL_ID = "mobileappstudy-enroll.api?";
     public static String PROCESS_RESPONSE = "mobileappstudy-processResponse.api";
+    public static String RESOLVE_ENROLLMENT_TOKEN = BASE_URL_RESPONSE_SERVER + "mobileappstudy-resolveEnrollmentToken.api";
     public static String WITHDRAWFROMSTUDY = "withdrawFromStudy";
     public static String PROCESSRESPONSEDATA = BASE_URL_RESPONSE_SERVER + "mobileappstudy-executeSQL.api?";
 }

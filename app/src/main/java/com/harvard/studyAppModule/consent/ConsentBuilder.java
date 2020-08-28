@@ -6,8 +6,15 @@ import com.harvard.EligibilityModule.StepsBuilder;
 import com.harvard.R;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.Steps;
 import com.harvard.studyAppModule.consent.ConsentSharingStepCustom.ConsentSharingStepCustom;
+import com.harvard.studyAppModule.consent.consentLARStep.ConsentLARStep;
 import com.harvard.studyAppModule.consent.model.Consent;
 import com.harvard.studyAppModule.consent.model.ConsentSectionCustomImage;
+import com.harvard.studyAppModule.custom.AnswerFormatCustom;
+import com.harvard.studyAppModule.custom.ChoiceAnswerFormatCustom;
+import com.harvard.studyAppModule.custom.QuestionStepCustom;
+import com.harvard.studyAppModule.custom.question.ChoiceText;
+import com.harvard.studyAppModule.custom.question.SingleChoiceTextAnswerFormat;
+import com.harvard.studyAppModule.custom.question.TextAnswerFormatRegex;
 
 import org.researchstack.backbone.answerformat.AnswerFormat;
 import org.researchstack.backbone.answerformat.ChoiceAnswerFormat;
@@ -195,6 +202,36 @@ public class ConsentBuilder {
             visualSteps.addAll(stepsBuilder.getsteps());
         }
 
+
+        if (consent.getReview().getConsentByLAR().equalsIgnoreCase("Yes")) {
+            //need to set two screens
+
+            QuestionStepCustom multiStep2 = new QuestionStepCustom("consentLarFirst");
+            multiStep2.setStepTitle(R.string.notxt);
+            ChoiceText[] choices2 = new ChoiceText[2];
+            choices2[0] = new ChoiceText("I am signing the consent form on behalf of myself.", "1", "", null);
+            choices2[1] = new ChoiceText("I am signing the consent form on behalf of the study participant as their legally authorized representative.", "2", "", null);
+
+            SingleChoiceTextAnswerFormat choiceAnswerFormat2 = new SingleChoiceTextAnswerFormat(AnswerFormatCustom.CustomAnswerStyle.SingleTextChoice, choices2);
+            multiStep2.setTitle("The next few steps will capture your informed consent for participation in this study");
+            multiStep2.setText("Please select the appropriate option below");
+            multiStep2.setAnswerFormat1(choiceAnswerFormat2);
+            multiStep2.setOptional(false);
+            visualSteps.add(multiStep2);
+
+
+            //2 nd page
+
+            ConsentLARStep formStep2 = new ConsentLARStep("consentLarSecond");
+            formStep2.setStepTitle(R.string.notxt);
+            Choice[] choices1 = new Choice[0];
+            AnswerFormat choiceAnswerFormat1 = new ChoiceAnswerFormat(AnswerFormat.ChoiceAnswerStyle.MultipleChoice, choices1);
+            formStep2.setAnswerFormat(choiceAnswerFormat1);
+            formStep2.setOptional(false);
+            visualSteps.add(formStep2);
+        }
+
+
         if (!consent.getSharing().getTitle().equalsIgnoreCase("") && !consent.getSharing().getText().equalsIgnoreCase("") && !consent.getSharing().getShortDesc().equalsIgnoreCase("") && !consent.getSharing().getLongDesc().equalsIgnoreCase("")) {
             ConsentSharingStepCustom consentSharingStep = new ConsentSharingStepCustom("sharing", consent.getSharing().getLearnMore());
             consentSharingStep.setText(consent.getSharing().getText());
@@ -267,6 +304,7 @@ public class ConsentBuilder {
         TextAnswerFormat format = new TextAnswerFormat();
         format.setIsMultipleLines(false);
 
+
         QuestionStep fullName = new QuestionStep(context.getResources().getString(R.string.first_name1), context.getResources().getString(R.string.first_name2), format);
         QuestionStep lastName = new QuestionStep(context.getResources().getString(R.string.last_name1), context.getResources().getString(R.string.last_name2), format);
         fullName.setPlaceholder(context.getResources().getString(R.string.first_name3));
@@ -283,10 +321,11 @@ public class ConsentBuilder {
         signature.setRequiresSignatureImage(true);
 
         ConsentSignatureStep signatureStep = new ConsentSignatureStep(context.getResources().getString(R.string.signature));
+        signatureStep.setSignatureDateFormat("MM/dd/yyyy");
         signatureStep.setStepTitle(R.string.notxt);
         signatureStep.setTitle(context.getString(R.string.signtitle));
         signatureStep.setText(context.getString(R.string.signdesc));
-        signatureStep.setSignatureDateFormat(signature.getSignatureDateFormatString());
+//        signatureStep.setSignatureDateFormat(signature.getSignatureDateFormatString());
         signatureStep.setOptional(false);
         signatureStep.setStepLayoutClass(ConsentSignatureStepLayout.class);
 

@@ -28,11 +28,13 @@ import com.harvard.R;
 import com.harvard.offlineModule.model.OfflineData;
 import com.harvard.storageModule.DBServiceSubscriber;
 import com.harvard.storageModule.events.DatabaseEvent;
+import com.harvard.studyAppModule.acvitityListModel.AnchorDateSchedulingDetails;
 import com.harvard.studyAppModule.consent.ConsentBuilder;
 import com.harvard.studyAppModule.consent.CustomConsentViewTaskActivity;
 import com.harvard.studyAppModule.consent.model.Consent;
 import com.harvard.studyAppModule.consent.model.CorrectAnswerString;
 import com.harvard.studyAppModule.consent.model.EligibilityConsent;
+import com.harvard.studyAppModule.custom.Result.StepRecordCustom;
 import com.harvard.studyAppModule.events.ConsentPDFEvent;
 import com.harvard.studyAppModule.events.GetUserStudyInfoEvent;
 import com.harvard.studyAppModule.events.GetUserStudyListEvent;
@@ -81,11 +83,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -540,10 +545,15 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         if (jsonObjectString.equalsIgnoreCase("")) {
             // chkng for showing search list (scenario search--->go details screen----> return back; )
             String searchKey = ((StudyActivity) getActivity()).getSearchKey();
+            boolean isSearchByToken = ((StudyActivity) getActivity()).isSearchByToken();
             if (searchKey != null) {
                 // search list retain
 
-                studyListAdapter = new StudyListAdapter(mContext, searchResult(searchKey), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
+                if (isSearchByToken) {
+                    studyListAdapter = new StudyListAdapter(mContext, searchByStudyId(((StudyActivity)mContext).getSearchedStudy()), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
+                } else {
+                    studyListAdapter = new StudyListAdapter(mContext, searchResult(searchKey), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
+                }
             } else {
                 studyListAdapter = new StudyListAdapter(mContext, copyOfFilteredStudyList(), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
             }
@@ -643,9 +653,14 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                 Toast.makeText(mContext, mContext.getResources().getString(R.string.search_data_empty), Toast.LENGTH_SHORT).show();
             //chking that-----> currently is it working search functionality,
             String searchKey = ((StudyActivity) getActivity()).getSearchKey();
+            boolean isSearchByToken = ((StudyActivity) getActivity()).isSearchByToken();
             if (searchKey != null) {
                 // search list retain
-                studyListAdapter = new StudyListAdapter(mContext, searchResult(searchKey), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
+                if (isSearchByToken) {
+                    studyListAdapter = new StudyListAdapter(mContext, searchByStudyId(((StudyActivity)mContext).getSearchedStudy()), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
+                } else {
+                    studyListAdapter = new StudyListAdapter(mContext, searchResult(searchKey), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
+                }
             } else {
                 studyListAdapter = new StudyListAdapter(mContext, copyOfFilteredStudyList(), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
             }
@@ -1294,19 +1309,169 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         dbServiceSubscriber.closeRealmObj(realm);
         super.onDestroy();
     }
+    private class SearchByToken extends AsyncTask<String, Void, String> {
 
+        String response = null;
+        String responseCode = null;
+        Responsemodel mResponseModel;
+        String token;
+
+        SearchByToken(String token) {
+            this.token = token;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            ConnectionDetector connectionDetector = new ConnectionDetector(mContext);
+            HashMap<String, String> body = new HashMap<String, String>();
+            body.put("token",token);
+            if (connectionDetector.isConnectingToInternet()) {
+                mResponseModel =
+                        HttpRequest.postRequestsWithHashmap(
+                                URLs.RESOLVE_ENROLLMENT_TOKEN,
+                                body,
+                                new HashMap<String, String>(),
+                                "Response");
+                //                mResponseModel = HttpRequest.getRequest(URLs.PROCESSRESPONSEDATA +
+                // "sql=SELECT%20%22" + anchorDateSchedulingDetails.getSourceKey() +
+                // "%22%20FROM%20%22" + anchorDateSchedulingDetails.getSourceActivityId() +
+                // anchorDateSchedulingDetails.getSourceFormKey() + "%22&participantId=" +
+                // anchorDateSchedulingDetails.getParticipantId(), new HashMap<String, String>(),
+                // "Response");
+                responseCode = mResponseModel.getResponseCode();
+                response = mResponseModel.getResponseData();
+                if (responseCode.equalsIgnoreCase("0") && response.equalsIgnoreCase("timeout")) {
+                    response = "timeout";
+                } else if (responseCode.equalsIgnoreCase("0") && response.equalsIgnoreCase("")) {
+                    response = "error";
+                } else if (Integer.parseInt(responseCode) >= 201
+                        && Integer.parseInt(responseCode) < 300
+                        && response.equalsIgnoreCase("")) {
+                    response = "No data";
+                } else if (Integer.parseInt(responseCode) >= 400
+                        && Integer.parseInt(responseCode) < 500
+                        && response.equalsIgnoreCase("http_not_ok")) {
+                    response = "client error";
+                } else if (Integer.parseInt(responseCode) >= 500
+                        && Integer.parseInt(responseCode) < 600
+                        && response.equalsIgnoreCase("http_not_ok")) {
+                    response = "server error";
+                } else if (response.equalsIgnoreCase("http_not_ok")) {
+                    response = "Unknown error";
+                } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                    response = "session expired";
+                } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK
+                        && !response.equalsIgnoreCase("")) {
+                    response = response;
+                } else {
+                    response = getString(R.string.unknown_error);
+                }
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            super.onPostExecute(response);
+            AppController.getHelperProgressDialog().dismissDialog();
+            if (response != null) {
+                if (response.equalsIgnoreCase("session expired")) {
+                    AppController.getHelperSessionExpired(mContext, "session expired");
+                } else if (response.equalsIgnoreCase("timeout")) {
+                    //don't update UI
+                    Toast.makeText(
+                            mContext,
+                            mContext.getResources().getString(R.string.connection_timeout),
+                            Toast.LENGTH_SHORT)
+                            .show();
+                } else if (Integer.parseInt(responseCode) == 500) {
+                    //don't update UI
+                    Toast.makeText(
+                            mContext,
+                            mContext.getResources().getString(R.string.unable_to_retrieve_data),
+                            Toast.LENGTH_SHORT)
+                            .show();
+                } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK) {
+                    //Update UI
+                    String studyId = "";
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        Gson gson = new Gson();
+                        Type type = new TypeToken<Map<String, Object>>() {
+                        }.getType();
+                        Map<String, Object> myMap = gson.fromJson(String.valueOf(jsonObject), type);
+                        Object value = null;
+                        for (Map.Entry<String, Object> entry : myMap.entrySet()) {
+                            String key = entry.getKey();
+                            if (key.equalsIgnoreCase("studyId")) {
+                                studyId = (String) entry.getValue();
+
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    ((StudyActivity)mContext).setSearchedStudy(studyId);
+                    searchByStudyId(studyId);
+                    if (mSearchResultList.size() == 0) {
+                        Toast.makeText(mContext, mContext.getResources().getString(R.string.search_data_not_available), Toast.LENGTH_LONG).show();
+                    }
+                    studyListAdapter.modifyAdapter(mSearchResultList, mSearchFilteredCompletionAdeherenceCalcs);
+                    studyListAdapter.notifyDataSetChanged();
+                } else if (Integer.parseInt(responseCode) == 400 || Integer.parseInt(responseCode) == 404) {
+                    //Update UI
+                    ((StudyActivity)mContext).setSearchedStudy("");
+                    searchByStudyId("");
+                    if (mSearchResultList.size() == 0) {
+                        Toast.makeText(mContext, mContext.getResources().getString(R.string.search_data_not_available), Toast.LENGTH_LONG).show();
+                    }
+                    studyListAdapter.modifyAdapter(mSearchResultList, mSearchFilteredCompletionAdeherenceCalcs);
+                    studyListAdapter.notifyDataSetChanged();
+                } else {
+                    //Update UI
+                    Toast.makeText(
+                            mContext,
+                            mContext.getResources()
+                                    .getString(R.string.unable_to_retrieve_data),
+                            Toast.LENGTH_SHORT)
+                            .show();
+                }
+            } else {
+                //don't update UI
+                Toast.makeText(mContext, getString(R.string.unknown_error), Toast.LENGTH_SHORT)
+                        .show();
+            }
+        }
+
+    }
     public void searchFromFilteredStudyList(String searchKey) {
         try {
-            searchResult(searchKey);
-            if (mSearchResultList.size() == 0) {
-                Toast.makeText(mContext, mContext.getResources().getString(R.string.search_data_not_available), Toast.LENGTH_LONG).show();
+            boolean isSearchByToken = ((StudyActivity) getActivity()).isSearchByToken();
+            if (isSearchByToken) {
+//                searchByStudyId(searchKey);
+                new SearchByToken(searchKey).execute();
+            } else {
+                searchResult(searchKey);
+                if (mSearchResultList.size() == 0) {
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.search_data_not_available), Toast.LENGTH_LONG).show();
+                }
+                studyListAdapter.modifyAdapter(mSearchResultList, mSearchFilteredCompletionAdeherenceCalcs);
+                studyListAdapter.notifyDataSetChanged();
             }
-            studyListAdapter.modifyAdapter(mSearchResultList, mSearchFilteredCompletionAdeherenceCalcs);
-            studyListAdapter.notifyDataSetChanged();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+
 
     private RealmList<StudyList> searchResult(String searchKey) {
         try {
@@ -1340,8 +1505,32 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         return mSearchResultList;
     }
 
+    private RealmList<StudyList> searchByStudyId(String searchedStudyId) {
+        try {
+            RealmList<StudyList> tempStudyOrFilteredList = copyOfFilteredStudyList();
+            if (tempStudyOrFilteredList.size() > 0) {
+                if (mSearchResultList.size() > 0)
+                    mSearchResultList.clear();
+                if (mSearchFilteredCompletionAdeherenceCalcs.size() > 0)
+                    mSearchFilteredCompletionAdeherenceCalcs.clear();
+                for (int i = 0; tempStudyOrFilteredList.size() > i; i++) {
+                    if (tempStudyOrFilteredList.get(i).getStudyId().equalsIgnoreCase(searchedStudyId)) {
+                        mSearchResultList.add(tempStudyOrFilteredList.get(i));
+                        mSearchFilteredCompletionAdeherenceCalcs.add(mFilteredCompletionAdeherenceCalcs.get(i));
+                    }
+                }
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return mSearchResultList;
+    }
+
 
     public void setStudyFilteredStudyList() {
+        ((StudyActivity)mContext).setSearchedStudy("");
         if (mSearchResultList.size() > 0)
             mSearchResultList.clear();
         if (studyListAdapter != null) {
