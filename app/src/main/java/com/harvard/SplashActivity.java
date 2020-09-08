@@ -42,7 +42,14 @@ public class SplashActivity extends AppCompatActivity implements VersionChecker.
         setContentView(R.layout.activity_splash);
 //        Log.e("rohith",getPackageName());
         version = currentVersion();
-        if (CommonUtils.isRooted(SplashActivity.this)) {
+
+        SyncAdapterManager.init(this);
+        AppController.keystoreInitilize(SplashActivity.this);
+        versionChecker = new VersionChecker(SplashActivity.this, SplashActivity.this);
+        versionChecker.execute();
+
+
+      /*  if (CommonUtils.isRooted(SplashActivity.this)) {
             Toast.makeText(SplashActivity.this, getResources().getString(R.string.rooted_device), Toast.LENGTH_LONG).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -56,7 +63,7 @@ public class SplashActivity extends AppCompatActivity implements VersionChecker.
             AppController.keystoreInitilize(SplashActivity.this);
             versionChecker = new VersionChecker(SplashActivity.this, SplashActivity.this);
             versionChecker.execute();
-        }
+        }*/
         AppController.getHelperSharedPreference().writePreference(SplashActivity.this, getString(R.string.json_object_filter), "");
     }
 

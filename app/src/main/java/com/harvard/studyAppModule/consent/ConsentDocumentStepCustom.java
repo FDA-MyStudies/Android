@@ -2,10 +2,11 @@ package com.harvard.studyAppModule.consent;
 
 import com.harvard.R;
 
+import org.researchstack.backbone.step.ConsentDocumentStep;
 import org.researchstack.backbone.step.Step;
 import org.researchstack.backbone.ui.step.layout.ConsentDocumentStepLayout;
 
-public class ConsentDocumentStepCustom extends Step
+public class ConsentDocumentStepCustom extends ConsentDocumentStep
 {
     private String html;
 
