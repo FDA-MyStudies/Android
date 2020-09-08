@@ -2,8 +2,8 @@ package com.harvard.studyAppModule.custom.question;
 
 import android.app.TimePickerDialog;
 import android.content.res.Resources;
-import android.support.v7.view.ContextThemeWrapper;
-import android.util.Log;
+import androidx.appcompat.view.ContextThemeWrapper;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

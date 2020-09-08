@@ -9,7 +9,7 @@
     android:orientation="vertical"
     tools:context="com.harvard.userModule.SignupActivity">
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/submitButton"
         style="@style/TextType2"
         android:layout_marginBottom="15dp"
@@ -19,7 +19,7 @@
         android:gravity="center"
         android:text="@string/submit"
         android:textColor="@color/colorPrimary" />
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/hrline8"
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -27,7 +27,7 @@
         android:layout_marginBottom="15dp"
         android:background="@color/colorSecondaryBg" />
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/topView"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -49,14 +49,14 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true">
 
-                <android.support.v7.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/imageView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/back_btn1_grey" />
             </RelativeLayout>
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/title"
                 style="@style/TextType2"
                 android:layout_centerHorizontal="true"
@@ -65,10 +65,10 @@
                 android:textColor="@color/colorPrimaryBlack" />
 
         </RelativeLayout>
-    </android.support.v7.widget.Toolbar>
+    </androidx.appcompat.widget.Toolbar>
 
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/hrLine1"
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -96,12 +96,12 @@
                 android:paddingRight="20dp"
                 android:paddingTop="18dp">
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/firstName"
                     style="@style/signUpTextField"
                     android:text="@string/first_name" />
 
-                <android.support.v7.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edittxt_firstName"
                     style="@style/signUpEditText"
                     android:hint="@string/enter_first_name"
@@ -113,7 +113,7 @@
                     android:singleLine="true"
                     android:textCursorDrawable="@drawable/custom_cursor_drawable" />
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/hrline4"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -131,12 +131,12 @@
                 android:paddingRight="20dp"
                 android:paddingTop="18dp">
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/email_label"
                     style="@style/signUpTextField"
                     android:text="@string/email" />
 
-                <android.support.v7.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edittxt_email"
                     style="@style/signUpEditText"
                     android:hint="@string/enter_email"
@@ -146,7 +146,7 @@
                     android:inputType="textEmailAddress"
                     android:textCursorDrawable="@drawable/custom_cursor_drawable" />
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/hrline5"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -164,12 +164,12 @@
                 android:paddingRight="20dp"
                 android:paddingTop="18dp">
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/subject_label"
                     style="@style/signUpTextField"
                     android:text="@string/subject" />
 
-                <android.support.v7.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edittxt_subject"
                     style="@style/signUpEditText"
                     android:hint="@string/enter_subject"
@@ -181,7 +181,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true" />
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/hrline6"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -200,12 +200,12 @@
                 android:paddingTop="18dp">
 
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/message_label"
                     style="@style/contactUsTextField"
                     android:text="@string/message" />
 
-                <android.support.v7.widget.AppCompatEditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edittxt_message"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

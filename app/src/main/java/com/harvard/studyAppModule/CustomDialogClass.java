@@ -3,7 +3,7 @@ package com.harvard.studyAppModule;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatTextView;
+import androidx.appcompat.widget.AppCompatTextView;
 import android.view.View;
 import android.view.Window;
 import android.widget.NumberPicker;

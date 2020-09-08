@@ -2,26 +2,21 @@ package com.harvard.studyAppModule;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.AppCompatTextView;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatTextView;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.harvard.BuildConfig;
 import com.harvard.R;
 import com.harvard.studyAppModule.events.ContactUsEvent;
 import com.harvard.studyAppModule.studyModel.ReachOut;
-import com.harvard.userModule.UserModulePresenter;
-import com.harvard.userModule.event.RegisterUserEvent;
-import com.harvard.userModule.webserviceModel.RegistrationData;
 import com.harvard.utils.AppController;
 import com.harvard.utils.URLs;
 import com.harvard.webserviceModule.apiHelper.ApiCall;
 import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
-import com.harvard.webserviceModule.events.WCPConfigEvent;
 
 import java.util.HashMap;
 

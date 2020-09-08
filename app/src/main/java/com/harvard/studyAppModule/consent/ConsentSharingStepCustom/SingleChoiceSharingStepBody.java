@@ -2,8 +2,8 @@ package com.harvard.studyAppModule.consent.ConsentSharingStepCustom;
 
 import android.content.Intent;
 import android.content.res.Resources;
-import android.support.annotation.IdRes;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.IdRes;
+import androidx.core.content.ContextCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;

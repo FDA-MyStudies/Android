@@ -1,6 +1,6 @@
 package com.harvard.base;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.harvard.FDAEventBus;
 import com.harvard.FDAEventBusRegistry;

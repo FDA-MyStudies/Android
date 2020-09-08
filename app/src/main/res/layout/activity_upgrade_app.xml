@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context="com.harvard.UpgradeAppActivity">
-    <android.support.v7.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -36,7 +36,7 @@
         android:textColor="@color/colorPrimaryBlack"
         android:textSize="20dp"
         android:text="Please update to the latest version of the app to continue."/>
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/upgrade"
         style="@style/TextType2"
         android:layout_alignParentBottom="true"

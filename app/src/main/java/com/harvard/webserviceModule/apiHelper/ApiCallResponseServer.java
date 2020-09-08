@@ -3,7 +3,7 @@ package com.harvard.webserviceModule.apiHelper;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;

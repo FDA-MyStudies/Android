@@ -5,10 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
-import android.util.Base64;
-import android.util.Log;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.widget.Toast;
 
 import com.google.gson.ExclusionStrategy;
@@ -53,30 +51,17 @@ import com.harvard.webserviceModule.apiHelper.HttpRequest;
 import com.harvard.webserviceModule.apiHelper.Responsemodel;
 import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
 import com.harvard.webserviceModule.events.WCPConfigEvent;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 
-import org.json.JSONObject;
-import org.researchstack.backbone.result.TaskResult;
 import org.researchstack.backbone.step.Step;
 import org.researchstack.backbone.task.OrderedTask;
 import org.researchstack.backbone.task.Task;
-import org.researchstack.backbone.ui.step.layout.ConsentSignatureStepLayout;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 

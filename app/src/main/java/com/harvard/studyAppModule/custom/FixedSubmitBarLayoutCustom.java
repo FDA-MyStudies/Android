@@ -2,12 +2,11 @@ package com.harvard.studyAppModule.custom;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.support.v4.view.ViewCompat;
+import androidx.core.view.ViewCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
 

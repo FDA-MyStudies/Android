@@ -6,7 +6,7 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.multidex.MultiDex;
+import androidx.multidex.MultiDex;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;

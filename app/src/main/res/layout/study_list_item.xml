@@ -12,7 +12,7 @@
         android:paddingLeft="18dp"
         android:paddingTop="24dp">
 
-        <android.support.v7.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/studyImg"
             android:layout_width="81dp"
             android:layout_height="81dp"
@@ -21,7 +21,7 @@
             android:background="@color/colorSecondaryBg"
             android:scaleType="centerCrop" />
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/mImgTitle"
             style="@style/TextType5wMatchParent"
             android:layout_alignBottom="@id/studyImg"
@@ -40,14 +40,14 @@
             android:layout_below="@id/studyImg"
             android:layout_marginTop="7dp">
 
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/stateIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:background="@drawable/bullet" />
 
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/state"
                 style="@style/TextType5"
                 android:layout_centerVertical="true"
@@ -69,14 +69,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <android.support.v7.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/statusImg"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:src="@drawable/yet_to_join_icn1" />
 
-                <android.support.v7.widget.AppCompatTextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/status"
                     style="@style/TextType4"
                     android:layout_alignBaseline="@id/statusImg"
@@ -99,7 +99,7 @@
                 android:paddingRight="10dp"
                 android:paddingTop="1dp">
 
-                <android.support.v7.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/statusImgRight"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -120,20 +120,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-                    <android.support.v7.widget.AppCompatTextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/study_title"
                         style="@style/TextType2"
                         android:text=""
                         android:textColor="@color/colorPrimaryBlack" />
 
-                    <android.support.v7.widget.AppCompatTextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/study_title_latin"
                         style="@style/TextType3"
                         android:layout_below="@id/study_title"
                         android:text=""
                         android:textColor="@color/colorPrimaryBlack" />
 
-                    <android.support.v7.widget.AppCompatTextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/sponser"
                         style="@style/TextType3"
                         android:layout_below="@id/study_title_latin"
@@ -153,13 +153,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
 
-                        <android.support.v7.widget.AppCompatTextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/completion"
                             style="@style/TextType4"
                             android:text="@string/completion"
                             android:textColor="@color/colorPrimaryBlack" />
 
-                        <android.support.v7.widget.AppCompatTextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/completion_val"
                             style="@style/TextType4"
                             android:layout_marginLeft="1dp"
@@ -181,7 +181,7 @@
                             android:progressDrawable="@drawable/custom_progress_bar" />
                     </RelativeLayout>
 
-                    <android.support.v7.widget.AppCompatImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight=".5" />
@@ -191,13 +191,13 @@
                         android:layout_height="wrap_content"
                         android:visibility="invisible">
 
-                        <android.support.v7.widget.AppCompatTextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/adherence"
                             style="@style/TextType4"
                             android:text="@string/adherence"
                             android:textColor="@color/colorSecondary" />
 
-                        <android.support.v7.widget.AppCompatTextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/adherence_val"
                             style="@style/TextType4"
                             android:layout_toRightOf="@id/adherence"
@@ -223,7 +223,7 @@
                         android:progress="0"
                         android:progressDrawable="@drawable/custom_progress_bar" />-->
 
-                    <android.support.v7.widget.AppCompatImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight=".5" />
