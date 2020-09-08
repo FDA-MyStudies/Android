@@ -48,7 +48,7 @@ public class AudioQuestionbody implements StepBody {
         LinearLayout linearLayout = new LinearLayout(inflater.getContext());
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         Toast.makeText(inflater.getContext(), R.string.recording, Toast.LENGTH_SHORT).show();
-        AudioSavePathInDevice = Environment.getExternalStorageDirectory().getAbsolutePath() + "/FDA/" + CreateRandomAudioFileName(5) + ".3gp";
+        AudioSavePathInDevice = inflater.getContext().getExternalFilesDir(null).getAbsolutePath() + "/FDA/" + CreateRandomAudioFileName(5) + ".3gp";
         MediaRecorderReady();
 
         try {

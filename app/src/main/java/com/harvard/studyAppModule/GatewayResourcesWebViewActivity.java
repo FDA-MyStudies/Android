@@ -163,7 +163,7 @@ public class GatewayResourcesWebViewActivity extends AppCompatActivity {
     }
 
     public File copy(File src) throws IOException {
-        String primaryStoragePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + mIntentTitle + ".pdf";
+        String primaryStoragePath = getExternalFilesDir(null).getAbsolutePath() + "/" + mIntentTitle + ".pdf";
         File file = new File(primaryStoragePath);
         if (!file.exists())
             file.createNewFile();
@@ -211,7 +211,7 @@ public class GatewayResourcesWebViewActivity extends AppCompatActivity {
     }
 
     public File getAssetsPdfPath() {
-        String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + mIntentTitle + ".pdf";
+        String filePath = getExternalFilesDir(null).getAbsolutePath() + "/" + mIntentTitle + ".pdf";
 
 
         File destinationFile = new File(filePath);

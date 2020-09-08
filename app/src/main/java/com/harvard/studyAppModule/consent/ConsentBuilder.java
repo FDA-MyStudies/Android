@@ -253,6 +253,7 @@ public class ConsentBuilder {
             StringBuilder docBuilder = new StringBuilder(
                     "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
             String title = context.getString(R.string.review);
+
             docBuilder.append(String.format("<h1 style=\"text-align: center; font-family:sans-serif-light;color:#007cba;\">%1$s</h1>", title));
             String detail = context.getString(R.string.reviewmsg);
             docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", detail));
@@ -261,7 +262,7 @@ public class ConsentBuilder {
             docBuilder.append("</div></br>");
             docBuilder.append("<div>" + consent.getReview().getSignatureContent() + "</div>");
 
-            ConsentDocumentStepCustom documentStep = new ConsentDocumentStepCustom("review");
+            ConsentDocumentStep documentStep = new ConsentDocumentStep("review");
             documentStep.setConsentHTML(docBuilder.toString());
             documentStep.setStepTitle(R.string.notxt);
             documentStep.setConfirmMessage(consent.getReview().getReasonForConsent());
@@ -284,7 +285,7 @@ public class ConsentBuilder {
                     docBuilder.append("<div>" + consent.getVisualScreens().get(i).getHtml() + "</div>");
                     docBuilder.append("</br>");
                 }
-                ConsentDocumentStepCustom documentStep = new ConsentDocumentStepCustom("review");
+                ConsentDocumentStep documentStep = new ConsentDocumentStep("review");
                 documentStep.setConsentHTML(docBuilder.toString());
                 documentStep.setStepTitle(R.string.notxt);
                 documentStep.setOptional(false);

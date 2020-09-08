@@ -25,7 +25,7 @@ public class ConsentDocumentStepCustom extends Step
     @Override
     public Class getStepLayoutClass()
     {
-        return ConsentDocumentStepLayout.class;
+        return ConsentDocumentStepLayoutCustom.class;
     }
 
     /**

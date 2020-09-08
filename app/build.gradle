@@ -126,5 +126,6 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.14.8'
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.mockito:mockito-android:2.11.0'
+    implementation 'androidx.preference:preference:1.1.1'
 }
 apply plugin: 'com.google.gms.google-services'

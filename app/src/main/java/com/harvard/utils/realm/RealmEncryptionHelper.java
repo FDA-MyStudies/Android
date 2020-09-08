@@ -3,11 +3,12 @@ package com.harvard.utils.realm;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.preference.PreferenceManager;
-import android.security.KeyPairGeneratorSpec;
+ import android.security.KeyPairGeneratorSpec;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Base64;
+
+import androidx.preference.PreferenceManager;
 
 import com.harvard.R;
 

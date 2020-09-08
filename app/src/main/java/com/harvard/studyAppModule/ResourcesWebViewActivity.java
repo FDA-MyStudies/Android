@@ -208,7 +208,7 @@ public class ResourcesWebViewActivity extends AppCompatActivity {
     }
 
     public File copy(File src) throws IOException {
-        String primaryStoragePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + mIntentTitle + ".pdf";
+        String primaryStoragePath = getExternalFilesDir(null).getAbsolutePath() + "/" + mIntentTitle + ".pdf";
         File file = new File(primaryStoragePath);
         if (!file.exists())
             file.createNewFile();

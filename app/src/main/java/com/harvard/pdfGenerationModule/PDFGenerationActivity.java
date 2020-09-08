@@ -24,7 +24,7 @@ import java.io.OutputStream;
 public class PDFGenerationActivity extends AppCompatActivity {
     private static final String FILE_FOLDER = "SamplePDF";
     private static File file;
-    private static final String filepath = Environment.getExternalStorageDirectory().getPath();
+    private final String filepath = getExternalFilesDir(null).getPath();
     private File myFile;
 
     @Override

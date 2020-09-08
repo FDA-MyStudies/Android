@@ -659,7 +659,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
     }
 
     private void saveBitmap(Bitmap bitmap) {
-        String root = Environment.getExternalStorageDirectory().toString();
+        String root = mContext.getExternalFilesDir(null).toString();
         File myDir = new File(root + "/Android/FDA/Screenshot");
         myDir.mkdirs();
         String fname = ((SurveyActivity) mContext).getTitle1() + "_Dashboard.png";

@@ -513,7 +513,7 @@ public class ChartActivity extends AppCompatActivity {
     }
 
     private void saveBitmap(Bitmap bitmap) {
-        String root = Environment.getExternalStorageDirectory().toString();
+        String root = getExternalFilesDir(null).toString();
         File myDir = new File(root + "/Android/FDA/Screenshot");
         myDir.mkdirs();
         String fname = getIntent().getStringExtra("studyName") + "_Chart.png";

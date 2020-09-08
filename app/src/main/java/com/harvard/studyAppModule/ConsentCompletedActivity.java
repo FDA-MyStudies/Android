@@ -484,7 +484,7 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
 
 
     public File copy(File src) throws IOException {
-        String primaryStoragePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + AppController.getHelperSharedPreference().readPreference(ConsentCompletedActivity.this, getString(R.string.title), "") + "_" + getString(R.string.signed_consent) + ".pdf";
+        String primaryStoragePath = getExternalFilesDir(null).getAbsolutePath() + "/" + AppController.getHelperSharedPreference().readPreference(ConsentCompletedActivity.this, getString(R.string.title), "") + "_" + getString(R.string.signed_consent) + ".pdf";
         File file = new File(primaryStoragePath);
         if (!file.exists())
             file.createNewFile();

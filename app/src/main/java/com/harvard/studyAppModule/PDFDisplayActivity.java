@@ -199,7 +199,7 @@ public class PDFDisplayActivity extends AppCompatActivity implements ApiCall.OnA
 
     public void sharePDFCreation() {
         try {
-            String temPDFPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + mTitle + "_" + getString(R.string.signed_consent) + ".pdf";
+            String temPDFPath = getExternalFilesDir(null).getAbsolutePath() + "/" + mTitle + "_" + getString(R.string.signed_consent) + ".pdf";
             File file = new File(temPDFPath);
             if (!file.exists())
                 file.createNewFile();
