@@ -4617,7 +4617,7 @@ public class SurveyActivitiesFragment extends Fragment
                     mContext.getResources().getString(R.string.ok),
                     mContext.getResources().getString(R.string.app_name));
           }
-        } else if (completion >= 50) {
+        }/* else if (completion >= 50) {
           fiftyPc = true;
           SetDialogHelper.setNeutralDialog(
                   mContext,
@@ -4629,7 +4629,7 @@ public class SurveyActivitiesFragment extends Fragment
                   false,
                   mContext.getResources().getString(R.string.ok),
                   mContext.getResources().getString(R.string.app_name));
-        } else if (missed > 0) {
+        }*/ else if (missed > 0) {
           SetDialogHelper.setNeutralDialog(
                   mContext,
                   mContext.getResources().getString(R.string.missed_activity),
@@ -4660,7 +4660,7 @@ public class SurveyActivitiesFragment extends Fragment
                     mContext.getResources().getString(R.string.ok),
                     mContext.getResources().getString(R.string.app_name));
           }
-        } else if (completion >= 50) {
+        } /*else if (completion >= 50) {
           fiftyPc = true;
           SetDialogHelper.setNeutralDialog(
                   mContext,
@@ -4672,7 +4672,7 @@ public class SurveyActivitiesFragment extends Fragment
                   false,
                   mContext.getResources().getString(R.string.ok),
                   mContext.getResources().getString(R.string.app_name));
-        } else if (motivationalNotification.getMissed() != missed) {
+        }*/ else if (motivationalNotification.getMissed() != missed) {
           SetDialogHelper.setNeutralDialog(
                   mContext,
                   mContext.getResources().getString(R.string.missed_activity),

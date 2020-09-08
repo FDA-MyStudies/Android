@@ -34,6 +34,7 @@ import com.harvard.studyAppModule.StudyModulePresenter;
 import com.harvard.studyAppModule.consent.model.ComprehensionCorrectAnswers;
 import com.harvard.studyAppModule.consent.model.Consent;
 import com.harvard.studyAppModule.consent.model.EligibilityConsent;
+import com.harvard.studyAppModule.custom.ImageTagProcessor;
 import com.harvard.studyAppModule.custom.StepSwitcherCustom;
 import com.harvard.studyAppModule.events.EnrollIdEvent;
 import com.harvard.studyAppModule.events.GetUserStudyListEvent;
@@ -56,6 +57,7 @@ import com.harvard.webserviceModule.events.ResponseServerConfigEvent;
 import com.harvard.webserviceModule.events.WCPConfigEvent;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
@@ -63,6 +65,21 @@ import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.tool.xml.Pipeline;
+import com.itextpdf.tool.xml.XMLWorker;
+import com.itextpdf.tool.xml.XMLWorkerFontProvider;
+import com.itextpdf.tool.xml.XMLWorkerHelper;
+import com.itextpdf.tool.xml.css.CssFilesImpl;
+import com.itextpdf.tool.xml.css.StyleAttrCSSResolver;
+import com.itextpdf.tool.xml.html.CssAppliersImpl;
+import com.itextpdf.tool.xml.html.HTML;
+import com.itextpdf.tool.xml.html.TagProcessorFactory;
+import com.itextpdf.tool.xml.html.Tags;
+import com.itextpdf.tool.xml.parser.XMLParser;
+import com.itextpdf.tool.xml.pipeline.css.CssResolverPipeline;
+import com.itextpdf.tool.xml.pipeline.end.PdfWriterPipeline;
+import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
+import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -76,11 +93,14 @@ import org.researchstack.backbone.ui.callbacks.StepCallbacks;
 import org.researchstack.backbone.ui.step.layout.ConsentSignatureStepLayout;
 import org.researchstack.backbone.ui.step.layout.StepLayout;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -706,164 +726,326 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
             document.setMargins(10, 10, 10, 10);
 
             document.open();
-            Paragraph consentItem;
+            StringBuilder docBuilder = new StringBuilder("<html><body>");
             if (eligibilityConsent != null && eligibilityConsent.getConsent() != null && eligibilityConsent.getConsent().getReview() != null && eligibilityConsent.getConsent().getReview().getSignatureContent() != null && !eligibilityConsent.getConsent().getReview().getSignatureContent().equalsIgnoreCase("")) {
-                consentItem = new Paragraph(Html.fromHtml(eligibilityConsent.getConsent().getReview().getSignatureContent().toString()).toString());
+                docBuilder.append(eligibilityConsent.getConsent().getReview().getSignatureContent());
             } else if (eligibilityConsent != null && eligibilityConsent.getConsent() != null && eligibilityConsent.getConsent().getVisualScreens() != null) {
-                StringBuilder docBuilder;
+
                 if (eligibilityConsent.getConsent().getVisualScreens().size() > 0) {
                     // Create our HTML to show the user and have them accept or decline.
-                    docBuilder = new StringBuilder(
-                            "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
                     String title = studyList.getTitle();
-                    docBuilder.append(String.format(
-                            "<h1 style=\"text-align: center; font-family:sans-serif-light;\">%1$s</h1>",
-                            title));
+                    docBuilder.append("<h1>"+ title +"</h1>");
 
-
-                    docBuilder.append("</div></br>");
                     for (int i = 0; i < eligibilityConsent.getConsent().getVisualScreens().size(); i++) {
-                        docBuilder.append("<div>  <h4>" + eligibilityConsent.getConsent().getVisualScreens().get(i).getTitle() + "<h4> </div>");
-                        docBuilder.append("</br>");
-                        docBuilder.append("<div>" + eligibilityConsent.getConsent().getVisualScreens().get(i).getHtml() + "</div>");
-                        docBuilder.append("</br>");
-                        docBuilder.append("</br>");
+                        docBuilder.append("<p><b>" + eligibilityConsent.getConsent().getVisualScreens().get(i).getTitle() + "</b></p>");
+//                        docBuilder.append("</br>");
+                        docBuilder.append("<p>" + eligibilityConsent.getConsent().getVisualScreens().get(i).getHtml() + "</p>");
+                        docBuilder.append("<br/>");
+                        docBuilder.append("<br/>");
                     }
-                    consentItem = new Paragraph(Html.fromHtml(docBuilder.toString()).toString());
                 } else {
-                    consentItem = new Paragraph("");
+//                    consentItem = new Paragraph("");
                 }
             } else {
-                consentItem = new Paragraph("");
+//                consentItem = new Paragraph("");
             }
 //            Paragraph consentItem = new Paragraph();
 //            ElementList list = XMLWorkerHelper.parseToElementList(Html.fromHtml(eligibilityConsent.getConsent().getReview().getSignatureContent().toString()).toString(), null);
 //            for (Element element : list) {
 //                consentItem.add(element);
 //            }
-            document.add(consentItem);
-            document.newPage();
+//            document.add(consentItem);
+//            document.newPage();
             if (larUserResponses.size() == 0) {
-                StringBuilder docBuilder = new StringBuilder(
-                        "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
+
                 String participant = getResources().getString(R.string.participant);
-                docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", participant));
+                docBuilder.append(String.format("<p><b>%1$s</b></p>", participant));
                 String detail = getResources().getString(R.string.agree_participate_research_study);
-                docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", detail));
-                Paragraph consentItem1 = new Paragraph(Html.fromHtml(docBuilder.toString()).toString());
+                docBuilder.append(String.format("<p>%1$s</p>", detail));
+//                Paragraph consentItem1 = new Paragraph(Html.fromHtml(docBuilder.toString()).toString());
 //                consentItem1.add(Html.fromHtml(docBuilder.toString()).toString());
+                docBuilder.append("<table width=\"100%\"><tr>");
+                docBuilder.append("<td style=\"vertical-align:bottom\">");
+                docBuilder.append(firstName + " " + lastName);
+                docBuilder.append("</td>");
+                docBuilder.append("<td>");
+                docBuilder.append("<img src=\"data:image/png;base64,"+signatureBase64+"\" alt=\"Red dot\" />");
+                docBuilder.append("</td>");
+                docBuilder.append("<td style=\"vertical-align:bottom\">");
+                docBuilder.append(signatureDate);
+                docBuilder.append("</td>");
+                docBuilder.append("</tr>");
+//                byte[] signatureBytes;
+//                Image myImg = null;
+//                if (signatureBase64 != null) {
+//                    signatureBytes = Base64.decode(signatureBase64, Base64.DEFAULT);
+//                    myImg = Image.getInstance(signatureBytes);
+//                    myImg.setScaleToFitHeight(true);
+//                    myImg.scalePercent(50f);
+//                }
 
-                byte[] signatureBytes;
-                Image myImg = null;
-                if (signatureBase64 != null) {
-                    signatureBytes = Base64.decode(signatureBase64, Base64.DEFAULT);
-                    myImg = Image.getInstance(signatureBytes);
-                    myImg.setScaleToFitHeight(true);
-                    myImg.scalePercent(50f);
-                }
+//                PdfPTable table = new PdfPTable(3);
+//                table.setWidthPercentage(100);
+//                table.addCell(getCell(firstName + " " + lastName, PdfPCell.ALIGN_CENTER));
+//                table.addCell(getImage(myImg, PdfPCell.ALIGN_CENTER));
+//                table.addCell(getCell(signatureDate, PdfPCell.ALIGN_CENTER));
+//                consentItem1.add(table);
 
-                PdfPTable table = new PdfPTable(3);
-                table.setWidthPercentage(100);
-                table.addCell(getCell(firstName + " " + lastName, PdfPCell.ALIGN_CENTER));
-                table.addCell(getImage(myImg, PdfPCell.ALIGN_CENTER));
-                table.addCell(getCell(signatureDate, PdfPCell.ALIGN_CENTER));
-                consentItem1.add(table);
-
-
-                PdfPTable table1 = new PdfPTable(3);
-                table1.setWidthPercentage(100);
-                table1.addCell(getCell(getResources().getString(R.string.participans_name), PdfPCell.ALIGN_CENTER));
-                table1.addCell(getCell(getResources().getString(R.string.participants_signature), PdfPCell.ALIGN_CENTER));
-                table1.addCell(getCell(getResources().getString(R.string.date), PdfPCell.ALIGN_CENTER));
-                consentItem1.add(table1);
-
-                document.add(consentItem1);
+                docBuilder.append("<tr>");
+                docBuilder.append("<td><b>");
+                docBuilder.append(getResources().getString(R.string.participans_name));
+                docBuilder.append("</b></td>");
+                docBuilder.append("<td><b>");
+                docBuilder.append(getResources().getString(R.string.participants_signature));
+                docBuilder.append("</b></td>");
+                docBuilder.append("<td><b>");
+                docBuilder.append(getResources().getString(R.string.date));
+                docBuilder.append("</b></td>");
+                docBuilder.append("</tr>");
+                docBuilder.append("</table>");
+                docBuilder.append("<p><br/></p>");
+//                PdfPTable table1 = new PdfPTable(3);
+//                table1.setWidthPercentage(100);
+//                table1.addCell(getCell(getResources().getString(R.string.participans_name), PdfPCell.ALIGN_CENTER));
+//                table1.addCell(getCell(getResources().getString(R.string.participants_signature), PdfPCell.ALIGN_CENTER));
+//                table1.addCell(getCell(getResources().getString(R.string.date), PdfPCell.ALIGN_CENTER));
+//                consentItem1.add(table1);
+//
+//                document.add(consentItem1);
             } else {
-                StringBuilder docBuilder = new StringBuilder(
-                        "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
+//                StringBuilder docBuilder = new StringBuilder(
+//                        "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
                 String lar = "Consent by a Legally Authorized Representative";
-                docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", lar));
+                docBuilder.append(String.format("<p><b>%1$s</b></p>", lar));
                 String detail = "I am signing the consent form on behalf of the study participant as their legally authorized representative.";
-                docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", detail));
-                docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", "Participant first name: " + larFirstName));
-                docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", "Participant last name: " + larLastName));
-                Paragraph consentItem1 = new Paragraph(Html.fromHtml(docBuilder.toString()).toString());
+                docBuilder.append(String.format("<p>%1$s</p>", detail));
+                docBuilder.append(String.format("<p>%1$s</p>", "Participant first name: " + larFirstName));
+                docBuilder.append(String.format("<p>%1$s</p>", "Participant last name: " + larLastName));
+//                Paragraph consentItem1 = new Paragraph(Html.fromHtml(docBuilder.toString()).toString());
 //                consentItem1.add(Html.fromHtml(docBuilder.toString()).toString());
 
-                byte[] signatureBytes;
-                Image myImg = null;
-                if (signatureBase64 != null) {
-                    signatureBytes = Base64.decode(signatureBase64, Base64.DEFAULT);
-                    myImg = Image.getInstance(signatureBytes);
-                    myImg.setScaleToFitHeight(true);
-                    myImg.scalePercent(50f);
-                }
+//                byte[] signatureBytes;
+//                Image myImg = null;
+//                if (signatureBase64 != null) {
+//                    signatureBytes = Base64.decode(signatureBase64, Base64.DEFAULT);
+//                    myImg = Image.getInstance(signatureBytes);
+//                    myImg.setScaleToFitHeight(true);
+//                    myImg.scalePercent(50f);
+//                }
+                docBuilder.append("<table width=\"100%\"><tr>");
+                docBuilder.append("<td>");
+                docBuilder.append("<img src=\"data:image/png;base64,"+signatureBase64+"\" alt=\"Red dot\" />");
+                docBuilder.append("</td>");
+                docBuilder.append("<td>");
+                docBuilder.append("");
+                docBuilder.append("</td>");
+                docBuilder.append("<td style=\"vertical-align:bottom\">");
+                docBuilder.append(signatureDate);
+                docBuilder.append("</td>");
+                docBuilder.append("</tr>");
 
-                PdfPTable table = new PdfPTable(3);
-                table.setWidthPercentage(100);
-                table.addCell(getImage(myImg, PdfPCell.ALIGN_CENTER));
-                table.addCell(getCell(" ", PdfPCell.ALIGN_CENTER));
-                table.addCell(getCell(signatureDate, PdfPCell.ALIGN_CENTER));
-                consentItem1.add(table);
+//                PdfPTable table = new PdfPTable(3);
+//                table.setWidthPercentage(100);
+//                table.addCell(getImage(myImg, PdfPCell.ALIGN_CENTER));
+//                table.addCell(getCell(" ", PdfPCell.ALIGN_CENTER));
+//                table.addCell(getCell(signatureDate, PdfPCell.ALIGN_CENTER));
+//                consentItem1.add(table);
 
-                PdfPTable table1 = new PdfPTable(3);
-                table1.setWidthPercentage(100);
-                table1.addCell(getCell(getResources().getString(R.string.participants_signature_lar), PdfPCell.ALIGN_CENTER));
-                table1.addCell(getCell(" ", PdfPCell.ALIGN_CENTER));
-                table1.addCell(getCell(getResources().getString(R.string.date), PdfPCell.ALIGN_CENTER));
-                consentItem1.add(table1);
+                docBuilder.append("<tr>");
+                docBuilder.append("<td><b>");
+                docBuilder.append(getResources().getString(R.string.participants_signature_lar));
+                docBuilder.append("</b></td>");
+                docBuilder.append("<td><b>");
+                docBuilder.append("");
+                docBuilder.append("</b></td>");
+                docBuilder.append("<td><b>");
+                docBuilder.append(getResources().getString(R.string.date));
+                docBuilder.append("</b></td>");
+                docBuilder.append("</tr>");
+//                PdfPTable table1 = new PdfPTable(3);
+//                table1.setWidthPercentage(100);
+//                table1.addCell(getCell(getResources().getString(R.string.participants_signature_lar), PdfPCell.ALIGN_CENTER));
+//                table1.addCell(getCell(" ", PdfPCell.ALIGN_CENTER));
+//                table1.addCell(getCell(getResources().getString(R.string.date), PdfPCell.ALIGN_CENTER));
+//                consentItem1.add(table1);
 
-                PdfPTable table2 = new PdfPTable(3);
-                table2.setWidthPercentage(100);
-                table2.addCell(getCell(firstName, PdfPCell.ALIGN_CENTER));
-                table2.addCell(getCell(lastName, PdfPCell.ALIGN_CENTER));
-                table2.addCell(getCell(larRelationship, PdfPCell.ALIGN_CENTER));
-                consentItem1.add(table2);
+                docBuilder.append("<tr>");
+                docBuilder.append("<td><br/>");
+                docBuilder.append(firstName);
+                docBuilder.append("</td>");
+                docBuilder.append("<td><br/>");
+                docBuilder.append(lastName);
+                docBuilder.append("</td>");
+                docBuilder.append("<td><br/>");
+                docBuilder.append(larRelationship);
+                docBuilder.append("</td>");
+                docBuilder.append("</tr>");
+//                PdfPTable table2 = new PdfPTable(3);
+//                table2.setWidthPercentage(100);
+//                table2.addCell(getCell(firstName, PdfPCell.ALIGN_CENTER));
+//                table2.addCell(getCell(lastName, PdfPCell.ALIGN_CENTER));
+//                table2.addCell(getCell(larRelationship, PdfPCell.ALIGN_CENTER));
+//                consentItem1.add(table2);
 
-
-                PdfPTable table3 = new PdfPTable(3);
-                table3.setWidthPercentage(100);
-                table3.addCell(getCell("First Name", PdfPCell.ALIGN_CENTER));
-                table3.addCell(getCell("Last Name", PdfPCell.ALIGN_CENTER));
-                table3.addCell(getCell("Relationship to Participant", PdfPCell.ALIGN_CENTER));
-                consentItem1.add(table3);
-
-                document.add(consentItem1);
+                docBuilder.append("<tr>");
+                docBuilder.append("<td><b>");
+                docBuilder.append("First Name");
+                docBuilder.append("</b></td>");
+                docBuilder.append("<td><b>");
+                docBuilder.append("Last Name");
+                docBuilder.append("</b></td>");
+                docBuilder.append("<td><b>");
+                docBuilder.append("Relationship to Participant");
+                docBuilder.append("</b></td>");
+                docBuilder.append("</tr>");
+                docBuilder.append("</table>");
+                docBuilder.append("<p><br/></p>");
+//                PdfPTable table3 = new PdfPTable(3);
+//                table3.setWidthPercentage(100);
+//                table3.addCell(getCell("First Name", PdfPCell.ALIGN_CENTER));
+//                table3.addCell(getCell("Last Name", PdfPCell.ALIGN_CENTER));
+//                table3.addCell(getCell("Relationship to Participant", PdfPCell.ALIGN_CENTER));
+//                consentItem1.add(table3);
+//
+//                document.add(consentItem1);
             }
             if(eligibilityConsent.getConsent().getReview().getAdditionalSignature() != null && eligibilityConsent.getConsent().getReview().getAdditionalSignature().equalsIgnoreCase("yes")) {
-                StringBuilder docBuilder = new StringBuilder(
-                        "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
+//                StringBuilder docBuilder = new StringBuilder(
+//                        "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
                 String additionalSignatureTitle = "Study Staff Signature(s)";
-                docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", additionalSignatureTitle));
-                Paragraph consentItem1 = new Paragraph(Html.fromHtml(docBuilder.toString()).toString());
+                docBuilder.append("<br/>");
+                docBuilder.append(String.format("<p><b>%1$s</b></p>", additionalSignatureTitle));
+//                Paragraph consentItem1 = new Paragraph(Html.fromHtml(docBuilder.toString()).toString());
 //                consentItem.add(Html.fromHtml(docBuilder.toString()).toString());
                 for(int i = 0; i < eligibilityConsent.getConsent().getReview().getSignatures().size(); i++) {
-                    StringBuilder docBuilder1 = new StringBuilder(
-                            "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
+//                    StringBuilder docBuilder1 = new StringBuilder(
+//                            "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
                     String signatureTitle = eligibilityConsent.getConsent().getReview().getSignatures().get(i);
-                    docBuilder1.append(String.format("<p style=\"text-align: center\">%1$s</p>", signatureTitle));
-                    consentItem1.add(Html.fromHtml(docBuilder1.toString()).toString());
+                    docBuilder.append(String.format("<p><b>%1$s</b></p>", signatureTitle));
+//                    consentItem1.add(Html.fromHtml(docBuilder1.toString()).toString());
 
-                    PdfPTable table2 = new PdfPTable(4);
-                    table2.setWidthPercentage(100);
-                    table2.addCell(getCell("", PdfPCell.ALIGN_CENTER));
-                    table2.addCell(getCell("", PdfPCell.ALIGN_CENTER));
-                    table2.addCell(getCell("", PdfPCell.ALIGN_CENTER));
-                    table2.addCell(getCell("", PdfPCell.ALIGN_CENTER));
-                    consentItem1.add(table2);
+                    docBuilder.append("<table width=\"100%\"><tr>");
+                    docBuilder.append("<td>");
+                    docBuilder.append("");
+                    docBuilder.append("</td>");
+                    docBuilder.append("<td>");
+                    docBuilder.append("");
+                    docBuilder.append("</td>");
+                    docBuilder.append("<td>");
+                    docBuilder.append("");
+                    docBuilder.append("</td>");
+                    docBuilder.append("<td>");
+                    docBuilder.append("");
+                    docBuilder.append("</td>");
+                    docBuilder.append("</tr>");
+//                    PdfPTable table2 = new PdfPTable(4);
+//                    table2.setWidthPercentage(100);
+//                    table2.addCell(getCell("", PdfPCell.ALIGN_CENTER));
+//                    table2.addCell(getCell("", PdfPCell.ALIGN_CENTER));
+//                    table2.addCell(getCell("", PdfPCell.ALIGN_CENTER));
+//                    table2.addCell(getCell("", PdfPCell.ALIGN_CENTER));
+//                    consentItem1.add(table2);
 
-
-                    PdfPTable table3 = new PdfPTable(4);
-                    table3.setWidthPercentage(100);
-                    table3.addCell(getCell("First Name", PdfPCell.ALIGN_CENTER));
-                    table3.addCell(getCell("Last Name", PdfPCell.ALIGN_CENTER));
-                    table3.addCell(getCell("Signature", PdfPCell.ALIGN_CENTER));
-                    table3.addCell(getCell("Date", PdfPCell.ALIGN_CENTER));
-                    consentItem1.add(table3);
+                    docBuilder.append("<tr>");
+                    docBuilder.append("<td><b>");
+                    docBuilder.append("First Name");
+                    docBuilder.append("</b></td>");
+                    docBuilder.append("<td><b>");
+                    docBuilder.append("Last Name");
+                    docBuilder.append("</b></td>");
+                    docBuilder.append("<td><b>");
+                    docBuilder.append("Signature");
+                    docBuilder.append("</b></td>");
+                    docBuilder.append("<td><b>");
+                    docBuilder.append("Date");
+                    docBuilder.append("</b></td>");
+                    docBuilder.append("</tr>");
+                    docBuilder.append("</table>");
+                    docBuilder.append("<p><br/></p>");
+//                    PdfPTable table3 = new PdfPTable(4);
+//                    table3.setWidthPercentage(100);
+//                    table3.addCell(getCell("First Name", PdfPCell.ALIGN_CENTER));
+//                    table3.addCell(getCell("Last Name", PdfPCell.ALIGN_CENTER));
+//                    table3.addCell(getCell("Signature", PdfPCell.ALIGN_CENTER));
+//                    table3.addCell(getCell("Date", PdfPCell.ALIGN_CENTER));
+//                    consentItem1.add(table3);
                 }
-                document.add(consentItem1);
+//                document.add(consentItem1);
+            }
+            docBuilder.append("</body></html>");
+            String htmlContent = docBuilder.toString();
+            htmlContent = htmlContent.replace("<p><p>","<p>");
+            htmlContent = htmlContent.replace("<p><p","<p");
+            htmlContent = htmlContent.replace("</p></p>","</p>");
+            htmlContent = htmlContent.replace("<br>","<br/>");
+            htmlContent = htmlContent.replace("<hr>","<hr/>");
+            String[] htmlContents = htmlContent.split("<br ");
+            for(int l = 0; l < htmlContents.length; l++){
+                if(l == 0) {
+                    htmlContent = htmlContents[0];
+                } else {
+                    if (htmlContents[l].charAt(htmlContents[l].indexOf(">") - 1) != '/') {
+                        htmlContents[l] = htmlContents[l].replaceFirst(">", "/>");
+                    }
+                    htmlContent = htmlContent + "<br " + htmlContents[l];
+                }
+            }
+            String[] htmlContents1 = htmlContent.split("<img ");
+            for(int l = 0; l < htmlContents1.length; l++){
+                if(l == 0) {
+                    htmlContent = htmlContents1[0];
+                } else {
+                    if (htmlContents1[l].charAt(htmlContents1[l].indexOf(">") - 1) != '/') {
+                        htmlContents1[l] = htmlContents1[l].replaceFirst(">", "/>");
+                    }
+                    htmlContent = htmlContent + "<img " + htmlContents1[l];
+                }
             }
 
+//            String htmlString = "<html><body>" +
+//                    "<p><h3>title</h3></p><table class=\"center\">\n" +
+//                    "  <tr>\n" +
+//                    "    <th>Firstname</th>\n" +
+//                    "    <th>Lastname</th>\n" +
+//                    "    <th>Signature</th>\n" +
+//                    "  </tr>\n" +
+//                    "  <tr>\n" +
+//                    "    <td>Jill</td>\n" +
+//                    "    <td>Smith</td>\n" +
+//                    "    <td><img src=\"data:image/png;base64,"+signatureBase64+"\" alt=\"Red dot\" /></td>\n" +
+//                    "  </tr>\n" +
+//                    "  <tr>\n" +
+//                    "    <td>Eve</td>\n" +
+//                    "    <td>Jackson</td>\n" +
+//                    "    <td>94</td>\n" +
+//                    "  </tr>\n" +
+//                    "  <tr>\n" +
+//                    "    <td>John</td>\n" +
+//                    "    <td>Doe</td>\n" +
+//                    "    <td>80</td>\n" +
+//                    "  </tr>\n" +
+//                    "</table></body></html>";
+//            InputStream is = new ByteArrayInputStream(htmlString.getBytes());
+//            XMLWorkerHelper.getInstance().parseXHtml(writer, document, is);
+            final TagProcessorFactory tagProcessorFactory = Tags.getHtmlTagProcessorFactory();
+            tagProcessorFactory.removeProcessor(HTML.Tag.IMG);
+            tagProcessorFactory.addProcessor(new ImageTagProcessor(), HTML.Tag.IMG);
+
+            final CssFilesImpl cssFiles = new CssFilesImpl();
+            cssFiles.add(XMLWorkerHelper.getInstance().getDefaultCSS());
+            final StyleAttrCSSResolver cssResolver;
+            cssResolver = new StyleAttrCSSResolver(cssFiles);
+            final HtmlPipelineContext hpc = new HtmlPipelineContext(new CssAppliersImpl(new XMLWorkerFontProvider()));
+            hpc.setAcceptUnknown(true).autoBookmark(true).setTagFactory(tagProcessorFactory);
+            final HtmlPipeline htmlPipeline = new HtmlPipeline(hpc, new PdfWriterPipeline(document, writer));
+            final Pipeline<?> pipeline = new CssResolverPipeline(cssResolver, htmlPipeline);
+            final XMLWorker worker = new XMLWorker(pipeline, true);
+            final Charset charset = Charset.forName("UTF-8");
+            final XMLParser xmlParser = new XMLParser(true, worker, charset);
+            final InputStream is = new ByteArrayInputStream(htmlContent.getBytes());
+            xmlParser.parse(is, charset);
+
+            is.close();
             document.close();
 
             // encrypt the genarated pdf
@@ -886,6 +1068,7 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
         }
         return filepath;
     }
+
 
     public PdfPCell getImage(Image image, int alignment) {
         PdfPCell cell;
