@@ -762,8 +762,8 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
                 docBuilder.append("<td style=\"vertical-align:bottom\">");
                 docBuilder.append(firstName + " " + lastName);
                 docBuilder.append("</td>");
-                docBuilder.append("<td>");
-                docBuilder.append("<img src=\"data:image/png;base64,"+signatureBase64+"\" alt=\"Red dot\" />");
+                docBuilder.append("<td style=\"align:centre\">");
+                docBuilder.append("<img src=\"data:image/png;base64,"+signatureBase64+"\" alt=\"Red dot\" style=\"width:95%;\" />");
                 docBuilder.append("</td>");
                 docBuilder.append("<td style=\"vertical-align:bottom\">");
                 docBuilder.append(signatureDate);
@@ -786,15 +786,15 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
 //                consentItem1.add(table);
 
                 docBuilder.append("<tr>");
-                docBuilder.append("<td><b>");
+                docBuilder.append("<td>(");
                 docBuilder.append(getResources().getString(R.string.participans_name));
-                docBuilder.append("</b></td>");
-                docBuilder.append("<td><b>");
+                docBuilder.append(")</td>");
+                docBuilder.append("<td>(");
                 docBuilder.append(getResources().getString(R.string.participants_signature));
-                docBuilder.append("</b></td>");
-                docBuilder.append("<td><b>");
+                docBuilder.append(")</td>");
+                docBuilder.append("<td>(");
                 docBuilder.append(getResources().getString(R.string.date));
-                docBuilder.append("</b></td>");
+                docBuilder.append(")</td>");
                 docBuilder.append("</tr>");
                 docBuilder.append("</table>");
                 docBuilder.append("<p><br/></p>");
@@ -813,8 +813,8 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
                 docBuilder.append(String.format("<p><b>%1$s</b></p>", lar));
                 String detail = "I am signing the consent form on behalf of the study participant as their legally authorized representative.";
                 docBuilder.append(String.format("<p>%1$s</p>", detail));
-                docBuilder.append(String.format("<p>%1$s</p>", "Participant first name: " + larFirstName));
-                docBuilder.append(String.format("<p>%1$s</p>", "Participant last name: " + larLastName));
+                docBuilder.append("<p>Participant first name: <b>" + larFirstName + "</b></p>");
+                docBuilder.append("<p>Participant last name: <b>" + larLastName + "</b></p>");
 //                Paragraph consentItem1 = new Paragraph(Html.fromHtml(docBuilder.toString()).toString());
 //                consentItem1.add(Html.fromHtml(docBuilder.toString()).toString());
 
@@ -828,7 +828,7 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
 //                }
                 docBuilder.append("<table width=\"100%\"><tr>");
                 docBuilder.append("<td>");
-                docBuilder.append("<img src=\"data:image/png;base64,"+signatureBase64+"\" alt=\"Red dot\" />");
+                docBuilder.append("<img src=\"data:image/png;base64,"+signatureBase64+"\" alt=\"Red dot\" style=\"width:95%;\"/>");
                 docBuilder.append("</td>");
                 docBuilder.append("<td>");
                 docBuilder.append("");
@@ -846,15 +846,15 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
 //                consentItem1.add(table);
 
                 docBuilder.append("<tr>");
-                docBuilder.append("<td><b>");
+                docBuilder.append("<td>(");
                 docBuilder.append(getResources().getString(R.string.participants_signature_lar));
-                docBuilder.append("</b></td>");
+                docBuilder.append(")</td>");
                 docBuilder.append("<td><b>");
                 docBuilder.append("");
                 docBuilder.append("</b></td>");
-                docBuilder.append("<td><b>");
+                docBuilder.append("<td>(");
                 docBuilder.append(getResources().getString(R.string.date));
-                docBuilder.append("</b></td>");
+                docBuilder.append(")</td>");
                 docBuilder.append("</tr>");
 //                PdfPTable table1 = new PdfPTable(3);
 //                table1.setWidthPercentage(100);
@@ -882,15 +882,15 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
 //                consentItem1.add(table2);
 
                 docBuilder.append("<tr>");
-                docBuilder.append("<td><b>");
-                docBuilder.append("First Name");
-                docBuilder.append("</b></td>");
-                docBuilder.append("<td><b>");
-                docBuilder.append("Last Name");
-                docBuilder.append("</b></td>");
-                docBuilder.append("<td><b>");
-                docBuilder.append("Relationship to Participant");
-                docBuilder.append("</b></td>");
+                docBuilder.append("<td>");
+                docBuilder.append("(First Name)");
+                docBuilder.append("</td>");
+                docBuilder.append("<td>");
+                docBuilder.append("(Last Name)");
+                docBuilder.append("</td>");
+                docBuilder.append("<td>");
+                docBuilder.append("(Relationship to Participant)");
+                docBuilder.append("</td>");
                 docBuilder.append("</tr>");
                 docBuilder.append("</table>");
                 docBuilder.append("<p><br/></p>");
@@ -920,18 +920,34 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
 
                     docBuilder.append("<table width=\"100%\"><tr>");
                     docBuilder.append("<td>");
-                    docBuilder.append("");
+                    docBuilder.append("&nbsp;");
                     docBuilder.append("</td>");
                     docBuilder.append("<td>");
-                    docBuilder.append("");
+                    docBuilder.append("&nbsp;");
                     docBuilder.append("</td>");
                     docBuilder.append("<td>");
-                    docBuilder.append("");
+                    docBuilder.append("&nbsp;");
                     docBuilder.append("</td>");
                     docBuilder.append("<td>");
-                    docBuilder.append("");
+                    docBuilder.append("&nbsp;");
                     docBuilder.append("</td>");
                     docBuilder.append("</tr>");
+
+                    docBuilder.append("<tr>");
+                    docBuilder.append("<td>");
+                    docBuilder.append("&nbsp;");
+                    docBuilder.append("</td>");
+                    docBuilder.append("<td>");
+                    docBuilder.append("&nbsp;");
+                    docBuilder.append("</td>");
+                    docBuilder.append("<td>");
+                    docBuilder.append("&nbsp;");
+                    docBuilder.append("</td>");
+                    docBuilder.append("<td>");
+                    docBuilder.append("&nbsp;");
+                    docBuilder.append("</td>");
+                    docBuilder.append("</tr>");
+
 //                    PdfPTable table2 = new PdfPTable(4);
 //                    table2.setWidthPercentage(100);
 //                    table2.addCell(getCell("", PdfPCell.ALIGN_CENTER));
@@ -941,18 +957,18 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
 //                    consentItem1.add(table2);
 
                     docBuilder.append("<tr>");
-                    docBuilder.append("<td><b>");
-                    docBuilder.append("First Name");
-                    docBuilder.append("</b></td>");
-                    docBuilder.append("<td><b>");
-                    docBuilder.append("Last Name");
-                    docBuilder.append("</b></td>");
-                    docBuilder.append("<td><b>");
-                    docBuilder.append("Signature");
-                    docBuilder.append("</b></td>");
-                    docBuilder.append("<td><b>");
-                    docBuilder.append("Date");
-                    docBuilder.append("</b></td>");
+                    docBuilder.append("<td>");
+                    docBuilder.append("(First Name)");
+                    docBuilder.append("</td>");
+                    docBuilder.append("<td>");
+                    docBuilder.append("(Last Name)");
+                    docBuilder.append("</td>");
+                    docBuilder.append("<td>");
+                    docBuilder.append("(Signature)");
+                    docBuilder.append("</td>");
+                    docBuilder.append("<td>");
+                    docBuilder.append("(Date)");
+                    docBuilder.append("</td>");
                     docBuilder.append("</tr>");
                     docBuilder.append("</table>");
                     docBuilder.append("<p><br/></p>");
