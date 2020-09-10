@@ -176,13 +176,17 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
         try {
             // get all study id []
             mRealmStudie = mDBServiceSubscriber.getAllStudyIds(mRealm);
+              ArrayList<String> mStudyIdList2 = new ArrayList<>();
+
             // study Ids are storing to mStudyIdList
             for (int i = 0; i < mRealmStudie.size(); i++)
                 mStudyIdList.add(mRealmStudie.get(i).getStudyId());
 
             for (int i = 0; i < mStudyIdList.size(); i++) {
                 // get all study title, mStudyTitleList
+
                 StudyList studyList = mDBServiceSubscriber.getStudyTitle(mStudyIdList.get(i), mRealm);
+                if(studyList!=null){
                 String title = studyList.getTitle();
                 if (title == null || title.equalsIgnoreCase(""))
                     mStudyTitleList.add(mNoData);
@@ -203,8 +207,24 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
+            }else{
+                    mStudyIdList2.add(mStudyIdList.get(i));
+                }
+        }
+            /*for (int i = 0; i < mStudyIdList2.size(); i++) {
+                mStudyIdList.remove(new String(mStudyIdList.get(i)) );
+
+            }*/
+
+            for (String var : mStudyIdList2)
+            {
+                mStudyIdList.remove(var );
+
             }
-            checkWithdrawalTypeListContainsNoData();
+
+
+                checkWithdrawalTypeListContainsNoData();
             if (mNoDataFlag) {
                 setListLeaveStudy();
             }
