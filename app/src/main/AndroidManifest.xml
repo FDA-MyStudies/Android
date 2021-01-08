@@ -181,7 +181,7 @@
 
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="" />
+            android:value="17d66c1b46986f6f6633cc62617443d13b9fbf1d" />
 
         <activity
             android:name=".studyAppModule.EligibilityEnrollmentActivity"
@@ -202,9 +202,9 @@
             android:theme="@style/Theme.BackboneApp"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
-        <meta-data
+        <!--<meta-data
             android:name="io.fabric.ApiKey"
-            android:value="" />
+            android:value="17d66c1b46986f6f6633cc62617443d13b9fbf1d" />-->
 
         <activity
             android:name=".WebViewActivity"
@@ -239,7 +239,7 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="" />
+            android:value="AIzaSyDHdAfZeCaZ-eH-3HGEQL8khc9bg8oocKo" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

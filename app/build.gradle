@@ -73,30 +73,6 @@ android {
             versionCode 112
             versionName "8.8"
         }
-        limitjia {
-            dimension 'version'
-            applicationId "com.carrastudies.limitjia"
-            versionCode 28
-            versionName "1.0.1"
-        }
-        sparc {
-            dimension 'version'
-            applicationId "com.ccf.sparc"
-            versionCode 22
-            versionName "1.0"
-        }
-        /*fdademo {
-            dimension 'version'
-            applicationId "com.harvard.fdademo"
-            versionCode 3
-            versionName "1.0"
-        }*/
-        covid19 {
-            dimension 'version'
-            applicationId "com.harvard.covid19"
-            versionCode 24
-            versionName "1.0.2"
-        }
     }
 }
 

@@ -5,9 +5,9 @@ public class URLs {
 
 
 
-    public static String BASE_URL_WCP_SERVER = BuildConfig.BASE_URL_WCP_SERVER;
-    public static String BASE_URL_REGISTRATION_SERVER =BuildConfig.BASE_URL_REGISTRATION_SERVER;
-    public static String BASE_URL_RESPONSE_SERVER = BuildConfig.BASE_URL_RESPONSE_SERVER;
+    public static String BASE_URL_WCP_SERVER = com.harvard.BuildConfig.BASE_URL_WCP_SERVER;
+    public static String BASE_URL_REGISTRATION_SERVER =com.harvard.BuildConfig.BASE_URL_REGISTRATION_SERVER;
+    public static String BASE_URL_RESPONSE_SERVER = com.harvard.BuildConfig.BASE_URL_RESPONSE_SERVER;
 
     /**
      * Registration Server
