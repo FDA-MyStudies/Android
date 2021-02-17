@@ -117,7 +117,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import io.realm.Realm;
@@ -350,7 +349,6 @@ public class SurveyActivitiesFragment extends Fragment
 
     GetUserStudyListEvent getUserStudyListEvent = new GetUserStudyListEvent();
     HashMap<String, String> header = new HashMap();
-    header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
     StudyList studyList =
         dbServiceSubscriber.getStudiesDetails(
             ((SurveyActivity) mContext).getStudyId(), mRealm);
@@ -385,7 +383,6 @@ public class SurveyActivitiesFragment extends Fragment
     AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
     GetActivityListEvent getActivityListEvent = new GetActivityListEvent();
     HashMap<String, String> header = new HashMap();
-    header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
     String url = URLs.ACTIVITY_LIST + "?studyId=" + ((SurveyActivity) mContext).getStudyId();
     WCPConfigEvent wcpConfigEvent =
         new WCPConfigEvent(
@@ -420,16 +417,13 @@ public class SurveyActivitiesFragment extends Fragment
     protected String doInBackground(String... params) {
       ConnectionDetector connectionDetector = new ConnectionDetector(mContext);
 
-      HashMap<String, String> header = new HashMap<String, String>();
-      header.put("language", Locale.getDefault().getDisplayLanguage());
-
       String url =
           URLs.BASE_URL_WCP_SERVER
               + URLs.CONSENT_METADATA
               + "?studyId="
               + ((SurveyActivity) mContext).getStudyId();
       if (connectionDetector.isConnectingToInternet()) {
-        mResponseModel = HttpRequest.getRequest(url, header, "WCP");
+        mResponseModel = HttpRequest.getRequest(url, new HashMap<String, String>(), "WCP");
         responseCode = mResponseModel.getResponseCode();
         response = mResponseModel.getResponseData();
         if (responseCode.equalsIgnoreCase("0") && response.equalsIgnoreCase("timeout")) {
@@ -456,7 +450,7 @@ public class SurveyActivitiesFragment extends Fragment
             && !response.equalsIgnoreCase("")) {
           response = response;
         } else {
-          response = getString(R.string.survey_activities_unknown_error);
+          response = getString(R.string.unknown_error);
         }
       }
       return response;
@@ -474,7 +468,7 @@ public class SurveyActivitiesFragment extends Fragment
           AppController.getHelperProgressDialog().dismissDialog();
           Toast.makeText(
               mContext,
-              mContext.getResources().getString(R.string.survey_activities_connection_time_out),
+              mContext.getResources().getString(R.string.connection_timeout),
               Toast.LENGTH_SHORT)
               .show();
         } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK) {
@@ -534,7 +528,7 @@ public class SurveyActivitiesFragment extends Fragment
                 eligibilityConsent.getConsent(),
                 eligibilityConsent.getEligibility().getType());
           } else {
-            Toast.makeText(mContext, R.string.survey_activities_unable_to_parse, Toast.LENGTH_SHORT)
+            Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT)
                 .show();
           }
         } else {
@@ -542,13 +536,13 @@ public class SurveyActivitiesFragment extends Fragment
           Toast.makeText(
               mContext,
               mContext.getResources()
-                  .getString(R.string.survey_activities_unable_to_retrieve_data),
+                  .getString(R.string.unable_to_retrieve_data),
               Toast.LENGTH_SHORT)
               .show();
         }
       } else {
         AppController.getHelperProgressDialog().dismissDialog();
-        Toast.makeText(mContext, getString(R.string.survey_activities_unknown_error), Toast.LENGTH_SHORT)
+        Toast.makeText(mContext, getString(R.string.unknown_error), Toast.LENGTH_SHORT)
             .show();
       }
     }
@@ -573,7 +567,7 @@ public class SurveyActivitiesFragment extends Fragment
     Toast.makeText(
         mContext,
         mContext.getResources()
-            .getString(R.string.survey_activities_please_review_the_updated_consent),
+            .getString(R.string.please_review_the_updated_consent),
         Toast.LENGTH_SHORT)
         .show();
     StudyList studyList =
@@ -729,7 +723,7 @@ public class SurveyActivitiesFragment extends Fragment
       docBuilder.append(
           String.format("<p style=\"text-align: center\">%1$s</p>", participant));
       String detail =
-          mContext.getResources().getString(R.string.survey_activities_agree_participate_research_study);
+          mContext.getResources().getString(R.string.agree_participate_research_study);
       docBuilder.append(String.format("<p style=\"text-align: center\">%1$s</p>", detail));
       consentItem.add(Html.fromHtml(docBuilder.toString()).toString());
 
@@ -753,22 +747,22 @@ public class SurveyActivitiesFragment extends Fragment
       table1.setWidthPercentage(100);
       table1.addCell(
           getCell(
-              mContext.getResources().getString(R.string.survey_activities_participans_name),
+              mContext.getResources().getString(R.string.participans_name),
               PdfPCell.ALIGN_CENTER));
       table1.addCell(
           getCell(
-              mContext.getResources().getString(R.string.survey_activities_participants_signature),
+              mContext.getResources().getString(R.string.participants_signature),
               PdfPCell.ALIGN_CENTER));
       table1.addCell(
           getCell(
-              mContext.getResources().getString(R.string.survey_activities_date),
+              mContext.getResources().getString(R.string.date),
               PdfPCell.ALIGN_CENTER));
       consentItem.add(table1);
 
       document.add(consentItem);
       document.close();
     } catch (IOException | DocumentException e) {
-      Toast.makeText(mContext, R.string.survey_activities_not_able_create_pdf, Toast.LENGTH_SHORT).show();
+      Toast.makeText(mContext, R.string.not_able_create_pdf, Toast.LENGTH_SHORT).show();
       e.printStackTrace();
     }
   }
@@ -865,7 +859,7 @@ public class SurveyActivitiesFragment extends Fragment
             eligibilityConsent.getConsent(),
             eligibilityConsent.getEligibility().getType());
       } else {
-        Toast.makeText(mContext, R.string.survey_activities_unable_to_parse, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
       }
     } else if (responseCode == ACTIVTTYLIST_RESPONSECODE) {
       activityListData = (ActivityListData) response;
@@ -888,7 +882,6 @@ public class SurveyActivitiesFragment extends Fragment
                         mContext,
                         mContext.getResources().getString(R.string.userid),
                         ""));
-          header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             String url =
                 URLs.ACTIVITY_STATE + "?studyId=" + ((SurveyActivity) mContext).getStudyId();
             RegistrationServerConfigEvent registrationServerConfigEvent =
@@ -949,7 +942,7 @@ public class SurveyActivitiesFragment extends Fragment
       if (activityInfoData != null) {
         launchSurvey(activityInfoData.getActivity());
       } else {
-        Toast.makeText(mContext, R.string.survey_activities_unable_to_parse, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
       }
     } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {
       AppController.getHelperProgressDialog().dismissDialog();
@@ -970,7 +963,7 @@ public class SurveyActivitiesFragment extends Fragment
             mActivityStatusData.getMissedRun(),
             mActivityVersion);
       } else {
-        Toast.makeText(mContext, R.string.survey_activities_unable_to_parse, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
       }
 
     } else if (responseCode == UPDATE_STUDY_PREFERENCE) {
@@ -2410,11 +2403,11 @@ public class SurveyActivitiesFragment extends Fragment
           int totalRunVal = activityStatus.getTotalRun();
           int completedRunVal = activityStatus.getCompletedRun();
           if (missedRunVal == 0 && currentRunVal == 0 && totalRunVal == 0 && completedRunVal == 0) {
-            activityStatus.setStatus(getString(R.string.survey_activities_expired));
+            activityStatus.setStatus(getString(R.string.expired));
           } else if (missedRunVal > 0) {
-            activityStatus.setStatus(getString(R.string.survey_activities_incompleted2));
+            activityStatus.setStatus(getString(R.string.incompleted2));
           } else {
-            activityStatus.setStatus(getString(R.string.survey_activities_completed2));
+            activityStatus.setStatus(getString(R.string.completed2));
           }
           if (isWithinRange(
               simpleDateFormat.parse(activityListData.getActivities().get(i).getStartTime()),
@@ -2435,9 +2428,9 @@ public class SurveyActivitiesFragment extends Fragment
                   .setStartTime(mArrayList.get(j).getUserRegStartDate());
               activityListData.getActivities().get(i)
                   .setEndTime(mArrayList.get(j).getUserRegEndDate());
-            } else if (activityStatus.getStatus().equalsIgnoreCase(getString(R.string.survey_activities_expired))
-                || activityStatus.getStatus().equalsIgnoreCase(getString(R.string.survey_activities_incompleted2))
-                || activityStatus.getStatus().equalsIgnoreCase(getString(R.string.survey_activities_completed2))) {
+            } else if (activityStatus.getStatus().equalsIgnoreCase(getString(R.string.expired))
+                || activityStatus.getStatus().equalsIgnoreCase(getString(R.string.incompleted2))
+                || activityStatus.getStatus().equalsIgnoreCase(getString(R.string.completed2))) {
               activityListData.getActivities().get(i)
                   .setStartTime(mArrayList.get(j).getUserRegStartDate());
 //                            activityListData.getActivities().get(i).setEndTime(mArrayList.get(j).getUserRegEndDate());
@@ -2465,9 +2458,9 @@ public class SurveyActivitiesFragment extends Fragment
                   .setStartTime(mArrayList.get(j).getUserRegStartDate());
               activityListData.getActivities().get(i)
                   .setEndTime(mArrayList.get(j).getUserRegEndDate());
-            } else if (activityStatus.getStatus().equalsIgnoreCase(getString(R.string.survey_activities_expired))
-                || activityStatus.getStatus().equalsIgnoreCase(getString(R.string.survey_activities_incompleted2))
-                || activityStatus.getStatus().equalsIgnoreCase(getString(R.string.survey_activities_completed2))) {
+            } else if (activityStatus.getStatus().equalsIgnoreCase(getString(R.string.expired))
+                || activityStatus.getStatus().equalsIgnoreCase(getString(R.string.incompleted2))
+                || activityStatus.getStatus().equalsIgnoreCase(getString(R.string.completed2))) {
               activityListData.getActivities().get(i)
                   .setStartTime(mArrayList.get(j).getUserRegStartDate());
 //                            activityListData.getActivities().get(i).setEndTime(mArrayList.get(j).getUserRegEndDate());
@@ -2494,9 +2487,9 @@ public class SurveyActivitiesFragment extends Fragment
                   .setStartTime(mArrayList.get(j).getUserRegStartDate());
               activityListData.getActivities().get(i)
                   .setEndTime(mArrayList.get(j).getUserRegEndDate());
-            } else if (activityStatus.getStatus().equalsIgnoreCase(getString(R.string.survey_activities_expired))
-                || activityStatus.getStatus().equalsIgnoreCase(getString(R.string.survey_activities_incompleted2))
-                || activityStatus.getStatus().equalsIgnoreCase(getString(R.string.survey_activities_completed2))) {
+            } else if (activityStatus.getStatus().equalsIgnoreCase(getString(R.string.expired))
+                || activityStatus.getStatus().equalsIgnoreCase(getString(R.string.incompleted2))
+                || activityStatus.getStatus().equalsIgnoreCase(getString(R.string.completed2))) {
               activityListData.getActivities().get(i)
                   .setStartTime(mArrayList.get(j).getUserRegStartDate());
               activityListData.getActivities().get(i)
@@ -3606,7 +3599,6 @@ public class SurveyActivitiesFragment extends Fragment
   private void mGetResourceListWebservice() {
 
     HashMap<String, String> header = new HashMap<>();
-    header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
     String studyId = ((SurveyActivity) mContext).getStudyId();
     header.put("studyId", studyId);
     String url = URLs.RESOURCE_LIST + "?studyId=" + studyId;
@@ -3632,7 +3624,6 @@ public class SurveyActivitiesFragment extends Fragment
   private void callGetStudyInfoWebservice() {
     String studyId = ((SurveyActivity) mContext).getStudyId();
     HashMap<String, String> header = new HashMap<>();
-  header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
     String url = URLs.STUDY_INFO + "?studyId=" + studyId;
     GetUserStudyInfoEvent getUserStudyInfoEvent = new GetUserStudyInfoEvent();
     WCPConfigEvent wcpConfigEvent =
@@ -3682,7 +3673,7 @@ public class SurveyActivitiesFragment extends Fragment
         paused = false;
       }
       if (paused) {
-        Toast.makeText(mContext, R.string.survey_activities_study_Joined_paused, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, R.string.study_Joined_paused, Toast.LENGTH_SHORT).show();
       } else {
         if (studyVideoAdapter
             .mStatus
@@ -3719,7 +3710,7 @@ public class SurveyActivitiesFragment extends Fragment
           } else {
             Toast.makeText(
                 mContext,
-                mContext.getResources().getString(R.string.survey_activities_survey_message),
+                mContext.getResources().getString(R.string.survey_message),
                 Toast.LENGTH_SHORT)
                 .show();
           }
@@ -3727,15 +3718,15 @@ public class SurveyActivitiesFragment extends Fragment
             .mStatus
             .get(position)
             .equalsIgnoreCase(SurveyActivitiesFragment.STATUS_UPCOMING)) {
-          Toast.makeText(mContext, R.string.survey_activities_upcoming_event, Toast.LENGTH_SHORT).show();
+          Toast.makeText(mContext, R.string.upcoming_event, Toast.LENGTH_SHORT).show();
         } else if (studyVideoAdapter
             .mCurrentRunStatusForActivities
             .get(position)
             .getStatus()
             .equalsIgnoreCase(SurveyActivitiesFragment.INCOMPLETE)) {
-          Toast.makeText(mContext, R.string.survey_activities_incomple_event, Toast.LENGTH_SHORT).show();
+          Toast.makeText(mContext, R.string.incomple_event, Toast.LENGTH_SHORT).show();
         } else {
-          Toast.makeText(mContext, R.string.survey_activities_completed_event, Toast.LENGTH_SHORT).show();
+          Toast.makeText(mContext, R.string.completed_event, Toast.LENGTH_SHORT).show();
         }
       }
     }
@@ -4611,8 +4602,8 @@ public class SurveyActivitiesFragment extends Fragment
                     mContext,
                     mContext.getResources().getString(R.string.per_completion),
                     false,
-                    mContext.getResources().getString(R.string.survey_activities_ok_btn),
-                    mContext.getResources().getString(R.string.survey_activities_app_name));
+                    mContext.getResources().getString(R.string.ok),
+                    mContext.getResources().getString(R.string.app_name));
           } else {
             SetDialogHelper.setNeutralDialog(
                     mContext,
@@ -4622,8 +4613,8 @@ public class SurveyActivitiesFragment extends Fragment
                             + " "
                             + mContext.getResources().getString(R.string.percent_complete1),
                     false,
-                    mContext.getResources().getString(R.string.survey_activities_ok_btn),
-                    mContext.getResources().getString(R.string.survey_activities_app_name));
+                    mContext.getResources().getString(R.string.ok),
+                    mContext.getResources().getString(R.string.app_name));
           }
         }/* else if (completion >= 50) {
           fiftyPc = true;
@@ -4635,15 +4626,15 @@ public class SurveyActivitiesFragment extends Fragment
                           + " "
                           + mContext.getResources().getString(R.string.percent_complete2),
                   false,
-                  mContext.getResources().getString(R.string.survey_activities_ok_btn),
-                  mContext.getResources().getString(R.string.survey_activities_app_name));
+                  mContext.getResources().getString(R.string.ok),
+                  mContext.getResources().getString(R.string.app_name));
         }*/ else if (missed > 0) {
           SetDialogHelper.setNeutralDialog(
                   mContext,
                   mContext.getResources().getString(R.string.missed_activity),
                   false,
-                  mContext.getResources().getString(R.string.survey_activities_ok_btn),
-                  mContext.getResources().getString(R.string.survey_activities_app_name));
+                  mContext.getResources().getString(R.string.ok),
+                  mContext.getResources().getString(R.string.app_name));
         }
       } else if (!motivationalNotification.isFiftyPc() && !motivationalNotification.isHundredPc()) {
         if (completion >= 100) {
@@ -4654,8 +4645,8 @@ public class SurveyActivitiesFragment extends Fragment
                     mContext,
                     mContext.getResources().getString(R.string.per_completion),
                     false,
-                    mContext.getResources().getString(R.string.survey_activities_ok_btn),
-                    mContext.getResources().getString(R.string.survey_activities_app_name));
+                    mContext.getResources().getString(R.string.ok),
+                    mContext.getResources().getString(R.string.app_name));
           } else {
             SetDialogHelper.setNeutralDialog(
                     mContext,
@@ -4665,8 +4656,8 @@ public class SurveyActivitiesFragment extends Fragment
                             + " "
                             + mContext.getResources().getString(R.string.percent_complete1),
                     false,
-                    mContext.getResources().getString(R.string.survey_activities_ok_btn),
-                    mContext.getResources().getString(R.string.survey_activities_app_name));
+                    mContext.getResources().getString(R.string.ok),
+                    mContext.getResources().getString(R.string.app_name));
           }
         } /*else if (completion >= 50) {
           fiftyPc = true;
@@ -4678,15 +4669,15 @@ public class SurveyActivitiesFragment extends Fragment
                           + " "
                           + mContext.getResources().getString(R.string.percent_complete2),
                   false,
-                  mContext.getResources().getString(R.string.survey_activities_ok_btn),
-                  mContext.getResources().getString(R.string.survey_activities_app_name));
+                  mContext.getResources().getString(R.string.ok),
+                  mContext.getResources().getString(R.string.app_name));
         }*/ else if (motivationalNotification.getMissed() != missed) {
           SetDialogHelper.setNeutralDialog(
                   mContext,
                   mContext.getResources().getString(R.string.missed_activity),
                   false,
-                  mContext.getResources().getString(R.string.survey_activities_ok_btn),
-                  mContext.getResources().getString(R.string.survey_activities_app_name));
+                  mContext.getResources().getString(R.string.ok),
+                  mContext.getResources().getString(R.string.app_name));
         }
       } else if (!motivationalNotification.isHundredPc()) {
         if (completion >= 100) {
@@ -4696,8 +4687,8 @@ public class SurveyActivitiesFragment extends Fragment
                     mContext,
                     mContext.getResources().getString(R.string.per_completion),
                     false,
-                    mContext.getResources().getString(R.string.survey_activities_ok_btn),
-                    mContext.getResources().getString(R.string.survey_activities_app_name));
+                    mContext.getResources().getString(R.string.ok),
+                    mContext.getResources().getString(R.string.app_name));
           } else {
             SetDialogHelper.setNeutralDialog(
                     mContext,
@@ -4707,16 +4698,16 @@ public class SurveyActivitiesFragment extends Fragment
                             + " "
                             + mContext.getResources().getString(R.string.percent_complete1),
                     false,
-                    mContext.getResources().getString(R.string.survey_activities_ok_btn),
-                    mContext.getResources().getString(R.string.survey_activities_app_name));
+                    mContext.getResources().getString(R.string.ok),
+                    mContext.getResources().getString(R.string.app_name));
           }
         } else if (motivationalNotification.getMissed() != missed) {
           SetDialogHelper.setNeutralDialog(
                   mContext,
                   mContext.getResources().getString(R.string.missed_activity),
                   false,
-                  mContext.getResources().getString(R.string.survey_activities_ok_btn),
-                  mContext.getResources().getString(R.string.survey_activities_app_name));
+                  mContext.getResources().getString(R.string.ok),
+                  mContext.getResources().getString(R.string.app_name));
         }
 
       } else if (motivationalNotification.getMissed() != missed) {
@@ -4724,8 +4715,8 @@ public class SurveyActivitiesFragment extends Fragment
                 mContext,
                 mContext.getResources().getString(R.string.missed_activity),
                 false,
-                mContext.getResources().getString(R.string.survey_activities_ok_btn),
-                mContext.getResources().getString(R.string.survey_activities_app_name));
+                mContext.getResources().getString(R.string.ok),
+                mContext.getResources().getString(R.string.app_name));
       }
 
       if (motivationalNotification != null && motivationalNotification.isHundredPc()) {
@@ -4779,7 +4770,7 @@ public class SurveyActivitiesFragment extends Fragment
         AppController.getHelperSharedPreference()
             .readPreference(
                 mContext, mContext.getResources().getString(R.string.userid), ""));
-    header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+
     JSONObject jsonObject = new JSONObject();
 
     JSONArray studieslist = new JSONArray();
@@ -5052,7 +5043,6 @@ public class SurveyActivitiesFragment extends Fragment
 
     GetActivityInfoEvent getActivityInfoEvent = new GetActivityInfoEvent();
     HashMap<String, String> header = new HashMap();
-    header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
     String url =
         URLs.ACTIVITY
             + "?studyId="
@@ -5330,7 +5320,7 @@ public class SurveyActivitiesFragment extends Fragment
         AppController.getHelperSharedPreference()
             .readPreference(
                 mContext, mContext.getResources().getString(R.string.userid), ""));
-    header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+
     JSONObject jsonObject = new JSONObject();
 
     JSONArray activitylist = new JSONArray();
@@ -5543,7 +5533,7 @@ public class SurveyActivitiesFragment extends Fragment
             && !response.equalsIgnoreCase("")) {
           response = response;
         } else {
-          response = getString(R.string.survey_activities_unknown_error);
+          response = getString(R.string.unknown_error);
         }
       }
       return response;
@@ -5560,7 +5550,7 @@ public class SurveyActivitiesFragment extends Fragment
           metadataProcess();
           Toast.makeText(
               mContext,
-              mContext.getResources().getString(R.string.survey_activities_connection_time_out),
+              mContext.getResources().getString(R.string.connection_timeout),
               Toast.LENGTH_SHORT)
               .show();
         } else if (Integer.parseInt(responseCode) == 500) {
@@ -5690,13 +5680,13 @@ public class SurveyActivitiesFragment extends Fragment
           Toast.makeText(
               mContext,
               mContext.getResources()
-                  .getString(R.string.survey_activities_unable_to_retrieve_data),
+                  .getString(R.string.unable_to_retrieve_data),
               Toast.LENGTH_SHORT)
               .show();
         }
       } else {
         metadataProcess();
-        Toast.makeText(mContext, getString(R.string.survey_activities_unknown_error), Toast.LENGTH_SHORT)
+        Toast.makeText(mContext, getString(R.string.unknown_error), Toast.LENGTH_SHORT)
             .show();
       }
     }

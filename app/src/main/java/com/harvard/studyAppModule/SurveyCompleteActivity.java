@@ -40,7 +40,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -434,7 +433,7 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
         HashMap<String, String> header = new HashMap();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.userid), ""));
-        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+
 
         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post_object", URLs.UPDATE_ACTIVITY_PREFERENCE, UPDATE_USERPREFERENCE_RESPONSECODE, this, LoginData.class, null, header, getActivityPreferenceJson(), false, this);
 
@@ -527,7 +526,7 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
 
             } else {
                 AppController.getHelperProgressDialog().dismissDialog();
-                Toast.makeText(this, R.string.survey_complete_unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == UPDATE_STUDY_PREFERENCE) {
             String activityId[] = updateActivityPreferenceAndReturnActivityID();
@@ -883,7 +882,7 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
         HashMap<String, String> header = new HashMap();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.userid), ""));
-        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+
 
         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post_object", URLs.UPDATE_STUDY_PREFERENCE, UPDATE_STUDY_PREFERENCE, this, LoginData.class, null, header, getStudyPreferenceJson(completion, adherence), false, this);
 

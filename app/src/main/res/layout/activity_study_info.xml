@@ -96,7 +96,7 @@
                 style="@style/TextType2"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="@string/study_info_activity_visit_website"
+                android:text="@string/visit_website"
                 android:textColor="@color/white" />
 
         </RelativeLayout>
@@ -129,7 +129,7 @@
                 style="@style/TextType2"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="@string/study_info_activity_view_consent"
+                android:text="@string/view_consent"
                 android:textColor="@color/white" />
 
         </RelativeLayout>
@@ -157,7 +157,7 @@
                 android:id="@+id/consentLayButton"
                 style="@style/TextType2"
                 android:layout_centerInParent="true"
-                android:text="@string/study_info_activity_view_consent"
+                android:text="@string/view_consent"
                 android:textColor="@color/white" />
 
         </RelativeLayout>
@@ -172,7 +172,7 @@
         android:layout_marginBottom="30dp"
         android:background="@drawable/rectangle_blue_white"
         android:gravity="center"
-        android:text="@string/study_info_activity_join_study"
+        android:text="@string/join_study"
         android:textColor="@android:color/white"
         android:visibility="invisible" />
 </RelativeLayout>

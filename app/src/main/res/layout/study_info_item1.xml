@@ -53,7 +53,7 @@
                     style="@style/Titles"
                     android:layout_centerHorizontal="true"
                     android:gravity="center"
-                    android:text="@string/study_info_pager_adapter_title"
+                    android:text="A Study for Pregnant\nWomen"
                     android:textColor="@android:color/white" />
 
 
@@ -66,7 +66,7 @@
                     android:layout_marginRight="40dp"
                     android:layout_marginTop="5dp"
                     android:gravity="center"
-                    android:text="@string/study_info_pager_adapter_gateway_des1"
+                    android:text="@string/gateway_des1"
                     android:textColor="@android:color/white" />
 
                 <RelativeLayout
@@ -93,7 +93,7 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@id/videoIcon"
-                        android:text="@string/study_info_pager_adapter_watch_video"
+                        android:text="@string/watch_video"
                         android:textColor="@android:color/white" />
                 </RelativeLayout>
             </RelativeLayout>

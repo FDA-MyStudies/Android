@@ -93,7 +93,7 @@ public class GatewayResourcesListAdapter extends RecyclerView.Adapter<GatewayRes
 
     private void showDialog(int count) {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle);
-        builder.setTitle(mContext.getResources().getString(R.string.gateway_resources_list_adapter_prject_name));
+        builder.setTitle(mContext.getResources().getString(R.string.prject_name));
         builder.setMessage(mContext.getResources().getString(R.string.delete_study_data));
         // withdrawalType ask_user
         if (count == 3) {
@@ -105,7 +105,7 @@ public class GatewayResourcesListAdapter extends RecyclerView.Adapter<GatewayRes
                 }
             });
 
-            builder.setPositiveButton(mContext.getResources().getString(R.string.gateway_resources_list_adapter_retain_my_data_caps), new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(mContext.getResources().getString(R.string.retain_my_data_caps), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ((SurveyResourcesFragment) fragment).responseServerWithdrawFromStudy("false");
@@ -113,7 +113,7 @@ public class GatewayResourcesListAdapter extends RecyclerView.Adapter<GatewayRes
             });
 
 
-            builder.setNegativeButton(mContext.getResources().getString(R.string.gateway_resources_list_adapter_cancel_caps), new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(mContext.getResources().getString(R.string.cancel_caps), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
@@ -123,7 +123,7 @@ public class GatewayResourcesListAdapter extends RecyclerView.Adapter<GatewayRes
             diag.show();
         } else if (count == 2) {
             //withdrawalType delete_data
-            builder.setPositiveButton(mContext.getResources().getString(R.string.gateway_resources_list_adapter_ok), new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(mContext.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ((SurveyResourcesFragment) fragment).responseServerWithdrawFromStudy("true");
@@ -131,7 +131,7 @@ public class GatewayResourcesListAdapter extends RecyclerView.Adapter<GatewayRes
             });
 
 
-            builder.setNegativeButton(mContext.getResources().getString(R.string.gateway_resources_list_adapter_cancel_caps), new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(mContext.getResources().getString(R.string.cancel_caps), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
@@ -141,7 +141,7 @@ public class GatewayResourcesListAdapter extends RecyclerView.Adapter<GatewayRes
             diag.show();
         } else if (count == 1) {
             // withdrawalType no_action
-            builder.setPositiveButton(mContext.getResources().getString(R.string.gateway_resources_list_adapter_ok), new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(mContext.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ((SurveyResourcesFragment) fragment).responseServerWithdrawFromStudy("false");
@@ -149,7 +149,7 @@ public class GatewayResourcesListAdapter extends RecyclerView.Adapter<GatewayRes
             });
 
 
-            builder.setNegativeButton(mContext.getResources().getString(R.string.gateway_resources_list_adapter_cancel_caps), new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(mContext.getResources().getString(R.string.cancel_caps), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();

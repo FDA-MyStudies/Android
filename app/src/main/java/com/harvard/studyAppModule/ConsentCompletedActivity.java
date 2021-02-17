@@ -56,7 +56,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
-import java.util.Locale;
 
 import javax.crypto.CipherInputStream;
 
@@ -162,7 +161,7 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                    Toast.makeText(ConsentCompletedActivity.this, R.string.consent_completed_permission_deniedDate, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ConsentCompletedActivity.this, R.string.permission_deniedDate, Toast.LENGTH_SHORT).show();
                 } else {
                     displayPDF();
                 }
@@ -197,7 +196,7 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
         HashMap headerparams = new HashMap();
         headerparams.put("auth", AppController.getHelperSharedPreference().readPreference(ConsentCompletedActivity.this, getString(R.string.auth), ""));
         headerparams.put("userId", AppController.getHelperSharedPreference().readPreference(ConsentCompletedActivity.this, getString(R.string.userid), ""));
-        headerparams.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+
         EligibilityConsent eligibilityConsent = dbServiceSubscriber.getConsentMetadata(getIntent().getStringExtra("studyId"), mRealm);
         JSONObject body = new JSONObject();
         try {
@@ -250,7 +249,7 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
                 getStudyUpdateFomWS();
             } else {
                 AppController.getHelperProgressDialog().dismissDialog();
-                Toast.makeText(this, getResources().getString(R.string.consent_completed_unable_to_parse), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.unable_to_parse), Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == STUDY_UPDATES) {
             StudyUpdate studyUpdate = (StudyUpdate) response;
@@ -280,7 +279,7 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
                 getStudySate();
 
             } else {
-                Toast.makeText(this, getResources().getString(R.string.consent_completed_unable_to_parse), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.unable_to_parse), Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == GET_PREFERENCES) {
             StudyData studies = (StudyData) response;
@@ -292,7 +291,7 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
                 update_eligibility_consent();
 
             } else {
-                Toast.makeText(this, getResources().getString(R.string.consent_completed_unable_to_parse), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.unable_to_parse), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -302,7 +301,6 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
         HashMap<String, String> header = new HashMap();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(ConsentCompletedActivity.this, getResources().getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(ConsentCompletedActivity.this, getResources().getString(R.string.userid), ""));
-        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("get", URLs.STUDY_STATE, GET_PREFERENCES, ConsentCompletedActivity.this, StudyData.class, null, header, null, false, this);
 
         getPreferenceEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
@@ -315,10 +313,8 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
         GetUserStudyListEvent getUserStudyListEvent = new GetUserStudyListEvent();
         DBServiceSubscriber dbServiceSubscriber = new DBServiceSubscriber();
         HashMap<String, String> header = new HashMap();
-        header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         StudyList studyList = dbServiceSubscriber.getStudiesDetails(getIntent().getStringExtra("studyId"), mRealm);
         String url = URLs.STUDY_UPDATES + "?studyId=" + getIntent().getStringExtra("studyId") + "&studyVersion=" + studyList.getStudyVersion();
-
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, STUDY_UPDATES, ConsentCompletedActivity.this, StudyUpdate.class, null, header, null, false, this);
 
         getUserStudyListEvent.setWcpConfigEvent(wcpConfigEvent);
@@ -337,7 +333,7 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
             if (responseServerData != null) {
                 Toast.makeText(this, responseServerData.getException().toString(), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, getResources().getString(R.string.consent_completed_unable_to_parse), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.unable_to_parse), Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {
             Toast.makeText(this, errormsg, Toast.LENGTH_SHORT).show();
@@ -433,7 +429,7 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
         HashMap<String, String> header = new HashMap();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.userid), ""));
-        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+
         JSONObject jsonObject = new JSONObject();
 
         JSONArray studieslist = new JSONArray();

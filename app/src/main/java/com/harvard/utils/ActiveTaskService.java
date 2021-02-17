@@ -34,7 +34,6 @@ import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -68,7 +67,7 @@ public class ActiveTaskService extends Service implements ApiCall.OnAsyncRequest
                 mRealm = AppController.getRealmobj(this);
                 Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
                 Notification notification = new NotificationCompat.Builder(this)
-                        .setContentTitle(getResources().getString(R.string.active_task_service_prject_name))
+                        .setContentTitle(getResources().getString(R.string.prject_name))
                         .setTicker("Sync adapter")
                         .setContentText("Syncing offline data")
                         .setChannelId(FDAApplication.NOTIFICATION_CHANNEL_ID_SERVICE)
@@ -85,7 +84,7 @@ public class ActiveTaskService extends Service implements ApiCall.OnAsyncRequest
                     startAlarm();
                     Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
                     Notification notification = new NotificationCompat.Builder(this)
-                            .setContentTitle(getResources().getString(R.string.active_task_service_prject_name))
+                            .setContentTitle(getResources().getString(R.string.prject_name))
                             .setTicker(getResources().getString(R.string.fetal_kick_recorder_activity))
                             .setContentText(getResources().getString(R.string.fetal_kick_recorder_activity_in_progress))
                             .setChannelId(FDAApplication.NOTIFICATION_CHANNEL_ID_SERVICE)
@@ -109,7 +108,7 @@ public class ActiveTaskService extends Service implements ApiCall.OnAsyncRequest
                                         NotificationCompat.Builder builder = new NotificationCompat.Builder(ActiveTaskService.this);
                                         builder.setSmallIcon(R.mipmap.ic_launcher)
                                                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                                                .setContentTitle(getResources().getString(R.string.active_task_service_prject_name))
+                                                .setContentTitle(getResources().getString(R.string.prject_name))
                                                 .setContentText(getString(R.string.activetaskremindertxt))
                                                 .setChannelId(FDAApplication.NOTIFICATION_CHANNEL_ID_SERVICE);
 
@@ -209,7 +208,7 @@ public class ActiveTaskService extends Service implements ApiCall.OnAsyncRequest
             HashMap<String, String> header = new HashMap();
             header.put("auth", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.auth), ""));
             header.put("userId", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.userid), ""));
-            header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+
             UpdatePreferenceEvent updatePreferenceEvent = new UpdatePreferenceEvent();
             RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent(httpMethod, url, UPDATE_USERPREFERENCE_RESPONSECODE, this, LoginData.class, null, header, jsonObject, false, this);
             updatePreferenceEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
