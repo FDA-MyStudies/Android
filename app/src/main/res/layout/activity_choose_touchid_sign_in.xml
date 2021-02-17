@@ -24,7 +24,7 @@
                 style="@style/TextType1"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="130dp"
-                android:text="@string/use_touch_id"
+                android:text="@string/choose_tid_signin_activity_use_touch_id"
                 android:textColor="@color/colorPrimaryBlack" />
 
             <LinearLayout
@@ -67,7 +67,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp"
                 android:gravity="center"
-                android:text="@string/or"
+                android:text="@string/choose_tid_signin_activity_or"
                 android:textColor="@color/colorSecondary" />
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -77,7 +77,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp"
                 android:gravity="center"
-                android:text="@string/sign_in_btn"
+                android:text="@string/choose_tid_signin_activity_sign_in_btn"
                 android:textColor="@color/colorPrimaryBlack" />
 
             <androidx.appcompat.widget.AppCompatTextView

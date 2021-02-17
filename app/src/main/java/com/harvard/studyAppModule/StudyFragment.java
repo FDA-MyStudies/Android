@@ -2,6 +2,7 @@ package com.harvard.studyAppModule;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -10,6 +11,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +76,7 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import io.realm.Realm;
@@ -167,6 +170,8 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         studyListArrayList = new RealmList<>();
         initializeXMLId(view);
         bindEvents();
+        Log.e("Krishna", "onCreateView local languague : "+ Locale.getDefault().getDisplayLanguage() + "  app langugae");
+        Log.e("Krishna", "onCreateView local languague : "+ Resources.getSystem().getConfiguration().locale.getLanguage() + "  app langugae" +Locale.getDefault().getLanguage());
 
         return view;
     }
@@ -789,6 +794,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         }
         GetUserStudyListEvent getUserStudyListEvent = new GetUserStudyListEvent();
         HashMap<String, String> header = new HashMap();
+        header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", URLs.STUDY_LIST, STUDY_LIST, mContext, Study.class, null, header, null, false, this);
 
         getUserStudyListEvent.setWcpConfigEvent(wcpConfigEvent);
@@ -814,6 +820,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                     HashMap<String, String> header = new HashMap();
                     header.put("auth", AppController.getHelperSharedPreference().readPreference(mContext, getResources().getString(R.string.auth), ""));
                     header.put("userId", AppController.getHelperSharedPreference().readPreference(mContext, getResources().getString(R.string.userid), ""));
+                    header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
                     RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("get", URLs.STUDY_STATE, GET_PREFERENCES, mContext, StudyData.class, null, header, null, false, this);
 
                     getPreferenceEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
@@ -824,7 +831,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                 webserviceCall = false;
                 AppController.getHelperProgressDialog().dismissDialog();
                 onItemsLoadComplete();
-                Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.study_fragment_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == CONSENT_METADATA) {
             AppController.getHelperProgressDialog().dismissDialog();
@@ -834,7 +841,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                 saveConsentToDB(mContext,eligibilityConsent);
                 startConsent(eligibilityConsent.getConsent(), eligibilityConsent.getEligibility().getType());
             } else {
-                Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.study_fragment_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == GET_PREFERENCES) {
             AppController.getHelperSharedPreference().writePreference(mContext, "firstStudyState", "Done");
@@ -864,12 +871,12 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                         }
                     }
                 } else {
-                    Toast.makeText(mContext, R.string.error_retriving_data, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, R.string.study_fragment_error_retriving_data, Toast.LENGTH_SHORT).show();
                 }
                 setStudyList(false);
                 ((StudyActivity) getContext()).checkForNotification(((StudyActivity) getContext()).getIntent());
             } else {
-                Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.study_fragment_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == UPDATE_PREFERENCES) {
             LoginData loginData = (LoginData) response;
@@ -960,6 +967,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         HashMap<String, String> header = new HashMap<>();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(mContext, getResources().getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(mContext, getResources().getString(R.string.userid), ""));
+        header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         String url = URLs.CONSENTPDF + "?studyId=" + mStudyId + "&consentVersion=";
         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("get", url, CONSENTPDF, getActivity(), ConsentPDF.class, null, header, null, false, StudyFragment.this);
         consentPDFEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
@@ -978,7 +986,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
 
     private void startConsent(Consent consent, String type) {
         eligibilityType = type;
-        Toast.makeText(mContext, mContext.getResources().getString(R.string.please_review_the_updated_consent), Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, mContext.getResources().getString(R.string.study_fragment_please_review_the_updated_consent), Toast.LENGTH_SHORT).show();
         ConsentBuilder consentBuilder = new ConsentBuilder();
         List<Step> consentstep = consentBuilder.createsurveyquestion(mContext, consent, mtitle, "update");
         Task consentTask = new OrderedTask(CONSENT, consentstep);
@@ -1001,10 +1009,12 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         protected String doInBackground(String... params) {
             ConnectionDetector connectionDetector = new ConnectionDetector(mContext);
 
+            HashMap<String, String> header = new HashMap<String, String>();
+            header.put("language", Locale.getDefault().getDisplayLanguage());
 
             String url = URLs.BASE_URL_WCP_SERVER + URLs.CONSENT_METADATA + "?studyId=" + mStudyId;
             if (connectionDetector.isConnectingToInternet()) {
-                mResponseModel = HttpRequest.getRequest(url, new HashMap<String, String>(), "WCP");
+                mResponseModel = HttpRequest.getRequest(url, header, "WCP");
                 responseCode = mResponseModel.getResponseCode();
                 response = mResponseModel.getResponseData();
                 if (responseCode.equalsIgnoreCase("0") && response.equalsIgnoreCase("timeout")) {
@@ -1024,7 +1034,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                 } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK && !response.equalsIgnoreCase("")) {
                     response = response;
                 } else {
-                    response = getString(R.string.unknown_error);
+                    response = getString(R.string.study_fragment_unknown_error);
                 }
             }
             return response;
@@ -1040,7 +1050,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                     AppController.getHelperSessionExpired(mContext, "session expired");
                 } else if (response.equalsIgnoreCase("timeout")) {
                     AppController.getHelperProgressDialog().dismissDialog();
-                    Toast.makeText(mContext, getResources().getString(R.string.connection_timeout), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, getResources().getString(R.string.study_fragment_connection_timeout), Toast.LENGTH_SHORT).show();
                 } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK) {
 
                     Gson gson = new GsonBuilder()
@@ -1083,15 +1093,15 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                         saveConsentToDB(mContext,eligibilityConsent);
                         startConsent(eligibilityConsent.getConsent(), eligibilityConsent.getEligibility().getType());
                     } else {
-                        Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, R.string.study_fragment_unable_to_parse, Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     AppController.getHelperProgressDialog().dismissDialog();
-                    Toast.makeText(mContext, getResources().getString(R.string.unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, getResources().getString(R.string.study_fragment_unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
                 }
             } else {
                 AppController.getHelperProgressDialog().dismissDialog();
-                Toast.makeText(mContext, getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getString(R.string.study_fragment_unknown_error), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -1126,6 +1136,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
 
     private void getCurrentConsentDocument(String studyId) {
         HashMap<String, String> header = new HashMap<>();
+        header.put("language",header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage())));
         String url = URLs.GET_CONSENT_DOC + "?studyId=" + studyId + "&consentVersion=&activityId=&activityVersion=";
         AppController.getHelperProgressDialog().showProgress(getActivity(), "", "", false);
         GetUserStudyInfoEvent getUserStudyInfoEvent = new GetUserStudyInfoEvent();
@@ -1141,6 +1152,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         AppController.getHelperProgressDialog().showProgress(getActivity(), "", "", false);
         GetUserStudyListEvent getUserStudyListEvent = new GetUserStudyListEvent();
         HashMap<String, String> header = new HashMap();
+        header.put("language",header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage())));
         String url = URLs.STUDY_UPDATES + "?studyId=" + studyId + "&studyVersion=" + studyVersion;
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, STUDY_UPDATES, mContext, StudyUpdate.class, null, header, null, false, this);
 
@@ -1209,7 +1221,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         HashMap<String, String> header = new HashMap();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(mContext, getResources().getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(mContext, getResources().getString(R.string.userid), ""));
-
+        header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         JSONObject jsonObject = new JSONObject();
 
         JSONArray studieslist = new JSONArray();
@@ -1355,7 +1367,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                         && !response.equalsIgnoreCase("")) {
                     response = response;
                 } else {
-                    response = getString(R.string.unknown_error);
+                    response = getString(R.string.study_fragment_unknown_error);
                 }
             }
             return response;
@@ -1372,14 +1384,14 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                     //don't update UI
                     Toast.makeText(
                             mContext,
-                            mContext.getResources().getString(R.string.connection_timeout),
+                            mContext.getResources().getString(R.string.study_fragment_connection_timeout),
                             Toast.LENGTH_SHORT)
                             .show();
                 } else if (Integer.parseInt(responseCode) == 500) {
                     //don't update UI
                     Toast.makeText(
                             mContext,
-                            mContext.getResources().getString(R.string.unable_to_retrieve_data),
+                            mContext.getResources().getString(R.string.study_fragment_unable_to_retrieve_data),
                             Toast.LENGTH_SHORT)
                             .show();
                 } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK) {
@@ -1423,13 +1435,13 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                     Toast.makeText(
                             mContext,
                             mContext.getResources()
-                                    .getString(R.string.unable_to_retrieve_data),
+                                    .getString(R.string.study_fragment_unable_to_retrieve_data),
                             Toast.LENGTH_SHORT)
                             .show();
                 }
             } else {
                 //don't update UI
-                Toast.makeText(mContext, getString(R.string.unknown_error), Toast.LENGTH_SHORT)
+                Toast.makeText(mContext, getString(R.string.study_fragment_unknown_error), Toast.LENGTH_SHORT)
                         .show();
             }
         }

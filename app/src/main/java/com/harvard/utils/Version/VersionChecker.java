@@ -15,6 +15,7 @@ import com.harvard.webserviceModule.apiHelper.Responsemodel;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class VersionChecker extends AsyncTask<String, String, String> {
 
@@ -34,8 +35,11 @@ public class VersionChecker extends AsyncTask<String, String, String> {
     protected String doInBackground(String... params) {
         newVersion = currentVersion();
         VersionModel versionModel;
+        HashMap<String, String> header = new HashMap<String, String>();
+        header.put("language", Locale.getDefault().getDisplayLanguage());
+
         try {
-            Responsemodel responsemodel = HttpRequest.getRequest(versionUrl, null, "WCP");
+            Responsemodel responsemodel = HttpRequest.getRequest(versionUrl, header, "WCP");
 
             if (responsemodel.getResponseCode().equalsIgnoreCase("" + HttpURLConnection.HTTP_OK)) {
                 versionModel = parseJson(responsemodel, VersionModel.class);

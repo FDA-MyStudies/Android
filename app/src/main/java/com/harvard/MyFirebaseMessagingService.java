@@ -165,7 +165,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.icon)
                 .setLargeIcon(Bitmap.createScaledBitmap(icon, 128, 128, false))
-                .setContentTitle(getResources().getString(R.string.app_name))
+                .setContentTitle(getResources().getString(R.string.my_firebase_app_name))
                 .setContentText(messageBody)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)

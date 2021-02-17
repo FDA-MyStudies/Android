@@ -30,6 +30,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -111,7 +112,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter implements ApiCall.
             HashMap<String, String> header = new HashMap();
             header.put("auth", AppController.getHelperSharedPreference().readPreference(mContext, mContext.getResources().getString(R.string.auth), ""));
             header.put("userId", AppController.getHelperSharedPreference().readPreference(mContext, mContext.getResources().getString(R.string.userid), ""));
-
+            header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             UpdatePreferenceEvent updatePreferenceEvent = new UpdatePreferenceEvent();
             RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent(httpMethod, url, UPDATE_USERPREFERENCE_RESPONSECODE, mContext, LoginData.class, null, header, jsonObject, false, this);
             updatePreferenceEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);

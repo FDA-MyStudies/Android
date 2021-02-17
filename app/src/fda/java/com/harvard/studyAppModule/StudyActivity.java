@@ -57,6 +57,7 @@ import com.harvard.webserviceModule.apiHelper.ApiCall;
 import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -252,9 +253,9 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                                             intent.putExtra("studyId", studyId);
                                             startActivity(intent);
                                         } else if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(getString(R.string.paused))) {
-                                            Toast.makeText(StudyActivity.this, R.string.study_paused, Toast.LENGTH_SHORT).show();
-                                        } else if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(getString(R.string.closed))) {
-                                            Toast.makeText(StudyActivity.this, R.string.study_resume, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(StudyActivity.this, R.string.fda_study_activity_study_paused, Toast.LENGTH_SHORT).show();
+                                        } else if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(getString(R.string.fda_study_activity_closed))) {
+                                            Toast.makeText(StudyActivity.this, R.string.fda_study_activity_study_resume, Toast.LENGTH_SHORT).show();
                                         } else {
                                             Intent intent = new Intent(getApplicationContext(), StudyInfoActivity.class);
                                             intent.putExtra("studyId", studyListArrayList.get(i).getStudyId());
@@ -272,15 +273,15 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                                     }
                                 }
                                 if (!isStudyAvailable) {
-                                    Toast.makeText(StudyActivity.this, R.string.studyNotAvailable, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(StudyActivity.this, R.string.fda_study_activity_studyNotAvailable, Toast.LENGTH_SHORT).show();
                                 }
                             } else {
-                                Toast.makeText(StudyActivity.this, R.string.studyNotAvailable, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(StudyActivity.this, R.string.fda_study_activity_studyNotAvailable, Toast.LENGTH_SHORT).show();
                             }
                         } else if (subType.equalsIgnoreCase("Resource")) {
                             mPreviousValue = R.id.mResourcesLayout;
                             mTitleFDAListens.setText("");
-                            mTitle.setText(getResources().getString(R.string.resources));
+                            mTitle.setText(getResources().getString(R.string.fda_study_activity_resources));
                             mEditBtnLayout.setVisibility(View.GONE);
                             mNotificationBtn.setVisibility(View.GONE);
                             mFilter.setVisibility(View.GONE);
@@ -325,18 +326,18 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                                     }
                                 }
                                 if (!isStudyAvailable) {
-                                    Toast.makeText(StudyActivity.this, R.string.studyNotAvailable, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(StudyActivity.this, R.string.fda_study_activity_studyNotAvailable, Toast.LENGTH_SHORT).show();
                                 } else if (!isStudyJoined) {
-                                    Toast.makeText(StudyActivity.this, R.string.studyNotJoined, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(StudyActivity.this, R.string.fda_study_activity_studyNotJoined, Toast.LENGTH_SHORT).show();
                                 }
                             } else {
-                                Toast.makeText(StudyActivity.this, R.string.studyNotAvailable, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(StudyActivity.this, R.string.fda_study_activity_studyNotAvailable, Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
                 }
             } else {
-                Toast.makeText(StudyActivity.this, R.string.studyNotAvailable, Toast.LENGTH_SHORT).show();
+                Toast.makeText(StudyActivity.this, R.string.fda_study_activity_studyNotAvailable, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -576,7 +577,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         mInfoIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SetDialogHelper.setNeutralDialog(StudyActivity.this, getResources().getString(R.string.registration_message), false, getResources().getString(R.string.ok), getResources().getString(R.string.why_register));
+                SetDialogHelper.setNeutralDialog(StudyActivity.this, getResources().getString(R.string.fda_study_activity_registration_message), false, getResources().getString(R.string.fda_study_activity_ok_btn), getResources().getString(R.string.fda_study_activity_why_register));
             }
         });
 
@@ -650,24 +651,24 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         //signIn
         if (AppController.getHelperSharedPreference().readPreference(StudyActivity.this, getString(R.string.userid), "").equalsIgnoreCase("")) {
             mSigninImg.setBackground(getResources().getDrawable(R.drawable.signin_menu1));
-            mSigninLabel.setText(getResources().getString(R.string.sign_in_btn));
+            mSigninLabel.setText(getResources().getString(R.string.fda_study_activity_sign_in_btn));
             mSignOutLayout.setVisibility(View.GONE);
             mReachoutLayout.setVisibility(View.VISIBLE);
             //set Reach out details to new user,
             mNewUsrReachoutImg.setBackground(getResources().getDrawable(R.drawable.newuser_menu1));
-            mNewUsrReachoutLabel.setText(getResources().getString(R.string.side_menu_new_user));
+            mNewUsrReachoutLabel.setText(getResources().getString(R.string.fda_study_activity_side_menu_new_user));
             mSignUpLabel.setVisibility(View.VISIBLE);
             mNotificationIcon.setImageResource(R.drawable.notification_white_active);
             mNotificatioStatus.setVisibility(View.GONE);
         } else {
             //Sign out
             mSigninImg.setBackground(getResources().getDrawable(R.drawable.profile_menu1));
-            mSigninLabel.setText(getResources().getString(R.string.profile_small));
+            mSigninLabel.setText(getResources().getString(R.string.fda_study_activity_profile_small));
             mSignOutLayout.setVisibility(View.VISIBLE);
             mReachoutLayout.setVisibility(View.GONE);
             //set Reach out details to new user,
             mNewUsrReachoutImg.setBackground(getResources().getDrawable(R.drawable.reachout_menu1));
-            mNewUsrReachoutLabel.setText(getResources().getString(R.string.side_menu_reach_out));
+            mNewUsrReachoutLabel.setText(getResources().getString(R.string.fda_study_activity_side_menu_reach_out));
             mSignUpLabel.setVisibility(View.GONE);
         }
     }
@@ -677,7 +678,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.mHomeLayout:
                 mPreviousValue = R.id.mHomeLayout;
-                mTitleFDAListens.setText(getResources().getString(R.string.fda_listens));
+                mTitleFDAListens.setText(getResources().getString(R.string.fda_module_fda_listens));
                 mTitle.setText("");
                 mEditBtnLayout.setVisibility(View.GONE);
                 mNotificationBtn.setVisibility(View.VISIBLE);
@@ -709,7 +710,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                 } else {
                     mPreviousValue = R.id.mResourcesLayout;
                     mTitleFDAListens.setText("");
-                    mTitle.setText(getResources().getString(R.string.resources));
+                    mTitle.setText(getResources().getString(R.string.fda_study_activity_resources));
                     mEditBtnLayout.setVisibility(View.GONE);
                     mNotificationBtn.setVisibility(View.GONE);
                     mFilter.setVisibility(View.GONE);
@@ -730,7 +731,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                     } else {
                         mPreviousValue = R.id.mSignInProfileLayout;
                         mTitleFDAListens.setText("");
-                        mTitle.setText(getResources().getString(R.string.sign_in));
+                        mTitle.setText(getResources().getString(R.string.fda_study_activity_sign_in));
                         mEditBtnLayout.setVisibility(View.GONE);
                         mNotificationBtn.setVisibility(View.GONE);
                         mFilter.setVisibility(View.GONE);
@@ -745,7 +746,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                     } else {
                         mPreviousValue = R.id.mSignInProfileLayout;
                         mTitleFDAListens.setText("");
-                        mTitle.setText(getResources().getString(R.string.profile));
+                        mTitle.setText(getResources().getString(R.string.fda_study_activity_profile));
                         mEditBtnLayout.setVisibility(View.VISIBLE);
                         mNotificationBtn.setVisibility(View.GONE);
                         mFilter.setVisibility(View.GONE);
@@ -758,7 +759,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                             public void onClick(View view) {
                                 if (mEditTxt.getText().toString().equalsIgnoreCase(getResources().getString(R.string.edit)))
                                     enableEditText();
-                                else if (mEditTxt.getText().toString().equalsIgnoreCase(getResources().getString(R.string.cancel)))
+                                else if (mEditTxt.getText().toString().equalsIgnoreCase(getResources().getString(R.string.fda_study_activity_cancel)))
                                     disableEditText();
                             }
                         });
@@ -819,7 +820,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void enableEditText() {
-        mEditTxt.setText(getResources().getString(R.string.cancel));
+        mEditTxt.setText(getResources().getString(R.string.fda_study_activity_cancel));
         mProfileFragment.enableEditText();
     }
 
@@ -835,16 +836,16 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     private void logout() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
 
-        alertDialogBuilder.setTitle(getResources().getString(R.string.sign_out));
+        alertDialogBuilder.setTitle(getResources().getString(R.string.fda_study_activity_sign_out));
         String message;
         if (checkOfflineDataEmpty()) {
-            message = getResources().getString(R.string.sign_out_message);
+            message = getResources().getString(R.string.fda_study_activity_sign_out_message);
         } else {
-            message = getResources().getString(R.string.sign_out_message_data_lost);
+            message = getResources().getString(R.string.fda_study_activity_sign_out_message_data_lost);
         }
 
         alertDialogBuilder.setMessage(message).setCancelable(false)
-                .setPositiveButton(getResources().getString(R.string.sign_out), new DialogInterface.OnClickListener() {
+                .setPositiveButton(getResources().getString(R.string.fda_study_activity_sign_out), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
                         AppController.getHelperProgressDialog().showProgress(StudyActivity.this, "", "", false);
@@ -854,6 +855,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                         HashMap<String, String> header = new HashMap<String, String>();
                         header.put("userId", AppController.getHelperSharedPreference().readPreference(StudyActivity.this, getString(R.string.userid), ""));
                         header.put("auth", AppController.getHelperSharedPreference().readPreference(StudyActivity.this, getString(R.string.auth), ""));
+                        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
                         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("delete", URLs.LOGOUT, LOGOUT_REPSONSECODE, StudyActivity.this, LoginData.class, params, header, null, false, StudyActivity.this);
                         logoutEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
                         UserModulePresenter userModulePresenter = new UserModulePresenter();
@@ -861,7 +863,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
                     }
                 });
 
-        alertDialogBuilder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+        alertDialogBuilder.setNegativeButton(getResources().getString(R.string.fda_study_activity_cancel), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
             }
@@ -888,7 +890,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             if (isExit) {
                 finish();
             } else {
-                Toast.makeText(this, R.string.press_back_to_exit, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.fda_study_activity_press_back_to_exit, Toast.LENGTH_SHORT).show();
                 isExit = true;
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -903,7 +905,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public <T> void asyncResponse(T response, int responseCode) {
         if (responseCode == LOGOUT_REPSONSECODE) {
-            Toast.makeText(this, getResources().getString(R.string.signOut), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.fda_study_activity_signOut), Toast.LENGTH_SHORT).show();
             SharedPreferences settings = SharedPreferenceHelper.getPreferences(StudyActivity.this);
             settings.edit().clear().apply();
             // delete passcode from keystore
@@ -940,7 +942,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     public void loadstudylist() {
         checkSignOrSignOutScenario();
         mPreviousValue = R.id.mHomeLayout;
-        mTitleFDAListens.setText(getResources().getString(R.string.fda_listens));
+        mTitleFDAListens.setText(getResources().getString(R.string.fda_module_fda_listens));
         mTitle.setText("");
         mEditBtnLayout.setVisibility(View.GONE);
         mNotificationBtn.setVisibility(View.VISIBLE);
@@ -981,7 +983,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             if (resultCode == RESULT_OK) {
                 mPreviousValue = R.id.mResourcesLayout;
                 mTitleFDAListens.setText("");
-                mTitle.setText(getResources().getString(R.string.resources));
+                mTitle.setText(getResources().getString(R.string.fda_study_activity_resources));
                 mEditBtnLayout.setVisibility(View.GONE);
                 mNotificationBtn.setVisibility(View.GONE);
                 mFilter.setVisibility(View.GONE);
@@ -1009,7 +1011,7 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
             AppController.getHelperProgressDialog().dismissDialog();
             mPreviousValue = R.id.mSignInProfileLayout;
             mTitleFDAListens.setText("");
-            mTitle.setText(getResources().getString(R.string.sign_in));
+            mTitle.setText(getResources().getString(R.string.fda_study_activity_sign_in));
             mEditBtnLayout.setVisibility(View.GONE);
             mNotificationBtn.setVisibility(View.GONE);
             mFilter.setVisibility(View.GONE);

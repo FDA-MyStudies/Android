@@ -26,6 +26,7 @@ import com.harvard.webserviceModule.apiHelper.ApiCall;
 import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 public class VerificationStepActivity extends AppCompatActivity implements ApiCall.OnAsyncRequestComplete {
     private AppCompatTextView mVerificationStepsLabel;
@@ -151,6 +152,7 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
                     AppController.getHelperProgressDialog().showProgress(VerificationStepActivity.this, "", "", false);
                     params.put("emailId", mEmailId);
                     params.put("code", mVerificationCode.getText().toString());
+                    header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
                     RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.CONFIRM_REGISTER_USER, CONFIRM_REGISTER_USER_RESPONSE, VerificationStepActivity.this, LoginData.class, params, header, null, false, VerificationStepActivity.this);
                     verifyUserEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
                     UserModulePresenter userModulePresenter = new UserModulePresenter();
@@ -166,7 +168,7 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
                 AppController.getHelperProgressDialog().showProgress(VerificationStepActivity.this, "", "", false);
                 ResendEmailEvent resendEmailEvent = new ResendEmailEvent();
                 HashMap<String, String> header = new HashMap<String, String>();
-
+                header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
                 HashMap<String, String> params = new HashMap<String, String>();
                 params.put("emailId", mEmailId);
                 RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.RESEND_CONFIRMATION, RESEND_CONFIRMATION, VerificationStepActivity.this, LoginData.class, params, header, null, false, VerificationStepActivity.this);

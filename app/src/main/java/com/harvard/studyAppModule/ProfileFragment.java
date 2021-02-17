@@ -44,6 +44,7 @@ import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 
 import io.realm.Realm;
 
@@ -113,6 +114,7 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
         HashMap<String, String> header = new HashMap<>();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(mContext, mContext.getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(mContext, mContext.getString(R.string.userid), ""));
+        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         GetUserProfileEvent getUserProfileEvent = new GetUserProfileEvent();
         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("get", URLs.GET_USER_PROFILE, USER_PROFILE_REQUEST, mContext, UserProfileData.class, null, header, null, false, this);
         getUserProfileEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
@@ -247,7 +249,7 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
         mSignOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mSignOutButton.getText().toString().equalsIgnoreCase(getResources().getString(R.string.sign_out)))
+                if (mSignOutButton.getText().toString().equalsIgnoreCase(getResources().getString(R.string.profile_fragment_sign_out)))
                     logout();
                 else if (mSignOutButton.getText().toString().equalsIgnoreCase(getResources().getString(R.string.update))) {
                     callUpdateUserProfileWebService(false, "mSwitchRecvPushNotifctn");
@@ -273,6 +275,7 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
         HashMap<String, String> header = new HashMap<String, String>();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(mContext, getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(mContext, getString(R.string.userid), ""));
+        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("delete", URLs.LOGOUT, LOGOUT_REPSONSECODE, mContext, LoginData.class, params, header, null, false, this);
         logoutEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
         UserModulePresenter userModulePresenter = new UserModulePresenter();
@@ -298,7 +301,7 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
         mFirstName.setEnabled(false);
         mLastName.setEnabled(false);
         mSignOutButton.setVisibility(View.GONE);
-        mSignOutButton.setText(getResources().getString(R.string.sign_out));
+        mSignOutButton.setText(getResources().getString(R.string.profile_fragment_sign_out));
         mHrLine12.setVisibility(View.VISIBLE);
         mHrLine12.setVisibility(View.GONE);
         mDeleteMyAccount.setVisibility(View.VISIBLE);
@@ -349,7 +352,7 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
             if (mUserProfileData != null) {
                 updateUI();
             } else {
-                Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.profile_fragment_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
             try {
                 // if already having data then delete it (avoid duplication)
@@ -398,12 +401,12 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
                     ((SurveyActivity) mContext).signout();
                 }
             } else {
-                Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.profile_fragment_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == DELETE_ACCOUNT_REPSONSECODE) {
             LoginData loginData = (LoginData) response;
             if (loginData != null) {
-                Toast.makeText(mContext, getResources().getString(R.string.account_deletion), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getResources().getString(R.string.profile_fragment_account_deletion), Toast.LENGTH_SHORT).show();
                 SharedPreferences settings = SharedPreferenceHelper.getPreferences(mContext);
                 settings.edit().clear().apply();
                 // delete passcode from keystore
@@ -416,7 +419,7 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
                     ((SurveyActivity) mContext).signout();
                 }
             } else {
-                Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.profile_fragment_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -511,7 +514,7 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
             HashMap<String, String> header = new HashMap<>();
             header.put("auth", AppController.getHelperSharedPreference().readPreference(mContext, getString(R.string.auth), ""));
             header.put("userId", AppController.getHelperSharedPreference().readPreference(mContext, getString(R.string.userid), ""));
-
+            header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             /////////// offline data storing
             try {
                 int number = dbServiceSubscriber.getUniqueID(mRealm);

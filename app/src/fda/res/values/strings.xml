@@ -1,27 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE resources [
+  <!ENTITY app_name "MyStudies">
+  ]>
 <resources>
-    <string name="app_name_icon">MyStudies</string><!--live-->
-    <!--<string name="app_name_icon">MyStudies Test</string>--><!--test-->
-    <string name="app_name">MyStudies</string>
-    <string name="fda_listens">FDA MyStudies</string>
-    <string name="website">https://www.fda.gov/</string>
-    <string name="websitetxt">www.fda.gov</string>
+
+    <!-- ********************* Gateway Module ************************ -->
+    <!-- **************** GatewayPagerAdapter ****************** -->
+                            <!-- .xml -->
     <string name="gateway_des">The FDA is pleased to offer the FDA MyStudies app as a tool to gather real time, contextual data about medication use and other health issues facing the people we serve.</string>
     <string name="gateway_des1">Available for iOS and Android devices, this app will house studies conducted by FDA and other institutions, enabling researchers to engage more directly with people to gather data via questionnaires.</string>
-    <string name="delete_account_content">You have chosen to delete your FDA MyStudies Account. This will result in automatic withdrawal from all studies.\n\nBelow is a list of studies that you are a part of and information on how your response data will be handled with each after you withdraw. Please review and confirm.</string>
-    <string name="delete_message">Are you sure you wish to permanently delete your FDA Health Studies Gateway app account?  You will need to register again if you wish to join a study.</string>
-    <string name="my_studies">MyStudies</string>
-    <string name="studie_your_enrolled">It\'s been a while since you visited the FDA MyStudies app. Please consider continuing your participation in any studies in which you\'re enrolled.</string>
-    <string name="prject_name">FDA</string>
+                            <!-- .xml -->
+
+    <!-- **************** GatewayPagerAdapter ****************** -->
+    <!-- **************** ******************* ****************** -->
+    <!-- ******************* StudyActivity ********************* -->
+                            <!-- .xml -->
+    <string name="fda_module_fda_listens">FDA MyStudies</string>
+                            <!-- .xml -->
+                            <!-- .java -->
+                            <!-- .java -->
+    <!--live-->
+    <!--<string name="app_name_icon">MyStudies Test</string>--><!--test-->
+
+    <!--Android Manifest,authenticator.xml  -->
+    <string name="app_name">MyStudies</string>
+    <string name="sync_adapter_manager_app_name">MyStudies</string>
 
 
-    <string name="termsurl">https://www.fda.gov/AboutFDA/AboutThisWebsite/WebsitePolicies/</string>
+    <!--Signupfragment, SignInFragment, SignInActivity,SignUpActivity -->
+    <!--<string name="termsurl">https://www.fda.gov/AboutFDA/AboutThisWebsite/WebsitePolicies/</string>
     <string name="privacyurl">https://www.fda.gov/AboutFDA/AboutThisWebsite/WebsitePolicies/#privacy</string>
+-->
+    <!-- GateWay Pager Adapter, gateway_item1.xml -->
 
-    <string name="view_consent">View Consent</string>
+   <!-- gateway_item2.xml, study_info_item1.xml, study_info_item2.xml -->
+
+
+    <!--StudyActivity, StudySignInActivity
+      activity_study.xml, activity_sign_in_study.xml, activity_survey.xml-->
+
+
+   <!--gateway_item1.xml,gateway_item2.xml -->
+
+
+
+    <!--StudyInfoActivity,StandAloneStudyInfoActivity  -->
     <string name="visit_website">Visit Website</string>
-    <string name="join_study">Join Study</string>
+
+    <!-- SurveyActivitiesFragment -->
     <string name="per_completion">There are no more activities for this study in the COVID MyStudies app. Thank you for your participation.</string>
 
     <!--must change strings-->
+    <!--ResourcesWebViewActivity, ChartActivity, ConsentCompleteActivity,
+    GatewayResourcesWebViewActivity,PDFDisaplayActivty,SurveyDashboardFragment-->
     <string name="FileProvider_authorities">com.myfileprovider</string>
+
+    <!--NotificationModuleSubscriber -->
+    <string name="my_studies">MyStudies</string>
+    <string name="studie_your_enrolled">It\'s been a while since you visited the FDA MyStudies app. Please consider continuing your participation in any studies in which you\'re enrolled.</string>
+
+    <!-- Active Task Service -->
+    <string name="prject_name">FDA</string>
+
+    <!-- Not In Use in FDA/Main module -->
+    <!-- activity_standalone_study_info.xml,activity_study_info -->
+    <string name="join_study">Join Study</string>
+    <!-- activity_delete_account.xml -->
+    <string name="fda_delete_account_content">You have chosen to delete your FDA MyStudies Account. This will result in automatic withdrawal from all studies.\n\nBelow is a list of studies that you are a part of and information on how your response data will be handled with each after you withdraw. Please review and confirm.</string>
+
+    <string name="delete_message">Are you sure you wish to permanently delete your FDA Health Studies Gateway app account?  You will need to register again if you wish to join a study.</string>
+
+    <!-- activity_study_info.xml, activity_standalone_study_info.xml -->
+    <string name="view_consent">View Consent</string>
+    <!--AndroidManifest.xml(fda and main) -->
+    <string name="app_name_icon">MyStudies</string>
 </resources>

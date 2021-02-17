@@ -169,7 +169,7 @@
                             style="@style/TextType2"
                             android:layout_below="@id/mParticipationStatusLabel"
                             android:layout_centerHorizontal="true"
-                            android:text="@string/in_progress" />
+                            android:text="@string/survey_dashboard_fragment_in_progress" />
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -228,7 +228,7 @@
                                 <androidx.appcompat.widget.AppCompatTextView
                                     android:id="@+id/mCompletionValue"
                                     style="@style/TextType1"
-                                    android:text="0"
+                                    android:text="@string/survey_dashboard_fragment_m_completion_value"
                                     android:textColor="@color/colorPrimary" />
 
                                 <androidx.appcompat.widget.AppCompatTextView
@@ -287,7 +287,7 @@
                                 <androidx.appcompat.widget.AppCompatTextView
                                     android:id="@+id/mAdherenceValue"
                                     style="@style/TextType1"
-                                    android:text="0"
+                                    android:text="@string/survey_dashboard_fragment_m_completion_value"
                                     android:textColor="@color/colorPrimary" />
 
                                 <androidx.appcompat.widget.AppCompatTextView
@@ -440,7 +440,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:gravity="center"
-                        android:text="24, MAR 2017"
+                        android:text="@string/survey_dashboard_m_change_date_label"
                         android:textColor="@color/colorSecondary"
                         android:textSize="@dimen/textType3Size" />
 

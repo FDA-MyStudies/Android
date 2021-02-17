@@ -63,7 +63,7 @@
                 android:layout_marginBottom="25dp"
                 android:background="@drawable/rectangle_black_white"
                 android:gravity="center"
-                android:text="@string/done"
+                android:text="@string/survey_complete_activity_done"
                 android:textColor="@color/colorPrimary" />
         </RelativeLayout>
     </ScrollView>

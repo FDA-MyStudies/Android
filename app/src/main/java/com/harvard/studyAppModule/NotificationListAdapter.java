@@ -112,9 +112,9 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
                                                 intent.putExtra("studyId", mItems.get(holder.getAdapterPosition()).getStudyId());
                                                 mContext.startActivity(intent);
                                             } else if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(mContext.getString(R.string.paused))) {
-                                                Toast.makeText(mContext, R.string.study_paused, Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(mContext, R.string.notification_list_adapter_study_paused, Toast.LENGTH_SHORT).show();
                                             } else if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(mContext.getString(R.string.closed))) {
-                                                Toast.makeText(mContext, R.string.study_resume, Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(mContext, R.string.notification_list_adapter_study_resume, Toast.LENGTH_SHORT).show();
                                             } else {
                                                 Intent intent = new Intent(mContext.getApplicationContext(), StudyInfoActivity.class);
                                                 intent.putExtra("studyId", studyListArrayList.get(i).getStudyId());
@@ -132,10 +132,10 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
                                         }
                                     }
                                     if (!isStudyAvailable) {
-                                        Toast.makeText(mContext, R.string.studyNotAvailable, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, R.string.notification_list_adapter_study_not_available, Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
-                                    Toast.makeText(mContext, R.string.studyNotAvailable, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, R.string.notification_list_adapter_study_not_available, Toast.LENGTH_SHORT).show();
                                 }
                             } else if (mItems.get(holder.getAdapterPosition()).getSubtype().equalsIgnoreCase("Resource")) {
                                 Intent intent = new Intent();
@@ -180,17 +180,17 @@ public class NotificationListAdapter extends RecyclerView.Adapter<NotificationLi
                                         }
                                     }
                                     if (!isStudyAvailable) {
-                                        Toast.makeText(mContext, R.string.studyNotAvailable, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, R.string.notification_list_adapter_study_not_available, Toast.LENGTH_SHORT).show();
                                     } else if (!isStudyJoined) {
-                                        Toast.makeText(mContext, R.string.studyNotJoined, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(mContext, R.string.notification_list_adapter_study_not_joined, Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
-                                    Toast.makeText(mContext, R.string.studyNotAvailable, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, R.string.notification_list_adapter_study_not_available, Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
                     } else {
-                        Toast.makeText(mContext, R.string.studyNotAvailable, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, R.string.notification_list_adapter_study_not_available, Toast.LENGTH_SHORT).show();
                     }
                 }
             });

@@ -33,7 +33,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/mSidebarTitle"
                     style="@style/TextType2"
-                    android:text="@string/fda_listens"
+                    android:text="@string/fda_module_fda_listens"
                     android:textColor="@color/colorPrimary" />
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -115,7 +115,7 @@
                             android:layout_marginLeft="18dp"
                             android:layout_toRightOf="@id/mResourceLabel"
                             android:background="@drawable/blue_radius"
-                            android:text="14"
+                            android:text="@string/fda_study_activity_mresource_label"
                             android:visibility="invisible"
                             android:textColor="@android:color/white" />
 
@@ -140,7 +140,7 @@
                             style="@style/textTypeMenuItem"
                             android:layout_marginLeft="30dp"
                             android:layout_toRightOf="@id/mReachoutImg"
-                            android:text="@string/side_menu_reach_out"
+                            android:text="@string/fda_study_activity_side_menu_reach_out"
                             android:textColor="@android:color/black" />
 
                     </LinearLayout>
@@ -191,7 +191,7 @@
                                 android:id="@+id/mNewUsrReachoutLabel"
                                 style="@style/textTypeMenuItem"
                                 android:layout_marginLeft="30dp"
-                                android:text="@string/side_menu_new_user"
+                                android:text="@string/fda_study_activity_side_menu_new_user"
                                 android:textColor="@android:color/black" />
 
                             <androidx.appcompat.widget.AppCompatTextView

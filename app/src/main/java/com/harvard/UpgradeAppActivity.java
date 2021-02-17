@@ -31,7 +31,7 @@ public class UpgradeAppActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(UpgradeAppActivity.this, "Please update the app to continue using.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(UpgradeAppActivity.this, getResources().getString(R.string.upgrade_app_activity_upgrade_message3), Toast.LENGTH_SHORT).show();
         finish();
     }
 }

@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 
 import javax.crypto.CipherInputStream;
 
@@ -138,6 +139,7 @@ public class PDFDisplayActivity extends AppCompatActivity implements ApiCall.OnA
         HashMap<String, String> header = new HashMap<>();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.userid), ""));
+        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         String url = URLs.CONSENTPDF + "?studyId=" + mStudyId + "&consentVersion=";
         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("get", url, CONSENTPDF, PDFDisplayActivity.this, ConsentPDF.class, null, header, null, false, PDFDisplayActivity.this);
         consentPDFEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);

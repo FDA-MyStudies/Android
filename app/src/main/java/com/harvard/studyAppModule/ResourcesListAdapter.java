@@ -97,7 +97,7 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<ResourcesListAdap
                         intent.putExtra("about_this_study", true);
                         (mContext).startActivity(intent);
 
-                    } else if (mItems.get(i).getTitle().equalsIgnoreCase(view.getResources().getString(R.string.consent_pdf))) {
+                    } else if (mItems.get(i).getTitle().equalsIgnoreCase(view.getResources().getString(R.string.resource_list_adapter_consent_pdf))) {
                         try {
                             Intent intent = new Intent(mContext, PDFDisplayActivity.class);
                             intent.putExtra("studyId", ((SurveyActivity) mContext).getStudyId());
@@ -106,11 +106,11 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<ResourcesListAdap
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    } else if (mItems.get(i).getTitle().equalsIgnoreCase(view.getResources().getString(R.string.leave_study))) {
+                    } else if (mItems.get(i).getTitle().equalsIgnoreCase(view.getResources().getString(R.string.resource_list_adapter_leave_study))) {
 
                         String message = ((SurveyResourcesFragment) fragment).getLeaveStudyMessage();
                         AlertDialog.Builder builder = new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle);
-                        builder.setTitle(mContext.getResources().getString(R.string.leave_study) + "?");
+                        builder.setTitle(mContext.getResources().getString(R.string.resource_list_adapter_leave_study) + "?");
                         builder.setMessage(message);
                         builder.setPositiveButton(mContext.getResources().getString(R.string.proceed_caps), new DialogInterface.OnClickListener() {
                             @Override
@@ -120,7 +120,7 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<ResourcesListAdap
                         });
 
 
-                        builder.setNegativeButton(mContext.getResources().getString(R.string.cancel_caps), new DialogInterface.OnClickListener() {
+                        builder.setNegativeButton(mContext.getResources().getString(R.string.resource_list_adapter_cancel_caps), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.cancel();
@@ -165,7 +165,7 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<ResourcesListAdap
             builder.setMessage(mContext.getResources().getString(R.string.leave_study_retained_or_deleted_message));
 
 
-            builder.setPositiveButton(mContext.getResources().getString(R.string.retain_my_data_caps), new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(mContext.getResources().getString(R.string.resource_list_adapter_retain_my_data_caps), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ((SurveyResourcesFragment) fragment).responseServerWithdrawFromStudy("false");
@@ -173,7 +173,7 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<ResourcesListAdap
             });
 
 
-            builder.setNeutralButton(mContext.getResources().getString(R.string.cancel_caps), new DialogInterface.OnClickListener() {
+            builder.setNeutralButton(mContext.getResources().getString(R.string.resource_list_adapter_cancel_caps), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
@@ -193,7 +193,7 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<ResourcesListAdap
         } else if (count == 2) {
             //withdrawalType delete_data
             builder.setMessage(mContext.getResources().getString(R.string.leave_study_deleted_message));
-            builder.setPositiveButton(mContext.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(mContext.getResources().getString(R.string.resource_list_adapter_ok_btn), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ((SurveyResourcesFragment) fragment).responseServerWithdrawFromStudy("true");
@@ -201,7 +201,7 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<ResourcesListAdap
             });
 
 
-            builder.setNegativeButton(mContext.getResources().getString(R.string.cancel_caps), new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(mContext.getResources().getString(R.string.resource_list_adapter_cancel_caps), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();
@@ -212,7 +212,7 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<ResourcesListAdap
         } else if (count == 1) {
             // withdrawalType no_action
             builder.setMessage(mContext.getResources().getString(R.string.leave_study_retained_message));
-            builder.setPositiveButton(mContext.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+            builder.setPositiveButton(mContext.getResources().getString(R.string.resource_list_adapter_ok_btn), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     ((SurveyResourcesFragment) fragment).responseServerWithdrawFromStudy("false");
@@ -220,7 +220,7 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<ResourcesListAdap
             });
 
 
-            builder.setNegativeButton(mContext.getResources().getString(R.string.cancel_caps), new DialogInterface.OnClickListener() {
+            builder.setNegativeButton(mContext.getResources().getString(R.string.resource_list_adapter_cancel_caps), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.cancel();

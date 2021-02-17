@@ -32,7 +32,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/email_label"
                     style="@style/signUpTextField"
-                    android:text="@string/email"/>
+                    android:text="@string/sign_in_activity_email"/>
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edittxt_email"
@@ -67,7 +67,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/password_label"
                     style="@style/signUpTextField"
-                    android:text="@string/password"/>
+                    android:text="@string/sign_in_activity_password"/>
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edittxt_password"
@@ -94,7 +94,7 @@
                 android:layout_below="@id/rel_password"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="40dp"
-                android:text="@string/forgot_password"
+                android:text="@string/sign_in_activity_forgot_password"
                 android:textColor="@color/colorSecondary"/>
 
             <RelativeLayout
@@ -121,7 +121,7 @@
                     android:layout_marginTop="20dp"
                     android:background="@drawable/rectangle_black_white"
                     android:gravity="center"
-                    android:text="@string/sign_in_btn"
+                    android:text="@string/sign_in_activity_sign_in_btn"
                     android:textColor="@color/colorPrimary"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -130,7 +130,7 @@
                     android:layout_above="@+id/margin"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="15dp"
-                    android:text="@string/new_usr_signup"
+                    android:text="@string/sign_in_activity_new_usr_signup"
                     android:textColor="@color/colorSecondary"/>
                 <View
                     android:id="@+id/margin"

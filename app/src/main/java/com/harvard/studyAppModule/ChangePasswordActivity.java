@@ -26,6 +26,7 @@ import com.harvard.webserviceModule.apiHelper.ApiCall;
 import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 public class ChangePasswordActivity extends AppCompatActivity implements ApiCall.OnAsyncRequestComplete {
 
@@ -142,17 +143,17 @@ public class ChangePasswordActivity extends AppCompatActivity implements ApiCall
                     mClicked = true;
                     String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!\"#$%&'()*+,-.:;<=>?@\\[\\]^_`{|}~])(?=\\S+$).{8,64}$";
                     if (mNewPassword.getText().toString().equalsIgnoreCase("") && mOldPassword.getText().toString().equalsIgnoreCase("") && mConfirmPassword.getText().toString().equalsIgnoreCase("")) {
-                        Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.enter_all_field_empty), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.change_password_enter_all_field_empty), Toast.LENGTH_SHORT).show();
                     } else if (mOldPassword.getText().toString().equalsIgnoreCase("")) {
                         Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.password_old_empty), Toast.LENGTH_SHORT).show();
                     } else if (mNewPassword.getText().toString().equalsIgnoreCase("")) {
                         Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.password_new_empty), Toast.LENGTH_SHORT).show();
                     } else if (!mNewPassword.getText().toString().matches(PASSWORD_PATTERN)) {
-                        Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.password_validation), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.change_password_password_validation), Toast.LENGTH_SHORT).show();
                     } else if (checkPasswordContainsEmailID(mNewPassword.getText().toString())) {
-                        Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.password_contain_email), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.change_password_password_contain_email), Toast.LENGTH_SHORT).show();
                     } else if (mConfirmPassword.getText().toString().equalsIgnoreCase("")) {
-                        Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.confirm_password_empty), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.change_password_confirm_password_empty), Toast.LENGTH_SHORT).show();
                     }
                     else if (!mConfirmPassword.getText().toString().equals(mNewPassword.getText().toString())) {
                         Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.password_mismatch_error1), Toast.LENGTH_SHORT).show();
@@ -188,6 +189,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements ApiCall
         HashMap<String, String> header = new HashMap<>();
         header.put("auth", mAuth);
         header.put("userId", mUserId);
+        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
 
         HashMap<String, String> params = new HashMap<>();
         if (mPassword != null && mPassword.equalsIgnoreCase("")) {
