@@ -37,7 +37,6 @@ import org.researchstack.backbone.task.Task;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 import io.realm.Realm;
 
@@ -141,7 +140,7 @@ public class EligibleActivity extends AppCompatActivity implements ApiCall.OnAsy
         HashMap<String, String> header = new HashMap();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.userid), ""));
-        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+
         JSONObject jsonObject = new JSONObject();
 
         JSONArray studieslist = new JSONArray();

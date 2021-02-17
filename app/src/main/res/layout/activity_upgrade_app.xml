@@ -21,7 +21,7 @@
         android:layout_below="@+id/logo"
         android:textStyle="bold"
         android:layout_marginTop="70dp"
-        android:text="@string/upgrade_app_activity_upgrade_message1"
+        android:text="New Version Available"
         android:layout_centerHorizontal="true"
         android:textColor="@color/colorPrimaryBlack"
         android:textSize="22dp"/>
@@ -35,7 +35,7 @@
         android:padding="15dp"
         android:textColor="@color/colorPrimaryBlack"
         android:textSize="20dp"
-        android:text="@string/upgrade_app_activity_upgrade_message2"/>
+        android:text="Please update to the latest version of the app to continue."/>
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/upgrade"
         style="@style/TextType2"
@@ -46,6 +46,6 @@
         android:background="@drawable/rectangle_black_white"
         android:gravity="center"
         android:textAllCaps="true"
-        android:text="@string/upgrade_app_activity_update_caps"
+        android:text="UPDATE"
         android:textColor="@color/colorPrimary"/>
 </RelativeLayout>

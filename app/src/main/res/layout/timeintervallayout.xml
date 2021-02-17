@@ -26,7 +26,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/hours"
-                android:text="@string/time_interval_question_hour"/>
+                android:text="@string/hour"/>
         </RelativeLayout>
 
         <RelativeLayout
@@ -46,7 +46,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/min"
-                android:text="@string/time_interval_question_minute"/>
+                android:text="@string/minute"/>
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

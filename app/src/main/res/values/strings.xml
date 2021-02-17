@@ -1,1440 +1,418 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE resources [
-    <!ENTITY app_name "MyStudies">
-    <!ENTITY package_name "com.google.FDAMyStudies" >
-    <!ENTITY next_btn "Next" >
-    <!ENTITY exit_activity "Responses will be stored on device (unless you sign out) so you can resume the survey before it expires." >
-    <!ENTITY endtask "End Task" >
-    <!ENTITY cancel "Cancel" >
-    <!ENTITY not_eligible "Not Eligible" >
-    <!ENTITY ok_btn "OK" >
-    <!ENTITY no_txt "\u0020" >
-    <!ENTITY yes_text "Yes" >
-    <!ENTITY no_text "No" >
-    <!ENTITY new_user "New User?" >
-    <!ENTITY sign_in_btn "Sign In" >
-    <!ENTITY required "Required" >
-    <!ENTITY signature_form_step "SIGNATURE_FORM_STEP" >
-    <!ENTITY unable_to_parse "Oops! something went wrong" >
-    <!ENTITY participant "Participant" >
-    <!ENTITY agree_participate_research_study "I agree to participate in this research study." >
-    <!ENTITY participans_name "Participant\'s Name" >
-    <!ENTITY participants_signature "Participant\'s Signature" >
-    <!ENTITY date "Date" >
-    <!ENTITY not_able_create_pdf "Not able to create PDF" >
-    <!ENTITY otherValuetxt "Please provide an input for the text field too." >
-    <!ENTITY submit "Submit" >
-    <!ENTITY confirm_password "Confirm password" >
-    <!ENTITY enter_all_field_empty "Please enter all the fields." >
-
-    <!ENTITY password_contain_email "Your password should not match with email id" >
-    <!ENTITY confirm_password_empty "Please confirm the password." >
-    <!ENTITY email "Email" >
-    <!ENTITY permission_enable_message_screenshot "Please enable the permission from settings to share the Screen Shot" >
-    <!ENTITY done "Done" >
-    <!ENTITY permission_deniedDate "Permission denied to read/write so couldn\'t display PDF" >
-    <!ENTITY first_name "First Name" >
-    <!ENTITY subject "Subject" >
-    <!ENTITY email_empty "Please enter your email address." >
-    <!ENTITY email_validation "Please enter valid email address." >
-    <!ENTITY subject_empty "Please enter your subject." >
-    <!ENTITY hour "hr" >
-    <!ENTITY minute "min" >
-    <!ENTITY account_deletion "Account has been deleted." >
-    <!ENTITY email_id "Email ID." >
-    <!ENTITY password "Password" >
-    <!ENTITY touch_txt "Use Touch ID to access or sign in to app" >
-    <!ENTITY sign_out "Sign Out" >
-    <!ENTITY continue_txt "Continue" >
-    <!ENTITY upcoming1 "Upcoming" >
-    <!ENTITY in_progress "In Progress" >
-    <!ENTITY completed "Completed" >
-    <!ENTITY withdrawn "Withdrawn" >
-    <!ENTITY search_data_empty "Sorry, no studies found. Please try different filter options." >
-    <!ENTITY cancel_caps "CANCEL" >
-    <!ENTITY study_paused "This study has been temporarily paused. Please check back later." >
-    <!ENTITY study_resume "This Study is closed" >
-    <!ENTITY studyNotAvailable "This study is not available." >
-    <!ENTITY studyNotJoined "You have to join this study to continue." >
-    <!ENTITY leave_study "Leave Study" >
-    <!ENTITY check_internet "Check your internet connection" >
-    <!ENTITY forgot_password "Forgot password?" >
-    <!ENTITY new_usr_signup "New User? Sign Up" >
-    <!ENTITY sign_up "Sign Up" >
-    <!ENTITY you_agree_this_app "By tapping Sign In, you agree to this app\'s" >
-    <!ENTITY terms2 "Terms" >
-    <!ENTITY and "and" >
-    <!ENTITY privacy_policy2 "Privacy Policy" >
-    <!ENTITY password_empty "Please enter your password." >
-    <!ENTITY not_able_to_login "Not able to login" >
-    <!ENTITY last_name "Last Name" >
-    <!ENTITY i_agree "I Agree to the" >
-
-    <!ENTITY password_mismatch_error "The Password and Confirm password fields don\'t match." >
-    <!ENTITY terms_and_condition_validation "Please agree to terms and conditions." >
-    <!ENTITY unable_to_signup "Unable to Signup" >
-    <!ENTITY error_retriving_data "Error in retrieving data" >
-    <!ENTITY studyNotAvailable "This study is not available." >
-    <!ENTITY connection_timeout "Connection Timeout" >
-    <!ENTITY upcoming_study "This Study is an upcoming study" >
-    <!ENTITY study_no_enroll "Sorry, enrollment for this study has been closed for now. Please check back later or explore other studies you could join." >
-    <!ENTITY cannot_rejoin_study "Sorry, this study currently does not allow previously enrolled participants to rejoin the study after they have withdrawn from the study. Please check back later or explore other studies." >
-    <!ENTITY unable_to_retrieve_data "Unable to retrieve data" >
-    <!ENTITY unknown_error "No internet connection/cannot connect to server" >
-    <!ENTITY please_review_the_updated_consent "Please review the updated consent" >
-    <!ENTITY visit_website "Visit Website" >
-    <!ENTITY view_consent "View Consent" >
-    <!ENTITY join_study "Join Study" >
-    <!ENTITY upcoming "upcoming" >
-    <!ENTITY gateway_des1 "Available for iOS and Android devices, this app will house studies conducted by FDA and other institutions, enabling researchers to engage more directly with people to gather data via questionnaires." >
-    <!ENTITY watch_video "Watch Video" >
-    <!ENTITY active1 "ACTIVE" >
-    <!ENTITY yet_to_join "Yet To Join" >
-    <!ENTITY fda_listens "FDA MyStudies" >
-    <!ENTITY expired "Expired" >
-    <!ENTITY incompleted2 "Incomplete" >
-    <!ENTITY completed2 "Completed" >
-    <!ENTITY study_Joined_paused "The study has been temporarily paused. You can participate in activities once it is resumed. Please check back later." >
-    <!ENTITY survey_message "This survey is not available right now please try after some time." >
-    <!ENTITY upcoming_event "This is an upcoming event" >
-    <!ENTITY incomple_event "You missed the previous run of this activity. Please wait till the next run becomes available. Run timings are given on the Activities list screen." >
-    <!ENTITY completed_event "This is a completed event" >
-    <!ENTITY poweredby "Powered by FDA MyStudies" >
-    <!ENTITY side_menu_home "Home" >
-    <!ENTITY side_menu_resources "Resources" >
-    <!ENTITY side_menu_reach_out "Reach Out" >
-    <!ENTITY side_menu_sign_in "Sign In" >
-    <!ENTITY side_menu_new_user "New User?" >
-    <!ENTITY side_menu_sign_up "Sign up" >
-    <!ENTITY side_menu_sign_out "Sign Out" >
-    <!ENTITY side_menu_version "v" >
-    <!ENTITY profile_small "My Account" >
-    <!ENTITY resources "RESOURCES" >
-    <!ENTITY sign_in "SIGN IN" >
-    <!ENTITY reachout "REACH OUT" >
-    <!ENTITY sign_out_message "Are you sure you want to sign out?" >
-    <!ENTITY sign_out_message_data_lost "Are you sure you want to sign out? Incomplete activities and activities completed while offline must be re-started when you next sign in." >
-    <!ENTITY leave_study "Leave Study" >
-    <!ENTITY use_touch_id "Use Touch ID" >
-    <!ENTITY or "OR" >
-    <!ENTITY registration_message "Registration (or sign up) for the app  is requested only to provide you with a seamless experience of using the app. Your registration information does not become part of the data collected for any study(ies) housed in the app.  Each study has its own consent process and your data for the study will not be collected without you providing your informed consent prior to joining the study." >
-    <!ENTITY retain_my_data_caps "RETAIN MY DATA" >
-    <!ENTITY consent_pdf "Consent PDF" >
-    <!ENTITY press_back_to_exit "Press back again to exit." >
-    <!ENTITY signOut "Signed Out Successfully." >
-    <!ENTITY prject_name "FDA" >
-    <!ENTITY covid_19_prject_name "COVID MyStudies" >
-    <!ENTITY why_register "Why Register?" >
-    <!ENTITY closed "closed" >
-    <!ENTITY profile "MY ACCOUNT" >
-
-    ]>
-
 <resources>
-
-
-    <!--  *************  Global *********** -->
-    <string name="app_gateway">Gateway</string>
     <!--Shared Preference-->
-
-    <!--Header Items -->
     <string name="auth">authentication</string>
     <string name="userid">UserId</string>
-    <!--Shared Preference Items-->
     <string name="verified">Verified</string>
     <string name="join">Join</string>
     <string name="studyId">studyId</string>
-    <string name="studyVersion">studyVersion</string>
-    <string name="studyStatus">studyStatus</string>
-    <!-- AndroidManifest.xml both fda module and main module-->
+
     <string name="app_name_icon">MyStudies</string>
-
-    <!-- =========================== Modulewise String listing for localisation ===============   -->
-    <!-- ***************  EligibilityModule ***************** -->
-    <!-- ******* ComprehensionFailureActivity *******-->
-    <!-- ** .xml ** -->
-    <string name="try_again">Try Again</string>
-    <string name="retry">Retry</string>
-    <string name="consentfailuremsgdesc">You answered one or more questions wrong. We want to make sure you understand what this study is about and what is involved. Review the consent information screens and try again.</string>
-    <!-- ******* ============================ *******-->
-
-    <!-- ******* ComprehensionSuccessActivity *******-->
-    <!-- ** .xml ** -->
-    <string name="great_job">Great Job!</string>
-    <string name="ComprehensionSuccessDesc">You answered all of the questions correctly. Tap Next to continue.</string>
-    <string name="comprehension_next_btn">&next_btn;</string>
-    <!-- ** .xml ** -->
-    <!-- ******* ============================ *******-->
-
-    <!-- ********* CustomViewTaskActivity *********-->
-    <!-- ** .java ** -->
-    <string name="cv_task_exit_activity">&exit_activity;</string>
-    <string name="cv_task_endtask">&endtask;</string>
-    <string name="cv_task_cancel">&cancel;</string>
-    <string name="cv_activity_app_name">&app_name;</string>
-    <!-- ** .java ** -->
-    <!-- ******* ============================ *******-->
-
-
-    <!-- ************  EligibleActivity ************-->
-    <!-- ** .xml ** -->
-    <string name="you_are_eligible">You are Eligible!</string>
-    <string name="eligibledesc">Based on the answers you provided, you are eligible to participate in this study. Please click Continue to proceed to the Consent section.</string>
-    <string name="continuetxt">Continue</string>
-    <!-- ** .xml ** -->
-    <!-- ******* ============================ *******-->
-
-    <!-- ************  NotEligibleActivity ************-->
-    <!-- ** .xml ** -->
-    <string name="ne_activity_not_eligible">&not_eligible;</string>
-    <string name="noteligibledesc">Sorry, you are not eligible for participation in this study. We thank you for your interest and time, and encourage you to explore other studies as they are available in the app. </string>
-    <string name="ne_activity_ok">&ok_btn;</string>
-    <!-- ** .xml ** -->
-    <!-- ******* ============================ *******-->
-
-    <!-- ****************  StepBuilder ****************-->
-    <!-- ** .java ** -->
-    <string name="em_step_builder_no_txt">&no_txt;</string>
-    <string name="em_step_builder_yes_text">&yes_text;</string>
-    <string name="em_step_builder_no_text">&no_text;</string>
-    <string name="eligibility_description">Please answer the questions that follow to help ascertain your eligibility for this study.</string>
-    <string name="eligibility_title">Eligibility Test</string>
-    <!-- ** .java ** -->
-    <!-- ******* ============================ *******-->
-    <!-- ***************  ************************ ***************** -->
-
-
-    <!-- *********************  GateWayModule  ********************* -->
-    <!-- **************  GateWayActivity ***************-->
-    <!-- ** .xml ** -->
-    <string name="gateway_new_user">&new_user;</string>
-    <string name="gateway_sign_in_btn">&sign_in_btn;</string>
-    <string name="get_started">Get Started</string>
-    <!-- ** .xml ** -->
-    <!-- ******* ============================ *******-->
-    <!-- *******************  ****************  ****************** -->
-    <!-- *********************  NotificationModule  ********************* -->
-    <!-- **************  AlarmReciever ***************-->
-    <!-- ** .java ** -->
-    <string name="notificationCount">NotificationCount</string>
-    <!-- ** .java ** -->
-    <!-- ******* ============================ *******-->
-    <!-- **************  NotificationModuleSubscriber ***************-->
-    <!-- ** .java ** -->
-    <string name="the_activity">The activity</string>
-    <string name="participation_is_important">will expire in 24 hours. Your participation is important. Please visit the study to complete it now.</string>
-    <string name="my_studies">MyStudies</string>
-    <string name="now_available_to_take">is now available to take. Please visit the study to complete it.</string>
-    <string name="scheduled_activity">A new run of the scheduled activity</string>
-    <string name="valid_until">is now available and is valid until</string>
-    <string name="participation_is_important2">. Your participation is important. Please visit the study to complete it now.</string>
-    <string name="weekly_activity">The current run of the weekly activity</string>
-    <string name="new_run">A new run of the weekly activity</string>
-    <string name="study_complete">is now available. Please visit the study to complete it.</string>
-    <string name="monthly_activity">The current run of the monthly activity</string>
-    <string name="expire_in_three_days">will expire in 3 days. Your participation is important. Please visit the study to complete it now.</string>
-    <string name="new_run_monthly_activity">A new run of the monthly activity</string>
-    <string name="new_run_daily_activity">A new run of the daily activity</string>
-    <string name="your_participation_important">is now available. Your participation is important. Please visit the study to complete it now.</string>
-    <string name="pendingCount">PendingCount</string>
-    <string name="studie_your_enrolled">It\'s been a while since you visited the FDA MyStudies app. Please consider continuing your participation in any studies in which you\'re enrolled.</string>
-    <string name="notificatinturnoffnotification">Stay up-to-date! Turn ON notifications and reminders in app and phone settings to get notified about study activity in a timely manner.</string>
-    <string name="pendingCountResources">PendingCountResources</string>
-    <!-- ** .java ** -->
-    <!-- ******* ============================ *******-->
-    <!-- *******************  ****************  ****************** -->
-
-
-    <!-- *******************  PasscodeModule  ****************** -->
-
-    <!-- *********  PasscodeSetupActivity ************-->
-    <!-- ** .xml ** -->
-    <string name="enter_passcode">Enter a 4-digit passcode</string>
-    <string name="enter_passcode_to_access_app">Passcode helps you unlock the app</string>
-    <string name="forgot_passcode_signin_again">Forgot Passcode? Sign In again</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="enter_your_passcode">Enter your passcode</string>
-    <string name="pass_code_app_name">&app_name;</string>
-    <string name="forgotpasscodemsg">You will be signed out and will need to sign in again. Are you sure you want to proceed ?</string>
-    <string name="passcode_setup_ok_btn">&ok_btn;</string>
-    <string name="passcode_setup_cancel_btn">&cancel;</string>
-    <string name="invalidcode">Invalid Code</string>
-    <!-- ** .java ** -->
-    <!-- ********** ========================= **********-->
-
-    <!-- *******************  ****************  ****************** -->
-
-    <!-- *******************  StudyModule  ****************** -->
-    <!-- ************  ActivityBuilder  ************** -->
-    <!--**** CustomSurveyViewTaskActivity ****-->
-    <!-- ** .java ** -->
-    <string name="csv_activity_app_name">&app_name;</string>
-    <string name="csv_task_exit_activity">&exit_activity;</string>
-    <string name="csv_task_endtask">&endtask;</string>
-    <string name="csv_task_cancel_btn">&cancel;</string>
-    <string name="step_couldnt_add">from step couldn\'t add</string>
-    <!-- ** .java ** -->
-    <!-- ********** ================= **********-->
-
-    <!-- **********  StepsBuilder  ************ -->
-    <!-- ** .java ** -->
-    <string name="survey">Survey</string>
-    <string name="step_builder_no_txt">&no_txt;</string>
-    <string name="step_builder_yes_text">&yes_text;</string>
-    <string name="step_builder_no_text">&no_text;</string>
-    <string name="enter_time">Enter a Time</string>
-    <string name="enter_location">Enter a Location</string>
-    <string name="fetalkicktitle">Fetal Kick Counter</string>
-    <string name="fetalkickdesc">This activity asks you to record the number of times you feel your baby kick or move in a given amount of time by tapping on the screen each time you feel a kick.</string>
-    <string name="true_text">True</string>
-    <string name="false_text">False</string>
-    <!-- ** .java ** -->
-    <!-- ********** =================== **********-->
-
-
-    <!-- ************  Consent  ************** -->
-    <!-- ***** ConsentLARStepBody ****** -->
-    <!-- ** .java ** -->
-    <string name="participant_relationship2">Please specify the relationship to your participant</string>
-    <string name="participant_first_last_name">Please enter the participant\'s first and last name below</string>
-    <string name="participant_first_name2">Participant\'s First Name</string>
-    <string name="participant_last_name2">Participant\'s Last Name</string>
-    <string name="consent_lars_required">&required;</string>
-    <string name="rsb_invalid_answer_default">Invalid answer, try again!</string>
-    <!-- ** .java ** -->
-    <!-- ****** ========== ******-->
-    <!--**** SingleChoiceSharingSteps **** -->
-    <!-- ** .java ** -->
-    <string name="rsb_invalid_answer_choice">Please select a value!</string>
-    <!-- ** .java ** -->
-    <!-- ****** ========== ******-->
-
-    <!--**** ConsentBuilder **** -->
-    <!-- ** .java ** -->
-    <string name="consent_builder_no_txt">&no_txt;</string>
-    <string name="next1">next</string>
-    <string name="review">Review</string>
-    <string name="reviewmsg">Review the form below, and tap Agree if you\'re ready to continue</string>
-    <string name="consent_builder_signature_form_step">&signature_form_step;</string>
-    <string name="first_name1">First Name</string>
-    <string name="first_name2">First name</string>
-    <string name="last_name1">Last Name</string>
-    <string name="last_name2">Last name</string>
-    <string name="last_name3">Required</string>
-    <string name="first_name3">Required</string>
-    <string name="signature">Signature</string>
-    <string name="signtitle">Signature</string>
-    <string name="signdesc">Please sign using your finger on the line below.</string>
-    <string name="notxt">\u0020</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <!-- ** .java ** -->
-    <!-- ****** ========== ******-->
-    <!--*** CustomConsentViewTaskActivity ***-->
-    <string name="ccv_task_activity_unable_to_parse">&unable_to_parse;</string>
-    <string name="ccv_task_activity_participant">&participant;</string>
-    <string name="ccv_task_activity_agree_participate_reasearch_study">&agree_participate_research_study;</string>
-    <string name="ccv_task_activity_participans_name">&participans_name;</string>
-    <string name="ccv_task_activity_participants_signature">&participants_signature;</string>
-    <string name="ccv_task_activity_date">&date;</string>
-    <string name="ccv_task_activity_not_able_create_pdf">&not_able_create_pdf;</string>
-    <string name="ccv_task_activity_cancel_btn">&cancel;</string>
-    <string name="participants_signature_lar">Signature</string>
-    <string name="end_task">End Task</string>
-    <string name="exit_message">Are you sure you want to exit?</string>
-    <string name="ccv_task_activity_signature_form_step">SIGNATURE_FORM_STEP</string>
-    <!-- ****** ========== ******-->
-    <!-- *******************  ****************  ****************** -->
-    <!-- ************  Custom -> activeTask  ************** -->
-    <!-- ***** StepCountClass ****** -->
-    <!-- ** .java ** -->
-    <string name="start_walking">Start walking</string>
-    <string name="count_sensor_not_available">Count sensor not available!</string>
-    <string name="stop_walking">stop walking</string>
-    <string name="stop_in_between">Stopping in between</string>
-    <!-- ** .java ** -->
-    <!-- ***** TappingActivity ****** -->
-    <!-- ** .java ** -->
-
-    <string name="kick_count">TOTAL KICK COUNT</string>
-    <string name="record_kick">TAP TO RECORD A KICK</string>
-    <string name="start_timer">TAP TO START TIMER</string>
-    <!-- ** .java ** -->
-    <!-- ************  ***********  ************** -->
-    <!-- ************  Custom -> question  ************** -->
-    <!-- ***** AudioQuestionbody ****** -->
-    <!-- ** .java ** -->
-    <string name="recording">recording</string>
-    <string name="stopping">stopping</string>
-    <!-- ** .java ** -->
-    <!-- ***** CustomDateQuestionBody ****** -->
-    <!-- ** .java ** -->
-    <string name="aqb_cancel">&cancel;</string>
-    <string name="aqb_ok">&ok_btn;</string>
-    <string name="clear"> Clear</string>
-
-    <!-- ** .java ** -->
-    <!-- ***** HeightQuestion ****** -->
-    <!-- ** .java ** -->
-    <string name="feets">ft</string>
-    <string name="inches">in</string>
-    <!-- ** .java ** -->
-    <!-- ***** ******************* ****** -->
-    <!-- ***** HeightQuestionsSADF ****** -->
-    <!-- ** .java ** -->
-    <string name="cm">CM</string>
-    <!-- ** .java ** -->
-    <!-- ***** ******************* ****** -->
-    <!-- ***** LocationQuestion ****** -->
-    <!-- ** .xml ** -->
-    <string name="search_location">search location</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="permission_deny">Unable to get current location due to permission deny</string>
-    <string name="unable_search_loc">Unable to search location. If issue continous please restart the device.</string>
-    <string name="selected_location">selected location</string>
-
-    <!-- ** .java ** -->
-    <!-- ***** **************** ****** -->
-
-    <!-- ***** MultiChoiceTextQuestionBody ****** -->
-    <!-- ** .java ** -->
-    <string name="mc_text_q_body_otherValuetxt">&otherValuetxt;</string>
-    <!-- ** .java ** -->
-    <!-- ***** **************************** ****** -->
-    <!-- ***** SingleChoiceTextQuestionBody ****** -->
-    <!-- ** .java ** -->
-    <string name="sc_text_q_body_otherValuetxt">&otherValuetxt;</string>
-    <!-- ** .java ** -->
-    <!-- ***** **************************** ****** -->
-    <!-- ********** TimeIntervalQuestion ************* -->
-    <!-- ** .xml ** -->
-    <string name="time_interval_question_hour">hr</string>
-    <string name="time_interval_question_minute">min</string>
-    <!-- ** .xml ** -->
-
-    <!-- ********** **************** ************* -->
-    <!-- ********** TimeQuestionBody ************* -->
-    <!-- ** .java ** -->
-    <string name="enter_a_time">Enter a Time</string>
-    <string name="setelct_time">Select Time</string>
-    <!-- ** .java ** -->
-    <!-- ********** ********** ************* -->
-    <!-- ********** SurvayScheduler ************* -->
-    <!-- ** .java ** -->
-    <string name="startOffset">StartOffset</string>
-    <!-- ** .java ** -->
-    <!-- ********** ***************** ************* -->
-
-    <!-- ********** ChangePasswordActivity ************* -->
-    <!-- ** .xml ** -->
-    <string name="old_pasword">Current Password</string>
-    <string name="new_password">New Password</string>
-    <string name="change_pwd_confirm_pwd">&confirm_password;</string>
-    <string name="change_pwd_submit">&submit;</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="change_password_heading">CHANGE PASSWORD</string>
-    <string name="change_password_heading1">CREATE PASSWORD</string>
-    <string name="change_password_enter_all_field_empty">&enter_all_field_empty;</string>
-    <string name="password_old_empty">Please enter your current password.</string>
-    <string name="password_new_empty">Please enter your new password.</string>
-    <string name="change_password_password_validation">Your password MUST be 8&#8212;64 characters and contain each of the following: An uppercase letter, A lower case letter, A number 0&#8212;9, a special character: \ ! # % &amp; ‘ () * + , &#8212; . : &lt; &gt; = ? @ [] ^ _ { } | ~ *</string>
-    <string name="change_password_password_contain_email">&password_contain_email;</string>
-    <string name="change_password_confirm_password_empty">&confirm_password_empty;</string>
-    <string name="password_mismatch_error1">New password and confirm password fields don\'t match.</string>
-    <string name="password_change_message">Your password has been changed successfully</string>
-    <string name="change_password_email">&email;</string>
-    <!-- ** .java ** -->
-    <!-- ********** ***************** ************* -->
-
-    <!-- ********** ChartActivity ************* -->
-    <!-- ** .xml ** -->
-    <string name="trendsTitle">TRENDS</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="chart_activity_permission_enable_message_screenshot">&permission_enable_message_screenshot;</string>
-    <string name="charttag">activityId</string>
-    <string name="runchartindex">runchartindex</string>
-    <string name="runchartmaxindex">runchartmaxindex</string>
-    <!-- ** .java ** -->
-    <!-- ********** ************************ ************* -->
-    <!-- ********** ConsentCompletedActivity ************* -->
-    <!-- ** .xml ** -->
-    <string name="consentthanksmsg">Thanks for providing consent for this Study</string>
-    <string name="studystartmsg">You can now start using the app to participate in the study.</string>
-    <string name="viewpdf">View/Email eConsent PDF</string>
-    <string name="consent_completed_done_btn">&done;</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="consent_completed_permission_deniedDate">&permission_deniedDate;</string>
-    <string name="consent_completed_unable_to_parse">&unable_to_parse;</string>
-    <string name="consentPdfNotAvailable">consent PDF not available</string>
-    <!-- ** .java ** -->
-    <!-- ********** ************************ ************* -->
-    <!-- ************** ContactUsActivity ***************** -->
-    <!-- ** .xml ** -->
-    <string name="contact_us_submit">&submit;</string>
-    <string name="contact_us">CONTACT US</string>
-    <string name="contact_us_first_name">&first_name;</string>
-    <string name="contact_us_email">&email;</string>
-    <string name="contact_us_subject">&subject;</string>
+    <string name="app_name">MyStudies</string>
+    <string name="ok">OK</string>
+    <string name="app_stage">development</string>
+    <string name="signup">SIGN UP</string>
+    <string name="cancel">Cancel</string>
+    <string name="first_name">First Name</string>
+    <string name="account_deletion">Account has been deleted.</string>
+    <string name="signOut">Signed Out Successfully.</string>
+    <string name="enter_first_name">enter first name</string>
+    <string name="enter_last_name">enter last name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email_id">Email ID</string>
+    <string name="enter_email">enter email</string>
+    <string name="enter_new_password">enter new password</string>
+    <string name="enter_old_password">enter current password</string>
+    <string name="password">Password</string>
+    <string name="passcode">Passcode</string>
+    <string name="enter_password">enter password</string>
+    <string name="add_password">add password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="subject">Subject</string>
+    <string name="enter_subject">enter subject</string>
     <string name="message">Message</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="contact_us_enter_all_field_empty">&enter_all_field_empty;</string>
-    <string name="first_name_empty">Please enter your first name.</string>
-    <string name="contact_us_email_empty">&email_empty;</string>
-    <string name="contact_us_email_validation">&email_validation;</string>
-    <string name="contact_us_subject_empty">&subject_empty;</string>
-    <string name="message_empty">Please enter your message.</string>
-    <string name="contact_us_message">Thank you for contacting us. We will get back to you as soon as possible.</string>
-    <!-- ** .java ** -->
-    <!-- ************** ***************** ***************** -->
-    <!-- ************** CustomDialogClass ***************** -->
-    <!-- ** .xml ** -->
-    <string name="set_remainder">Set Reminder</string>
-    <string name="custom_dialog_hour">&hour;</string>
-    <string name="custom_dialog_min">&minute;</string>
-    <string name="custom_dialog_done">&done;</string>
-    <!-- ** .xml ** -->
-    <!-- ************** ******************** ***************** -->
-    <!-- ************** DeleteAccountActivity ***************** -->
-    <!-- ** .xml ** -->
-    <string name="agree_deleting_my_account">I agree, proceed to deleting my account</string>
-    <string name="do_not_wish_to_delete_my_account">I do not wish to delete my account</string>
-    <string name="delete_account_content">You have chosen to delete your FDA MyStudies Account. This will result in automatic withdrawal from all studies.\n\nBelow is a list of studies that you are a part of and information on how your response data will be handled with each after you withdraw. Please review and confirm.</string>
-    <string name="fda_delete_account_content">You have chosen to delete your FDA MyStudies Account. This will result in automatic withdrawal from all studies.\n\nBelow is a list of studies that you are a part of and information on how your response data will be handled with each after you withdraw. Please review and confirm.</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="confirmation">CONFIRMATION</string>
-    <string name="select_option">Please select an option between Delete Data or Retain Data for all studies.</string>
-    <string name="response_deleted">Response data will be deleted</string>
-    <string name="response_retained">Response data will be retained</string>
-    <string name="delete_account_account_deletion">&account_deletion;</string>
-    <string name="delete_account_unable_to_parse">&unable_to_parse;</string>
-    <string name="delete_my_data">Delete My Data</string>
-    <string name="retain_my_data">Retain My Data</string>
-
-    <!-- ** .java ** -->
-    <!-- ************** ********************* ***************** -->
-    <!-- ************** EligibilityEnrollmentActivity ***************** -->
-    <!-- ** .xml ** -->
-    <string name="eligibility_enrollment_cancel">&cancel;</string>
-    <string name="eligibility_enrollment_submit">&submit;</string>
-    <string name="enter_enrollmentid">Enter enrollment ID</string>
-    <string name="enrollmentdesc">This study allows only pre-screened participants to join the study. If you are one, please enter the enrollment ID provided to you for this study.</string>
-
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="eligibility_enrollment_unable_to_parse">&unable_to_parse;</string>
-    <string name="enter_enrollment_id">Please Enter a Enrollment ID</string>
-    <string name="eligibility">ELIGIBILITY</string>
-    <!-- ** .java ** -->
-    <!-- ************** ***************************** ***************** -->
-    <!-- **************** EnrollmentValidatedActivity ***************** -->
-    <!-- ** .xml ** -->
-    <string name="validated">You are Eligible!</string>
-    <string name="enrollvalidated">Your enrollment token has been successfully validated. You are eligible to join the study. Please click Continue to proceed to the Consent section.</string>
-    <string name="enrollment_validated_activity_continue_txt">&continue_txt;</string>
-    <!-- ** .xml ** -->
-    <!-- ************** ***************************** ***************** -->
-    <!-- ********************* FeedbackActivity ********************** -->
-    <!-- ** .xml ** -->
-    <string name="feedback_activity_submit_btn">&submit;</string>                            <!-- ** .xml ** -->
+    <string name="enter_feedback">Enter your feedback here</string>
+    <string name="contact_us">CONTACT US</string>
     <string name="feedback">LEAVE US YOUR FEEDBACK</string>
     <string name="feedback_text">We\'d love to hear from you! Please share your thoughts on how we can improve your experience of participating in health studies and contributing to a healthier world! Your feedback will be anonymous.</string>
-    <string name="feedback_activity_subject">&subject;</string>
-    <string name="feedbacktitle">Feedback</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="feedback_activity_subject_empty">&subject_empty;</string>
-    <string name="feedback_empty">Please enter your feedback.</string>
-    <string name="feedback_submit_success">Thank you. Your Form has been successfully submitted!</string>
-    <!-- ** .java ** -->
-    <!-- ************** ***************************** ***************** -->
-    <!-- ********************** FilterActivity *********************** -->
-    <!-- ** .xml ** -->
-    <string name="filter_activity_cancel">&cancel;</string>
-    <string name="apply">Apply</string>
-    <string name="allstudies">Study Status</string>
-    <string name="active_caps">Active</string>
-    <string name="paused_first_cap">Paused</string>
-    <string name="filter_activity_upcoming1">&upcoming1;</string>
-    <string name="closed_caps">Closed</string>
-    <string name="participation_status_small">Participation\nStatus</string>
-    <string name="filter_activity_in_progress">&in_progress;</string>
-    <string name="filter_activity_completed">&completed;</string>
-    <string name="yet_to_join_filter">Yet To Join</string>
-    <string name="filter_activity_withdrawn">&withdrawn;</string>
-    <string name="bookmarked">Bookmarked</string>
-    <string name="categories">Categories</string>
-    <string name="biologics_safety">Biologics Safety</string>
-    <string name="clinical_trials">Clinical Trials</string>
-    <string name="cosmetics_safety">Cosmetics Safety</string>
-    <string name="drug_safety">Drug Safety</string>
-    <string name="food_safety">Food Safety</string>
-    <string name="medical_device_safety">Medical Device Safety</string>
-    <string name="observational_studies">Observational Studies</string>
-    <string name="public_health">Public Health</string>
-    <string name="radiation_emitting_products">Radiation-Emitting Products</string>
-    <string name="tobacco_use">Tobacco Use</string>
-    <string name="filter_activity_not_eligible">&not_eligible;</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="filter_activity_search_data_empty">&search_data_empty;</string>
-    <!-- ** .java ** -->
-    <!-- ********************** *************** *********************** -->
-    <!-- ****************** GatewayResourcesListAdapter *************** -->
-    <!-- ** .java ** -->
-    <string name="gateway_resources_list_adapter_prject_name">FDA</string>
-    <string name="delete_study_data">Do you want to delete Study data?</string>
-    <string name="delete">DELETE</string>
-    <string name="gateway_resources_list_adapter_retain_my_data_caps">&retain_my_data_caps;</string>
-    <string name="gateway_resources_list_adapter_cancel_caps">&cancel_caps;</string>
-    <string name="gateway_resources_list_adapter_ok">&ok_btn;</string>
-    <!-- ** .java ** -->
-    <!-- ********************** *************** *********************** -->
-
-    <!-- ********************** GatewayResourcesWebViewActivity *********************** -->
-    <!-- ** .java ** -->
-    <string name="gateway_resources_webview_activity_permission_deniedDate">&permission_deniedDate;</string>
-    <!-- ** .java ** -->
-    <!-- ********************** **************** *********************** -->
-
-    <!-- ********************** NotificationActivity *********************** -->
-    <!-- ** .java ** -->
+    <string name="enter_confirm_password">confirm password</string>
+    <string name="enter_contact_us">Please let us know what you need help with. We will get back to you at the earliest.</string>
+    <string name="agree">I Agree to the Terms and Privacy Policy</string>
+    <string name="submit">Submit</string>
+    <string name="verification_step">Verification Step</string>
+    <string name="tap_below_txt">Once done, tap on the \n button below.</string>
+    <string name="continue_txt">Continue</string>
+    <string name="verification_code">Enter verification code</string>
+    <string name="verification_email">Enter email address</string>
+    <string name="resend">Resend Verification Code</string>
+    <string name="congrats_txt">Congrats!</string>
+    <string name="survey_completed">Activity Completed</string>
+    <string name="signup_process_complete">Your Sign Up process is\n now complete</string>
+    <string name="next">Next</string>
+    <string name="setup_passcode">Create Passcode</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="sign_in_btn">Sign In</string>
+    <string name="usr_pwd">with username and\n password</string>
+    <string name="email">Email</string>
+    <string name="new_password">New Password</string>
+    <string name="old_pasword">Current Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="new_usr_signup">New User? Sign Up</string>
+    <string name="use_touch_id">Use Touch ID</string>
+    <string name="or">OR</string>
+    <string name="passcode_to_access_app">Enter Passcode to\n access app</string>
+    <string name="fda_listens">FDA MyStudies</string>
     <string name="notifictions">NOTIFICATIONS</string>
-    <string name="notification_activity_unable_to_parse">&unable_to_parse;</string>
-    <!-- ** .java ** -->
-    <!-- ********************** ********************* *********************** -->
-
-    <!-- ********************** NotificationListAdapter  ******************** -->
-    <!-- ** .java ** -->
-    <string name="notification_list_adapter_study_paused">&study_paused;</string>
-    <string name="notification_list_adapter_study_resume">&study_resume;</string>
-    <string name="notification_list_adapter_study_not_available">&studyNotAvailable;</string>
-    <string name="notification_list_adapter_study_not_joined">&studyNotJoined;</string>
-    <!-- ** .java ** -->
-    <!-- ********************** ******************** *********************** -->
-
-    <!-- ********************** PDFDisplayActivity *********************** -->
-    <!-- ** .java ** -->
-    <string name="consent_pdf1">Consent PDF</string>
-    <string name="permission_enable_message">Please enable the permission from settings to share the PDF</string>
-    <!-- ** .java ** -->
-
-    <!-- ********************** ****************** *********************** -->
-
-
-    <!-- ********************** ProfileFragment *********************** -->
-    <!-- ** .xml ** -->
-    <string name="profile_fragment_email_id">&email_id;</string>
-    <string name="profile_fragment_password">&password;</string>
+    <string name="resources">RESOURCES</string>
+    <string name="reachout">REACH OUT</string>
+    <string name="profile">MY ACCOUNT</string>
+    <string name="edit">Edit</string>
     <string name="change_password">Change password</string>
-    <string name="passcode">Passcode</string>
     <string name="change_passcode">Change passcode</string>
     <string name="use_passcode_txt">Use Passcode to access app</string>
-    <string name="profile_fragment_touch_txt">&touch_txt;</string>
-    <string name="profile_fragment_last_name">&last_name;</string>
-    <string name="profile_fragment_first_name">&first_name;</string>
-    <string name="profile_fragment_sign_out">&sign_out;</string>
+    <string name="touch_txt">Use Touch ID to access or sign in to app</string>
     <string name="receive_push_notifctn">Receive Push Notifications?</string>
     <string name="recv_stdy_actrem">Receive Study Activity Reminders?</string>
     <string name="reminder">Set up lead time for study activity reminders</string>
+    <string name="sign_out">Sign Out</string>
     <string name="delete_my_account">Delete My Account</string>
-    <string name="profile_updated">Profile Updated</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="remainder_settings">Please enable remainder settings to set time.</string>
     <string name="update">Update</string>
-    <string name="profile_fragment_unable_to_parse">&unable_to_parse;</string>
-    <string name="profile_fragment_account_deletion">&account_deletion;</string>
-    <string name="profile_fragment_completed">&completed;</string>
-    <!-- ** .java ** -->
-    <!-- ************** ***************************** ***************** -->
-    <!-- ********************* Reachout Fragment ********************* -->
-    <!-- ** .java ** -->
-    <string name="anonymous_feedback">Leave Anonymous Feedback</string>
-    <string name="need_help">Need Help? Contact Us</string>
-    <!-- ** .java ** -->
-    <!-- ************** ***************************** ***************** -->
-    <!-- ******************** ResourcesFragment *********************** -->
-    <!-- ** .java ** -->
-    <string name="app_glossary">App Glossary</string>
-    <!-- ** .java ** -->
-    <!-- ************** ***************************** ***************** -->
-    <!-- ******************* ResourcesListAdapter ********************* -->
-    <!-- ** .java ** -->
-    <string name="resource_list_adapter_leave_study">&leave_study;</string>
-    <string name="resource_list_adapter_cancel_caps">&cancel_caps;</string>
-    <string name="resource_list_adapter_retain_my_data_caps">&retain_my_data_caps;</string>
-    <string name="resource_list_adapter_ok_btn">&ok_btn;</string>
-    <string name="resource_list_adapter_consent_pdf">&consent_pdf;</string>
-    <string name="leave_study_retained_or_deleted_message">You are choosing to leave the study. Please choose if your response data can be retained and used for research purposes OR if your response data should be deleted.</string>
-    <string name="proceed_caps">PROCEED</string>
-    <string name="delete_my_data_caps">DELETE MY DATA</string>
-    <string name="leave_study_deleted_message">Are you sure? Tap Ok to confirm.</string>
-    <string name="leave_study_retained_message">Are you sure? Tap Ok to confirm.</string>
-
-    <!-- ** .java ** -->
-    <!-- ************** ***************************** ***************** -->
-    <!-- ******************* ResourcesWebViewActivity ********************* -->
-    <!-- ** .java ** -->
-    <string name="resource_web_view_activity_permission_deniedDate">&permission_deniedDate;</string>
-    <string name="resource_web_view_activity_check_internet">&check_internet;</string>
-
-    <!-- ** .java ** -->
-    <!-- ************** ***************************** ***************** -->
-    <!-- ********************** SignInFragment ************************ -->
-    <!-- ** .xml ** -->
-    <string name="sign_in_fragment_email">&email;</string>
-    <string name="sign_in_fragment_password">&password;</string>
-    <string name="sign_in_fragment_forgot_password">&forgot_password;</string>
-    <string name="sign_in_fragment_sign_in_btn">&sign_in_btn;</string>
-    <string name="sign_in_fragment_new_usr_signup">&new_usr_signup;</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="sign_in_fragment_new_user">&new_user;</string>
-    <string name="sign_in_fragment_sign_up">&sign_up;</string>
-    <string name="sign_in_fragment_you_agree_this_app">&you_agree_this_app;</string>
-    <string name="sign_in_fragment_terms2">&terms2;</string>
-    <string name="sign_in_fragment_and">&and;</string>
-    <string name="sign_in_fragment_privacy_policy2">&privacy_policy2;</string>
-    <string name="sign_in_fragment_enter_all_field_empty">&enter_all_field_empty;</string>
-    <string name="sign_in_fragment_email_empty">&email_empty;</string>
-    <string name="sign_in_fragment_email_validation">&email_validation;</string>
-    <string name="sign_in_fragment_password_empty">&password_empty;</string>
-    <string name="sign_in_fragment_not_able_to_login">&not_able_to_login;</string>
-    <!-- ** .java ** -->
-    <!-- ************** ***************************** ***************** -->
-    <!-- ********************** SignupFragment ************************ -->
-    <!-- ** .xml ** -->
-    <string name="sign_up_fragment_first_name">&first_name;</string>
-    <string name="sign_up_fragment_last_name">&last_name;</string>
-    <string name="sign_up_fragment_email_id">&email_id;</string>
-    <string name="sign_up_fragment_password">&password;</string>
-    <string name="sign_up_fragment_confirm_password">&confirm_password;</string>
-    <string name="sign_up_fragment_touch_txt">&touch_txt;</string>
-    <string name="sign_up_fragment_submit">&submit;</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="sign_up_fragment_i_agree">&i_agree;</string>
-    <string name="sign_up_fragment_terms2">&terms2;</string>
-    <string name="sign_up_fragment_and">&and;</string>
-    <string name="sign_up_fragment_privacy_policy2">&privacy_policy2;</string>
-    <string name="sign_up_fragment_enter_all_field_empty">&enter_all_field_empty;</string>
-    <string name="sign_up_fragment_enter_email_empty">&email_empty;</string>
-    <string name="sign_up_fragment_enter_email_validation">&email_validation;</string>
-    <string name="sign_up_fragment_enter_password_empty">&password_empty;</string>
-    <string name="sign_up_fragment_enter_password_validation">Your password MUST be 8&#8212;64 characters and contain each of the following: An uppercase letter, A lower case letter, A number 0&#8212;9, a special character: \ ! # % &amp; ‘ () * + , &#8212; . : &lt; &gt; = ? @ [] ^ _ { } | ~ *</string>
-    <string name="sign_up_fragment_ok_btn">&ok_btn;</string>
-    <string name="sign_upf_app_name">&app_name;</string>
-    <string name="sign_up_fragment_password_contain_email">&password_contain_email;</string>
-    <string name="sign_up_fragment_confirm_password_empty">&confirm_password_empty;</string>
-    <string name="sign_up_fragment_password_mismatch_error">&password_mismatch_error;</string>
-    <string name="sign_up_fragment_terms_and_condition_validation">&terms_and_condition_validation;</string>
-    <string name="sign_up_fragment_unable_to_signup">&unable_to_signup;</string>
-    <!-- ** .java ** -->
-    <!-- ************** ***************************** ***************** -->
-    <!-- ********************** StandaloneActivity ************************ -->
-    <!-- ** .java ** -->
-    <string name="standalone_activity_error_retriving_data">&error_retriving_data;</string>
-    <string name="standalone_activity_study_paused">&study_paused;</string>
-    <string name="standalone_activity_study_resume">&study_resume;</string>
-    <string name="standalone_activity_study_not_available">&studyNotAvailable;</string>
-    <string name="standalone_activity_studyNotJoined">&studyNotJoined;</string>
-    <string name="standalone_activity_connection_timeout">&connection_timeout;</string>
-    <string name="standalone_activity_unknown_error">&unknown_error;</string>
-    <string name="standalone_activity_unable_to_parse">&unable_to_parse;</string>
-    <string name="standalone_activity_unable_to_retrieve_data">&unable_to_retrieve_data;</string>
-    <string name="standalone_activity_please_review_the_updated_consent">&please_review_the_updated_consent;</string>
-    <!-- ** .java ** -->
-    <!-- ************** ***************************** ***************** -->
-    <!-- ********************** StandaloneStudyInfoActivity ************************ -->
-    <!-- ** .xml ** -->
-    <string name="join_study">Join Study</string>
-    <string name="visit_website">Visit Website</string>
-    <string name="view_consent">View Consent</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="standalone_study_info_activity">&error_retriving_data;</string>
-    <string name="standalone_unable_to_parse">&unable_to_parse;</string>
-    <string name="standalone_study_no_enroll">&study_no_enroll;</string>
-    <string name="standalone_study_paused">&study_paused;</string>
-    <string name="standalone_cannot_rejoin_study">&cannot_rejoin_study;</string>
-    <string name="standalone_connection_timeout">&connection_timeout;</string>
-    <string name="standalone_error_retriving_data">&error_retriving_data;</string>
-    <string name="standalone_unable_to_retrieve_data">&unable_to_retrieve_data;</string>
-    <string name="standalone_unknown_error">&unknown_error;</string>
-    <string name="standalone_upcoming_study">&upcoming_study;</string>
-
-
-    <!-- ** .java ** -->
-    <!-- ********************* ***************************** *********************** -->
-    <!-- ********************** StudyFragment ************************ -->
-    <!-- ** .xml ** -->
-    <string name="no_study">Sorry, no studies available right now. Please remain signed in to get notified when there are new studies available. </string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="search_data_empty">Sorry, no studies found. Please try different filter options.</string>
-    <string name="study_fragment_unable_to_parse">&unable_to_parse;</string>
-    <string name="study_fragment_unable_to_retrieve_data">&unable_to_retrieve_data;</string>
-    <string name="study_fragment_error_retriving_data">&error_retriving_data;</string>
-    <string name="study_fragment_please_review_the_updated_consent">&please_review_the_updated_consent;</string>
-    <string name="study_fragment_unknown_error">&unknown_error;</string>
-    <string name="study_fragment_connection_timeout">&connection_timeout;</string>
-    <string name="search_data_not_available">Sorry, no Studies found. Please check the spelling or try a different search.</string>
-    <string name="update_success">Update Success</string>
-    <!-- ** .java ** -->
-    <!-- ********************* ************************* *********************** -->
-    <!-- ************************ StudyInfoActivity **************************** -->
-    <!-- ** .xml ** -->
-    <string name="study_info_activity_visit_website">&visit_website;</string>
-    <string name="study_info_activity_view_consent">&view_consent;</string>
-    <string name="study_info_activity_join_study">&join_study;</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="study_info_activity_upcoming_study">This Study is an upcoming study</string>
-    <string name="study_info_activity_study_no_enroll">Sorry, enrollment for this study has been closed for now. Please check back later or explore other studies you could join.</string>
-    <string name="study_info_activity_study_paused">&study_paused;</string>
-    <string name="study_info_activity_cannot_rejoin_study">&cannot_rejoin_study;</string>
-    <string name="study_info_activity_unknown_error">&unknown_error;</string>
-    <string name="study_info_activity_connection_timeout">&connection_timeout;</string>
-    <string name="study_info_activity_error_retriving_data">&error_retriving_data;</string>
-    <string name="study_info_activity_unable_to_retrieve_data">&unable_to_retrieve_data;</string>
-
-    <string name="study_info_activity_unable_to_parse">&unable_to_parse;</string>
-    <string name="study_info_activity_upcoming">&upcoming;</string>
-    <!-- ** .java ** -->
-    <!-- ********************* ************************* *********************** -->
-    <!-- ************************ StudyInfoPagerAdapter **************************** -->
-    <!-- ** .xml ** -->
-    <string name="study_info_pager_adapter_title">A Study for Pregnant\nWomen</string>
-    <string name="study_info_pager_adapter_gateway_des1">&gateway_des1;</string>
-    <string name="study_info_pager_adapter_watch_video">&watch_video;</string>
-    <string name="data_used">How data will be used</string>
-    <!-- ** .xml ** -->
-    <!-- ********************* ************************* *********************** -->
-    <!-- ************************ StudylauncherActivity **************************** -->
-    <!-- ** .xml ** -->
-    <string name="result">result</string>
-    <!-- ** .xml ** -->
-    <!-- ********************* ************************* *********************** -->
-    <!-- ************************ StudyListAdapter **************************** -->
-    <!-- ** .xml ** -->
-    <string name="study_list_adapter_active1">&active1;</string>
-    <string name="study_list_adapter_yet_to_join">Yet To Join</string>
-    <string name="completion">COMPLETION: </string>
-    <string name="adherence">Adherence:</string>
-    <string name="adherence_value">0%</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="study_list_adapter_not_eligible">&not_eligible;</string>
-    <string name="study_list_adapter_completed">&completed;</string>
-    <string name="study_list_adapter_in_progress">&in_progress;</string>
-    <string name="study_list_adapter_with_drawn">&withdrawn;</string>
-    <string name="partial_participation">Partial Participation</string>
-    <string name="no_participation">No Participation</string>
-    <!-- ** .java ** -->
-    <!-- ********************* ************************* *********************** -->
-    <!-- ************************ StudySignInActivty **************************** -->
-    <!-- ** .xml ** -->
-    <string name="study_sign_in_activity_sign_in_btn">&sign_in_btn;</string>
-    <string name="study_sign_in_activity_fda_listens">&fda_listens;</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="filter_clicked">Filter clicked</string>
-    <string name="resource_btn_clicked">ResourceBtn clicked</string>
-    <string name="sign_in_btn_clicked">SignInButtonBtn clicked</string>
-    <!-- ** .java ** -->
-    <!-- ********************* ************************* *********************** -->
-    <!-- ************************ StudySignInListAdapter **************************** -->
-    <!-- ** .xml ** -->
-    <string name="study_sign_in_list_adapter_active1">&active1;</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="upcoming_caps">UPCOMING</string>
-    <string name="study_for_fitness">A Study for fitness</string>
-    <string name="study_pregnant_women">A Study for pregnant women</string>
-    <string name="pregnancy">Pregnancy</string>
-    <string name="fitness">Fitness</string>
-    <string name="sponsor_name">Sponsor Name</string>
-    <!-- ** .java ** -->
-    <!-- ********************* ************************* ************************* -->
-
-    <!-- ************************ SurveyActivitiesFragment **************************** -->
-    <!-- ** .xml ** -->
-    <string name="study_activities">STUDY ACTIVITIES</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="all">All</string>
-    <string name="surveys1">Surveys</string>
-    <string name="tasks1">Tasks</string>
-    <string name="survey_activities_app_name">&app_name;</string>
-    <string name="survey_activities_unknown_error">&unknown_error;</string>
-    <string name="survey_activities_connection_time_out">&connection_timeout;</string>
-    <string name="survey_activities_unable_to_parse">&unable_to_parse;</string>
-    <string name="survey_activities_unable_to_retrieve_data">&unable_to_retrieve_data;</string>
-    <string name="survey_activities_please_review_the_updated_consent">&please_review_the_updated_consent;</string>
-    <string name="consent_complete">Please complete the Consent to continue</string>
-    <string name="participant">Participant</string>
-    <string name="survey_activities_agree_participate_research_study">&agree_participate_research_study;</string>
-    <string name="survey_activities_participans_name">&participans_name;</string>
-    <string name="survey_activities_participants_signature">&participants_signature;</string>
-    <string name="survey_activities_date">&date;</string>
-    <string name="survey_activities_not_able_create_pdf">&not_able_create_pdf;</string>
-    <string name="studyPaused">This study is paused.</string>
-    <string name="studyClosed">This study is closed.</string>
-    <string name="survey_activities_expired">&expired;</string>
-    <string name="survey_activities_incompleted2">&incompleted2;</string>
-    <string name="survey_activities_completed2">&completed2;</string>
-    <string name="survey_activities_study_Joined_paused">&study_Joined_paused;</string>
-    <string name="survey_activities_survey_message">&survey_message;</string>
-    <string name="survey_activities_upcoming_event">&upcoming_event;</string>
-    <string name="survey_activities_incomple_event">&incomple_event;</string>
-    <string name="survey_activities_completed_event">&completed_event;</string>
-    <string name="survey_activities_ok_btn">&ok_btn;</string>
-    <string name="per_completion">There are no more activities for this study in the COVID MyStudies app. Thank you for your participation.</string>
-    <string name="study">The study</string>
-    <string name="percent_complete1">is 100 percent complete. Thank you for your participation.</string>
-    <string name="percent_complete2">is now 50 percent complete. We look forward to your continued participation as the study progresses.</string>
-    <string name="missed_activity">We noticed you missed an activity in</string>
-    <string name="no_task_available">No Task available for this study</string>
-    <string name="no_ableto_getdata">Not able to get data</string>
-    <string name="couldnot_launch_survey">Could not launch survey</string>
-    <string name="current_locationwillnot_used">Current location will not be used for location based question</string>
-    <!-- ** .java ** -->
-    <!-- ********************* ************************* *********************** -->
-
-    <!-- ************************ SurveyActivitiesListAdapter **************************** -->
-    <!-- ** .xml ** -->
-    <string name="current1">Current</string>
-    <string name="activities_not_found">Activities Not Found</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="upcoming1">Upcoming</string>
-    <string name="past">Past</string>
-    <string name="start">Start</string>
-    <string name="resume">Resume</string>
-    <string name="completed2">Completed</string>
-    <string name="done2">done</string>
-    <string name="run">Run</string>
-    <string name="missed">missed</string>
-    <string name="expired">Expired</string>
-    <string name="incompleted2">Incomplete</string>
-    <string name="as_scheduled">As Scheduled</string>
-    <string name="onetime">One-time</string>
-    <string name="to">to</string>
-    <string name="on">on</string>
-    <string name="from">From</string>
-    <string name="more">more</string>
-    <string name="survey_activities_list_adapter_study_Joined_paused">&study_Joined_paused;</string>
-    <string name="survey_activities_list_adapter_survey_message">&survey_message;</string>
-    <string name="survey_activities_list_adapter_upcoming_event">&upcoming_event;</string>
-    <string name="survey_activities_list_adapter_incomple_event">&incomple_event;</string>
-    <string name="survey_activities_list_adapter_completed_event">&completed_event;</string>
-    <!-- ** .java ** -->
-    <!-- ********************* ************************* *********************** -->
-    <!-- ************************ SurveyActivity **************************** -->
-    <!-- ** .xml ** -->
+    <string name="get_started">Get Started</string>
+    <string name="website">https://www.fda.gov/</string>
+    <string name="websitetxt">www.fda.gov</string>
+    <string name="gateway_welcome">Welcome!</string>
+    <string name="gateway_welcome1">Leveraging the Power of Mobility for Research</string>
+    <string name="gateway_welcome2">Improving Health Outcomes</string>
+    <string name="gateway_welcome3">Protecting Your Privacy</string>
+    <string name="gateway_des">The FDA is pleased to offer the FDA MyStudies app as a tool to gather real time, contextual data about medication use and other health issues facing the people we serve.</string>
+    <string name="gateway_des1">Available for iOS and Android devices, this app will house studies conducted by FDA and other institutions, enabling researchers to engage more directly with people to gather data via questionnaires.</string>
+    <string name="gateway_des2">Explore and participate in studies for which you are eligible and help generate more data, better insights and improved outcomes.</string>
+    <string name="gateway_des3">All studies in this app have been approved by an Institutional Review Board, follow strict federal research guidelines, and securely store your responses to ensure your privacy is always protected.</string>
+    <string name="new_user">New User?</string>
     <string name="dashboard_label">Dashboard</string>
     <string name="activities_label">Activities</string>
     <string name="resources_label">Resources</string>
-    <string name="survey_activity_fda_listens">&fda_listens;</string>
-    <string name="survey_activity_poweredby">&poweredby;</string>
-    <string name="survey_activity_side_menu_home">&side_menu_home;</string>
-    <string name="survey_activity_side_menu_resources">&side_menu_resources;</string>
-    <string name="survey_activity_mresource_notification_label">14</string>
-    <string name="survey_activity_side_menu_reach_out">&side_menu_reach_out;</string>
-    <string name="survey_activity_side_menu_sign_in">&side_menu_sign_in;</string>
-    <string name="survey_activity_side_menu_new_user">&side_menu_new_user;</string>
-    <string name="survey_activity_side_menu_sign_up">&side_menu_sign_up;</string>
-    <string name="survey_activity_side_menu_sign_out">&side_menu_sign_out;</string>
-    <string name="survey_activity_side_menu_version">&side_menu_version;</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="survey_activity_sign_in_btn">&sign_in_btn;</string>
-    <string name="survey_activity_profile_small">&profile_small;</string>
-    <string name="survey_activity_resources">&resources;</string>
-    <string name="survey_activity_sign_in">&sign_in;</string>
-    <string name="survey_activity_sign_up">&sign_up;</string>
-    <string name="survey_activity_reach_out">&reachout;</string>
-    <string name="survey_activity_sign_out">&sign_out;</string>
-    <string name="survey_activity_sign_out_message">&sign_out_message;</string>
-    <string name="survey_activity_cancel_btn">&cancel;</string>
-    <string name="survey_activity_sign_out_message_data_lost">&sign_out_message_data_lost;</string>
-    <string name="survey_activity_press_back_to_exit">&press_back_to_exit;</string>
-    <string name="survey_activity_press_sign_out">&signOut;</string>
-    <string name="survey_activity_profile">&profile;</string>
-    <!-- ** .java ** -->
-    <!-- ********************* ************************* *********************** -->
-    <!-- ************************ SurveyCompleteActivity **************************** -->
-    <!-- ** .xml ** -->
-    <string name="survey_completed">Activity Completed</string>
-    <string name="thank_you_for_your_time">Thank you for your time!</string>
-    <string name="surveycompletedmsg">Tap Done to submit responses. Responses cannot be modified after submission.</string>
-    <string name="survey_complete_activity_done">&done;</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="survey_complete_unable_to_parse">&unable_to_parse;</string>
-    <string name="unable_to_submit_result">Unable to submit result</string>
-    <!-- ** .java ** -->
-    <!-- ********************* ************************* *********************** -->
-    <!-- ************************ SurveyDashboardFragment **************************** -->
-    <!-- ** .xml ** -->
-    <string name="study_status">STUDY STATUS</string>
-    <string name="active2">Active</string>
-    <string name="completed4">COMPLETED</string>
-    <string name="pending1">PENDING</string>
-    <string name="participation_status">PARTICIPATION STATUS</string>
-    <string name="current_activities1">Current Activities</string>
-    <string name="completed_text1">YOU ARE</string>
-    <string name="survey_dashboard_fragment_m_completion_value">0</string>
-    <string name="percentage">%</string>
-    <string name="complete_text2">DONE WITH\nTHE STUDY</string>
-    <string name="adherence_text1">YOU ARE\nCOMPLETING</string>
-    <string name="adherence_text2">OF ACTIVITIES\nON TIME</string>
-    <string name="statistics">Statistics</string>
-    <string name="month">MONTH</string>
-    <string name="week">WEEK</string>
-    <string name="day">DAY</string>
-    <string name="survey_dashboard_m_change_date_label">24, MAR 2017</string>
-    <string name="no_stats_currently_available">No stats currently available</string>
-    <string name="trends">Trends</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="completed">Completed</string>
-    <string name="survey_dashboard_fragment_not_eligible">&not_eligible;</string>
-    <string name="survey_dashboard_fragment_in_progress">&in_progress;</string>
-    <string name="survey_dashboard_fragment_yet_to_join">Yet To Join</string>
-    <string name="survey_dashboard_fragment_withdrawn">&withdrawn;</string>
-    <string name="survey_dashboard_fragment_permission_enable_message_screenshot">&permission_enable_message_screenshot;</string>
-    <string name="survey_dashboard_fragment_unable_to_parse">&unable_to_parse;</string>
-    <string name="survey_dashboard_fragment_unknown_error">&unknown_error;</string>
-    <string name="survey_dashboard_fragment_connection_timeout">&connection_timeout;</string>
-    <string name="survey_dashboard_fragment_unable_to_retrieve_data">&unable_to_retrieve_data;</string>
-    <string name="no_charts_display">No charts to display</string>
-    <string name="current_activities">Current Activities</string>
-    <string name="completed3">COMPLETED</string>
-    <string name="survey_task">1 Survey, 1 Task</string>
-    <string name="pending">PENDING</string>
-    <string name="survey_task10">10 Survey, 1 Task</string>
-    <string name="upcoming_activities">Upcoming Activities</string>
-    <string name="date_range">DATE RANGE</string>
-    <!-- ** .java ** -->
-    <!-- ********************* ************************* *********************** -->
-    <!-- ************************ SurveyResourcesFragment **************************** -->
-    <!-- ** .java ** -->
-    <string name="survey_resources_fragment_resources">&resources;</string>
-    <string name="survey_resources_fragment_account_deletion">&account_deletion;</string>
-    <string name="survey_resources_fragment_unable_to_parse">&unable_to_parse;</string>
-    <string name="survey_resources_fragment_unknown_error">&unknown_error;</string>
-    <string name="survey_resources_fragment_connection_timeout">&connection_timeout;</string>
-    <string name="survey_resources_fragment_unable_to_retrieve_data">&unable_to_retrieve_data;</string>
-    <string name="about_study">About the Study</string>
-    <string name="survey_resources_fragment_leave_study">&leave_study;</string>
-    <string name="survey_resources_fragment_consent_pdf">&consent_pdf;</string>
-    <!-- ** .java ** -->
-    <!-- ************************ ********************** **************************** -->
-    <!-- ======================== ====================== ============================ -->
-
-
-    <!-- ******************************** UserModue ******************************************* -->
-    <!-- ********************** ChooseTouchIDSignInActivity ************************** -->
-    <!-- ** .xml ** -->
-    <string name="choose_tid_signin_activity_use_touch_id">&use_touch_id;</string>
-    <string name="choose_tid_signin_activity_or">&or;</string>
-    <string name="choose_tid_signin_activity_sign_in_btn">&sign_in_btn;</string>
-    <string name="usr_pwd">with username and\n password</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="choose_tid_signin_activity_sign_in">&sign_in;</string>
-    <string name="touch_screen">Touch Screen</string>
-    <string name="sign_in_Screen">Sign In Screen</string>
-    <!-- ** .java ** -->
-    <!-- ********************** ************************** ************************** -->
-
-
-    <!-- ********************** ConfirmPasscodeSetup ************************** -->
-    <!-- ** .xml ** -->
-    <!-- refer line number 240 -->
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="confirmPascode">Confirm Passcode</string>
-    <string name="passcode_confirm_reenter">Re-enter the 4-digit passcode</string>
-    <string name="passcodeNotMatching">Passcode doesn\'t match</string>
-    <!-- ** .java ** -->
-    <!-- ********************** ************************** ************************** -->
-
-    <!-- ********************** ForgotPasswordActivity ****************************** -->
-    <!-- ** .xml ** -->
-    <string name="forgot_password_text">Please enter your registered email to receive password help.</string>
-    <string name="forgot_password_email">&email;</string>
-    <string name="forgot_password_submit_btn">&submit;</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
+    <string name="study_activities">STUDY ACTIVITIES</string>
     <string name="forgot_password_heading">PASSWORD HELP</string>
-    <string name="forgot_password_email_empty">&email_empty;</string>
-    <string name="forgot_password_email_validation">&email_validation;</string>
-    <string name="forgot_password_error">We have sent a temporary password to your registered email. Please login with temporary password and change your password.</string>
-    <!-- ** .java ** -->
-    <!-- ********************** ************************** ************************** -->
+    <string name="forgot_password_text">Please enter your registered email to receive password help.</string>
+    <string name="change_password_heading">CHANGE PASSWORD</string>
+    <string name="change_password_heading1">CREATE PASSWORD</string>
+    <string name="watch_video">Watch Video</string>
 
-    <!-- ********************** NewPasscodeSetupActivity ************************** -->
-    <!-- ** .xml ** -->
-    <!-- refer line number 239 -->
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="setup_passcode">Create Passcode</string>
-    <!-- ** .java ** -->
-    <!-- ********************** ************************** ************************** -->
-    <!-- ***************************** SignInActivity ******************************* -->
-    <!-- ** .xml ** -->
-    <string name="sign_in_activity_email">&email;</string>
-    <string name="sign_in_activity_password">&password;</string>
-    <string name="sign_in_activity_forgot_password">&forgot_password;</string>
-    <string name="sign_in_activity_sign_in_btn">&sign_in_btn;</string>
-    <string name="sign_in_activity_new_usr_signup">&new_usr_signup;</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="sign_in_activity_sign_in">&sign_in;</string>
-    <string name="sign_in_activity_new_user">&new_user;</string>
-    <string name="sign_in_activity_side_menu_sign_up">&side_menu_sign_up;</string>
-    <string name="sign_in_activity_you_agree_this_app">&you_agree_this_app;</string>
-    <string name="sign_in_activity_terms2">&terms2;</string>
-    <string name="sign_in_activity_and">&and;</string>
-    <string name="sign_in_activity_privacy_policy2">&privacy_policy2;</string>
-    <string name="sign_in_activity_registration_message">&registration_message;</string>
-    <string name="sign_in_activity_ok_btn">&ok_btn;</string>
-    <string name="sign_in_activity_why_register">&why_register;</string>
-    <string name="sign_in_activity_enter_all_field_empty">&enter_all_field_empty;</string>
-    <string name="sign_in_activity_enter_email_empty">&email_empty;</string>
-    <string name="sign_in_activity_enter_email_validation">&email_validation;</string>
-    <string name="sign_in_activity_enter_password_empty">&password_empty;</string>
-    <string name="sign_in_activity_not_able_to_login">&not_able_to_login;</string>
+    <string name="learn_more">Learn More</string>
 
-    <!-- ** .java ** -->
-    <!-- ********************** ************************** ************************** -->
-    <!-- ***************************** SignupActivity ******************************* -->
-    <!-- ** .xml ** -->
-    <string name="sign_up_activity_first_name">&first_name;</string>
-    <string name="sign_up_activity_last_name">&last_name;</string>
-    <string name="sign_up_activity_email_id">&email_id;</string>
-    <string name="sign_up_activity_password">&password;</string>
-    <string name="sign_up_activity_confirm_password">&confirm_password;</string>
-    <string name="sign_up_activity_touch_txt">&touch_txt;</string>
-    <string name="sign_up_activity_submit_btn">&submit;</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="sign_up_activity_i_agree">&i_agree;</string>
-    <string name="sign_up_activity_terms2">&terms2;</string>
-    <string name="sign_up_activity_and">&and;</string>
-    <string name="sign_up_activity_privacy_policy2">&privacy_policy2;</string>
-    <string name="sign_up_activity_registration_message">&registration_message;</string>
-    <string name="sign_up_activity_ok_btn">&ok_btn;</string>
-    <string name="sign_up_activity_why_register">&why_register;</string>
-    <string name="sign_up_activity_enter_all_field_empty">&enter_all_field_empty;</string>
-    <string name="sign_up_activity_email_empty">&email_empty;</string>
-    <string name="sign_up_activity_email_validation">&email_validation;</string>
-    <string name="sign_up_activity_password_empty">&password_empty;</string>
-    <string name="sign_up_activity_password_validation">Your password MUST be 8&#8212;64 characters and contain each of the following: An uppercase letter, A lower case letter, A number 0&#8212;9, a special character: \ ! # % &amp; ‘ () * + , &#8212; . : &lt; &gt; = ? @ [] ^ _ { } | ~ *</string>
-    <string name="sign_up_activity_password_contain_email">&password_contain_email;</string>
-    <string name="sign_up_activity_confirm_password_empty">&confirm_password_empty;</string>
-    <string name="sign_up_activity_password_mismatch_error">&password_mismatch_error;</string>
-    <string name="sign_up_activity_terms_and_condition_validation">&terms_and_condition_validation;</string>
-    <string name="sign_up_activity_unable_to_signup">&unable_to_signup;</string>
-    <string name="sign_up_activity_unable_to_parse">&unable_to_parse;</string>
-    <string name="sign_up_app_name">&app_name;</string>
-    <!-- ** .java ** -->
-    <!-- ********************** ************************** ************************** -->
-    <!-- ***************************** SignupProcessCompleteActivity ******************************* -->
-    <!-- ** .xml ** -->
-    <string name="congrats_txt">Congrats!</string>
-    <string name="signup_process_complete">Your Sign Up process is\n now complete</string>
-    <string name="activity_sign_up_process_complete_next">&next_btn;</string>
-    <!-- ** .xml ** -->F
-    <!-- ********************** ************************** ************************** -->
-    <!-- ***************************** TermsPrivacyPolicyActivity ******************************* -->
-    <!-- nothing is there -->
+    <string name="profile_small">My Account</string>
+    <string name="terms">TERMS OF USE</string>
+    <string name="privacy_policy">PRIVACY POLICY</string>
+    <string name="privacy_policy_content">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. \n\nThe point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. \n \nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isnt anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</string>
+    <string name="delete_account_content">You have chosen to delete your FDA MyStudies Account. This will result in automatic withdrawal from all studies.\n\nBelow is a list of studies that you are a part of and information on how your response data will be handled with each after you withdraw. Please review and confirm.</string>
+    <string name="medication_survey">Medication survey</string>
+    <string name="response_retained">Response data will be retained</string>
+    <string name="study_pregnant_women">A Study for pregnant women</string>
+    <string name="response_deleted">Response data will be deleted</string>
+    <string name="mental_health_survey">Mental health survey</string>
+    <string name="delete_my_data">Delete My Data</string>
+    <string name="retain_my_data">Retain My Data</string>
+    <string name="health_survey">Health survey</string>
+    <string name="agree_deleting_my_account">I agree, proceed to deleting my account</string>
+    <string name="do_not_wish_to_delete_my_account">I do not wish to delete my account</string>
+    <string name="confirmation">CONFIRMATION</string>
+    <string name="side_menu_home">Home</string>
+    <string name="side_menu_resources">Resources</string>
+    <string name="side_menu_reach_out">Reach Out</string>
+    <string name="side_menu_sign_in">Sign In</string>
+    <string name="side_menu_new_user">New User?</string>
+    <string name="side_menu_sign_up">Sign up</string>
+    <string name="side_menu_sign_out">Sign Out</string>
+    <string name="side_menu_version">v</string>
+    <string name="poweredby">Powered by FDA MyStudies</string>
+    <string name="survey">Survey</string>
+    <string name="no_study">Sorry, no studies available right now. Please remain signed in to get notified when there are new studies available. </string>
+    <string name="surveyjsonname">survey.json</string>
 
-    <!-- ********************** ************************** ************************** -->
-    <!-- ***************************** UseTouchIDPasscodeActivity ******************************* -->
-    <!-- ** .xml ** -->
-    <string name="use_touch_id">Use Touch ID</string>
-    <string name="use_touch_id_passcode_activity_or">OR</string>
 
-    <string name="passcode_to_access_app">Enter Passcode to\n access app</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="use_touch_id_passcode_activity_sign_in">&sign_in;</string>
-    <!-- ** .java ** -->
-    <!-- ********************** ************************** ************************** -->
-    <!-- ***************************** VerificationStepActivity ******************************* -->
-    <!-- ** .xml ** -->
-    <string name="verification_step_activity_cancel">&cancel;</string>
-    <string name="verification_step_activity_continue_txt">&continue_txt;</string>
-    <string name="resend">Resend Verification Code</string>
-    <string name="verification_step">Verification Step</string>
-    <string name="tap_below_txt">Once done, tap on the \n button below.</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
+    <string name="enter_enrollmentid">Enter enrollment ID</string>
+    <string name="enrollmentdesc">This study allows only pre-screened participants to join the study. If you are one, please enter the enrollment ID provided to you for this study.</string>
+    <string name="reviewconformmsg">By Agreeing you confirm that you read the consent and that you wish to take part in this research study.</string>
+    <string name="reviewmsg">Review the form below, and tap Agree if you\'re ready to continue</string>
+    <string name="review">Review</string>
+
     <string name="verification_email_content1">An email has been sent to</string>
     <string name="verification_email_content2">. Please type in the Verification Code received in the email to complete the verification step.</string>
     <string name="verification_email_signin">Your registered email is pending verification. Please type in the Verification Code received in the email to complete this step and proceed to using the app.</string>
     <string name="verification_email_forgotpassword">Your registered email</string>
-    <string name="validation_code_error">Please enter verification code.</string>
-    <string name="account_verification">your account is verified.</string>
-    <string name="resend_success">An email verification code has been sent to your registered email.</string>
     <string name="verification_email_forgotpassword1"> is pending verification. Enter the Verification Code received on this email to complete verification and try the Forgot Password action again.</string>
-    <!-- ** .java ** -->
-    <!-- ********************** ************************** ************************** -->
-    <!-- ====================== ========================== ========================== -->
-    <!-- ***************************** Utils Module  ******************************* -->
-    <!-- *************************** Realm  ***************************** -->
-    <!-- **************** RealmEncryptionHelper ********************-->
-    <!-- ** .java ** -->
-    <string name="realm_encryption_helper_app_name">&app_name;</string>
-    <!-- ** .java ** -->
-    <!-- ********** ************************** ************ -->
-    <!-- *************************** *******  ***************************** -->
-    <!-- ***************************** ActiveTaskService ******************************* -->
-    <!-- ** .java ** -->
-    <string name="active_task_service_prject_name">FDA</string>
-    <string name="fetal_kick_recorder_activity">Fetal Kick Recorder Activity - Started</string>
-    <string name="fetal_kick_recorder_activity_in_progress">Fetal Kick Recorder Activity - In Progress</string>
-    <string name="activetaskremindertxt">Reminder: The fetal kick activity timer is currently running. Please record kicks or movements you have felt in the app.</string>
-    <!-- ** .java ** -->
-    <!-- ********************** ************************** ************************** -->
-    <!-- ******************************* AppController ****************************** -->
-    <!-- ** .xml ** -->
-    <string name="upgrade">Upgrade</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="app_controller_appname">&app_name;</string>
-    <string name="app_controller_cancel">&cancel;</string>
-    <string name="force_upgrade">There is a new version of the app available with several useful updates. Please upgrade the app to continue using it.</string>
-    <string name="normal_upgrade">There is a new version of the app available with several useful updates. Would you like to upgrade before continuing?</string>
-    <!-- ** .java ** -->
-    <!-- ********************** ************************** ************************** -->
-    <!-- ************************* WebServiceModule *************************** -->
-    <!-- ********************** apiHelper ************************** -->
-    <!-- **************** ApiCall **************** -->
-    <!-- ** .java ** -->
-    <string name="api_call_check_internet">&check_internet;</string>
-    <string name="api_call_unknown_error">&unknown_error;</string>
-    <string name="api_call_ok_btn">&ok_btn;</string>
-    <!-- ** .java ** -->
-    <!-- *********** *************** *************** -->
-    <!-- ********** ApiCallResponseServer ********** -->
-    <!-- ** .java ** -->
-    <string name="api_call_response_server_check_internet">&check_internet;</string>
-    <string name="api_call_response_server_unknown_error">&unknown_error;</string>
-    <string name="api_call_response_server_ok_btn">&ok_btn;</string>
-    <!-- ** .java ** -->
-    <!-- *********** *************** *************** -->
-
-    <!-- ********** WebserviceSubscriber ********** -->
-    <!-- ** .java ** -->
-    <string name="app_stage">development</string>
-    <!-- ** .java ** -->
-    <!-- *********** *************** *************** -->
-    <!-- ********** MyfirebaseMessagingService ********** -->
-    <!-- ** .java ** -->
-    <string name="my_firebase_app_name">&app_name;</string>
-    <!-- ** .java ** -->
-    <!-- *********** *************** *************** -->
-    <!-- ********** SplashActivity ********** -->
-    <!-- ** .java ** -->
-    <string name="rooted_device">Rooted device are not allowed to use this app.</string>
-    <!-- ** .java ** -->
-    <!-- *********** *************** *************** -->
-    <!-- ********** UpgradeAppActivity ********** -->
-    <!-- ** .xml ** -->
-    <string name="upgrade_app_activity_upgrade_message1">New Version Available</string>
-    <string name="upgrade_app_activity_upgrade_message2">Please update to the latest version of the app to continue.</string>
-    <string name="upgrade_app_activity_update_caps">UPDATE</string>
-    <!-- ** .xml ** -->
-    <!-- ** .java ** -->
-    <string name="upgrade_app_activity_upgrade_message3">Please update the app to continue using.</string>
-    <!-- ** .java ** -->
-    <!-- *********** *************** *************** -->
-
-    <!-- *********** authenticator.xml *************** -->
-    <string name="authenticator_app_name">&app_name;</string>
-    <!-- =========== *************** =============== -->
-
-    <!-- =========== Hint Texts =============== -->
-    <string name="enter_first_name">enter first name</string>
-    <string name="enter_last_name">enter last name</string>
-    <string name="enter_password">enter password</string>
-    <string name="add_password">add password</string>
-    <string name="enter_subject">enter subject</string>
-    <string name="enter_feedback">Enter your feedback here</string>
-    <string name="enter_email">enter email</string>
-    <string name="enter_new_password">enter new password</string>
-    <string name="enter_old_password">enter current password</string>
-    <string name="enter_confirm_password">confirm password</string>
-    <string name="verification_code">Enter verification code</string>
-    <string name="verification_email">Enter email address</string>
-    <string name="search">Search</string>
-    <!-- =========== *************** =============== -->
-    <!-- =================================== Main Module complete ================================================= -->
+    <!--error messages-->
+    <string name="email_empty">Please enter your email address.</string>
+    <string name="password_empty">Please enter your password.</string>
+    <string name="password_new_empty">Please enter your new password.</string>
+    <string name="password_old_empty">Please enter your current password.</string>
+    <string name="confirm_password_empty">Please confirm the password.</string>
+    <string name="enter_all_field_empty">Please enter all the fields.</string>
+    <string name="password_mismatch_validation">New password and confirm password does not match.</string>
+    <string name="email_validation">Please enter valid email address.</string>
+    <string name="validation_code_error">Please enter verification code.</string>
+    <string name="terms_and_condition_validation">Please agree to terms and conditions.</string>
+    <string name="account_verification">your account is verified.</string>
+    <string name="password_validation">Your password MUST be 8&#8212;64 characters and contain each of the following: An uppercase letter, A lower case letter, A number 0&#8212;9, a special character: \ ! # % &amp; ‘ () * + , &#8212; . : &lt; &gt; = ? @ [] ^ _ { } | ~ *</string>
+    <string name="signout_message">Are you sure you want to signout ?</string>
+    <string name="password_same_error">Old password and New password should not be same.</string>
+    <string name="password_mismatch_error">The Password and Confirm password fields don\'t match.</string>
+    <string name="password_mismatch_error1">New password and confirm password fields don\'t match.</string>
+    <string name="password_change_message">Your password has been changed successfully</string>
+    <string name="email_verification">An email verification link has been sent to your registered email.</string>
+    <string name="verify_email">Please verify your email address.</string>
+    <string name="registration_message">Registration (or sign up) for the app  is requested only to provide you with a seamless experience of using the app. Your registration information does not become part of the data collected for any study(ies) housed in the app.  Each study has its own consent process and your data for the study will not be collected without you providing your informed consent prior to joining the study.</string>
+    <string name="forgot_password_error">We have sent a temporary password to your registered email. Please login with temporary password and change your password.</string>
+    <string name="resend_success">An email verification code has been sent to your registered email.</string>
 
 
-    <!-- =================================== FDA Module complete ================================================= -->
-    <!-- ********************* Gateway Module ************************ -->
-    <!-- **************** GatewayPagerAdapter ****************** -->
-    <!-- .xml -->
-    <string name="gateway_welcome">Welcome!</string>
-    <string name="watch_video">Watch Video</string>
-    <string name="gateway_des">The FDA is pleased to offer the FDA MyStudies app as a tool to gather real time, contextual data about medication use and other health issues facing the people we serve.</string>
-    <string name="websitetxt">www.fda.gov</string>
-    <string name="website">https://www.fda.gov/</string>
+    <string name="consentthanksmsg">Thanks for providing consent for this Study</string>
+    <string name="studystartmsg">You can now start using the app to participate in the study.</string>
+    <string name="viewpdf">View/Email eConsent PDF</string>
 
-    <!-- .xml -->
-    <!-- .java -->
-    <string name="gateway_welcome1">Leveraging the Power of Mobility for Research</string>
-    <string name="gateway_pager_adapter_gateway_des1">&gateway_des1;</string>
-    <string name="gateway_welcome2">Improving Health Outcomes</string>
-    <string name="gateway_des2">Explore and participate in studies for which you are eligible and help generate more data, better insights and improved outcomes.</string>
-    <string name="gateway_welcome3">Protecting Your Privacy</string>
-    <string name="gateway_des3">All studies in this app have been approved by an Institutional Review Board, follow strict federal research guidelines, and securely store your responses to ensure your privacy is always protected.</string>
-    <!-- .java -->
-    <!-- **************** ******************* ****************** -->
-    <!-- **************** survey_menu ****************** -->
-    <!-- .xml -->
-    <string name="action_cancel">Exit</string>
-    <!-- .xml -->
-    <!-- **************** ********** ****************** -->
-    <!-- **************** StudyActivity ****************** -->
-    <!-- .xml -->
-    <string name="poweredby">Powered by FDA MyStudies</string>
-    <string name="side_menu_home">Home</string>
-    <string name="side_menu_resources">Resources</string>
-    <string name="fda_study_activity_mresource_label">14</string>
-    <string name="fda_study_activity_side_menu_reach_out">&side_menu_reach_out;</string>
-    <string name="side_menu_sign_in">Sign In</string>
-    <string name="fda_study_activity_side_menu_new_user">&side_menu_new_user;</string>
-    <string name="side_menu_sign_up">Sign up</string>
-    <string name="side_menu_sign_out">Sign Out</string>
-    <string name="side_menu_version">v</string>
-    <!-- .xml -->
-    <!-- .java -->
-    <string name="fda_study_activity_study_paused">&study_paused;</string>
-    <string name="fda_study_activity_closed">&closed;</string>
-    <string name="fda_study_activity_study_resume">&study_resume;</string>
-    <string name="fda_study_activity_studyNotAvailable">&studyNotAvailable;</string>
-    <string name="fda_study_activity_studyNotJoined">&studyNotJoined;</string>
-    <string name="fda_study_activity_resources">&resources;</string>
-    <string name="fda_study_activity_registration_message">&registration_message;</string>
-    <string name="fda_study_activity_ok_btn">&ok_btn;</string>
-    <string name="fda_study_activity_why_register">&why_register;</string>
-    <string name="fda_study_activity_sign_in_btn">&sign_in_btn;</string>
-    <string name="fda_study_activity_profile_small">&profile_small;</string>
-    <string name="fda_study_activity_sign_in">&sign_in;</string>
-    <string name="fda_study_activity_profile">&profile;</string>
-    <string name="please_enter_key">Please enter a key</string>
-    <string name="edit">Edit</string>
-    <string name="fda_study_activity_cancel">&cancel;</string>
-    <string name="fda_study_activity_sign_out">&sign_out;</string>
-    <string name="fda_study_activity_sign_out_message">&sign_out_message;</string>
-    <string name="fda_study_activity_sign_out_message_data_lost">&sign_out_message_data_lost;</string>
-    <string name="fda_study_activity_press_back_to_exit">&press_back_to_exit;</string>
-    <string name="fda_study_activity_signOut">&signOut;</string>
-    <string name="signup">SIGN UP</string>
-    <string name="reachout">REACH OUT</string>
+    <string name="eligibility">ELIGIBILITY</string>
 
-    <!-- .java -->
-    <!-- **************** ******************* ****************** -->
-    <!-- =================================== FDA Module complete ================================================= -->
+    <string name="why_register">Why Register?</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="sign_out_message">Are you sure you want to sign out?</string>
+    <string name="sign_out_message_data_lost">Are you sure you want to sign out? Incomplete activities and activities completed while offline must be re-started when you next sign in.</string>
+    <string name="delete_message">Are you sure you wish to permanently delete your FDA Health Studies Gateway app account?  You will need to register again if you wish to join a study.</string>
+    <string name="first_name_empty">Please enter your first name.</string>
+    <string name="subject_empty">Please enter your subject.</string>
+    <string name="message_empty">Please enter your message.</string>
+    <string name="submitted_message">Successfully submited</string>
+    <string name="contact_us_message">Thank you for contacting us. We will get back to you as soon as possible.</string>
+    <string name="feedback_message">Thank you for providing feedback. Your gesture is appreciated.</string>
+    <string name="feedback_empty">Please enter your feedback.</string>
+    <string name="feedback_submit_success">Thank you. Your Form has been successfully submitted!</string>
 
 
-    <!-- =================================== Covid19 Module ================================================= -->
-    <!-- **************** ******************* ****************** -->
-    <string name="covid_19_gateway_des">The FDA is pleased to offer this application to enable electronic consent for COVID-19 trials. Before you can access informed consent information for a clinical trial or study, you have to register with the app.</string>
-    <string name="covid_19_gateway_des1">&gateway_des1;</string>
-    <string name="covid_19_delete_account_content">You have chosen to delete your COVID MyStudies Account. This will result in automatic withdrawal from all studies.\n\nBelow is a list of studies that you are a part of and information on how your response data will be handled with each after you withdraw. Please review and confirm.</string>
-    <string name="covid_19_delete_message">Are you sure you wish to permanently delete your FDA Health Studies Gateway app account?  You will need to register again if you wish to join a study.</string>
-    <string name="covid_19_my_studies">COVID MyStudies</string>
-    <string name="covid_19_studie_your_enrolled">It\'s been a while since you visited the COVID MyStudies app. Please consider continuing your participation in any studies in which you\'re enrolled.</string>
-    <string name="prject_name">&covid_19_prject_name;</string>
-    <string name="covid_19_per_completion">There are no more activities for this study in the COVID MyStudies app. Thank you for your participation.</string>
-    <string name="covid_19_side_menu_reach_out">&side_menu_reach_out;</string>
-    <string name="covid_19_side_menu_new_user">&side_menu_new_user;</string>
-    <string name="covid_19_study_activity_study_paused">&study_paused;</string>
-    <string name="covid_19_study_activity_study_resume">&study_resume;</string>
-    <string name="covid_19_study_activity_study_not_available">&studyNotAvailable;</string>
-    <string name="covid_19_study_activity_study_not_joined">&studyNotJoined;</string>
-    <string name="covid_19_study_activity_resources">&resources;</string>
-    <string name="covid_19_study_activity_registration_message">&registration_message;</string>
-    <string name="covid_19_study_activity_sign_in_btn">&sign_in_btn;</string>
-    <string name="covid_19_study_activity_ok_btn">&ok_btn;</string>
-    <string name="covid_19_study_activity_why_register">&why_register;</string>
-    <string name="covid_19_study_activity_profile_small">&profile_small;</string>
-    <string name="covid_19_study_activity_sign_in">&sign_in;</string>
-    <string name="covid_19_study_activity_profile">&profile;</string>
-    <string name="covid_19_study_activity_sign_out">&sign_out;</string>
-    <string name="covid_19_study_activity_sign_out_message">&sign_out_message;</string>
-    <string name="covid_19_study_activity_sign_out_message_data_lost">&sign_out_message_data_lost;</string>
-    <string name="covid_19_study_activity_signOut">&signOut;</string>
-    <string name="covid_19_study_activity_press_back_to_exit">&press_back_to_exit;</string>
-    <!-- **************** ******************* ****************** -->
-    <!-- =================================== Covid19 Module complete ================================================= -->
+    <string name="enrollvalidated">Your enrollment token has been successfully validated. You are eligible to join the study. Please click Continue to proceed to the Consent section.</string>
+    <string name="validated">You are Eligible!</string>
+    <string name="search_location">search location</string>
+    <string name="survey_message">This survey is not available right now please try after some time.</string>
+    <string name="feedbacktitle">Feedback</string>
 
-    <!-- Global Resources -->
-    <string name="app_name">MyStudies</string>
-    <!-- global preference -->
-    <string name="email">Email</string>
-    <string name="title">title</string>
-    <string name="bookmark">bookmark</string>
-    <string name="status">status</string>
-    <string name="position">position</string>
-    <string name="enroll">enroll</string>
-    <string name="rejoin">rejoin</string>
-    <string name="usepasscode">usePassCode</string>
-    <string name="initialpasscodeset">InitialPasscodeSet</string>
-    <string name="notification">notification</string>
-    <string name="completedRuns">completedRuns</string>
-    <string name="missedRuns">missedRuns</string>
-    <string name="totalRuns">totalRuns</string>
-    <string name="mapCount">mapCount</string>
-    <string name="json_object_filter">jsondata</string>
-    <string name="refreshToken">refreshToken</string>
-    <string name="app_standalone">Standalone</string>
-    <!-- ================================================ -->
-    <!-- ================ condition Statements ===================== -->
+
+    <string name="about_study">About the Study</string>
     <string name="about_study1">About the Study</string>
+    <string name="consent_pdf">Consent PDF</string>
+    <string name="consent_pdf1">Consent PDF</string>
+    <string name="protocol_pdf">Protocol PDF</string>
+    <string name="leave_study">Leave Study</string>
+
     <string name="active">active</string>
     <string name="upcoming">upcoming</string>
     <string name="paused">paused</string>
     <string name="closed">closed</string>
-    <!-- ================================================ -->
-
-    <!-- ================= General unused / used in other module strings =========================== -->
+    <string name="notxt">\u0020</string>
+    <string name="force_upgrade">There is a new version of the app available with several useful updates. Please upgrade the app to continue using it.</string>
+    <string name="upgrade">Upgrade</string>
+    <string name="normal_upgrade">There is a new version of the app available with several useful updates. Would you like to upgrade before continuing?</string>
     <string name="success">SUCCESS</string>
     <string name="failed">FAILED</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="enter_time">Enter a Time</string>
+    <string name="enter_location">Enter a Location</string>
+    <string name="true_text">True</string>
+    <string name="false_text">False</string>
+    <string name="signature">Signature</string>
+    <string name="signature_form_step">SIGNATURE_FORM_STEP</string>
+    <string name="first_name1">First Name</string>
+    <string name="first_name2">First name</string>
+    <string name="first_name3">Required</string>
+    <string name="participant_first_name1">Participant\'s First Name</string>
+    <string name="participant_first_name2">Participant\'s First Name</string>
+    <string name="participant_relationship1">Participantrelationship</string>
+
+    <string name="participant_relationship2">Please specify the relationship to your participant</string>
+
+    <string name="participant_first_last_name">Please enter the participant\'s first and last name below</string>
+
+    <string name="last_name1">Last Name</string>
+    <string name="last_name2">Last name</string>
+    <string name="last_name3">Required</string>
+
+    <string name="participant_last_name1">Participant\'s Last Name</string>
+    <string name="participant_last_name2">Participant\'s Last Name</string>
+
+
+    <string name="next1">next</string>
+    <string name="exit_message">Are you sure you want to exit?</string>
+    <string name="end_task">End Task</string>
+    <string name="start_walking">Start walking</string>
+    <string name="count_sensor_not_available">Count sensor not available!</string>
+    <string name="stop_walking">stop walking</string>
+    <string name="stop_in_between">Stopping in between</string>
+    <string name="recording">recording</string>
+    <string name="stopping">stopping</string>
+    <string name="setected_location">selected location</string>
+    <string name="enter_a_time">Enter a Time</string>
+    <string name="setelct_time">Select Time</string>
+    <string name="activities_not_found">Activities Not Found</string>
+    <string name="unable_to_parse">Oops! something went wrong</string>
+    <string name="enter_enrollment_id">Please Enter a Enrollment ID</string>
+    <string name="not_able_create_pdf">Not able to create PDF</string>
+    <string name="remainder_settings">Please enable remainder settings to set time.</string>
+    <string name="anonymous_feedback">Leave Anonymous Feedback</string>
+    <string name="need_help">Need Help? Contact Us</string>
+    <string name="press_back_to_exit">Press back again to exit.</string>
+    <string name="upcoming_study">This Study is an upcoming study</string>
+    <string name="study_not_available">Sorry, enrollment for this study has been closed for now. Please check back later or explore other studies you could join.</string>
+    <string name="cannot_rejoin_study">Sorry, this study currently does not allow previously enrolled participants to rejoin the study after they have withdrawn from the study. Please check back later or explore other studies.</string>
+    <string name="study_paused">This study has been temporarily paused. Please check back later.</string>
+    <string name="study_Joined_paused">The study has been temporarily paused. You can participate in activities once it is resumed. Please check back later.</string>
+    <string name="study_no_enroll">Sorry, enrollment for this study has been closed for now. Please check back later or explore other studies you could join.</string>
+    <string name="study_resume">This Study is closed</string>
+    <string name="completed">Completed</string>
+    <string name="not_eligible">Not Eligible</string>
+    <string name="in_progress">In Progress</string>
+    <string name="yet_to_join_filter">Yet To Join</string>
+    <string name="partial_participation">Partial Participation</string>
+    <string name="yet_to_join">Yet To Join</string>
+    <string name="no_participation">No Participation</string>
+    <string name="withdrawn">Withdrawn</string>
+    <string name="current1">Current</string>
+    <string name="upcoming1">Upcoming</string>
     <string name="completed1">Completed</string>
+    <string name="past">Past</string>
+    <string name="start">Start</string>
+    <string name="resume">Resume</string>
+    <string name="completed2">Completed</string>
+    <string name="expired">Expired</string>
+    <string name="incompleted2">Incomplete</string>
+    <string name="run">Run</string>
+    <string name="upcoming_event">This is an upcoming event</string>
+    <string name="incomple_event">You missed the previous run of this activity. Please wait till the next run becomes available. Run timings are given on the Activities list screen.</string>
+    <string name="completed_event">This is a completed event</string>
+    <string name="current_activities">Current Activities</string>
+    <string name="completed3">COMPLETED</string>
+    <string name="pending">PENDING</string>
+    <string name="upcoming_activities">Upcoming Activities</string>
     <string name="total_sleep">TOTAL HOURS OF\nSLEEP</string>
     <string name="hours_activity">TOTAL HOURS OF\nACTIVITY</string>
     <string name="number_of_steps">TOTAL NUMBER OF\nSTEPS</string>
+    <string name="check_internet">Check your internet connection</string>
+    <string name="unknown_error">No internet connection/cannot connect to server</string>
+    <string name="set_remainder">Set Reminder</string>
+    <string name="hour">hr</string>
+    <string name="minute">min</string>
+    <string name="done">Done</string>
+    <string name="kick_count">TOTAL KICK COUNT</string>
+    <string name="record_kick">TAP TO RECORD A KICK</string>
+    <string name="start_timer">TAP TO START TIMER</string>
+    <string name="current_activities1">Current Activities</string>
+    <string name="completed4">COMPLETED</string>
+    <string name="pending1">PENDING</string>
+    <string name="active1">ACTIVE</string>
     <string name="surveys">SURVEYS</string>
     <string name="tasks">TASKS</string>
     <string name="per_study_completion">% Study Completion</string>
     <string name="per_study_adherence">% Study Adherence</string>
+    <string name="statistics">Statistics</string>
+    <string name="month">MONTH</string>
+    <string name="week">WEEK</string>
+    <string name="day">DAY</string>
+    <string name="trends">Trends</string>
+    <string name="trendsTitle">TRENDS</string>
+    <string name="feets">ft</string>
+    <string name="inches">in</string>
     <string name="hour1">Hour</string>
+    <string name="completion">COMPLETION: </string>
+    <string name="adherence">Adherence:</string>
+    <string name="no_task_available">No Task available for this study</string>
+    <string name="no_ableto_getdata">Not able to get data</string>
+    <string name="couldnot_launch_survey">Could not launch survey</string>
+    <string name="current_locationwillnot_used">Current location will not be used for location based question</string>
+    <string name="error_retriving_data">Error in retrieving data</string>
+    <string name="update_success">Update Success</string>
+    <string name="rooted_device">Rooted device are not allowed to use this app.</string>
     <string name="force_upgrade_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed ipsum id odio mollis mollis in ac nulla. Maecenas ac imperdiet mi, eu tristique mi. Duis accumsan vestibulum augue. Aliquam ac nulla tempus, malesuada felis nec, suscipit urna. </string>
     <string name="android">android</string>
+    <string name="title">title</string>
+    <string name="bookmark">bookmark</string>
+    <string name="status">status</string>
+    <string name="studyStatus">studyStatus</string>
+    <string name="position">position</string>
+    <string name="enroll">enroll</string>
+    <string name="rejoin">rejoin</string>
+    <string name="studyVersion">studyVersion</string>
+    <string name="studyNotAvailable">This study is not available.</string>
     <string name="login_to_continue">Please login to view details.</string>
+    <string name="studyNotJoined">You have to joined this study to continue.</string>
+
+    <string name="fetalkicktitle">Fetal Kick Counter</string>
+    <string name="fetalkickdesc">This activity asks you to record the number of times you feel your baby kick or move in a given amount of time by tapping on the screen each time you feel a kick.</string>
+    <string name="signtitle">Signature</string>
+    <string name="signdesc">Please sign using your finger on the line below.</string>
     <string name="use_passcode">Use Passcode to access app</string>
+    <string name="enter_passcode">Enter a 4-digit passcode</string>
+    <string name="enter_passcode_to_access_app">Passcode helps you unlock the app</string>
+    <string name="usepasscode">usePassCode</string>
+    <string name="permission_deniedDate">Permission denied to read/write so couldn\'t display PDF</string>
+    <string name="consentPdfNotAvailable">consent PDF not available</string>
+    <string name="passcodeNotMatching">Passcode doesn\'t match</string>
+    <string name="confirmPascode">Confirm Passcode</string>
+    <string name="study_status">STUDY STATUS</string>
+    <string name="active2">Active</string>
+    <string name="participation_status">PARTICIPATION STATUS</string>
     <string name="the_study_is">THE\nSTUDY IS</string>
+    <string name="completed_text1">YOU ARE</string>
+    <string name="percentage">%</string>
     <string name="complete">COMPLETE</string>
+    <string name="complete_text2">DONE WITH\nTHE STUDY</string>
     <string name="you_completed">YOU\nCOMPLETED</string>
+    <string name="adherence_text1">YOU ARE\nCOMPLETING</string>
     <string name="activities_so_far">OF ACTIVITIES\nSO FAR</string>
+    <string name="adherence_text2">OF ACTIVITIES\nON TIME</string>
+    <string name="no_stats_currently_available">No stats currently available</string>
+    <string name="date_range">DATE RANGE</string>
+    <string name="select_option">Please select an option between Delete Data or Retain Data for all studies.</string>
+    <string name="delete_study_data">Do you want to delete Study data?</string>
+    <string name="invalidcode">Invalid Code</string>
+    <string name="forgotpasscodemsg">You will be signed out and will need to sign in again. Are you sure you want to proceed ?</string>
+    <string name="initialpasscodeset">InitialPasscodeSet</string>
+    <string name="password_contain_email">Your password should not match with email id</string>
+    <string name="forgot_passcode_signin_again">Forgot Passcode? Sign In again</string>
+    <string name="startOffset">StartOffset</string>
+    <string name="notificationCount">NotificationCount</string>
+    <string name="pendingCount">PendingCount</string>
+    <string name="pendingCountResources">PendingCountResources</string>
+    <string name="notification">notification</string>
+    <string name="charttag">activityId</string>
+    <string name="signed_consent">SignedConsent</string>
+    <string name="permission_enable_message">Please enable the permission from settings to share the PDF</string>
+    <string name="leave_study_retained_message">Are you sure? Tap Ok to confirm.</string>
+    <string name="leave_study_deleted_message">Are you sure? Tap Ok to confirm.</string>
+    <string name="leave_study_retained_or_deleted_message">You are choosing to leave the study. Please choose if your response data can be retained and used for research purposes OR if your response data should be deleted.</string>
+    <string name="consent_complete">Please complete the Consent to continue</string>
+    <string name="studyPaused">This study is paused.</string>
+    <string name="studyClosed">This study is closed.</string>
+    <string name="completedRuns">completedRuns</string>
+    <string name="missedRuns">missedRuns</string>
+    <string name="totalRuns">totalRuns</string>
     <string name="useremotenotification">useRemoteNotification</string>
+    <string name="runchartindex">runchartindex</string>
+    <string name="runchartmaxindex">runchartmaxindex</string>
+    <string name="passcode_confirm_reenter">Re-enter the 4-digit passcode</string>
+    <string name="enter_your_passcode">Enter your passcode</string>
+    <string name="thank_you_for_your_time">Thank you for your time!</string>
+    <string name="permission_enable_message_screenshot">Please enable the permission from settings to share the Screen Shot</string>
+    <string name="search">Search</string>
+    <string name="apply">Apply</string>
+    <string name="allstudies">Study Status</string>
+    <string name="paused_first_cap">Paused</string>
+    <string name="active_caps">Active</string>
+    <string name="closed_caps">Closed</string>
+    <string name="participation_status_small">Participation\nStatus</string>
+    <string name="bookmarked">Bookmarked</string>
+    <string name="categories">Categories</string>
+    <string name="pregnancy">Pregnancy</string>
+    <string name="fitness">Fitness</string>
     <string name="nutrition">Nutrition</string>
     <string name="lifestyle">Lifestyle</string>
+    <string name="mapCount">mapCount</string>
     <!--filter screen keys are:-->
     <string name="active_filter_key">active</string>
     <string name="closed_filter_key">closed</string>
@@ -1448,42 +426,137 @@
     <string name="fitness_filter_key">fitness</string>
     <string name="nutrition_filter_key">nutrition</string>
     <string name="lifestyle_filter_key">lifestyle</string>
+
+    <string name="biologics_safety">Biologics Safety</string>
+    <string name="clinical_trials">Clinical Trials</string>
+    <string name="cosmetics_safety">Cosmetics Safety</string>
+    <string name="drug_safety">Drug Safety</string>
+    <string name="food_safety">Food Safety</string>
+    <string name="medical_device_safety">Medical Device Safety</string>
+    <string name="observational_studies">Observational Studies</string>
+    <string name="public_health">Public Health</string>
+    <string name="radiation_emitting_products">Radiation-Emitting Products</string>
+    <string name="tobacco_use">Tobacco Use</string>
+
+    <string name="surveycompletedmsg">Tap Done to submit responses. Responses cannot be modified after submission.</string>
+    <string name="action_cancel">Exit</string>
+    <string name="clear"> Clear</string>
+    <string name="endtask">End Task</string>
+    <string name="exit_activity">Responses will be stored on device (unless you sign out) so you can resume the survey before it expires.</string>
+    <string name="json_object_filter">jsondata</string>
+
+    <!--Localization-->
+    <string name="my_studies">MyStudies</string>
+    <string name="studie_your_enrolled">It\'s been a while since you visited the FDA MyStudies app. Please consider continuing your participation in any studies in which you\'re enrolled.</string>
     <string name="resource_available">A new resource is available Please check.</string>
+    <string name="the_activity">The activity</string>
+    <string name="participation_is_important">will expire in 24 hours. Your participation is important. Please visit the study to complete it now.</string>
+    <string name="now_available_to_take">is now available to take. Please visit the study to complete it.</string>
+    <string name="scheduled_activity">A new run of the scheduled activity</string>
+    <string name="valid_until">is now available and is valid until</string>
+    <string name="participation_is_important2">. Your participation is important. Please visit the study to complete it now.</string>
+    <string name="weekly_activity">The current run of the weekly activity</string>
+    <string name="new_run">A new run of the weekly activity</string>
+    <string name="study_complete">is now available. Please visit the study to complete it.</string>
+    <string name="monthly_activity">The current run of the monthly activity</string>
+    <string name="expire_in_three_days">will expire in 3 days. Your participation is important. Please visit the study to complete it now.</string>
+    <string name="new_run_monthly_activity">A new run of the monthly activity</string>
+    <string name="new_run_daily_activity">A new run of the daily activity</string>
+    <string name="your_participation_important">is now available. Your participation is important. Please visit the study to complete it now.</string>
+    <string name="step_couldnt_add">from step couldn\'t add</string>
+    <string name="cm">CM</string>
+    <string name="permission_deny">Unable to get current location due to permission deny</string>
+    <string name="unable_search_loc">Unable to search location. If issue continous please restart the device.</string>
+    <string name="selected_location">selected location</string>
+    <string name="search_data_empty">Sorry, no studies found. Please try different filter options.</string>
+    <string name="prject_name">FDA</string>
+    <string name="delete">DELETE</string>
+    <string name="retain_my_data_caps">RETAIN MY DATA</string>
+    <string name="cancel_caps">CANCEL</string>
+    <string name="profile_updated">Profile Updated</string>
+    <string name="app_glossary">App Glossary</string>
+    <string name="proceed_caps">PROCEED</string>
     <string name="important_note">Important Note</string>
+    <string name="delete_my_data_caps">DELETE MY DATA</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="you_agree_this_app">By tapping Sign In, you agree to this app\'s</string>
+    <string name="terms2">Terms</string>
     <string name="and">and</string>
+    <string name="privacy_policy2">Privacy Policy</string>
+    <string name="not_able_to_login">Not able to login</string>
+    <string name="i_agree">I Agree to the</string>
+    <string name="unable_to_signup">Unable to Signup</string>
+    <string name="please_enter_key">Please enter a key</string>
+    <string name="search_data_not_available">Sorry, no Studies found. Please check the spelling or try a different search.</string>
+    <string name="please_review_the_updated_consent">Please review the updated consent</string>
+    <string name="filter_clicked">Filter clicked</string>
+    <string name="resource_btn_clicked">ResourceBtn clicked</string>
+    <string name="sign_in_btn_clicked">SignInButtonBtn clicked</string>
+    <string name="upcoming_caps">UPCOMING</string>
+    <string name="study_for_fitness">A Study for fitness</string>
+    <string name="sponsor_name">Sponsor Name</string>
+    <string name="all">All</string>
+    <string name="surveys1">Surveys</string>
+    <string name="tasks1">Tasks</string>
+    <string name="study">The study</string>
+    <string name="percent_complete1">is 100 percent complete. Thank you for your participation.</string>
+    <string name="percent_complete2">is now 50 percent complete. We look forward to your continued participation as the study progresses.</string>
+    <string name="missed_activity">We noticed you missed an activity in</string>
     <string name="we_encourage">today. That\'s ok! We know you\'re busy, but we encourage you to complete study activities before they expire.</string>
+    <string name="participant">Participant</string>
+    <string name="agree_participate_research_study">I agree to participate in this research study.</string>
+    <string name="participans_name">Participant\'s Name</string>
+    <string name="participants_signature">Participant\'s Signature</string>
+    <string name="participants_signature_lar">Signature</string>
+    <string name="date">Date</string>
+    <string name="done2">done</string>
+    <string name="as_scheduled">As Scheduled</string>
+    <string name="onetime">One-time</string>
+    <string name="on">on</string>
+    <string name="to">to</string>
+    <string name="from">From</string>
+    <string name="more">more</string>
+    <string name="missed">missed</string>
+    <string name="no_charts_display">No charts to display</string>
     <string name="pick_email_provider">Pick an Email provider</string>
+    <string name="unable_to_retrieve_data">Unable to retrieve data</string>
+    <string name="survey_task">1 Survey, 1 Task</string>
+    <string name="survey_task10">10 Survey, 1 Task</string>
+    <string name="touch_screen">Touch Screen</string>
+    <string name="sign_in_Screen">Sign In Screen</string>
+    <string name="result">result</string>
+    <string name="data_used">How data will be \nused</string>
+    <string name="unable_to_submit_result">Unable to submit result</string>
+    <string name="connection_timeout">Connection Timeout</string>
+    <string name="fetal_kick_recorder_activity">Fetal Kick Recorder Activity - Started</string>
+    <string name="fetal_kick_recorder_activity_in_progress">Fetal Kick Recorder Activity - In Progress</string>
+    <string name="noteligibledesc">Sorry, you are not eligible for participation in this study. We thank you for your interest and time, and encourage you to explore other studies as they are available in the app. </string>
+    <string name="you_are_eligible">You are Eligible!</string>
+    <string name="eligibledesc">Based on the answers you provided, you are eligible to participate in this study. Please click Continue to proceed to the Consent section.</string>
+    <string name="continuetxt">Continue</string>
+    <string name="ComprehensionSuccessDesc">You answered all of the questions correctly. Tap Next to continue.</string>
+    <string name="great_job">Great Job!</string>
+    <string name="consentfailuremsgdesc">You answered one or more questions wrong. We want to make sure you understand what this study is about and what is involved. Review the consent information screens and try again.</string>
+    <string name="try_again">Try Again</string>
+    <string name="retry">Retry</string>
+
+    <string name="refreshToken">refreshToken</string>
+
+
+    <string name="activetaskremindertxt">Reminder: The fetal kick activity timer is currently running. Please record kicks or movements you have felt in the app.</string>
+    <string name="notificatinturnoffnotification">Stay up-to-date! Turn ON notifications and reminders in app and phone settings to get notified about study activity in a timely manner.</string>
+
     <string name="enable_location_permission">Please allow the app to access the device location to continue</string>
     <string name="permission_denied">Permission denied to read/write files</string>
+    <string name="app_standalone">Standalone</string>
+    <string name="app_gateway">Gateway</string>
+    <string name="otherValuetxt">Please provide an input for the text field too.</string>
+
+
     <string name="termsurl">https://www.fda.gov/AboutFDA/AboutThisWebsite/WebsitePolicies/</string>
     <string name="privacyurl">https://www.fda.gov/AboutFDA/AboutThisWebsite/WebsitePolicies/#privacy</string>
-    <string name="FileProvider_authorities" translatable="false">com.myfileprovider</string>
-    <string name="agree">I Agree to the Terms and Privacy Policy</string>
-    <string name="enter_contact_us">Please let us know what you need help with. We will get back to you at the earliest.</string>
-    <string name="learn_more">Learn More</string>
-    <string name="terms">TERMS OF USE</string>
-    <string name="medication_survey">Medication survey</string>
-    <string name="privacy_policy">PRIVACY POLICY</string>
-    <string name="privacy_policy_content">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. \n\nThe point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. \n \nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isnt anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</string>
-    <string name="mental_health_survey">Mental health survey</string>
-    <string name="health_survey">Health survey</string>
-    <string name="signed_consent">SignedConsent</string>
-    <string name="surveyjsonname">survey.json</string>
-    <string name="reviewconformmsg">By Agreeing you confirm that you read the consent and that you wish to take part in this research study.</string>
-    <string name="password_mismatch_validation">New password and confirm password does not match.</string>
-    <string name="signout_message">Are you sure you want to signout ?</string>
-    <string name="password_same_error">Old password and New password should not be same.</string>
-    <string name="email_verification">An email verification link has been sent to your registered email.</string>
-    <string name="delete_account">Delete Account</string>
-    <string name="submitted_message">Successfully submited</string>
-    <string name="feedback_message">Thank you for providing feedback. Your gesture is appreciated.</string>
-    <string name="delete_message">Are you sure you wish to permanently delete your FDA Health Studies Gateway app account?  You will need to register again if you wish to join a study.</string>
-    <string name="protocol_pdf">Protocol PDF</string>
-    <string name="participant_relationship1">Participantrelationship</string>
-    <string name="participant_last_name1">Participant\'s Last Name</string>
-    <string name="study_not_available">Sorry, enrollment for this study has been closed for now. Please check back later or explore other studies you could join.</string>
-    <!-- ========================================================== -->
-    <string name="rsb_exit">Exit</string>
-    <string name="rsb_next">next</string>
-    <string name="change_language_alert_dialog_title">Wish to change default language</string>
+
+
+    <!--must change strings-->
+    <string name="FileProvider_authorities">com.myfileprovider</string>
 </resources>

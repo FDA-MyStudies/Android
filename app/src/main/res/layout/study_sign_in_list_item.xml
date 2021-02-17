@@ -40,7 +40,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/stateIcon"
-                android:text="@string/study_sign_in_list_adapter_active1"
+                android:text="@string/active1"
                 android:textColor="@color/colorSecondary" />
         </RelativeLayout>
 

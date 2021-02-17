@@ -85,7 +85,7 @@ public class StudySignInListAdapter extends RecyclerView.Adapter<StudySignInList
             if (i == 3)
                 holder.mState.setText(mContext.getResources().getString(R.string.upcoming_caps));
             else
-                holder.mState.setText(mContext.getResources().getString(R.string.study_sign_in_list_adapter_active1));
+                holder.mState.setText(mContext.getResources().getString(R.string.active1));
 
 
             holder.mStateIcon.setImageResource(R.drawable.bullet);

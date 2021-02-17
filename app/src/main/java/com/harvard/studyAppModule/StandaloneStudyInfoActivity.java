@@ -57,7 +57,6 @@ import org.researchstack.backbone.task.OrderedTask;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.HashMap;
-import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -106,7 +105,6 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
         GetUserStudyListEvent getUserStudyListEvent = new GetUserStudyListEvent();
         HashMap<String, String> header = new HashMap();
         HashMap<String, String> params = new HashMap();
-        header.put("language",header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage())));
         params.put("studyId", AppConfig.StudyId);
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", URLs.SPECIFIC_STUDY + "?studyId=" + AppConfig.StudyId, SPECIFIC_STUDY, StandaloneStudyInfoActivity.this, Study.class, params, header, null, false, this);
 
@@ -182,7 +180,6 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
     private void callGetStudyInfoWebservice() {
         AppController.getHelperProgressDialog().showProgress(StandaloneStudyInfoActivity.this, "", "", false);
         HashMap<String, String> header = new HashMap<>();
-        header.put("language",header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage())));
         String url = URLs.STUDY_INFO + "?studyId=" + AppConfig.StudyId;
         GetUserStudyInfoEvent getUserStudyInfoEvent = new GetUserStudyInfoEvent();
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, STUDY_INFO, StandaloneStudyInfoActivity.this, StudyHome.class, null, header, null, false, StandaloneStudyInfoActivity.this);
@@ -218,7 +215,7 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
                 }
             } else {
                 AppController.getHelperProgressDialog().dismissDialog();
-                Toast.makeText(StandaloneStudyInfoActivity.this, R.string.standalone_activity_error_retriving_data, Toast.LENGTH_SHORT).show();
+                Toast.makeText(StandaloneStudyInfoActivity.this, R.string.error_retriving_data, Toast.LENGTH_SHORT).show();
                 finish();
             }
         } else if (responseCode == STUDY_INFO) {
@@ -226,7 +223,6 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
             if (mStudyHome != null) {
 
                 HashMap<String, String> header = new HashMap<>();
-                header.put("language",header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage())));
                 String url = URLs.GET_CONSENT_DOC + "?studyId=" + AppConfig.StudyId + "&consentVersion=&activityId=&activityVersion=";
                 GetUserStudyInfoEvent getUserStudyInfoEvent = new GetUserStudyInfoEvent();
                 WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, GET_CONSENT_DOC, StandaloneStudyInfoActivity.this, ConsentDocumentData.class, null, header, null, false, StandaloneStudyInfoActivity.this);
@@ -238,7 +234,7 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
                 setViewPagerView(mStudyHome);
             } else {
                 AppController.getHelperProgressDialog().dismissDialog();
-                Toast.makeText(this, R.string.standalone_unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == GET_CONSENT_DOC) {
             AppController.getHelperProgressDialog().dismissDialog();
@@ -292,13 +288,13 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
                 StudyList studyList = dbServiceSubscriber.getStudiesDetails(AppConfig.StudyId, mRealm);
                 if (studyList != null) {
                     if (studyList.getStatus().equalsIgnoreCase(StudyFragment.UPCOMING)) {
-                        Toast.makeText(getApplication(), R.string.standalone_upcoming_study, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplication(), R.string.upcoming_study, Toast.LENGTH_SHORT).show();
                     } else if (!studyList.getSetting().isEnrolling()) {
-                        Toast.makeText(getApplication(), R.string.standalone_study_no_enroll, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplication(), R.string.study_no_enroll, Toast.LENGTH_SHORT).show();
                     } else if (studyList.getStatus().equalsIgnoreCase(StudyFragment.PAUSED)) {
-                        Toast.makeText(getApplication(), R.string.standalone_study_paused, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplication(), R.string.study_paused, Toast.LENGTH_SHORT).show();
                     } else if (!studyList.getSetting().getRejoin() && studyList.getStatus().equalsIgnoreCase(StudyFragment.WITHDRAWN)) {
-                        Toast.makeText(getApplication(), R.string.standalone_cannot_rejoin_study, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplication(), R.string.cannot_rejoin_study, Toast.LENGTH_SHORT).show();
                     } else {
                         new callConsentMetaData(false).execute();
 
@@ -307,7 +303,7 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
                     Toast.makeText(this, "No study present", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(StandaloneStudyInfoActivity.this, R.string.standalone_unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(StandaloneStudyInfoActivity.this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -327,12 +323,10 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
         protected String doInBackground(String... params) {
             ConnectionDetector connectionDetector = new ConnectionDetector(StandaloneStudyInfoActivity.this);
 
-            HashMap<String, String> header = new HashMap<String, String>();
-            header.put("language", Locale.getDefault().getDisplayLanguage());
 
             String url = URLs.BASE_URL_WCP_SERVER + URLs.CONSENT_METADATA + "?studyId=" + AppConfig.StudyId;
             if (connectionDetector.isConnectingToInternet()) {
-                mResponseModel = HttpRequest.getRequest(url, header, "WCP");
+                mResponseModel = HttpRequest.getRequest(url, new HashMap<String, String>(), "WCP");
                 responseCode = mResponseModel.getResponseCode();
                 response = mResponseModel.getResponseData();
                 if (responseCode.equalsIgnoreCase("0") && response.equalsIgnoreCase("timeout")) {
@@ -352,7 +346,7 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
                 } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK && !response.equalsIgnoreCase("")) {
                     response = response;
                 } else {
-                    response = getString(R.string.standalone_unknown_error);
+                    response = getString(R.string.unknown_error);
                 }
             }
             return response;
@@ -368,7 +362,7 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
                     AppController.getHelperSessionExpired(StandaloneStudyInfoActivity.this, "session expired");
                 } else if (response.equalsIgnoreCase("timeout")) {
                     AppController.getHelperProgressDialog().dismissDialog();
-                    Toast.makeText(StandaloneStudyInfoActivity.this, getResources().getString(R.string.standalone_connection_timeout), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StandaloneStudyInfoActivity.this, getResources().getString(R.string.connection_timeout), Toast.LENGTH_SHORT).show();
                 } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK) {
 
                     Gson gson = new GsonBuilder()
@@ -436,19 +430,19 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
                                     joinStudy();
                                 }
                             } else {
-                                Toast.makeText(StandaloneStudyInfoActivity.this, R.string.standalone_error_retriving_data, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(StandaloneStudyInfoActivity.this, R.string.error_retriving_data, Toast.LENGTH_SHORT).show();
                             }
                         }
                     } else {
-                        Toast.makeText(StandaloneStudyInfoActivity.this, R.string.standalone_unable_to_retrieve_data, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(StandaloneStudyInfoActivity.this, R.string.error_retriving_data, Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     AppController.getHelperProgressDialog().dismissDialog();
-                    Toast.makeText(StandaloneStudyInfoActivity.this, getResources().getString(R.string.standalone_unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StandaloneStudyInfoActivity.this, getResources().getString(R.string.unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
                 }
             } else {
                 AppController.getHelperProgressDialog().dismissDialog();
-                Toast.makeText(StandaloneStudyInfoActivity.this, getString(R.string.standalone_unknown_error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(StandaloneStudyInfoActivity.this, getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -461,13 +455,13 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
 
     private void joinStudy() {
         if (mStudy.getStudies().get(0).getStatus().equalsIgnoreCase(StudyFragment.UPCOMING)) {
-            Toast.makeText(getApplication(), R.string.standalone_upcoming_study, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(), R.string.upcoming_study, Toast.LENGTH_SHORT).show();
         } else if (!mStudy.getStudies().get(0).getSetting().isEnrolling()) {
-            Toast.makeText(getApplication(), R.string.standalone_study_no_enroll, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(), R.string.study_no_enroll, Toast.LENGTH_SHORT).show();
         } else if (mStudy.getStudies().get(0).getStatus().equalsIgnoreCase(StudyFragment.PAUSED)) {
-            Toast.makeText(getApplication(), R.string.standalone_activity_study_paused, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(), R.string.study_paused, Toast.LENGTH_SHORT).show();
         } else if (!mStudy.getStudies().get(0).getSetting().getRejoin() && mStudy.getStudies().get(0).getStudyStatus().equalsIgnoreCase(StudyFragment.WITHDRAWN)) {
-            Toast.makeText(getApplication(), R.string.standalone_cannot_rejoin_study, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(), R.string.cannot_rejoin_study, Toast.LENGTH_SHORT).show();
         } else {
             if (eligibilityConsent.getEligibility().getType().equalsIgnoreCase("token")) {
                 Intent intent = new Intent(StandaloneStudyInfoActivity.this, EligibilityEnrollmentActivity.class);
@@ -518,7 +512,6 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
                 HashMap<String, String> header = new HashMap();
                 header.put("auth", AppController.getHelperSharedPreference().readPreference(StandaloneStudyInfoActivity.this, getResources().getString(R.string.auth), ""));
                 header.put("userId", AppController.getHelperSharedPreference().readPreference(StandaloneStudyInfoActivity.this, getResources().getString(R.string.userid), ""));
-                header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
                 RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("get", URLs.STUDY_STATE, GET_PREFERENCES, StandaloneStudyInfoActivity.this, StudyData.class, null, header, null, false, this);
 
                 getPreferenceEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);

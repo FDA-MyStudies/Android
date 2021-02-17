@@ -74,7 +74,7 @@ public class StepsBuilder {
                             QuestionStepCustom scaleStep = new QuestionStepCustom(activityQuestionStep.get(i).getKey(), context.getResources().getString(R.string.survey), ScaleFormat);
                             scaleStep.setAnswerFormat1(ScaleFormat);
                             if (branching)
-                                scaleStep.setStepTitle(R.string.step_builder_no_txt);
+                                scaleStep.setStepTitle(R.string.notxt);
                             scaleStep.setTitle(activityQuestionStep.get(i).getTitle());
                             scaleStep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                             scaleStep.setOptional(activityQuestionStep.get(i).isSkippable());
@@ -85,7 +85,7 @@ public class StepsBuilder {
                             QuestionStepCustom continousscaleStep = new QuestionStepCustom(activityQuestionStep.get(i).getKey(), context.getResources().getString(R.string.survey), ContinousScaleFormat);
                             continousscaleStep.setAnswerFormat1(ContinousScaleFormat);
                             if (branching)
-                                continousscaleStep.setStepTitle(R.string.step_builder_no_txt);
+                                continousscaleStep.setStepTitle(R.string.notxt);
                             continousscaleStep.setTitle(activityQuestionStep.get(i).getTitle());
                             continousscaleStep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                             continousscaleStep.setOptional(activityQuestionStep.get(i).isSkippable());
@@ -102,7 +102,7 @@ public class StepsBuilder {
                             QuestionStepCustom scaleTextStep = new QuestionStepCustom(activityQuestionStep.get(i).getKey(), context.getResources().getString(R.string.survey), ScaleTextFormat);
                             scaleTextStep.setAnswerFormat1(ScaleTextFormat);
                             if (branching)
-                                scaleTextStep.setStepTitle(R.string.step_builder_no_txt);
+                                scaleTextStep.setStepTitle(R.string.notxt);
                             scaleTextStep.setTitle(activityQuestionStep.get(i).getTitle());
                             scaleTextStep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                             scaleTextStep.setOptional(activityQuestionStep.get(i).isSkippable());
@@ -111,7 +111,7 @@ public class StepsBuilder {
                         case "valuePicker":
                             QuestionStepCustom valuepicker = new QuestionStepCustom(activityQuestionStep.get(i).getKey());
                             if (branching)
-                                valuepicker.setStepTitle(R.string.step_builder_no_txt);
+                                valuepicker.setStepTitle(R.string.notxt);
                             Choice[] valuechoice = new Choice[activityQuestionStep.get(i).getFormat().getTextChoices().size()];
                             for (int j = 0; j < activityQuestionStep.get(i).getFormat().getTextChoices().size(); j++) {
                                 valuechoice[j] = new Choice(activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getText(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getValue(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getDetail());
@@ -126,7 +126,7 @@ public class StepsBuilder {
                         case "imageChoice":
                             QuestionStepCustom multichoiceStep = new QuestionStepCustom(activityobj.getSteps().get(i).getKey());
                             if (branching)
-                                multichoiceStep.setStepTitle(R.string.step_builder_no_txt);
+                                multichoiceStep.setStepTitle(R.string.notxt);
                             ChoiceCustomImage[] choicechoices = new ChoiceCustomImage[activityQuestionStep.get(i).getFormat().getImageChoices().size()];
                             for (int j = 0; j < activityQuestionStep.get(i).getFormat().getImageChoices().size(); j++) {
                                 choicechoices[j] = new ChoiceCustomImage(activityQuestionStep.get(i).getFormat().getImageChoices().get(j).getText(), activityQuestionStep.get(i).getFormat().getImageChoices().get(j).getValue(), activityQuestionStep.get(i).getFormat().getImageChoices().get(j).getImage(), activityQuestionStep.get(i).getFormat().getImageChoices().get(j).getSelectedImage());
@@ -147,7 +147,7 @@ public class StepsBuilder {
                                 SingleChoiceTextAnswerFormat choiceAnswerFormat = new SingleChoiceTextAnswerFormat(AnswerFormatCustom.CustomAnswerStyle.SingleTextChoice, choices);
                                 QuestionStepCustom multiStep = new QuestionStepCustom(activityobj.getSteps().get(i).getKey());
                                 if (branching)
-                                    multiStep.setStepTitle(R.string.step_builder_no_txt);
+                                    multiStep.setStepTitle(R.string.notxt);
                                 multiStep.setTitle(activityobj.getSteps().get(i).getTitle());
                                 multiStep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                                 multiStep.setAnswerFormat1(choiceAnswerFormat);
@@ -161,7 +161,7 @@ public class StepsBuilder {
                                 MultiChoiceTextAnswerFormat choiceAnswerFormat = new MultiChoiceTextAnswerFormat(AnswerFormatCustom.CustomAnswerStyle.MultipleTextChoice, choices);
                                 QuestionStepCustom multiStep = new QuestionStepCustom(activityobj.getSteps().get(i).getKey());
                                 if (branching)
-                                    multiStep.setStepTitle(R.string.step_builder_no_txt);
+                                    multiStep.setStepTitle(R.string.notxt);
                                 multiStep.setTitle(activityobj.getSteps().get(i).getTitle());
                                 multiStep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                                 multiStep.setAnswerFormat1(choiceAnswerFormat);
@@ -172,10 +172,10 @@ public class StepsBuilder {
                         case "boolean":
                             QuestionStep booleanStep = new QuestionStep(activityobj.getSteps().get(i).getKey());
                             if (branching)
-                                booleanStep.setStepTitle(R.string.step_builder_no_txt);
+                                booleanStep.setStepTitle(R.string.notxt);
                             booleanStep.setTitle(activityobj.getSteps().get(i).getTitle());
                             booleanStep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
-                            booleanStep.setAnswerFormat(new BooleanAnswerFormat(context.getResources().getString(R.string.step_builder_yes_text), context.getResources().getString(R.string.step_builder_no_text)));
+                            booleanStep.setAnswerFormat(new BooleanAnswerFormat(context.getResources().getString(R.string.yes), context.getResources().getString(R.string.no)));
                             booleanStep.setOptional(activityQuestionStep.get(i).isSkippable());
                             steps.add(booleanStep);
                             break;
@@ -199,7 +199,7 @@ public class StepsBuilder {
                             numericItem.setText(activityobj.getSteps().get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                             numericItem.setPlaceholder(activityQuestionStep.get(i).getFormat().getPlaceholder());
                             if (branching)
-                                numericItem.setStepTitle(R.string.step_builder_no_txt);
+                                numericItem.setStepTitle(R.string.notxt);
                             numericItem.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                             numericItem.setAnswerFormat1(answerFormat);
                             numericItem.setOptional(activityQuestionStep.get(i).isSkippable());
@@ -210,7 +210,7 @@ public class StepsBuilder {
                             DateAnswerformatCustom customChoiceAnswerFormat = new DateAnswerformatCustom(AnswerFormatCustom.DateAnswerStyle.TimeOfDay);
                             timeOfDayStep.setAnswerFormat1(customChoiceAnswerFormat);
                             if (branching)
-                                timeOfDayStep.setStepTitle(R.string.step_builder_no_txt);
+                                timeOfDayStep.setStepTitle(R.string.notxt);
                             timeOfDayStep.setPlaceholder(context.getResources().getString(R.string.enter_time));
                             timeOfDayStep.setTitle(activityobj.getSteps().get(i).getTitle());
                             timeOfDayStep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
@@ -246,7 +246,7 @@ public class StepsBuilder {
                             }
                             QuestionStepCustom dateFormatItem = new QuestionStepCustom(activityobj.getSteps().get(i).getKey(), activityobj.getSteps().get(i).getTitle(), dateFormat);
                             if (branching)
-                                dateFormatItem.setStepTitle(R.string.step_builder_no_txt);
+                                dateFormatItem.setStepTitle(R.string.notxt);
                             dateFormatItem.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                             dateFormatItem.setAnswerFormat1(dateFormat);
                             dateFormatItem.setOptional(activityQuestionStep.get(i).isSkippable());
@@ -257,7 +257,7 @@ public class StepsBuilder {
                             textAnswerFormat.setIsMultipleLines(activityQuestionStep.get(i).getFormat().isMultipleLines());
                             QuestionStepCustom textstep = new QuestionStepCustom(activityobj.getSteps().get(i).getKey(), activityobj.getSteps().get(i).getTitle(), textAnswerFormat);
                             if (branching)
-                                textstep.setStepTitle(R.string.step_builder_no_txt);
+                                textstep.setStepTitle(R.string.notxt);
                             textstep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                             textstep.setPlaceholder(activityQuestionStep.get(i).getFormat().getPlaceholder());
                             textstep.setAnswerFormat1(textAnswerFormat);
@@ -270,7 +270,7 @@ public class StepsBuilder {
                             emailstep.setPlaceholder(activityQuestionStep.get(i).getFormat().getPlaceholder());
                             emailstep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                             if (branching)
-                                emailstep.setStepTitle(R.string.step_builder_no_txt);
+                                emailstep.setStepTitle(R.string.notxt);
                             emailstep.setOptional(activityQuestionStep.get(i).isSkippable());
                             steps.add(emailstep);
                             break;
@@ -279,7 +279,7 @@ public class StepsBuilder {
                             TimeIntervalAnswerFormat timeIntervalAnswerFormat = new TimeIntervalAnswerFormat(ChoiceAnswerFormatCustom.CustomAnswerStyle.TimeInterval, activityobj.getSteps().get(i).getFormat().getStep(), activityobj.getSteps().get(i).getFormat().getDefaultValue());
                             timeIntervalStep.setAnswerFormat1(timeIntervalAnswerFormat);
                             if (branching)
-                                timeIntervalStep.setStepTitle(R.string.step_builder_no_txt);
+                                timeIntervalStep.setStepTitle(R.string.notxt);
                             timeIntervalStep.setTitle(activityobj.getSteps().get(i).getTitle());
                             timeIntervalStep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                             timeIntervalStep.setOptional(activityobj.getSteps().get(i).isSkippable());
@@ -290,7 +290,7 @@ public class StepsBuilder {
                             HeightAnswerFormat HeightAnswerFormat = new HeightAnswerFormat(ChoiceAnswerFormatCustom.CustomAnswerStyle.Height, activityobj.getSteps().get(i).getFormat().getPlaceholder(), activityobj.getSteps().get(i).getFormat().getMeasurementSystem());
                             HeightStep.setAnswerFormat1(HeightAnswerFormat);
                             if (branching)
-                                HeightStep.setStepTitle(R.string.step_builder_no_txt);
+                                HeightStep.setStepTitle(R.string.notxt);
                             HeightStep.setTitle(activityobj.getSteps().get(i).getTitle());
                             HeightStep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                             HeightStep.setOptional(activityobj.getSteps().get(i).isSkippable());
@@ -301,7 +301,7 @@ public class StepsBuilder {
                             LocationAnswerFormat locationAnswerFormat = new LocationAnswerFormat(ChoiceAnswerFormatCustom.CustomAnswerStyle.Location, activityobj.getSteps().get(i).getFormat().isUseCurrentLocation());
                             locationStep.setAnswerFormat1(locationAnswerFormat);
                             if (branching)
-                                locationStep.setStepTitle(R.string.step_builder_no_txt);
+                                locationStep.setStepTitle(R.string.notxt);
                             locationStep.setPlaceholder(context.getResources().getString(R.string.enter_location));
                             locationStep.setTitle(activityobj.getSteps().get(i).getTitle());
                             locationStep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
@@ -314,7 +314,7 @@ public class StepsBuilder {
                             ChoiceAnswerFormatCustom formsFormat = new ChoiceAnswerFormatCustom(ChoiceAnswerFormatCustom.CustomAnswerStyle.Form, formstep, getformquestion(context, activityFormStep, realm), activityobj.getSteps().get(i).isRepeatable(), activityobj.getSteps().get(i).getRepeatableText());
                             formstep.setAnswerFormat1(formsFormat);
                             if (branching)
-                                formstep.setStepTitle(R.string.step_builder_no_txt);
+                                formstep.setStepTitle(R.string.notxt);
                             formstep.setOptional(activityobj.getSteps().get(i).isSkippable());
                             steps.add(formstep);
                             break;
@@ -326,14 +326,14 @@ public class StepsBuilder {
                     ChoiceAnswerFormatCustom formsFormat = new ChoiceAnswerFormatCustom(ChoiceAnswerFormatCustom.CustomAnswerStyle.Form, formstep, questionSteps, activityobj.getSteps().get(i).isRepeatable(), activityobj.getSteps().get(i).getRepeatableText());
                     formstep.setAnswerFormat1(formsFormat);
                     if (branching)
-                        formstep.setStepTitle(R.string.step_builder_no_txt);
+                        formstep.setStepTitle(R.string.notxt);
                     formstep.setOptional(activityobj.getSteps().get(i).isSkippable());
                     steps.add(formstep);
                 } else if (activityQuestionStep.get(i).getType().equalsIgnoreCase("instruction")) {
                     InstructionStep instructionStep = new InstructionStep(activityQuestionStep.get(i).getKey(), activityQuestionStep.get(i).getTitle(), activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                     instructionStep.setOptional(activityQuestionStep.get(i).isSkippable());
                     if (branching)
-                        instructionStep.setStepTitle(R.string.step_builder_no_txt);
+                        instructionStep.setStepTitle(R.string.notxt);
                     steps.add(instructionStep);
                 } else if (activityQuestionStep.get(i).getType().equalsIgnoreCase("task")) {
                     switch (activityQuestionStep.get(i).getResultType()) {

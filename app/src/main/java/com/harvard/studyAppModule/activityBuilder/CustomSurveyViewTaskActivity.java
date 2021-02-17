@@ -551,15 +551,15 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
     }
 
     private void showConfirmExitDialog() {
-        AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle).setTitle(R.string.csv_activity_app_name)
-                .setMessage(R.string.csv_task_exit_activity)
-                .setPositiveButton(R.string.csv_task_endtask, new DialogInterface.OnClickListener() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle).setTitle(R.string.app_name)
+                .setMessage(R.string.exit_activity)
+                .setPositiveButton(R.string.endtask, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         finish();
                     }
                 })
-                .setNegativeButton(R.string.csv_task_cancel_btn, null)
+                .setNegativeButton(R.string.cancel, null)
                 .create();
         alertDialog.show();
     }
