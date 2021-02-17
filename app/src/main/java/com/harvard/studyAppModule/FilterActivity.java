@@ -386,7 +386,7 @@ public class FilterActivity extends AppCompatActivity {
 
                 if (mUserId.equalsIgnoreCase("")) {
                     if (flag1 || flag3) {
-                        Toast.makeText(FilterActivity.this, getResources().getString(R.string.search_data_empty), Toast.LENGTH_LONG).show();
+                        Toast.makeText(FilterActivity.this, getResources().getString(R.string.filter_activity_search_data_empty), Toast.LENGTH_LONG).show();
                     } else {
                         Gson gson = new GsonBuilder().create();
                         String json = gson.toJson(filter);// obj is your object
@@ -407,7 +407,7 @@ public class FilterActivity extends AppCompatActivity {
                     }
 
                     if (flag1 || flag2 || flag3) {
-                        Toast.makeText(FilterActivity.this, getResources().getString(R.string.search_data_empty), Toast.LENGTH_LONG).show();
+                        Toast.makeText(FilterActivity.this, getResources().getString(R.string.filter_activity_search_data_empty), Toast.LENGTH_LONG).show();
                     } else {
                         Gson gson = new GsonBuilder().create();
                         String json = gson.toJson(filter);// obj is your object

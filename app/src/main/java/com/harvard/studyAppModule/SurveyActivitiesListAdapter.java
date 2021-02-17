@@ -403,23 +403,23 @@ public class SurveyActivitiesListAdapter extends RecyclerView.Adapter<SurveyActi
                             }
                         }, 1500);
                         if (paused) {
-                            Toast.makeText(mContext, R.string.study_Joined_paused, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, R.string.survey_activities_list_adapter_study_Joined_paused, Toast.LENGTH_SHORT).show();
                         } else {
                             if (mStatus.get(holder.getAdapterPosition()).equalsIgnoreCase(SurveyActivitiesFragment.STATUS_CURRENT) && (mCurrentRunStatusForActivities.get(holder.getAdapterPosition()).getStatus().equalsIgnoreCase(SurveyActivitiesFragment.IN_PROGRESS) || mCurrentRunStatusForActivities.get(holder.getAdapterPosition()).getStatus().equalsIgnoreCase(SurveyActivitiesFragment.YET_To_START))) {
                                 if (mCurrentRunStatusForActivities.get(holder.getAdapterPosition()).isRunIdAvailable()) {
                                     mSurveyActivitiesFragment.getActivityInfo(items.get(holder.getAdapterPosition()).getActivityId(), mCurrentRunStatusForActivities.get(holder.getAdapterPosition()).getCurrentRunId(), mCurrentRunStatusForActivities.get(holder.getAdapterPosition()).getStatus(), items.get(holder.getAdapterPosition()).getBranching(), items.get(holder.getAdapterPosition()).getActivityVersion(), mCurrentRunStatusForActivities.get(holder.getAdapterPosition()), items.get(holder.getAdapterPosition()));
                                 } else {
-                                    Toast.makeText(mContext, mContext.getResources().getString(R.string.survey_message), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, mContext.getResources().getString(R.string.survey_activities_list_adapter_survey_message), Toast.LENGTH_SHORT).show();
                                 }
                             } else if (mStatus.get(holder.getAdapterPosition()).equalsIgnoreCase(SurveyActivitiesFragment.STATUS_UPCOMING)) {
-                                Toast.makeText(mContext, R.string.upcoming_event, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(mContext, R.string.survey_activities_list_adapter_upcoming_event, Toast.LENGTH_SHORT).show();
                             } else if (mCurrentRunStatusForActivities.get(holder.getAdapterPosition()).getStatus().equalsIgnoreCase(SurveyActivitiesFragment.INCOMPLETE)) {
                                 if (currentRunVal != totalRunVal) {
-                                    Toast.makeText(mContext, R.string.incomple_event, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, R.string.survey_activities_list_adapter_incomple_event, Toast.LENGTH_SHORT).show();
                                 }
                             } else {
                                 if (currentRunVal != totalRunVal) {
-                                    Toast.makeText(mContext, R.string.completed_event, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(mContext, R.string.survey_activities_list_adapter_completed_event, Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }

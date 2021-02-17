@@ -17,7 +17,7 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/rectangle_black_white"
         android:gravity="center"
-        android:text="@string/submit"
+        android:text="@string/contact_us_submit"
         android:textColor="@color/colorPrimary" />
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/hrline8"
@@ -99,7 +99,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/firstName"
                     style="@style/signUpTextField"
-                    android:text="@string/first_name" />
+                    android:text="@string/contact_us_first_name" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edittxt_firstName"
@@ -134,7 +134,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/email_label"
                     style="@style/signUpTextField"
-                    android:text="@string/email" />
+                    android:text="@string/contact_us_email" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edittxt_email"
@@ -167,7 +167,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/subject_label"
                     style="@style/signUpTextField"
-                    android:text="@string/subject" />
+                    android:text="@string/contact_us_subject" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edittxt_subject"

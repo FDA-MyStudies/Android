@@ -192,7 +192,7 @@ public class LocationQuestion implements StepBody, GoogleApiClient.ConnectionCal
                                             LatLng latLng = getLocationFromAddress(v.getText().toString());
                                             if (latLng != null) {
                                                 googleMap.clear();
-                                                googleMap.addMarker(new MarkerOptions().position(latLng).title(context.getResources().getString(R.string.setected_location)));
+                                                googleMap.addMarker(new MarkerOptions().position(latLng).title(context.getResources().getString(R.string.selected_location)));
                                                 currentSelected = latLng;
                                                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentSelected, 5.0f));
                                             } else {

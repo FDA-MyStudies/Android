@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 public class NotEligibleActivity extends AppCompatActivity implements ApiCall.OnAsyncRequestComplete {
     private static final int UPDATE_USERPREFERENCE_RESPONSECODE = 200;
@@ -48,7 +49,7 @@ public class NotEligibleActivity extends AppCompatActivity implements ApiCall.On
         HashMap<String, String> header = new HashMap();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.userid), ""));
-
+        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         JSONObject jsonObject = new JSONObject();
 
         JSONArray studieslist = new JSONArray();

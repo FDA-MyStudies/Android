@@ -156,13 +156,13 @@ public class ResourcesWebViewActivity extends AppCompatActivity {
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                    Toast.makeText(ResourcesWebViewActivity.this, getResources().getString(R.string.permission_deniedDate), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ResourcesWebViewActivity.this, getResources().getString(R.string.resource_web_view_activity_permission_deniedDate), Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
                     if (connectionDetector.isConnectingToInternet()) {
                         new DownloadFileFromURL(downloadingFileURL, mDownloadedFilePath, mFileName).execute();
                     } else {
-                        Toast.makeText(ResourcesWebViewActivity.this, getResources().getString(R.string.check_internet), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ResourcesWebViewActivity.this, getResources().getString(R.string.resource_web_view_activity_check_internet), Toast.LENGTH_LONG).show();
                     }
                 }
                 break;
@@ -358,10 +358,10 @@ public class ResourcesWebViewActivity extends AppCompatActivity {
                 File decryptFile = getEncryptedFilePath(mDownloadedFilePath + mFileName + ".txt");
                 DisplayPDFView(decryptFile.getAbsolutePath());
             } else {
-                Toast.makeText(ResourcesWebViewActivity.this, getResources().getString(R.string.check_internet), Toast.LENGTH_LONG).show();
+                Toast.makeText(ResourcesWebViewActivity.this, getResources().getString(R.string.resource_web_view_activity_check_internet), Toast.LENGTH_LONG).show();
             }
         } catch (Resources.NotFoundException e) {
-            Toast.makeText(ResourcesWebViewActivity.this, getResources().getString(R.string.check_internet), Toast.LENGTH_LONG).show();
+            Toast.makeText(ResourcesWebViewActivity.this, getResources().getString(R.string.resource_web_view_activity_check_internet), Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
     }

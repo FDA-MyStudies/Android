@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -97,6 +98,7 @@ public class NotificationActivity extends AppCompatActivity implements ApiCall.O
         AppController.getHelperProgressDialog().showProgress(NotificationActivity.this, "", "", false);
         GetUserStudyListEvent getUserStudyListEvent = new GetUserStudyListEvent();
         HashMap<String, String> header = new HashMap();
+        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         String url = URLs.NOTIFICATIONS + "?skip=0";
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, NOTIFICATIONS, this, NotificationData.class, null, header, null, false, this);
 
@@ -187,7 +189,7 @@ public class NotificationActivity extends AppCompatActivity implements ApiCall.O
             setRecyclearView(notifications);
             dbServiceSubscriber.saveNotification(notification,mRealm);
         } else {
-            Toast.makeText(this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.notification_activity_unable_to_parse, Toast.LENGTH_SHORT).show();
         }
     }
 

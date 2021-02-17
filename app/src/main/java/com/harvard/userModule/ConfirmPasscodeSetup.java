@@ -23,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 public class ConfirmPasscodeSetup extends AppCompatActivity implements ApiCall.OnAsyncRequestComplete{
 
@@ -199,7 +200,7 @@ public class ConfirmPasscodeSetup extends AppCompatActivity implements ApiCall.O
         HashMap<String, String> params = new HashMap<>();
         params.put("auth", AppController.getHelperSharedPreference().readPreference(ConfirmPasscodeSetup.this, getString(R.string.auth), ""));
         params.put("userId", AppController.getHelperSharedPreference().readPreference(ConfirmPasscodeSetup.this, getString(R.string.userid), ""));
-
+        params.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         JSONObject jsonObjBody = new JSONObject();
         JSONObject settingJson = new JSONObject();
         try {
