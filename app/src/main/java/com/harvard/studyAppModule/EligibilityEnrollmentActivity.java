@@ -141,7 +141,7 @@ public class EligibilityEnrollmentActivity extends AppCompatActivity implements 
                     finish();
                 }
             } else {
-                Toast.makeText(this, R.string.eligibility_enrollment_unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -175,7 +175,7 @@ public class EligibilityEnrollmentActivity extends AppCompatActivity implements 
             }
 
         } else {
-            Toast.makeText(this, R.string.eligibility_enrollment_unable_to_parse, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
         }
     }
 

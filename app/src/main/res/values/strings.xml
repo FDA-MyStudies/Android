@@ -57,11 +57,9 @@
     <!ENTITY studyNotAvailable "This study is not available." >
     <!ENTITY studyNotJoined "You have to join this study to continue." >
     <!ENTITY leave_study "Leave Study" >
-<<<<<<< HEAD
+
     <!ENTITY check_internet "No internet connection/cannot connect to server" >
-=======
-    <!ENTITY check_internet "Check your internet connection" >
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <!ENTITY forgot_password "Forgot password?" >
     <!ENTITY new_usr_signup "New User? Sign Up" >
     <!ENTITY sign_up "Sign Up" >
@@ -94,11 +92,9 @@
     <!ENTITY watch_video "Watch Video" >
     <!ENTITY active1 "ACTIVE" >
     <!ENTITY yet_to_join "Yet To Join" >
-<<<<<<< HEAD
-    <!ENTITY fda_listens "COVID MyStudies" >
-=======
+
     <!ENTITY fda_listens "FDA MyStudies" >
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <!ENTITY expired "Expired" >
     <!ENTITY incompleted2 "Incomplete" >
     <!ENTITY completed2 "Completed" >
@@ -1442,7 +1438,7 @@
     <string name="language_change_alert_text3">in your device settings and continue.</string>
     <string name="language_change_alert_english">English</string>
     <string name="language_change_alert_spanish">Spanish</string>
-     <!-- Error Messages -->
+    <!-- Error Messages -->
 
 
     <!-- **************** ******************* ****************** -->

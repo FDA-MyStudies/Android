@@ -43,8 +43,8 @@ public class StepsBuilder {
         ArrayList<Step> steps = new ArrayList<>();
         if (activityQuestionStep != null) {
             if (!addEligibility && activityQuestionStep.size() > 0) {
-                InstructionStep instructionStep = new InstructionStep("Eligibility Test", context.getResources().getString(R.string.eligibility_title), context.getResources().getString(R.string.eligibility_description));
-                instructionStep.setStepTitle(R.string.em_step_builder_no_txt);
+                InstructionStep instructionStep = new InstructionStep("Eligibility Test", "Eligibility Test", "Please answer the questions that follow to help ascertain your eligibility for this study.");
+                instructionStep.setStepTitle(R.string.notxt);
                 instructionStep.setOptional(false);
                 steps.add(instructionStep);
             }
@@ -64,7 +64,7 @@ public class StepsBuilder {
                             multichoiceStep.setTitle(activityQuestionStep.get(i).getTitle());
                             multichoiceStep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                             multichoiceStep.setAnswerFormat1(multichoiceFormat);
-                            multichoiceStep.setStepTitle(R.string.em_step_builder_no_txt);
+                            multichoiceStep.setStepTitle(R.string.notxt);
                             multichoiceStep.setOptional(activityQuestionStep.get(i).isSkippable());
                             steps.add(multichoiceStep);
                             break;
@@ -81,7 +81,7 @@ public class StepsBuilder {
                                 multiStep.setTitle(activityQuestionStep.get(i).getTitle());
                                 multiStep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                                 multiStep.setAnswerFormat1(choiceAnswerFormat);
-                                multiStep.setStepTitle(R.string.em_step_builder_no_txt);
+                                multiStep.setStepTitle(R.string.notxt);
                                 multiStep.setOptional(activityQuestionStep.get(i).isSkippable());
                                 steps.add(multiStep);
                             } else {
@@ -95,7 +95,7 @@ public class StepsBuilder {
                                 multiStep.setTitle(activityQuestionStep.get(i).getTitle());
                                 multiStep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                                 multiStep.setAnswerFormat1(choiceAnswerFormat);
-                                multiStep.setStepTitle(R.string.em_step_builder_no_txt);
+                                multiStep.setStepTitle(R.string.notxt);
                                 multiStep.setOptional(activityQuestionStep.get(i).isSkippable());
                                 steps.add(multiStep);
                             }
@@ -107,7 +107,7 @@ public class StepsBuilder {
                             booleanStep.setTitle(activityQuestionStep.get(i).getTitle());
                             booleanStep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                             booleanStep.setAnswerFormat(new BooleanAnswerFormat(context.getResources().getString(R.string.yes), context.getResources().getString(R.string.no)));
-                            booleanStep.setStepTitle(R.string.em_step_builder_no_txt);
+                            booleanStep.setStepTitle(R.string.notxt);
                             booleanStep.setOptional(activityQuestionStep.get(i).isSkippable());
                             steps.add(booleanStep);
                             break;

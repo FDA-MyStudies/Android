@@ -129,6 +129,7 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
 
         spanTxt.append(" "+mContext.getResources().getString(R.string.sign_in_fragment_terms2));
 
+
         spanTxt.setSpan(new ClickableSpan() {
             @Override
             public void updateDrawState(TextPaint ds) {
@@ -147,7 +148,7 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
             }
         }, spanTxt.length() - mContext.getResources().getString(R.string.sign_in_fragment_terms2).length(), spanTxt.length(), 0);
 
-        spanTxt.append(" " + mContext.getResources().getString(R.string.sign_in_fragment_and));
+        spanTxt.append(" " + mContext.getResources().getString(R.string.and));
         spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.colorPrimaryBlack)), spanTxt.length() - " and".length(), spanTxt.length(), 0);
 
         spanTxt.append(" " + mContext.getResources().getString(R.string.sign_in_fragment_privacy_policy2));
@@ -329,7 +330,6 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
         HashMap<String, String> header = new HashMap<>();
         header.put("auth", mUserAuth);
         header.put("userId", mUserID);
-        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         GetUserProfileEvent getUserProfileEvent = new GetUserProfileEvent();
         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("get", URLs.GET_USER_PROFILE, USER_PROFILE_REQUEST, mContext, UserProfileData.class, null, header, null, false, this);
         getUserProfileEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
@@ -392,11 +392,9 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
     private void callUpdateProfileWebService(String deviceToken) {
         AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
         UpdateUserProfileEvent updateUserProfileEvent = new UpdateUserProfileEvent();
-
         HashMap<String, String> params = new HashMap<>();
         params.put("auth", mUserAuth);
         params.put("userId", mUserID);
-        params.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
 
         JSONObject jsonObjBody = new JSONObject();
         JSONObject infoJson = new JSONObject();

@@ -124,19 +124,19 @@ public class ConsentLARStepBody<T> implements StepBody {
         patientRelationship = new EditText(inflater.getContext());
         patientRelationship.setTextColor(inflater.getContext().getResources().getColor(R.color.colorPrimaryBlack));
         patientRelationship.setTextSize(16f);
-        patientRelationship.setHint(parent.getContext().getResources().getString(R.string.consent_lars_required));
+        patientRelationship.setHint(parent.getContext().getResources().getString(R.string.first_name3));
         patientRelationship.setLayoutParams(params1);
         patientRelationship.setFilters(new InputFilter[] {new InputFilter.LengthFilter(250)});
         patientFirstName = new EditText(inflater.getContext());
         patientFirstName.setTextColor(inflater.getContext().getResources().getColor(R.color.colorPrimaryBlack));
         patientFirstName.setTextSize(16f);
-        patientFirstName.setHint(parent.getContext().getResources().getString(R.string.consent_lars_required));
+        patientFirstName.setHint(parent.getContext().getResources().getString(R.string.first_name3));
         patientFirstName.setLayoutParams(params1);
         patientFirstName.setFilters(new InputFilter[] {new InputFilter.LengthFilter(100)});
         patientLastName = new EditText(inflater.getContext());
         patientLastName.setTextColor(inflater.getContext().getResources().getColor(R.color.colorPrimaryBlack));
         patientLastName.setTextSize(16f);
-        patientLastName.setHint(parent.getContext().getResources().getString(R.string.consent_lars_required));
+        patientLastName.setHint(parent.getContext().getResources().getString(R.string.first_name3));
         patientLastName.setLayoutParams(params1);
         patientLastName.setFilters(new InputFilter[] {new InputFilter.LengthFilter(100)});
         if (userResponses != null && userResponses.size() > 0) {

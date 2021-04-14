@@ -19,7 +19,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="20dp"
             android:gravity="center"
-            android:text="@string/ne_activity_not_eligible"
+            android:text="@string/not_eligible"
             android:textColor="@color/colorPrimaryBlack"/>
 
         <TextView
@@ -54,7 +54,7 @@
             android:layout_centerHorizontal="true"
             android:background="@drawable/rectangle_black_white"
             android:gravity="center"
-            android:text="@string/ne_activity_ok"
+            android:text="@string/ok"
             android:textColor="@color/colorPrimaryBlack"/>
     </RelativeLayout>
 

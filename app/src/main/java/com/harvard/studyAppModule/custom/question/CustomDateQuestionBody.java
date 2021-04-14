@@ -184,14 +184,14 @@ public class CustomDateQuestionBody implements StepBody {
                     calendar.get(Calendar.YEAR),
                     calendar.get(Calendar.MONTH),
                     calendar.get(Calendar.DAY_OF_MONTH));
-            datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, inflater.getContext().getString(R.string.aqb_cancel), new DialogInterface.OnClickListener() {
+            datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, inflater.getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == DialogInterface.BUTTON_NEGATIVE) {
                         dialog.dismiss();
                     }
                 }
             });
-            datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, inflater.getContext().getString(R.string.aqb_ok), new DialogInterface.OnClickListener() {
+            datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, inflater.getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == DialogInterface.BUTTON_POSITIVE) {
                         dialog.dismiss();
@@ -247,7 +247,7 @@ public class CustomDateQuestionBody implements StepBody {
                     calendar.get(Calendar.HOUR_OF_DAY),
                     calendar.get(Calendar.MINUTE),
                     true);
-            timePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, inflater.getContext().getString(R.string.aqb_cancel), new DialogInterface.OnClickListener() {
+            timePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, inflater.getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == DialogInterface.BUTTON_NEGATIVE) {
                         dialog.dismiss();
@@ -277,7 +277,7 @@ public class CustomDateQuestionBody implements StepBody {
                     calendar.get(Calendar.YEAR),
                     calendar.get(Calendar.MONTH),
                     calendar.get(Calendar.DAY_OF_MONTH));
-            datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, inflater.getContext().getString(R.string.aqb_cancel), new DialogInterface.OnClickListener() {
+            datePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, inflater.getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == DialogInterface.BUTTON_NEGATIVE) {
                         dialog.dismiss();
@@ -293,7 +293,7 @@ public class CustomDateQuestionBody implements StepBody {
                     }
                 }
             });
-            datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, inflater.getContext().getString(R.string.aqb_ok), new DialogInterface.OnClickListener() {
+            datePickerDialog.setButton(DialogInterface.BUTTON_POSITIVE, inflater.getContext().getString(R.string.ok), new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     if (which == DialogInterface.BUTTON_POSITIVE) {
                         dialog.dismiss();
@@ -324,7 +324,7 @@ public class CustomDateQuestionBody implements StepBody {
                                 calendar.get(Calendar.HOUR_OF_DAY),
                                 calendar.get(Calendar.MINUTE),
                                 true);
-                        timePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, inflater.getContext().getString(R.string.aqb_cancel), new DialogInterface.OnClickListener() {
+                        timePickerDialog.setButton(DialogInterface.BUTTON_NEGATIVE, inflater.getContext().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 if (which == DialogInterface.BUTTON_NEGATIVE) {
                                     dialog.dismiss();

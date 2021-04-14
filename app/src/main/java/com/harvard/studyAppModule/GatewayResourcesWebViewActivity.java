@@ -123,7 +123,7 @@ public class GatewayResourcesWebViewActivity extends AppCompatActivity {
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                    Toast.makeText(GatewayResourcesWebViewActivity.this, getResources().getString(R.string.gateway_resources_webview_activity_permission_deniedDate), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GatewayResourcesWebViewActivity.this, getResources().getString(R.string.permission_deniedDate), Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
 

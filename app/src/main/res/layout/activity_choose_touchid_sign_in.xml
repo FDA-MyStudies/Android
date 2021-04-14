@@ -24,7 +24,7 @@
                 style="@style/TextType1"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="130dp"
-                android:text="@string/choose_tid_signin_activity_use_touch_id"
+                android:text="@string/use_touch_id"
                 android:textColor="@color/colorPrimaryBlack" />
 
             <LinearLayout

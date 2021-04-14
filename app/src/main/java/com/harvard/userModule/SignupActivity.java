@@ -156,6 +156,7 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
         }
 
 
+
         spanTxt.append(" " + getResources().getString(R.string.sign_up_activity_privacy_policy2));
         String temp = " " + getResources().getString(R.string.sign_up_activity_privacy_policy2);
         spanTxt.setSpan(new ClickableSpan() {
@@ -260,7 +261,7 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
         } else if (mPassword.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(this, getResources().getString(R.string.sign_up_activity_password_empty), Toast.LENGTH_SHORT).show();
         } else if (!mPassword.getText().toString().matches(PASSWORD_PATTERN)) {
-            SetDialogHelper.setNeutralDialog(SignupActivity.this, getResources().getString(R.string.sign_up_activity_password_validation), false, getResources().getString(R.string.sign_up_activity_ok_btn), getResources().getString(R.string.sign_up_app_name));
+            SetDialogHelper.setNeutralDialog(SignupActivity.this, getResources().getString(R.string.sign_up_activity_password_validation), false, getResources().getString(R.string.sign_up_activity_ok_btn), getResources().getString(R.string.app_name));
         } else if (checkPasswordContainsEmailID(mEmail.getText().toString(), mPassword.getText().toString())) {
             Toast.makeText(this, getResources().getString(R.string.sign_up_activity_password_contain_email), Toast.LENGTH_SHORT).show();
         } else if (mConfirmPassword.getText().toString().equalsIgnoreCase("")) {
@@ -272,13 +273,11 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
         } else {
             AppController.getHelperProgressDialog().showProgress(SignupActivity.this, "", "", false);
             RegisterUserEvent registerUserEvent = new RegisterUserEvent();
-            HashMap<String, String> header = new HashMap<>();
-            header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             HashMap<String, String> params = new HashMap<>();
             params.put("emailId", mEmail.getText().toString());
             params.put("password", mPassword.getText().toString());
             params.put("appId", BuildConfig.APPLICATION_ID);
-            RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.REGISTER_USER, REGISTRATION_REQUEST, this, RegistrationData.class, params, header, null, false, this);
+            RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.REGISTER_USER, REGISTRATION_REQUEST, this, RegistrationData.class, params, null, null, false, this);
             registerUserEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
             UserModulePresenter userModulePresenter = new UserModulePresenter();
             userModulePresenter.performRegistration(registerUserEvent);
@@ -298,8 +297,7 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
         AppController.getHelperProgressDialog().dismissDialog();
         if (GET_TERMS_AND_CONDITION == responseCode) {
             mTermsAndConditionData = (TermsAndConditionData) response;
-        }
-        else if (responseCode == REGISTRATION_REQUEST) {
+        } else if (responseCode == REGISTRATION_REQUEST) {
             mRegistrationData = (RegistrationData) response;
             if (mRegistrationData != null) {
                 mUserID = mRegistrationData.getUserId();
@@ -308,8 +306,7 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
             } else {
                 Toast.makeText(this, getResources().getString(R.string.sign_up_activity_unable_to_signup), Toast.LENGTH_SHORT).show();
             }
-        }
-        else if (responseCode == UPDATE_USER_PROFILE) {
+        } else if (responseCode == UPDATE_USER_PROFILE) {
             UpdateUserProfileData updateUserProfileData = (UpdateUserProfileData) response;
             if (updateUserProfileData != null) {
                 if (updateUserProfileData.getMessage().equalsIgnoreCase("success")) {
@@ -415,7 +412,6 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
         HashMap<String, String> params = new HashMap<>();
         params.put("auth", mUserAuth);
         params.put("userId", mUserID);
-        params.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
 
         JSONObject jsonObjBody = new JSONObject();
         JSONObject infoJson = new JSONObject();

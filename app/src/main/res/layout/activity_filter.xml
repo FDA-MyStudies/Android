@@ -18,7 +18,7 @@
             style="@style/TextType2"
             android:background="@drawable/rectangle_black_border"
             android:gravity="center"
-            android:text="@string/filter_activity_cancel"
+            android:text="@string/cancel"
             android:textColor="@color/colorSecondary" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -134,7 +134,7 @@
                         style="@style/TextType2"
                         android:layout_marginLeft="13dp"
                         android:layout_toRightOf="@+id/mUpcomingSelectBtn"
-                        android:text="@string/filter_activity_upcoming1"
+                        android:text="@string/upcoming1"
                         android:textColor="@color/colorSecondary" />
                 </RelativeLayout>
 
@@ -245,7 +245,7 @@
                         style="@style/TextType2"
                         android:layout_marginLeft="13dp"
                         android:layout_toRightOf="@+id/mCompletedSelectBtn"
-                        android:text="@string/profile_fragment_completed"
+                        android:text="@string/completed"
                         android:textColor="@color/colorSecondary" />
                 </RelativeLayout>
 

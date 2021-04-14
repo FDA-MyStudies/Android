@@ -57,9 +57,6 @@ public class ConsentBuilderTask extends OrderedTask {
     public Step getStepBeforeStep(Step step, TaskResult result)
     {
         int nextIndex = steps.indexOf(step) - 1;
-
-        if(nextIndex >= 0)
-        {
         if(steps.get(nextIndex).getIdentifier().equalsIgnoreCase("consentLarSecond")) {
             StepResult stepResult = result.getStepResult("consentLarFirst");
             Object[] objects = (Object[]) stepResult.getResults().get("answer");
@@ -67,10 +64,11 @@ public class ConsentBuilderTask extends OrderedTask {
             if(answer.equalsIgnoreCase("1")) {
                 return steps.get(nextIndex - 1);
             }
-        } else {
+        }
+        if(nextIndex >= 0)
+        {
             return steps.get(nextIndex);
-          }
-       }
+        }
 
         return null;
     }

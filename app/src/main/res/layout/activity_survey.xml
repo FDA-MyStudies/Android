@@ -196,7 +196,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/mSidebarTitle"
                     style="@style/TextType2"
-                    android:text="@string/survey_activity_fda_listens"
+                    android:text="@string/fda_listens"
                     android:textColor="@color/colorPrimary"/>
 
                 <RelativeLayout
@@ -211,7 +211,7 @@
                         style="@style/TextType3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/survey_activity_poweredby"
+                        android:text="@string/poweredby"
                         android:textColor="@color/colorSecondary"/>
                 </RelativeLayout>
             </RelativeLayout>
@@ -246,7 +246,7 @@
                             style="@style/textTypeMenuItem"
                             android:layout_marginLeft="30dp"
                             android:layout_toRightOf="@id/homeImg"
-                            android:text="@string/survey_activity_side_menu_home"
+                            android:text="@string/side_menu_home"
                             android:textColor="@android:color/black"/>
                     </LinearLayout>
 
@@ -271,7 +271,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="30dp"
                             android:layout_toRightOf="@id/resourceImg"
-                            android:text="@string/survey_activity_side_menu_resources"
+                            android:text="@string/side_menu_resources"
                             android:textColor="@android:color/black"/>
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -280,7 +280,7 @@
                             android:layout_marginLeft="18dp"
                             android:layout_toRightOf="@id/mResourceLabel"
                             android:background="@drawable/blue_radius"
-                            android:text="@string/survey_activity_mresource_notification_label"
+                            android:text="14"
                             android:textColor="@android:color/white"
                             android:visibility="invisible"/>
 
@@ -305,7 +305,7 @@
                             style="@style/textTypeMenuItem"
                             android:layout_marginLeft="30dp"
                             android:layout_toRightOf="@id/mReachoutImg"
-                            android:text="@string/survey_activity_side_menu_reach_out"
+                            android:text="@string/side_menu_reach_out"
                             android:textColor="@android:color/black"/>
 
                     </LinearLayout>
@@ -329,7 +329,7 @@
                             style="@style/textTypeMenuItem"
                             android:layout_marginLeft="30dp"
                             android:layout_toRightOf="@id/signinImg"
-                            android:text="@string/survey_activity_side_menu_sign_in"
+                            android:text="@string/side_menu_sign_in"
                             android:textColor="@android:color/black"/>
 
                     </LinearLayout>
@@ -356,7 +356,7 @@
                                 android:id="@+id/mNewUsrReachoutLabel"
                                 style="@style/textTypeMenuItem"
                                 android:layout_marginLeft="30dp"
-                                android:text="@string/survey_activity_side_menu_new_user"
+                                android:text="@string/side_menu_new_user"
                                 android:textColor="@android:color/black"/>
 
                             <androidx.appcompat.widget.AppCompatTextView
@@ -365,7 +365,7 @@
                                 android:layout_below="@id/mNewUsrReachoutLabel"
                                 android:layout_centerVertical="true"
                                 android:layout_marginLeft="30dp"
-                                android:text="@string/survey_activity_side_menu_sign_up"
+                                android:text="@string/side_menu_sign_up"
                                 android:textColor="@color/colorSecondary"/>
                         </RelativeLayout>
 
@@ -394,7 +394,7 @@
                             android:id="@+id/mSignOutLabel"
                             style="@style/textTypeMenuItem"
                             android:layout_marginLeft="10dp"
-                            android:text="@string/survey_activity_side_menu_sign_out"
+                            android:text="@string/side_menu_sign_out"
                             android:textColor="@color/colorSecondary"/>
                     </RelativeLayout>
                     <TextView
@@ -402,7 +402,7 @@
                         style="@style/TextType3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/survey_activity_side_menu_version"
+                        android:text="@string/side_menu_version"
                         android:layout_below="@+id/mSignOutLayout"
                         android:textColor="@color/colorSecondary"/>
 

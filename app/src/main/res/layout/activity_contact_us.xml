@@ -134,7 +134,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/email_label"
                     style="@style/signUpTextField"
-                    android:text="@string/contact_us_email" />
+                    android:text="@string/email" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edittxt_email"

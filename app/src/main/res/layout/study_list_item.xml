@@ -53,7 +53,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="5dp"
                 android:layout_toRightOf="@id/stateIcon"
-                android:text="@string/study_list_adapter_active1"
+                android:text="@string/active1"
                 android:textColor="@color/colorSecondary" />
         </RelativeLayout>
 
@@ -83,7 +83,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@id/statusImg"
-                    android:text="@string/study_list_adapter_yet_to_join"
+                    android:text="@string/yet_to_join"
                     android:textColor="@color/colorPrimary" />
 
 
@@ -215,7 +215,7 @@
                             android:id="@+id/adherence_val"
                             style="@style/TextType4"
                             android:layout_toRightOf="@id/adherence"
-                            android:text="@string/adherence_value"
+                            android:text="0%"
                             android:textColor="@color/colorPrimary" />
                     </RelativeLayout>
                 </LinearLayout>

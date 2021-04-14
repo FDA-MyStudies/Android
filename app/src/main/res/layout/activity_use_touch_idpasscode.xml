@@ -35,7 +35,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:gravity="center"
-                android:text="@string/use_touch_id_passcode_activity_or"
+                android:text="@string/or"
                 android:textColor="@color/colorSecondary" />
 
             <androidx.appcompat.widget.AppCompatTextView

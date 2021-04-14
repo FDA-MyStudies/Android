@@ -141,6 +141,7 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
             }
         }, spanTxt.length() - mContext.getResources().getString(R.string.sign_up_fragment_terms2).length(), spanTxt.length(), 0);
 
+
         spanTxt.append(" " + mContext.getResources().getString(R.string.sign_up_fragment_and));
 
         if(!Locale.getDefault().getDisplayLanguage().toLowerCase().equalsIgnoreCase( "español")){
@@ -148,6 +149,7 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
         }else {
             spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.colorPrimaryBlack)), 35, spanTxt.length(), 0);
         }
+
 
         spanTxt.append(" " + mContext.getResources().getString(R.string.sign_up_fragment_privacy_policy2));
         String temp = " " + mContext.getResources().getString(R.string.sign_up_fragment_privacy_policy2);
@@ -229,7 +231,7 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
         } else if (mPassword.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(mContext, getResources().getString(R.string.sign_up_fragment_enter_password_empty), Toast.LENGTH_SHORT).show();
         } else if (!mPassword.getText().toString().matches(PASSWORD_PATTERN)) {
-            SetDialogHelper.setNeutralDialog(mContext, getResources().getString(R.string.sign_up_fragment_enter_password_validation), false, mContext.getResources().getString(R.string.sign_up_fragment_ok_btn), mContext.getResources().getString(R.string.sign_upf_app_name));
+            SetDialogHelper.setNeutralDialog(mContext, getResources().getString(R.string.sign_up_fragment_enter_password_validation), false, mContext.getResources().getString(R.string.sign_up_fragment_ok_btn), mContext.getResources().getString(R.string.app_name));
         } else if (checkPasswordContainsEmailID(mEmail.getText().toString(), mPassword.getText().toString())) {
             Toast.makeText(mContext, getResources().getString(R.string.sign_up_fragment_password_contain_email), Toast.LENGTH_SHORT).show();
         } else if (mConfirmPassword.getText().toString().equalsIgnoreCase("")) {
@@ -246,13 +248,11 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
             }
             AppController.getHelperProgressDialog().showProgress(getContext(), "", "", false);
             RegisterUserEvent registerUserEvent = new RegisterUserEvent();
-            HashMap<String, String> header = new HashMap<>();
-            header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             HashMap<String, String> params = new HashMap<>();
             params.put("emailId", mEmail.getText().toString());
             params.put("password", mPassword.getText().toString());
             params.put("appId", BuildConfig.APPLICATION_ID);
-            RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.REGISTER_USER, REGISTRATION_REQUEST, getContext(), RegistrationData.class, params, header, null, false, this);
+            RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.REGISTER_USER, REGISTRATION_REQUEST, getContext(), RegistrationData.class, params, null, null, false, this);
             registerUserEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
             UserModulePresenter userModulePresenter = new UserModulePresenter();
             userModulePresenter.performRegistration(registerUserEvent);
@@ -343,11 +343,9 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
     private void callUpdateProfileWebService(String deviceToken) {
         AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
         UpdateUserProfileEvent updateUserProfileEvent = new UpdateUserProfileEvent();
-
         HashMap<String, String> params = new HashMap<>();
         params.put("auth", mUserAuth);
         params.put("userId", mUserID);
-        params.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
 
         JSONObject jsonObjBody = new JSONObject();
         JSONObject infoJson = new JSONObject();

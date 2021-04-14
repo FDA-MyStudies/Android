@@ -5,11 +5,9 @@
     <!ENTITY next_btn "Siguiente" >
     <!ENTITY exit_activity "Responses will be stored on device (unless you sign out) so you can resume the survey before it expires." >
     <!ENTITY endtask "Tarea final" >
-<<<<<<< HEAD
+
     <!ENTITY cancel "Cancelar" >
-=======
-    <!ENTITY cancel "CANCELAR" >
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <!ENTITY not_eligible "No elegible" >
     <!ENTITY ok_btn "OK" >
     <!ENTITY no_txt "\u0020" >
@@ -35,11 +33,9 @@
     <!ENTITY confirm_password_empty "Confirme la contraseña." >
     <!ENTITY email "Correo electronico" >
     <!ENTITY permission_enable_message_screenshot "Habilite el permiso de la configuración para compartir la captura de pantalla" >
-<<<<<<< HEAD
+
     <!ENTITY done "Hecho" >
-=======
-    <!ENTITY done "Done" >
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <!ENTITY permission_deniedDate "Permiso denegado para leer / escribir, por lo que no se pudo mostrar el PDF" >
     <!ENTITY first_name "Primer nombre" >
     <!ENTITY subject "Sujeto" >
@@ -49,11 +45,9 @@
     <!ENTITY hour "hr" >
     <!ENTITY minute "min" >
     <!ENTITY account_deletion "La cuenta ha sido eliminada." >
-<<<<<<< HEAD
+
     <!ENTITY email_id "Identificación de correo" >
-=======
-    <!ENTITY email_id "Identificación de correo." >
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <!ENTITY password "Contraseña" >
     <!ENTITY touch_txt "Use Touch ID para acceder o iniciar sesión en la aplicación" >
     <!ENTITY sign_out "Desconectar" >
@@ -69,11 +63,9 @@
     <!ENTITY studyNotAvailable "Este estudio no está disponible" >
     <!ENTITY studyNotJoined "Tienes que unirte a este estudio para continuar" >
     <!ENTITY leave_study "Deja el estudio" >
-<<<<<<< HEAD
+
     <!ENTITY check_internet "Sin conexción a Internet" >
-=======
-    <!ENTITY check_internet "Check your internet connection" >
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <!ENTITY forgot_password "¿Se te olvidó tu contraseña?" >
     <!ENTITY new_usr_signup "¿Nuevo Usuario? Regístrate" >
     <!ENTITY sign_up "Regístrate" >
@@ -106,11 +98,9 @@
     <!ENTITY watch_video "Ver video" >
     <!ENTITY active1 "ACTIVO" >
     <!ENTITY yet_to_join "Aún para unirse" >
-<<<<<<< HEAD
-    <!ENTITY fda_listens "COVID MyStudies" >
-=======
+
     <!ENTITY fda_listens "FDA MyStudies" >
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <!ENTITY expired "Caducado" >
     <!ENTITY incompleted2 "Incompleto" >
     <!ENTITY completed2 "Terminado" >
@@ -133,11 +123,9 @@
     <!ENTITY sign_in "REGISTRARSE" >
     <!ENTITY reachout "ALCANZAR" >
     <!ENTITY sign_out_message "¿Estás segura de que quieres cerrar sesión?" >
-<<<<<<< HEAD
+
     <!ENTITY sign_out_message_data_lost "¿Estás seguro de que quieres cerrar sesión? Las actividades incompletas y las que se completaron sin conexión deben reiniciarse la próxima vez que inicie sesión." >
-=======
-    <!ENTITY sign_out_message_data_lost "¿Estás segura de que quieres cerrar sesión?" >
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <!ENTITY leave_study "Deja el estudio" >
     <!ENTITY use_touch_id "Usar Touch ID" >
     <!ENTITY or "O" >
@@ -171,11 +159,9 @@
     <string name="studyVersion">studyVersion</string>
     <string name="studyStatus">studyStatus</string>
     <!-- AndroidManifest.xml both fda module and main module-->
-<<<<<<< HEAD
+
     <!--<string name="app_name_icon">MyStudies</string>-->
-=======
-    <string name="app_name_icon">MyStudies</string>
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
 
     <!-- =========================== Modulewise String listing for localisation ===============   -->
     <!-- ***************  EligibilityModule ***************** -->
@@ -260,11 +246,10 @@
 
     <string name="scheduled_activity">Una nueva ejecución de la actividad programada</string>
     <string name="valid_until">, ya está disponible y es válido hasta</string>
-<<<<<<< HEAD
+
+
     <string name="participation_is_important2">. Tu participación es importante. Visite el estudio para completarlo ahora.</string>
-=======
-    <string name="participation_is_important2">. Your participation is important. Please visit the study to complete it now.</string>
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <string name="weekly_activity">La ejecución actual de la actividad semanal</string>
     <string name="new_run">Una nueva ejecución de la actividad semanal</string>
     <string name="study_complete">, Ya está disponible. Visite el estudio para completarlo ahora.</string>
@@ -296,11 +281,9 @@
     <string name="forgot_passcode_signin_again">¿Olvidó la contraseña? Iniciar sesión de nuevo</string>
     <!-- ** .xml ** -->
     <!-- ** .java ** -->
-<<<<<<< HEAD
+
     <string name="enter_your_passcode">código de acceso</string>
-=======
-    <string name="enter_your_passcode">Introduzca su código de acceso</string>
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <string name="pass_code_app_name">&app_name;</string>
     <string name="forgotpasscodemsg">Se cerrará su sesión y deberá iniciar sesión nuevamente. ¿Estas seguro que deseas continuar?</string>
     <string name="passcode_setup_ok_btn">&ok_btn;</string>
@@ -356,10 +339,9 @@
     <!--**** SingleChoiceSharingSteps **** -->
     <!-- ** .java ** -->
     <string name="rsb_invalid_answer_choice">¡Por favor seleccione un valor!</string>
-<<<<<<< HEAD
+
     <string name="single_choice_sharing_steps_load_more">Load more</string>
-=======
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <!-- ** .java ** -->
     <!-- ****** ========== ******-->
 
@@ -370,7 +352,7 @@
     <string name="review">revisión</string>
     <string name="reviewmsg">Revisa el formulario a continuación y toca Aceptar si estás listo para continuar.</string>
     <string name="consent_builder_signature_form_step">&signature_form_step;</string>
-<<<<<<< HEAD
+
     <string name="first_name1">First Name</string>
     <string name="first_name2">Primer nombre</string>
     <string name="last_name1">Last Name</string>
@@ -398,20 +380,7 @@
     <string name="consent_share_data_with2">y otros investigadores calificados a nivel mundial</string>
     <string name="consent_only_share_data_with">Solo compartir mis datos con</string>
     <string name="yes">Si</string>
-=======
-    <string name="first_name1">Primer nombre</string>
-    <string name="first_name2">Primer nombre</string>
-    <string name="last_name1">Apellido</string>
-    <string name="last_name2">Apellido</string>
-    <string name="last_name3">Necesario</string>
-    <string name="first_name3">Necesario</string>
-    <string name="signature">Firma</string>
-    <string name="signtitle">Firma</string>
-    <string name="signdesc">Firme con el dedo en la línea de abajo.</string>
-    <string name="notxt">\u0020</string>
 
-    <string name="yes">Yes</string>
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
     <string name="no">No</string>
 
     <!-- ** .java ** -->
@@ -429,15 +398,14 @@
     <string name="end_task">Tarea final</string>
     <string name="exit_message">¿Seguro que quieres salir?</string>
     <string name="ccv_task_activity_signature_form_step">SIGNATURE_FORM_STEP</string>
-<<<<<<< HEAD
+
     <string name="ccv_task_alert_dialog_message">Lo sentimos, este estudio no le permite continuar con la selección que acaba de realizar. Haga clic en Aceptar para dejar de inscribirse en el estudio o Cancelar para cambiar su selección.</string>
     <string name="ccv_task_alert_dialog_ok_btn">&ok_btn;</string>
     <string name="ccv_task_alert_dialog_cancle_btn">&cancel;</string>
     <string name="ccv_task_participant_first_name">Nombre del participante:</string>
     <string name="ccv_task_participant_last_name">Apellido del participante:</string>
     <string name="ccv_task_server_error">No se puede inscribir en el estudio.</string>
-=======
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <!-- ****** ========== ******-->
     <!-- *******************  ****************  ****************** -->
     <!-- ************  Custom -> activeTask  ************** -->
@@ -599,13 +567,10 @@
     <!-- ** .xml ** -->
     <string name="agree_deleting_my_account">Estoy de acuerdo, procedo a eliminar mi cuenta</string>
     <string name="do_not_wish_to_delete_my_account">No deseo borrar mi cuenta</string>
-<<<<<<< HEAD
+
     <string name="delete_account_content">Ha elegido eliminar su cuenta &fda_listens;. Esto dará como resultado el retiro automático de todos los estudios. \n\nContinuación se muestra una lista de los estudios de los que forma parte e información sobre cómo se manejarán los datos de respuesta con cada uno después de que se retire. Por favor revise y confirme.</string>
     <string name="fda_delete_account_content">Ha elegido eliminar su cuenta &fda_listens;. Esto dará como resultado el retiro automático de todos los estudios. \n\nContinuación se muestra una lista de los estudios de los que forma parte e información sobre cómo se manejarán los datos de respuesta con cada uno después de que se retire. Por favor revise y confirme.</string>
-=======
-    <string name="delete_account_content">Ha elegido eliminar su cuenta FDA MyStudies. Esto dará como resultado el retiro automático de todos los estudios. \ NA continuación se muestra una lista de los estudios de los que forma parte e información sobre cómo se manejarán los datos de respuesta con cada uno después de que se retire. Por favor revise y confirme.</string>
-    <string name="fda_delete_account_content">Ha elegido eliminar su cuenta FDA MyStudies. Esto dará como resultado el retiro automático de todos los estudios. \ NA continuación se muestra una lista de los estudios de los que forma parte e información sobre cómo se manejarán los datos de respuesta con cada uno después de que se retire. Por favor revise y confirme.</string>
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <!-- ** .xml ** -->
     <!-- ** .java ** -->
     <string name="confirmation">CONFIRMACIÓN</string>
@@ -624,22 +589,19 @@
     <string name="eligibility_enrollment_cancel">&cancel;</string>
     <string name="eligibility_enrollment_submit">&submit;</string>
     <string name="enter_enrollmentid">Ingrese el ID de inscripción</string>
-<<<<<<< HEAD
+
     <string name="enrollmentdesc">Este estudio permite que sólo los participantes preseleccionados se unan al estudio. si es uno, ingrese el token de inscripción que se le proporcionó para este estudio.</string>
-=======
-    <string name="enrollmentdesc">This study allows only pre-screened participants to join the study. If you are one, please enter the enrollment ID provided to you for this study.</string>
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <!-- ** .xml ** -->
     <!-- ** .java ** -->
     <string name="eligibility_enrollment_unable_to_parse">&unable_to_parse;</string>
     <string name="enter_enrollment_id">Ingrese un ID de inscripción</string>
     <string name="eligibility">Elegibilidad</string>
-<<<<<<< HEAD
+
     <string name="eligibility_enrollment_server_error_message">simbolo desconocido</string>
     <string name="eligibility_enrollment_server_invalid_token">simbolo no valido</string>
     <string name="eligibility_enrollment_server_token_already_in_use">Token ya en uso</string>
-=======
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <!-- ** .java ** -->
     <!-- ************** ***************************** ***************** -->
     <!-- **************** EnrollmentValidatedActivity ***************** -->
@@ -687,11 +649,9 @@
     <string name="medical_device_safety">Seguridad de dispositivos médicos</string>
     <string name="observational_studies">Estudios observacionales</string>
     <string name="public_health">Salud pública</string>
-<<<<<<< HEAD
+
     <string name="radiation_emitting_products">Productos de radiación</string>
-=======
-    <string name="radiation_emitting_products">Productos emisores de radiación</string>
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <string name="tobacco_use">El consumo de tabaco</string>
     <string name="filter_activity_not_eligible">&not_eligible;</string>
     <!-- ** .xml ** -->
@@ -762,10 +722,9 @@
     <!-- ** .java ** -->
     <string name="remainder_settings">Habilite la configuración restante para establecer la hora.</string>
     <string name="update">Actualizar</string>
-<<<<<<< HEAD
+
     <string name="passcode_updated">Código de acceso actualizado</string>
-=======
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <string name="profile_fragment_unable_to_parse">&unable_to_parse;</string>
     <string name="profile_fragment_account_deletion">&account_deletion;</string>
     <string name="profile_fragment_completed">&completed;</string>
@@ -894,13 +853,12 @@
     <!-- ** .xml ** -->
     <string name="no_study">Lo siento, no hay estudios disponibles en este momento. Por favor permanezca reistrado para recibir notificaciones cuando haya nuevos estudios disponibles</string>
     <!-- ** .xml ** -->
-<<<<<<< HEAD
+
     <!-- drawer_app_bar -->
     <string name="search_token">simbolo</string>
     <string name="search_keyword">palabra clave</string>
     <!-- drawer_app_bar -->
-=======
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <!-- ** .java ** -->
     <string name="search_data_empty">Lo siento, no se encontraron estudios. Por favor intente un filtro diferente.</string>
     <string name="study_fragment_unable_to_parse">&unable_to_parse;</string>
@@ -961,13 +919,12 @@
     <string name="study_list_adapter_with_drawn">&withdrawn;</string>
     <string name="partial_participation">Participación parcial</string>
     <string name="no_participation">Sin participación</string>
-<<<<<<< HEAD
+
     <string name="study_list_adapter_mState_active">activo</string>
     <string name="study_list_adapter_mState_upcoming">próximo</string>
     <string name="study_list_adapter_mState_closed">cerrado</string>
     <string name="study_list_adapter_mState_paused">pausado</string>
-=======
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <!-- ** .java ** -->
     <!-- ********************* ************************* *********************** -->
     <!-- ************************ StudySignInActivty **************************** -->
@@ -1308,12 +1265,11 @@
     <string name="verification_step_activity_continue_txt">&continue_txt;</string>
     <string name="resend">Vuelva a enviar el código de verificación</string>
     <string name="verification_step">Paso de verificación</string>
-<<<<<<< HEAD
+
     <string name="verification_dialog_text">¿Quieres establecer una contraseña para la aplicación?</string>
     <string name="verification_dialog_yes">Si</string>
     <string name="verification_dialog_no">No</string>
-=======
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <string name="tap_below_txt">Una vez hecho esto, toca el botón \n a continuación</string>
     <!-- ** .xml ** -->
     <!-- ** .java ** -->
@@ -1321,11 +1277,9 @@
     <string name="verification_email_content2">. Por favor ingrese el código de verificación recibido en el correo electrónico para completar el paso de verificación.</string>
     <string name="verification_email_signin">Su correo electrónico registrado está pendiente de verificación. Por favor ingrese el códico de verificación recibido en el correo electrónico para completar este paso y continuar con el uso de la aplicación</string>
     <string name="verification_email_forgotpassword">Su correo electrónico registrado</string>
-<<<<<<< HEAD
+
     <string name="validation_code_error">Por favor ingrese el código de verificación.</string>
-=======
-    <string name="validation_code_error">Please enter verification code.</string>
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <string name="account_verification">Tu cuenta está verificada</string>
     <string name="resend_success">Se ha enviado un código de verificación por correo electrónico a su email registrado</string>
     <string name="verification_email_forgotpassword1">está pendiente de verificación. Ingrese el Código de verificación recibido en este correo electrónico para completar la verificación e intente la acción Olvidó la contraseña nuevamente.</string>
@@ -1393,11 +1347,9 @@
     <!-- *********** *************** *************** -->
     <!-- ********** UpgradeAppActivity ********** -->
     <!-- ** .xml ** -->
-<<<<<<< HEAD
+
     <string name="upgrade_app_activity_upgrade_message1">Nueva versión disponible</string>
-=======
-    <string name="upgrade_app_activity_upgrade_message1">New Version Available</string>
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <string name="upgrade_app_activity_upgrade_message2">Actualice a la última versión de la aplicación para continuar.</string>
     <string name="upgrade_app_activity_update_caps">Actualizar</string>
     <!-- ** .xml ** -->
@@ -1417,23 +1369,18 @@
     <string name="add_password">agregar contraseña</string>
     <string name="enter_subject">ingrese el asunto</string>
     <string name="enter_feedback">Ingrese sus comentarios aquí</string>
-<<<<<<< HEAD
+
   <!--<string name="enter_email">ingrese correo electrónico</string>-->
       <string name="enter_email">Identificación de correo</string>
     <string name="enter_new_password">nueva contraseña</string>
     <string name="enter_old_password">contraseña actual</string>
     <string name="enter_confirm_password">confirmar contraseña</string>
-=======
-    <string name="enter_email">ingrese correo electrónico</string>
-    <string name="enter_new_password">Introduzca nueva contraseña</string>
-    <string name="enter_old_password">introducir la contraseña actual</string>
-    <string name="enter_confirm_password">Confirmar contraseña</string>
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <string name="verification_code">Ingrese el código de verificación</string>
     <string name="verification_email">Enter email address</string>
     <string name="search">Buscar</string>
     <!-- =========== *************** =============== -->
-<<<<<<< HEAD
+
 
     <!-- Error Messages -->
     <string name="session_expired">sesión expirada</string>
@@ -1458,10 +1405,6 @@
     <string name="language_change_alert_english">English</string>
     <string name="language_change_alert_spanish">Spanish</string>
 
-
-    <!-- Error Messages -->
-=======
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
     <!-- =================================== Main Module complete ================================================= -->
 
 
@@ -1502,11 +1445,10 @@
     <string name="side_menu_sign_up">Regístrate</string>
     <string name="side_menu_sign_out">Desconectar</string>
     <string name="side_menu_version">v</string>
-<<<<<<< HEAD
+
     <string name="search_study_by">Buscar estudio por</string>
     <string name="search_cancel">&cancel;</string>
-=======
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <!-- .xml -->
     <!-- .java -->
     <string name="fda_study_activity_study_paused">&study_paused;</string>
@@ -1531,11 +1473,9 @@
     <string name="fda_study_activity_press_back_to_exit">&press_back_to_exit;</string>
     <string name="fda_study_activity_signOut">&signOut;</string>
     <string name="signup">Regístrate</string>
-<<<<<<< HEAD
+
     <string name="reachout">&reachout;</string>
-=======
-    <string name="reachout">Alcanzar</string>
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
 
     <!-- .java -->
     <!-- **************** ******************* ****************** -->
@@ -1554,10 +1494,9 @@
     <string name="covid_19_per_completion">No hay más actividades para este estudio en la aplicación COVID MyStudies. Gracias por su participación.</string>
     <string name="covid_19_side_menu_reach_out">&side_menu_reach_out;</string>
     <string name="covid_19_side_menu_new_user">&side_menu_new_user;</string>
-<<<<<<< HEAD
+
     <string name="covid_19_study_activity_cancel_btn">&cancel;</string>
-=======
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <string name="covid_19_study_activity_study_paused">&study_paused;</string>
     <string name="covid_19_study_activity_study_resume">&study_resume;</string>
     <string name="covid_19_study_activity_study_not_available">&studyNotAvailable;</string>
@@ -1622,15 +1561,11 @@
     <string name="force_upgrade_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sed ipsum id odio mollis mollis in ac nulla. Maecenas ac imperdiet mi, eu tristique mi. Duis accumsan vestibulum augue. Aliquam ac nulla tempus, malesuada felis nec, suscipit urna. </string>
     <string name="android">android</string>
     <string name="login_to_continue">Please login to view details.</string>
-<<<<<<< HEAD
+
     <string name="use_passcode">Use la contraseña para acceder a la aplicación</string>
     <string name="the_study_is">THE\nSTUDY IS</string>
     <string name="complete">TERMINADO</string>
-=======
-    <string name="use_passcode">Use Passcode to access app</string>
-    <string name="the_study_is">THE\nSTUDY IS</string>
-    <string name="complete">COMPLETE</string>
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <string name="you_completed">YOU\nCOMPLETED</string>
     <string name="activities_so_far">OF ACTIVITIES\nSO FAR</string>
     <string name="useremotenotification">useRemoteNotification</string>
@@ -1661,7 +1596,7 @@
 
     <string name="agree">I Agree to the Terms and Privacy Policy</string>
     <string name="enter_contact_us">Please let us know what you need help with. We will get back to you at the earliest.</string>
-<<<<<<< HEAD
+
     <string name="learn_more">Aprende más</string>
     <string name="terms">Términos de Uso</string>
     <string name="medication_survey">Medication survey</string>
@@ -1670,23 +1605,13 @@
     <string name="mental_health_survey">Encuesta de salud mental</string>
     <string name="health_survey">Encuesta de Salud</string>
     <string name="signed_consent">Consentimiento firmado</string>
-=======
-    <string name="learn_more">Learn More</string>
-    <string name="terms">TERMS OF USE</string>
-    <string name="medication_survey">Medication survey</string>
-    <string name="privacy_policy">PRIVACY POLICY</string>
-    <string name="privacy_policy_content">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. \n\nThe point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. \n \nThere are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isnt anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet.</string>
-    <string name="mental_health_survey">Mental health survey</string>
-    <string name="health_survey">Health survey</string>
-    <string name="signed_consent">SignedConsent</string>
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <string name="surveyjsonname">survey.json</string>
     <string name="reviewconformmsg">By Agreeing you confirm that you read the consent and that you wish to take part in this research study.</string>
     <string name="password_mismatch_validation">New password and confirm password does not match.</string>
     <string name="signout_message">Are you sure you want to signout ?</string>
     <string name="password_same_error">Old password and New password should not be same.</string>
     <string name="email_verification">An email verification link has been sent to your registered email.</string>
-<<<<<<< HEAD
     <string name="delete_account">Borrar cuenta</string>
     <string name="submitted_message">Successfully submited</string>
     <string name="feedback_message">Gracias por brindarnos sus comentarios. Se agradece tu gesto.</string>
@@ -1739,18 +1664,6 @@
     <string name="rsb_quiz_evaluation_try_again">Inténtalo de nuevo</string>
     <string name="rsb_submit">Enviar</string>
     <string name="rsb_yes">Si</string>
-=======
-    <string name="delete_account">Delete Account</string>
-    <string name="submitted_message">Successfully submited</string>
-    <string name="feedback_message">Thank you for providing feedback. Your gesture is appreciated.</string>
-    <string name="delete_message">Are you sure you wish to permanently delete your FDA Health Studies Gateway app account?  You will need to register again if you wish to join a study.</string>
-    <string name="protocol_pdf">Protocol PDF</string>
-    <string name="participant_relationship1">Participantrelationship</string>
-    <string name="participant_last_name1">Participant\'s Last Name</string>
-    <string name="study_not_available">Sorry, enrollment for this study has been closed for now. Please check back later or explore other studies you could join.</string>
-    <!-- ========================================================== -->
-    <string name="rsb_exit">Salida</string>
-    <string name="rsb_next">próxima</string>
->>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
+
     <string name="change_language_alert_dialog_title">Wish to change default language</string>
 </resources>

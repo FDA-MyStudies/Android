@@ -211,7 +211,7 @@ public class AppController{
 
     public static Realm getRealmobj(Context context) {
         if (config == null) {
-            RealmEncryptionHelper realmEncryptionHelper = RealmEncryptionHelper.initHelper(context, context.getString(R.string.app_controller_appname));
+            RealmEncryptionHelper realmEncryptionHelper = RealmEncryptionHelper.initHelper(context, context.getString(R.string.app_name));
             byte[] key = realmEncryptionHelper.getEncryptKey();
             config = new RealmConfiguration.Builder()
                     .encryptionKey(key)
@@ -352,7 +352,7 @@ public class AppController{
 
                         }
                     })
-                    .setNegativeButton(context.getResources().getString(R.string.app_controller_cancel), new DialogInterface.OnClickListener() {
+                    .setNegativeButton(context.getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.dismiss();
                             if (finish) {
@@ -791,7 +791,6 @@ public class AppController{
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.cancelAll();
     }
-
     public static String deviceDisplayLanguage(String lan){
         String lang = "";
         if(lan.equalsIgnoreCase("English")){
@@ -802,6 +801,4 @@ public class AppController{
 
         return lang;
     }
-
-
 }

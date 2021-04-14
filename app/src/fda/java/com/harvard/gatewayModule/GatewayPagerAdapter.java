@@ -63,7 +63,7 @@ public class GatewayPagerAdapter extends PagerAdapter {
                 View view1 = inflater.inflate(R.layout.gateway_item2, null);
                 initializeXMLId(1, view1);
                 mWelcome.setText(mContext.getResources().getString(R.string.gateway_welcome1));
-                mDesc.setText(mContext.getResources().getString(R.string.gateway_pager_adapter_gateway_des1));
+                mDesc.setText(mContext.getResources().getString(R.string.gateway_des1));
                 setFont(1, view1);
                 collection.addView(view1);
                 return view1;
