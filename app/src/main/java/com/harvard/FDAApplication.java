@@ -45,6 +45,7 @@ public class FDAApplication extends Application {
     private static FDAApplication sInstance;
     private FDAEventBusRegistry mRegistry;
 
+
     public static final String NOTIFICATION_CHANNEL_ID_SERVICE = AppConfig.PackageName + ".service";
     public static final String NOTIFICATION_CHANNEL_ID_INFO = AppConfig.PackageName + ".general";
 

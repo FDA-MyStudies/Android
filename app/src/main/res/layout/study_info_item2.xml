@@ -65,7 +65,7 @@
                     android:layout_marginLeft="40dp"
                     android:layout_marginRight="40dp"
                     android:gravity="center"
-                    android:text="@string/gateway_des1"
+                    android:text="@string/study_info_pager_adapter_gateway_des1"
                     android:textColor="@color/colorPrimaryBlack" />
             </RelativeLayout>
 

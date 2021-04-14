@@ -30,7 +30,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/first_name_label"
                     style="@style/profileTextField"
-                    android:text="@string/first_name" />
+                    android:text="@string/profile_fragment_first_name" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edittxt_first_name"
@@ -70,7 +70,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/last_name_label"
                     style="@style/profileTextField"
-                    android:text="@string/last_name" />
+                    android:text="@string/profile_fragment_last_name" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edittxt_last_name"
@@ -102,8 +102,11 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/email_label"
+                    android:layout_width="150dp"
+                    android:maxLines="2"
+                    android:paddingTop="10dp"
                     style="@style/profileTextField"
-                    android:text="@string/email_id" />
+                    android:text="@string/profile_fragment_email_id" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edittxt_email"
@@ -119,7 +122,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@id/edittxt_email"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="20dp"
                     android:background="@color/colorSecondaryBg" />
             </RelativeLayout>
 
@@ -135,7 +138,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/password_label"
                     style="@style/profileTextField"
-                    android:text="@string/password" />
+                    android:text="@string/profile_fragment_password" />
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/edittxt_password"
@@ -277,7 +280,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
-                        android:text="@string/touch_txt"
+                        android:text="@string/profile_fragment_touch_txt"
                         android:textColor="@color/colorPrimaryBlack" />
 
                 </RelativeLayout>
@@ -446,7 +449,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:padding="10dp"
-                android:text="@string/sign_out"
+                android:text="@string/profile_fragment_sign_out"
                 android:textColor="@color/colorPrimaryBlack"
                 android:visibility="gone" />
 

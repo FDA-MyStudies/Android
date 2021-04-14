@@ -72,7 +72,7 @@
                 android:gravity="center"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:text="@string/gateway_des1"
+                android:text="@string/gateway_pager_adapter_gateway_des1"
                 android:textColor="@color/colorPrimaryBlack"
                 android:layout_below="@+id/bgImg"
                 android:layout_centerHorizontal="true" />

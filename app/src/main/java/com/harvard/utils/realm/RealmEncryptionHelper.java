@@ -69,11 +69,11 @@ public class RealmEncryptionHelper {
             keyStore = KeyStore.getInstance(ANDROID_KEY_STORE);
             keyStore.load(null);
 
-            if (!keyStore.containsAlias(mContext.getString(R.string.app_name))) {
+            if (!keyStore.containsAlias(mContext.getString(R.string.realm_encryption_helper_app_name))) {
                 // Create new key and save to KeyStore
                 KeyPairGenerator kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, ANDROID_KEY_STORE);
                 if (IS_M) {
-                    KeyGenParameterSpec spec = new KeyGenParameterSpec.Builder(mContext.getString(R.string.app_name),
+                    KeyGenParameterSpec spec = new KeyGenParameterSpec.Builder(mContext.getString(R.string.realm_encryption_helper_app_name),
                             KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
                             .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
                             .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_PKCS1)
@@ -87,8 +87,8 @@ public class RealmEncryptionHelper {
                     Calendar end = Calendar.getInstance();
                     end.add(Calendar.YEAR, 30);
                     KeyPairGeneratorSpec spec = new KeyPairGeneratorSpec.Builder(mContext)
-                            .setAlias(mContext.getString(R.string.app_name))
-                            .setSubject(new X500Principal("CN=" + mContext.getString(R.string.app_name)))
+                            .setAlias(mContext.getString(R.string.realm_encryption_helper_app_name))
+                            .setSubject(new X500Principal("CN=" + mContext.getString(R.string.realm_encryption_helper_app_name)))
                             .setSerialNumber(BigInteger.TEN)
                             .setStartDate(start.getTime())
                             .setEndDate(end.getTime())

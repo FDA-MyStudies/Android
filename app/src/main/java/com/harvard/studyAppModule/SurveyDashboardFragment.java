@@ -74,6 +74,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import io.realm.Realm;
@@ -219,23 +220,23 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                 mParticipationStatus.setText(R.string.completed);
                 mParticipationStatus.setTextColor(mContext.getResources().getColor(R.color.bullet_green_color));
             } else if (mParticipationStatusVal.equalsIgnoreCase(StudyFragment.NOT_ELIGIBLE)) {
-                mParticipationStatus.setText(R.string.not_eligible);
+                mParticipationStatus.setText(R.string.survey_dashboard_fragment_not_eligible);
                 mParticipationStatus.setTextColor(mContext.getResources().getColor(R.color.red));
             } else if (mParticipationStatusVal.equalsIgnoreCase(StudyFragment.IN_PROGRESS)) {
-                mParticipationStatus.setText(R.string.in_progress);
+                mParticipationStatus.setText(R.string.survey_dashboard_fragment_in_progress);
                 mParticipationStatus.setTextColor(mContext.getResources().getColor(R.color.rectangle_yellow));
             } else if (mParticipationStatusVal.equalsIgnoreCase(StudyFragment.YET_TO_JOIN)) {
-                mParticipationStatus.setText(R.string.yet_to_join);
+                mParticipationStatus.setText(R.string.survey_dashboard_fragment_yet_to_join);
                 mParticipationStatus.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
             } else if (mParticipationStatusVal.equalsIgnoreCase(StudyFragment.WITHDRAWN)) {
-                mParticipationStatus.setText(R.string.withdrawn);
+                mParticipationStatus.setText(R.string.survey_dashboard_fragment_withdrawn);
                 mParticipationStatus.setTextColor(mContext.getResources().getColor(R.color.colorSecondary));
             } else {
-                mParticipationStatus.setText(R.string.yet_to_join);
+                mParticipationStatus.setText(R.string.survey_dashboard_fragment_yet_to_join);
                 mParticipationStatus.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
             }
         } else {
-            mParticipationStatus.setText(R.string.yet_to_join);
+            mParticipationStatus.setText(R.string.survey_dashboard_fragment_yet_to_join);
             mParticipationStatus.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
         }
     }
@@ -244,6 +245,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
         GetActivityListEvent getActivityListEvent = new GetActivityListEvent();
         HashMap<String, String> header = new HashMap();
+        header.put("language",header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage())));
         String url = URLs.DASHBOARD_INFO + "?studyId=" + ((SurveyActivity) mContext).getStudyId();
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, DASHBOARD_INFO, mContext, DashboardData.class, null, header, null, false, this);
 
@@ -643,7 +645,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                    Toast.makeText(mContext, getResources().getString(R.string.permission_enable_message_screenshot), Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, getResources().getString(R.string.survey_dashboard_fragment_permission_enable_message_screenshot), Toast.LENGTH_LONG).show();
                 } else {
                     shareFunctionality(view);
                 }
@@ -994,7 +996,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
             } else {
                 mScrollView.setVisibility(View.VISIBLE);
                 new ProcessData().execute();
-                Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.survey_dashboard_fragment_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -1004,7 +1006,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         AppController.getHelperProgressDialog().dismissDialog();
         if (responseCode == DASHBOARD_INFO) {
             if (statusCode.equalsIgnoreCase("401")) {
-                Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
                 AppController.getHelperSessionExpired(mContext, errormsg);
             } else {
                 mScrollView.setVisibility(View.VISIBLE);
@@ -1012,7 +1014,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                 if (dashboardData != null) {
                     new ProcessData().execute();
                 } else {
-                    Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, getResources().getString(R.string.no_data_found), Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -1209,7 +1211,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                 } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK && !response.equalsIgnoreCase("")) {
                     response = response;
                 } else {
-                    response = getString(R.string.unknown_error);
+                    response = getString(R.string.survey_dashboard_fragment_unknown_error);
                 }
             }
             return response;
@@ -1245,7 +1247,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                 } else if (response.equalsIgnoreCase("timeout")) {
                     addViewStatisticsValues();
                     AppController.getHelperProgressDialog().dismissDialog();
-                    Toast.makeText(mContext, mContext.getResources().getString(R.string.connection_timeout), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.survey_dashboard_fragment_connection_timeout), Toast.LENGTH_SHORT).show();
                 } else if (Integer.parseInt(responseCode) == 500) {
                     try {
                         JSONObject jsonObject = new JSONObject(String.valueOf(mResponseModel.getResponseData()));
@@ -1395,12 +1397,12 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                 } else {
                     addViewStatisticsValues();
                     AppController.getHelperProgressDialog().dismissDialog();
-                    Toast.makeText(mContext, mContext.getResources().getString(R.string.unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.survey_dashboard_fragment_unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
                 }
             } else {
                 addViewStatisticsValues();
                 AppController.getHelperProgressDialog().dismissDialog();
-                Toast.makeText(mContext, getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getString(R.string.survey_dashboard_fragment_unknown_error), Toast.LENGTH_SHORT).show();
             }
         }
     }

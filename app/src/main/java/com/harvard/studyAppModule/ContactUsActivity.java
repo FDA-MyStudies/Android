@@ -19,6 +19,7 @@ import com.harvard.webserviceModule.apiHelper.ApiCall;
 import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 public class ContactUsActivity extends AppCompatActivity implements ApiCall.OnAsyncRequestComplete {
 
@@ -98,15 +99,15 @@ public class ContactUsActivity extends AppCompatActivity implements ApiCall.OnAs
             @Override
             public void onClick(View v) {
                 if (mFirstName.getText().toString().equalsIgnoreCase("") && mEmail.getText().toString().equalsIgnoreCase("") && mSubject.getText().toString().equalsIgnoreCase("") && mMessage.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(ContactUsActivity.this, getResources().getString(R.string.enter_all_field_empty), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ContactUsActivity.this, getResources().getString(R.string.contact_us_enter_all_field_empty), Toast.LENGTH_SHORT).show();
                 } else if (mFirstName.getText().toString().equalsIgnoreCase("")) {
                     Toast.makeText(ContactUsActivity.this, getResources().getString(R.string.first_name_empty), Toast.LENGTH_SHORT).show();
                 } else if (mEmail.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(ContactUsActivity.this, getResources().getString(R.string.email_empty), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ContactUsActivity.this, getResources().getString(R.string.contact_us_email_empty), Toast.LENGTH_SHORT).show();
                 } else if (!AppController.getHelperIsValidEmail(mEmail.getText().toString())) {
-                    Toast.makeText(ContactUsActivity.this, getResources().getString(R.string.email_validation), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ContactUsActivity.this, getResources().getString(R.string.contact_us_email_validation), Toast.LENGTH_SHORT).show();
                 } else if (mSubject.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(ContactUsActivity.this, getResources().getString(R.string.subject_empty), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ContactUsActivity.this, getResources().getString(R.string.contact_us_subject_empty), Toast.LENGTH_SHORT).show();
                 } else if (mMessage.getText().toString().equalsIgnoreCase("")) {
                     Toast.makeText(ContactUsActivity.this, getResources().getString(R.string.message_empty), Toast.LENGTH_SHORT).show();
                 } else {
@@ -132,12 +133,14 @@ public class ContactUsActivity extends AppCompatActivity implements ApiCall.OnAs
         studyModulePresenter.performContactUsEvent(contactUsEvent);*/
 
         ContactUsEvent contactUsEvent = new ContactUsEvent();
+        HashMap<String, String> header = new HashMap<>();
+        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         HashMap<String, String> params = new HashMap<>();
         params.put("subject", mSubject.getText().toString());
         params.put("body", mMessage.getText().toString());
         params.put("firstName", mFirstName.getText().toString());
         params.put("email", mEmail.getText().toString());
-        RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.CONTACT_US, CONTACT_US, ContactUsActivity.this, ReachOut.class, params, null, null, false, this);
+        RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.CONTACT_US, CONTACT_US, ContactUsActivity.this, ReachOut.class, params, header, null, false, this);
 
         contactUsEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
         StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
@@ -160,11 +163,11 @@ public class ContactUsActivity extends AppCompatActivity implements ApiCall.OnAs
     public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (statusCode.equalsIgnoreCase("401")) {
-            Toast.makeText(ContactUsActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(ContactUsActivity.this, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(ContactUsActivity.this, errormsg);
         } else {
             if (responseCode == CONTACT_US) {
-                Toast.makeText(ContactUsActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ContactUsActivity.this, getResources().getString(R.string.unable_to_process), Toast.LENGTH_SHORT).show();
             }
         }
     }

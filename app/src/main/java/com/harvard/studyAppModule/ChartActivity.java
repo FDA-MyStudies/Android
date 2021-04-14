@@ -488,7 +488,7 @@ public class ChartActivity extends AppCompatActivity {
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                    Toast.makeText(ChartActivity.this, getResources().getString(R.string.permission_enable_message_screenshot), Toast.LENGTH_LONG).show();
+                    Toast.makeText(ChartActivity.this, getResources().getString(R.string.chart_activity_permission_enable_message_screenshot), Toast.LENGTH_LONG).show();
                 } else {
                     shareFunctionality();
                 }

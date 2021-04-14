@@ -34,6 +34,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 
 import javax.crypto.CipherInputStream;
 
@@ -138,6 +139,7 @@ public class PDFDisplayActivity extends AppCompatActivity implements ApiCall.OnA
         HashMap<String, String> header = new HashMap<>();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.userid), ""));
+        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         String url = URLs.CONSENTPDF + "?studyId=" + mStudyId + "&consentVersion=";
         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("get", url, CONSENTPDF, PDFDisplayActivity.this, ConsentPDF.class, null, header, null, false, PDFDisplayActivity.this);
         consentPDFEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
@@ -244,7 +246,7 @@ public class PDFDisplayActivity extends AppCompatActivity implements ApiCall.OnA
     public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (statusCode.equalsIgnoreCase("401")) {
-            Toast.makeText(PDFDisplayActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(PDFDisplayActivity.this, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(PDFDisplayActivity.this, errormsg);
         } else {
             try {
@@ -258,10 +260,10 @@ public class PDFDisplayActivity extends AppCompatActivity implements ApiCall.OnA
                     }
                     setPDFView();
                 } else {
-                    Toast.makeText(PDFDisplayActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PDFDisplayActivity.this, getResources().getString(R.string.no_data), Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
-                Toast.makeText(PDFDisplayActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(PDFDisplayActivity.this, getResources().getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }

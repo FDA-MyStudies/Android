@@ -63,7 +63,7 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="5dp"
-                    android:text="@string/cancel"
+                    android:text="@string/verification_step_activity_cancel"
                     android:textColor="@color/colorSecondary" />
             </RelativeLayout>
         </RelativeLayout>
@@ -176,7 +176,7 @@
                 android:layout_marginTop="60dp"
                 android:background="@drawable/rectangle_black_white"
                 android:gravity="center"
-                android:text="@string/continue_txt"
+                android:text="@string/verification_step_activity_continue_txt"
                 android:textColor="@color/colorPrimary" />
 
             <androidx.appcompat.widget.AppCompatTextView

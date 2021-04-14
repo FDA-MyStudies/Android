@@ -40,6 +40,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -98,6 +99,7 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
         HashMap<String, String> header = new HashMap<String, String>();
         header.put("userId", AppController.getHelperSharedPreference().readPreference(DeleteAccountActivity.this, getString(R.string.userid), ""));
         header.put("auth", AppController.getHelperSharedPreference().readPreference(DeleteAccountActivity.this, getString(R.string.auth), ""));
+        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         Gson gson = new Gson();
         DeleteAccountData deleteAccountData = new DeleteAccountData();
         String json = gson.toJson(deleteAccountData);
@@ -250,6 +252,7 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
     private void callGetStudyInfoWebservice() {
         AppController.getHelperProgressDialog().showProgress(DeleteAccountActivity.this, "", "", false);
         HashMap<String, String> header = new HashMap<>();
+        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         String url = URLs.STUDY_INFO + "?studyId=" + mStudyIdList.get(mTempPos);
         GetUserStudyInfoEvent getUserStudyInfoEvent = new GetUserStudyInfoEvent();
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, STUDY_INFO, DeleteAccountActivity.this, StudyHome.class, null, header, null, false, this);
@@ -361,7 +364,7 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
                     e.printStackTrace();
                 }
 
-                Toast.makeText(DeleteAccountActivity.this, getResources().getString(R.string.account_deletion), Toast.LENGTH_SHORT).show();
+                Toast.makeText(DeleteAccountActivity.this, getResources().getString(R.string.delete_account_account_deletion), Toast.LENGTH_SHORT).show();
                 SharedPreferences settings = SharedPreferenceHelper.getPreferences(DeleteAccountActivity.this);
                 settings.edit().clear().apply();
                 // delete passcode from keystore
@@ -372,9 +375,10 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
                 setResult(RESULT_OK, intent);
                 finish();
             } else {
-                Toast.makeText(DeleteAccountActivity.this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(DeleteAccountActivity.this, R.string.delete_account_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
-        } else if (responseCode == STUDY_INFO) {
+        }
+        else if (responseCode == STUDY_INFO) {
             if (response != null) {
                 mStudyHome = (StudyHome) response;
                 // adding withdrawal type
@@ -396,6 +400,7 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
         HashMap<String, String> header = new HashMap();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(DeleteAccountActivity.this, getResources().getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(DeleteAccountActivity.this, getResources().getString(R.string.userid), ""));
+        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         DeleteAccountEvent deleteAccountEvent = new DeleteAccountEvent();
         Gson gson = new Gson();
         DeleteAccountData deleteAccountData = new DeleteAccountData();
@@ -432,10 +437,10 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
     public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (statusCode.equalsIgnoreCase("401")) {
-            Toast.makeText(DeleteAccountActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(DeleteAccountActivity.this,getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(DeleteAccountActivity.this, errormsg);
         } else {
-            Toast.makeText(DeleteAccountActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(DeleteAccountActivity.this, getResources().getString(R.string.unable_to_withdraw_from_study), Toast.LENGTH_SHORT).show();
         }
     }
 

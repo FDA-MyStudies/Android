@@ -3,9 +3,16 @@ package com.harvard.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.util.Log;
+
 import androidx.appcompat.app.AlertDialog;
 
 import com.harvard.R;
+
+import java.util.Locale;
 
 
 public class SetDialogHelper {
@@ -80,4 +87,6 @@ public class SetDialogHelper {
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
+
+
 }

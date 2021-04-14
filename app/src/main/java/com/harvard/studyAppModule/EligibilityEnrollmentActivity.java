@@ -141,7 +141,7 @@ public class EligibilityEnrollmentActivity extends AppCompatActivity implements 
                     finish();
                 }
             } else {
-                Toast.makeText(this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.eligibility_enrollment_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -164,9 +164,18 @@ public class EligibilityEnrollmentActivity extends AppCompatActivity implements 
         AppController.getHelperProgressDialog().dismissDialog();
         ResponseServerData responseServerData = (ResponseServerData) response;
         if (responseServerData != null) {
-            Toast.makeText(this, responseServerData.getException().toString(), Toast.LENGTH_SHORT).show();
+            if(responseServerData.getException().contains("Invalid")){
+                Toast.makeText(this,R.string.eligibility_enrollment_server_invalid_token , Toast.LENGTH_SHORT).show();
+            } else if (responseServerData.getException().equalsIgnoreCase("Token already in use")) {
+                Toast.makeText(this,R.string.eligibility_enrollment_server_token_already_in_use , Toast.LENGTH_SHORT).show();
+            }else if(responseServerData.getException().contains("Unknown")){
+                Toast.makeText(this,R.string.eligibility_enrollment_server_error_message , Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this,responseServerData.getException() , Toast.LENGTH_SHORT).show();
+            }
+
         } else {
-            Toast.makeText(this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.eligibility_enrollment_unable_to_parse, Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -26,6 +26,7 @@ import com.harvard.webserviceModule.apiHelper.ApiCall;
 import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 public class VerificationStepActivity extends AppCompatActivity implements ApiCall.OnAsyncRequestComplete {
     private AppCompatTextView mVerificationStepsLabel;
@@ -151,6 +152,7 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
                     AppController.getHelperProgressDialog().showProgress(VerificationStepActivity.this, "", "", false);
                     params.put("emailId", mEmailId);
                     params.put("code", mVerificationCode.getText().toString());
+                    header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
                     RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.CONFIRM_REGISTER_USER, CONFIRM_REGISTER_USER_RESPONSE, VerificationStepActivity.this, LoginData.class, params, header, null, false, VerificationStepActivity.this);
                     verifyUserEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
                     UserModulePresenter userModulePresenter = new UserModulePresenter();
@@ -166,7 +168,7 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
                 AppController.getHelperProgressDialog().showProgress(VerificationStepActivity.this, "", "", false);
                 ResendEmailEvent resendEmailEvent = new ResendEmailEvent();
                 HashMap<String, String> header = new HashMap<String, String>();
-
+                header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
                 HashMap<String, String> params = new HashMap<String, String>();
                 params.put("emailId", mEmailId);
                 RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.RESEND_CONFIRMATION, RESEND_CONFIRMATION, VerificationStepActivity.this, LoginData.class, params, header, null, false, VerificationStepActivity.this);
@@ -231,15 +233,15 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(VerificationStepActivity.this, R.style.MyAlertDialogStyle);
                 alertDialogBuilder.setTitle(VerificationStepActivity.this.getApplicationInfo().loadLabel(VerificationStepActivity.this.getPackageManager()).toString());
-                alertDialogBuilder.setMessage("Do you want to set a passcode for the app?").setCancelable(false)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                alertDialogBuilder.setMessage(getResources().getString(R.string.verification_dialog_text)).setCancelable(false)
+                        .setPositiveButton(getResources().getString(R.string.verification_dialog_yes), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(VerificationStepActivity.this, NewPasscodeSetupActivity.class);
                                 startActivity(intent);
                                 AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.initialpasscodeset), "NO");
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(getResources().getString(R.string.verification_dialog_no), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.initialpasscodeset), "yes");
                                 //                                Intent intent = new Intent();

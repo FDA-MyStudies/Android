@@ -19,6 +19,7 @@ import com.harvard.webserviceModule.apiHelper.ApiCall;
 import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 public class FeedbackActivity extends AppCompatActivity implements ApiCall.OnAsyncRequestComplete {
     private AppCompatTextView mTitle;
@@ -77,7 +78,7 @@ public class FeedbackActivity extends AppCompatActivity implements ApiCall.OnAsy
             @Override
             public void onClick(View v) {
                 if (mSubject.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.subject_empty), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.feedback_activity_subject_empty), Toast.LENGTH_SHORT).show();
                 } else if (mFeedbackEdittext.getText().toString().equalsIgnoreCase("")) {
                     Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.feedback_empty), Toast.LENGTH_SHORT).show();
                 } else {
@@ -100,10 +101,12 @@ public class FeedbackActivity extends AppCompatActivity implements ApiCall.OnAsy
         studyModulePresenter.performContactUsEvent(contactUsEvent);*/
 
         ContactUsEvent contactUsEvent = new ContactUsEvent();
+        HashMap<String, String> header = new HashMap<>();
+        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         HashMap<String, String> params = new HashMap<>();
         params.put("subject", mSubject.getText().toString());
         params.put("body", mFeedbackEdittext.getText().toString());
-        RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.FEEDBACK, FEEDBACK, FeedbackActivity.this, ReachOut.class, params, null, null, false, this);
+        RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.FEEDBACK, FEEDBACK, FeedbackActivity.this, ReachOut.class, params, header, null, false, this);
 
         contactUsEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
         StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
@@ -125,11 +128,11 @@ public class FeedbackActivity extends AppCompatActivity implements ApiCall.OnAsy
     public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (statusCode.equalsIgnoreCase("401")) {
-            Toast.makeText(FeedbackActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(FeedbackActivity.this, errormsg);
         } else {
             if (responseCode == FEEDBACK) {
-                Toast.makeText(FeedbackActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.unable_to_process), Toast.LENGTH_SHORT).show();
             }
 
         }

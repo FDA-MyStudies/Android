@@ -304,7 +304,7 @@ public class SingleChoiceTextQuestionBody<T> implements StepBody, CompoundButton
         if (currentSelected.isEmpty()) {
             return new BodyAnswer(false, R.string.rsb_invalid_answer_choice);
         } else if (OtherOptionMandatory && currentSelected.contains(OtherOptionValue) && otherText.getText().toString().trim().equalsIgnoreCase("")) {
-            return new BodyAnswer(false, R.string.otherValuetxt);
+            return new BodyAnswer(false, R.string.sc_text_q_body_otherValuetxt);
         } else {
             return BodyAnswer.VALID;
         }

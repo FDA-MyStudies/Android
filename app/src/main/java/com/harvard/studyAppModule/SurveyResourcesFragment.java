@@ -62,6 +62,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import io.realm.Realm;
@@ -118,8 +119,10 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
         HashMap<String, String> header = new HashMap<>();
         mStudyId = ((SurveyActivity) mContext).getStudyId();
         header.put("studyId", mStudyId);
+        header.put("language",header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage())));
         String url = URLs.RESOURCE_LIST + "?studyId=" + mStudyId;
         GetResourceListEvent getResourceListEvent = new GetResourceListEvent();
+
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, RESOURCE_REQUEST_CODE,
                 getActivity(), StudyResource.class, null, header, null, false, this);
 
@@ -131,6 +134,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
     private void callGetStudyInfoWebservice() {
         AppController.getHelperProgressDialog().showProgress(getActivity(), "", "", false);
         HashMap<String, String> header = new HashMap<>();
+        header.put("language",header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage())));
         String url = URLs.STUDY_INFO + "?studyId=" + mStudyId;
         GetUserStudyInfoEvent getUserStudyInfoEvent = new GetUserStudyInfoEvent();
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, STUDY_INFO, getActivity(), StudyHome.class, null, header, null, false, this);
@@ -173,7 +177,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
     }
 
     private void setTextForView() {
-        mTitle.setText(getResources().getString(R.string.resources));
+        mTitle.setText(getResources().getString(R.string.survey_resources_fragment_resources));
     }
 
     private void setFont() {
@@ -226,9 +230,9 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
             LoginData loginData = (LoginData) response;
             if (loginData != null) {
                 AppController.getHelperSessionExpired(mContext, "");
-                Toast.makeText(mContext, R.string.account_deletion, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.survey_resources_fragment_account_deletion, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.survey_resources_fragment_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == STUDY_INFO) {
             if (response != null) {
@@ -608,7 +612,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                 } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK && !response.equalsIgnoreCase("")) {
                     response = response;
                 } else {
-                    response = getString(R.string.unknown_error);
+                    response = getString(R.string.survey_resources_fragment_unknown_error);
                 }
             }
             return response;
@@ -624,7 +628,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                     AppController.getHelperSessionExpired(mContext, "session expired");
                 } else if (response.equalsIgnoreCase("timeout")) {
                     metadataProcess();
-                    Toast.makeText(mContext, mContext.getResources().getString(R.string.connection_timeout), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.survey_resources_fragment_connection_timeout), Toast.LENGTH_SHORT).show();
                 } else if (Integer.parseInt(responseCode) == 500) {
                     try {
                         JSONObject jsonObject = new JSONObject(String.valueOf(mResponseModel.getResponseData()));
@@ -725,11 +729,11 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                     callLabkeyService(this.position + 1);
                 } else {
                     metadataProcess();
-                    Toast.makeText(mContext, mContext.getResources().getString(R.string.unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.survey_resources_fragment_unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
                 }
             } else {
                 metadataProcess();
-                Toast.makeText(mContext, getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getString(R.string.survey_resources_fragment_unknown_error), Toast.LENGTH_SHORT).show();
             }
 
         }
@@ -754,9 +758,9 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
         mResourceArrayList.clear();
         labelArray.add(getResources().getString(R.string.about_study));
         if (AppConfig.isStudyConsentRequired) {
-            labelArray.add(getResources().getString(R.string.consent_pdf));
+            labelArray.add(getResources().getString(R.string.survey_resources_fragment_consent_pdf));
         }
-        labelArray.add(getResources().getString(R.string.leave_study));
+        labelArray.add(getResources().getString(R.string.survey_resources_fragment_leave_study));
 
         for (int i = 0; i < labelArray.size(); i++) {
             Resource r = new Resource();
@@ -772,20 +776,21 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
     public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (statusCode.equalsIgnoreCase("401")) {
-            Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(mContext, errormsg);
-        } else {
+        }
+        else {
             // offline functionality
             if (responseCode == RESOURCE_REQUEST_CODE) {
                 try {
                     if (dbServiceSubscriber.getStudyResource(mStudyId, mRealm) == null) {
-                        Toast.makeText(getActivity(), errormsg, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.is_currently_not_available), Toast.LENGTH_LONG).show();
                     } else if (dbServiceSubscriber.getStudyResource(mStudyId, mRealm).getResources() == null) {
-                        Toast.makeText(getActivity(), errormsg, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.is_currently_not_available), Toast.LENGTH_LONG).show();
                     } else {
                         mResourceArrayList = dbServiceSubscriber.getStudyResource(mStudyId, mRealm).getResources();
                         if (mResourceArrayList == null || mResourceArrayList.size() == 0) {
-                            Toast.makeText(getActivity(), errormsg, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), getResources().getString(R.string.is_currently_not_available), Toast.LENGTH_LONG).show();
                         } else {
                             calculatedResources(mResourceArrayList);
                         }
@@ -794,7 +799,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                     e.printStackTrace();
                 }
             } else {
-                Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getResources().getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -813,7 +818,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
         HashMap<String, String> header = new HashMap();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(mContext, mContext.getResources().getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(mContext, mContext.getResources().getString(R.string.userid), ""));
-
+        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         JSONObject jsonObject = new JSONObject();
 
         try {
@@ -867,7 +872,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
     public <T> void asyncResponseFailure(int responseCode, String errormsg, String
             statusCode, T response) {
         AppController.getHelperProgressDialog().dismissDialog();
-        Toast.makeText(getActivity(), errormsg, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), getResources().getString(R.string.unable_to_withdraw_from_study), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -915,6 +920,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
         HashMap<String, String> header = new HashMap();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(mContext, getResources().getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(mContext, getResources().getString(R.string.userid), ""));
+        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         DeleteAccountEvent deleteAccountEvent = new DeleteAccountEvent();
         Gson gson = new Gson();
         DeleteAccountData deleteAccountData = new DeleteAccountData();

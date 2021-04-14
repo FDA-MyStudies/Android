@@ -47,12 +47,12 @@ public class ChooseTouchIDSignInActivity extends AppCompatActivity {
     }
 
     private void setTextForView() {
-        mTitle.setText(getResources().getString(R.string.sign_in));
+        mTitle.setText(getResources().getString(R.string.choose_tid_signin_activity_sign_in));
     }
 
     @SuppressWarnings("deprecation")
     private void customTextView(AppCompatTextView view) {
-        String html = "<font color=\"#007cba\"><u>" + getResources().getString(R.string.sign_in) + "</u></font>";
+        String html = "<font color=\"#007cba\"><u>" + getResources().getString(R.string.choose_tid_signin_activity_sign_in) + "</u></font>";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             view.setText(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY));
         } else {

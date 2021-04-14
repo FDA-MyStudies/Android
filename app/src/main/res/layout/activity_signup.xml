@@ -32,7 +32,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/first_name_label"
                     style="@style/signUpTextField"
-                    android:text="@string/first_name" />
+                    android:text="@string/sign_up_activity_first_name" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edittxt_first_name"
@@ -70,7 +70,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/last_name_label"
                     style="@style/signUpTextField"
-                    android:text="@string/last_name" />
+                    android:text="@string/sign_up_activity_last_name" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edittxt_last_name"
@@ -98,18 +98,22 @@
                 android:layout_below="@id/rel_last_name"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:paddingTop="18dp">
+                android:paddingTop="10dp">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/email_label"
+                    android:layout_width="150dp"
+                    android:imeOptions="actionNext"
+                    android:maxLines="2"
                     style="@style/signUpTextField"
-                    android:text="@string/email_id" />
+                    android:text="@string/sign_up_activity_email_id" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edittxt_email"
                     style="@style/signUpEditText"
                     android:hint="@string/enter_email"
                     android:singleLine="true"
+
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
@@ -136,17 +140,17 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/password_label"
                     style="@style/signUpTextField"
-                    android:text="@string/password" />
+                    android:text="@string/sign_up_activity_password" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edittxt_password"
                     style="@style/signUpEditText"
+
                     android:hint="@string/add_password"
-                    android:inputType="textPassword"
                     android:imeOptions="actionNext"
-                    android:singleLine="true"
+                    android:inputType="textPassword"
                     android:maxLength="64"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#$%&amp;'()*+,-.:;&lt;&gt;=?@[]^_{}|~"
+                    android:singleLine="true"
                     android:textCursorDrawable="@drawable/custom_cursor_drawable" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -170,7 +174,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/confirm_password_label"
                     style="@style/signUpTextField"
-                    android:text="@string/confirm_password" />
+                    android:text="@string/sign_up_activity_confirm_password" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edittxt_confirm_password"
@@ -182,7 +186,6 @@
                     android:singleLine="true"
                     android:textCursorDrawable="@drawable/custom_cursor_drawable"
                     android:layout_alignParentTop="true"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#$%&amp;'()*+,-.:;&lt;&gt;=?@[]^_{}|~"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true" />
 
@@ -232,7 +235,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
-                        android:text="@string/touch_txt"
+                        android:text="@string/sign_up_activity_touch_txt"
                         android:textColor="@color/colorPrimaryBlack" />
 
                 </RelativeLayout>
@@ -285,7 +288,7 @@
                 android:layout_alignParentBottom="true"
                 android:background="@drawable/rectangle_black_white"
                 android:gravity="center"
-                android:text="@string/submit"
+                android:text="@string/sign_up_activity_submit_btn"
                 android:textColor="@color/colorPrimary" />
         </RelativeLayout>
     </ScrollView>

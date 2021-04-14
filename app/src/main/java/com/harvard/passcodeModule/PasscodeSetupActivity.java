@@ -88,17 +88,17 @@ public class PasscodeSetupActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                You will be signed out and will need to sign in again. Are you sure you want to proceed?
                 AlertDialog.Builder adb = new AlertDialog.Builder(PasscodeSetupActivity.this);
-                adb.setTitle(getResources().getString(R.string.app_name));
+                adb.setTitle(getResources().getString(R.string.pass_code_app_name));
                 adb.setIcon(android.R.drawable.ic_dialog_alert);
                 adb.setMessage(R.string.forgotpasscodemsg);
-                adb.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                adb.setPositiveButton(getResources().getString(R.string.passcode_setup_ok_btn), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         getHelperLogout();
                     }
                 });
 
 
-                adb.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                adb.setNegativeButton(getResources().getString(R.string.passcode_setup_cancel_btn), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }

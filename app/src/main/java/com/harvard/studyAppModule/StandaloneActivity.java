@@ -64,6 +64,7 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -140,6 +141,7 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                 AppController.getHelperProgressDialog().showProgress(StandaloneActivity.this, "", "", false);
                 GetUserStudyListEvent getUserStudyListEvent = new GetUserStudyListEvent();
                 HashMap<String, String> header = new HashMap();
+                header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
                 HashMap<String, String> params = new HashMap();
                 params.put("studyId", AppConfig.StudyId);
                 WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", URLs.SPECIFIC_STUDY + "?studyId=" + AppConfig.StudyId, SPECIFIC_STUDY, StandaloneActivity.this, Study.class, params, header, null, false, this);
@@ -184,6 +186,7 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                         HashMap<String, String> header = new HashMap();
                         header.put("auth", AppController.getHelperSharedPreference().readPreference(StandaloneActivity.this, getResources().getString(R.string.auth), ""));
                         header.put("userId", AppController.getHelperSharedPreference().readPreference(StandaloneActivity.this, getResources().getString(R.string.userid), ""));
+                        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
                         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("get", URLs.STUDY_STATE, GET_PREFERENCES, StandaloneActivity.this, StudyData.class, null, header, null, false, this);
 
                         getPreferenceEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
@@ -199,7 +202,7 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                 }
             } else {
                 AppController.getHelperProgressDialog().dismissDialog();
-                Toast.makeText(StandaloneActivity.this, R.string.error_retriving_data, Toast.LENGTH_SHORT).show();
+                Toast.makeText(StandaloneActivity.this, R.string.standalone_activity_error_retriving_data, Toast.LENGTH_SHORT).show();
                 finish();
             }
         } else if (responseCode == GET_PREFERENCES) {
@@ -283,7 +286,7 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                         finish();
                     }
                 } else {
-                    Toast.makeText(StandaloneActivity.this, R.string.error_retriving_data, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StandaloneActivity.this, R.string.standalone_activity_error_retriving_data, Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 setStudyList(false);
@@ -291,7 +294,7 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                 AppController.getHelperProgressDialog().dismissDialog();
             } else {
                 AppController.getHelperProgressDialog().dismissDialog();
-                Toast.makeText(StandaloneActivity.this, R.string.error_retriving_data, Toast.LENGTH_SHORT).show();
+                Toast.makeText(StandaloneActivity.this, R.string.standalone_activity_error_retriving_data, Toast.LENGTH_SHORT).show();
                 finish();
             }
         } else if (responseCode == STUDY_UPDATES) {
@@ -362,7 +365,7 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
     public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (statusCode.equalsIgnoreCase("401")) {
-            Toast.makeText(StandaloneActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(StandaloneActivity.this, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(StandaloneActivity.this, errormsg);
         } else if (responseCode == STUDY_UPDATES || responseCode == GET_CONSENT_DOC || responseCode == CONSENTPDF) {
             Intent intent = new Intent(StandaloneActivity.this, SurveyActivity.class);
@@ -400,7 +403,7 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                     finish();
                 }
             } else {
-                Toast.makeText(StandaloneActivity.this, errormsg, Toast.LENGTH_LONG).show();
+                Toast.makeText(StandaloneActivity.this, getResources().getString(R.string.unknown_error), Toast.LENGTH_LONG).show();
                 finish();
             }
 
@@ -455,10 +458,10 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                                             startActivity(intent);
                                             finish();
                                         } else if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(getString(R.string.paused))) {
-                                            Toast.makeText(StandaloneActivity.this, R.string.study_paused, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(StandaloneActivity.this, R.string.standalone_activity_study_paused, Toast.LENGTH_SHORT).show();
                                             finish();
                                         } else if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(getString(R.string.closed))) {
-                                            Toast.makeText(StandaloneActivity.this, R.string.study_resume, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(StandaloneActivity.this, R.string.standalone_activity_study_resume, Toast.LENGTH_SHORT).show();
                                             finish();
                                         } else {
                                             Intent intent = new Intent(getApplicationContext(), StandaloneStudyInfoActivity.class);
@@ -478,11 +481,11 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                                     }
                                 }
                                 if (!isStudyAvailable) {
-                                    Toast.makeText(StandaloneActivity.this, R.string.studyNotAvailable, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(StandaloneActivity.this, R.string.standalone_activity_study_not_available, Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
                             } else {
-                                Toast.makeText(StandaloneActivity.this, R.string.studyNotAvailable, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(StandaloneActivity.this, R.string.standalone_activity_study_not_available, Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         }
@@ -523,21 +526,21 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                                     }
                                 }
                                 if (!isStudyAvailable) {
-                                    Toast.makeText(StandaloneActivity.this, R.string.studyNotAvailable, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(StandaloneActivity.this, R.string.standalone_activity_study_not_available, Toast.LENGTH_SHORT).show();
                                     finish();
                                 } else if (!isStudyJoined) {
-                                    Toast.makeText(StandaloneActivity.this, R.string.studyNotJoined, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(StandaloneActivity.this, R.string.standalone_activity_studyNotJoined, Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
                             } else {
-                                Toast.makeText(StandaloneActivity.this, R.string.studyNotAvailable, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(StandaloneActivity.this, R.string.standalone_activity_study_not_available, Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         }
                     }
                 }
             } else {
-                Toast.makeText(StandaloneActivity.this, R.string.studyNotAvailable, Toast.LENGTH_SHORT).show();
+                Toast.makeText(StandaloneActivity.this, R.string.standalone_activity_study_not_available, Toast.LENGTH_SHORT).show();
                 finish();
             }
         }
@@ -573,6 +576,7 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
         AppController.getHelperProgressDialog().showProgress(StandaloneActivity.this, "", "", false);
         GetUserStudyListEvent getUserStudyListEvent = new GetUserStudyListEvent();
         HashMap<String, String> header = new HashMap();
+        header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         String url = URLs.STUDY_UPDATES + "?studyId=" + studyId + "&studyVersion=" + studyVersion;
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, STUDY_UPDATES, StandaloneActivity.this, StudyUpdate.class, null, header, null, false, this);
 
@@ -583,6 +587,7 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
 
     private void getCurrentConsentDocument(String studyId) {
         HashMap<String, String> header = new HashMap<>();
+        header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         String url = URLs.GET_CONSENT_DOC + "?studyId=" + studyId + "&consentVersion=&activityId=&activityVersion=";
         AppController.getHelperProgressDialog().showProgress(StandaloneActivity.this, "", "", false);
         GetUserStudyInfoEvent getUserStudyInfoEvent = new GetUserStudyInfoEvent();
@@ -598,6 +603,7 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
         HashMap<String, String> header = new HashMap<>();
         header.put("auth", AppController.getHelperSharedPreference().readPreference(StandaloneActivity.this, getResources().getString(R.string.auth), ""));
         header.put("userId", AppController.getHelperSharedPreference().readPreference(StandaloneActivity.this, getResources().getString(R.string.userid), ""));
+        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         String url = URLs.CONSENTPDF + "?studyId=" + mStudyId + "&consentVersion=";
         RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("get", url, CONSENTPDF, StandaloneActivity.this, ConsentPDF.class, null, header, null, false, StandaloneActivity.this);
         consentPDFEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
@@ -618,11 +624,12 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
         @Override
         protected String doInBackground(String... params) {
             ConnectionDetector connectionDetector = new ConnectionDetector(StandaloneActivity.this);
-
+            HashMap<String, String> header = new HashMap<String, String>();
+            header.put("language", Locale.getDefault().getDisplayLanguage());
 
             String url = URLs.BASE_URL_WCP_SERVER + URLs.CONSENT_METADATA + "?studyId=" + mStudyId;
             if (connectionDetector.isConnectingToInternet()) {
-                mResponseModel = HttpRequest.getRequest(url, new HashMap<String, String>(), "WCP");
+                mResponseModel = HttpRequest.getRequest(url, header, "WCP");
                 responseCode = mResponseModel.getResponseCode();
                 response = mResponseModel.getResponseData();
                 if (responseCode.equalsIgnoreCase("0") && response.equalsIgnoreCase("timeout")) {
@@ -642,7 +649,7 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                 } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK && !response.equalsIgnoreCase("")) {
                     response = response;
                 } else {
-                    response = getString(R.string.unknown_error);
+                    response = getString(R.string.standalone_activity_unknown_error);
                 }
             }
             return response;
@@ -658,7 +665,7 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                     AppController.getHelperSessionExpired(StandaloneActivity.this, "session expired");
                 } else if (response.equalsIgnoreCase("timeout")) {
                     AppController.getHelperProgressDialog().dismissDialog();
-                    Toast.makeText(StandaloneActivity.this, getResources().getString(R.string.connection_timeout), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StandaloneActivity.this, getResources().getString(R.string.standalone_activity_connection_timeout), Toast.LENGTH_SHORT).show();
                 } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK) {
 
                     Gson gson = new GsonBuilder()
@@ -701,17 +708,17 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                         saveConsentToDB(StandaloneActivity.this, eligibilityConsent);
                         startConsent(eligibilityConsent.getConsent(), eligibilityConsent.getEligibility().getType());
                     } else {
-                        Toast.makeText(StandaloneActivity.this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(StandaloneActivity.this, R.string.standalone_activity_unable_to_parse, Toast.LENGTH_SHORT).show();
                         finish();
                     }
                 } else {
                     AppController.getHelperProgressDialog().dismissDialog();
-                    Toast.makeText(StandaloneActivity.this, getResources().getString(R.string.unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StandaloneActivity.this, getResources().getString(R.string.standalone_activity_unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
                     finish();
                 }
             } else {
                 AppController.getHelperProgressDialog().dismissDialog();
-                Toast.makeText(StandaloneActivity.this, getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(StandaloneActivity.this, getString(R.string.standalone_activity_unknown_error), Toast.LENGTH_SHORT).show();
                 finish();
             }
         }
@@ -733,7 +740,7 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
 
     private void startConsent(Consent consent, String type) {
         eligibilityType = type;
-        Toast.makeText(StandaloneActivity.this, getResources().getString(R.string.please_review_the_updated_consent), Toast.LENGTH_SHORT).show();
+        Toast.makeText(StandaloneActivity.this, getResources().getString(R.string.standalone_activity_please_review_the_updated_consent), Toast.LENGTH_SHORT).show();
         ConsentBuilder consentBuilder = new ConsentBuilder();
         List<Step> consentstep = consentBuilder.createsurveyquestion(StandaloneActivity.this, consent, mtitle, "update");
         Task consentTask = new OrderedTask(CONSENT, consentstep);
