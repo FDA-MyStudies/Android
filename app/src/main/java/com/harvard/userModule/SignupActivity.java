@@ -148,6 +148,7 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
 
         spanTxt.append(" " + getResources().getString(R.string.sign_up_activity_and));
 
+
         if(!Locale.getDefault().getDisplayLanguage().toLowerCase().equalsIgnoreCase( "español")){
             spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignupActivity.this, R.color.colorPrimaryBlack)), 20, spanTxt.length(), 0);
         }else {

@@ -142,11 +142,13 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
         }, spanTxt.length() - mContext.getResources().getString(R.string.sign_up_fragment_terms2).length(), spanTxt.length(), 0);
 
         spanTxt.append(" " + mContext.getResources().getString(R.string.sign_up_fragment_and));
+
         if(!Locale.getDefault().getDisplayLanguage().toLowerCase().equalsIgnoreCase( "español")){
             spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.colorPrimaryBlack)), 20, spanTxt.length(), 0);
         }else {
             spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.colorPrimaryBlack)), 35, spanTxt.length(), 0);
         }
+
         spanTxt.append(" " + mContext.getResources().getString(R.string.sign_up_fragment_privacy_policy2));
         String temp = " " + mContext.getResources().getString(R.string.sign_up_fragment_privacy_policy2);
         spanTxt.setSpan(new ClickableSpan() {

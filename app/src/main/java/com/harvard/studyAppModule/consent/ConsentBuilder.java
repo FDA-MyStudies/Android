@@ -191,6 +191,7 @@ public class ConsentBuilder {
         if (consent.getComprehension() != null && consent.getComprehension().getQuestions() != null && consent.getComprehension().getQuestions().size() > 0) {
 
             InstructionStep instructionStep = new InstructionStep("key", context.getResources().getString(R.string.comprehension_title), context.getResources().getString(R.string.comprehension_detail_text));
+
             instructionStep.setStepTitle(R.string.consent_builder_no_txt);
             instructionStep.setOptional(false);
             visualSteps.add(instructionStep);

@@ -154,7 +154,9 @@ public class ChangePasswordActivity extends AppCompatActivity implements ApiCall
                         Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.change_password_password_contain_email), Toast.LENGTH_SHORT).show();
                     } else if (mConfirmPassword.getText().toString().equalsIgnoreCase("")) {
                         Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.change_password_confirm_password_empty), Toast.LENGTH_SHORT).show();
+
                     }else if (!mConfirmPassword.getText().toString().equals(mNewPassword.getText().toString())) {
+
                         Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.password_mismatch_error1), Toast.LENGTH_SHORT).show();
                     } else {
                         AppController.getHelperProgressDialog().showProgress(ChangePasswordActivity.this, "", "", false);

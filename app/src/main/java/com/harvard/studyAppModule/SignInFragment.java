@@ -126,7 +126,9 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
     private void customTextViewAgree(AppCompatTextView view) {
         SpannableStringBuilder spanTxt = new SpannableStringBuilder(mContext.getResources().getString(R.string.sign_in_fragment_you_agree_this_app) + "\n");
         spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.colorPrimaryBlack)), 0, spanTxt.length(), 0);
+
         spanTxt.append(" "+mContext.getResources().getString(R.string.sign_in_fragment_terms2));
+
         spanTxt.setSpan(new ClickableSpan() {
             @Override
             public void updateDrawState(TextPaint ds) {

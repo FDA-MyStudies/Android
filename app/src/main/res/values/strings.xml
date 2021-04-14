@@ -57,7 +57,11 @@
     <!ENTITY studyNotAvailable "This study is not available." >
     <!ENTITY studyNotJoined "You have to join this study to continue." >
     <!ENTITY leave_study "Leave Study" >
+<<<<<<< HEAD
     <!ENTITY check_internet "No internet connection/cannot connect to server" >
+=======
+    <!ENTITY check_internet "Check your internet connection" >
+>>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
     <!ENTITY forgot_password "Forgot password?" >
     <!ENTITY new_usr_signup "New User? Sign Up" >
     <!ENTITY sign_up "Sign Up" >
@@ -90,7 +94,11 @@
     <!ENTITY watch_video "Watch Video" >
     <!ENTITY active1 "ACTIVE" >
     <!ENTITY yet_to_join "Yet To Join" >
+<<<<<<< HEAD
     <!ENTITY fda_listens "COVID MyStudies" >
+=======
+    <!ENTITY fda_listens "FDA MyStudies" >
+>>>>>>> 2c5343e998efa37e49e175ab3c4dcdaf5cd643c7
     <!ENTITY expired "Expired" >
     <!ENTITY incompleted2 "Incomplete" >
     <!ENTITY completed2 "Completed" >
@@ -147,6 +155,7 @@
     <string name="studyVersion">studyVersion</string>
     <string name="studyStatus">studyStatus</string>
     <!-- AndroidManifest.xml both fda module and main module-->
+
     <!--<string name="app_name_icon">MyStudies</string>-->
 
     <!-- =========================== Modulewise String listing for localisation ===============   -->
@@ -173,6 +182,7 @@
     <string name="cv_task_cancel">&cancel;</string>
     <string name="cv_activity_app_name">&app_name;</string>
     <!-- ** .java ** -->
+
     <!-- ******* ============================ *******-->
 
 
@@ -245,6 +255,7 @@
     <!-- *******************  ****************  ****************** -->
 
 
+
     <!-- *******************  PasscodeModule  ****************** -->
 
     <!-- *********  PasscodeSetupActivity ************-->
@@ -307,7 +318,9 @@
     <!--**** SingleChoiceSharingSteps **** -->
     <!-- ** .java ** -->
     <string name="rsb_invalid_answer_choice">Please select a value!</string>
+
     <string name="single_choice_sharing_steps_load_more">Load more</string>
+
     <!-- ** .java ** -->
     <!-- ****** ========== ******-->
 
@@ -346,6 +359,7 @@
     <string name="consent_share_data_with2">and qualified researchers worldwide</string>
     <string name="consent_only_share_data_with">Only share my data with</string>
     <string name="consent_lar_text">Consent by a Legally Authorized Representative</string>
+
     <!-- ** .java ** -->
     <!-- ****** ========== ******-->
     <!--*** CustomConsentViewTaskActivity ***-->
@@ -361,6 +375,7 @@
     <string name="end_task">End Task</string>
     <string name="exit_message">Are you sure you want to exit?</string>
     <string name="ccv_task_activity_signature_form_step">SIGNATURE_FORM_STEP</string>
+
     <string name="ccv_task_alert_dialog_message">Sorry, this study does not allow you to proceed for the selection you just made. Click OK to quit enrolling for the study or Cancel to change your selection.</string>
     <string name="ccv_task_alert_dialog_ok_btn">&ok_btn;</string>
     <string name="ccv_task_alert_dialog_cancle_btn">&cancel;</string>
@@ -529,8 +544,10 @@
     <!-- ** .xml ** -->
     <string name="agree_deleting_my_account">I agree, proceed to deleting my account</string>
     <string name="do_not_wish_to_delete_my_account">I do not wish to delete my account</string>
+
     <string name="delete_account_content">You have chosen to delete your &fda_listens; Account. This will result in automatic withdrawal from all studies.\n\nBelow is a list of studies that you are a part of and information on how your response data will be handled with each after you withdraw. Please review and confirm.</string>
     <string name="fda_delete_account_content">You have chosen to delete your &fda_listens; Account. This will result in automatic withdrawal from all studies.\n\nBelow is a list of studies that you are a part of and information on how your response data will be handled with each after you withdraw. Please review and confirm.</string>
+
     <!-- ** .xml ** -->
     <!-- ** .java ** -->
     <string name="confirmation">CONFIRMATION</string>
@@ -556,9 +573,11 @@
     <string name="eligibility_enrollment_unable_to_parse">&unable_to_parse;</string>
     <string name="enter_enrollment_id">Please Enter a Enrollment ID</string>
     <string name="eligibility">ELIGIBILITY</string>
+
     <string name="eligibility_enrollment_server_error_message">Unknown Token</string>
     <string name="eligibility_enrollment_server_invalid_token">Invalid Token</string>
     <string name="eligibility_enrollment_server_token_already_in_use">Token already in use</string>
+
     <!-- ** .java ** -->
     <!-- ************** ***************************** ***************** -->
     <!-- **************** EnrollmentValidatedActivity ***************** -->
@@ -677,7 +696,9 @@
     <!-- ** .java ** -->
     <string name="remainder_settings">Please enable remainder settings to set time.</string>
     <string name="update">Update</string>
+
     <string name="passcode_updated">Passcode updated</string>
+
     <string name="profile_fragment_unable_to_parse">&unable_to_parse;</string>
     <string name="profile_fragment_account_deletion">&account_deletion;</string>
     <string name="profile_fragment_completed">&completed;</string>
@@ -807,10 +828,12 @@
     <string name="no_study">Sorry, no studies available right now. Please remain signed in to get notified when there are new studies available. </string>
     <!-- ** .xml ** -->
 
+
     <!-- drawer_app_bar -->
     <string name="search_token">token</string>
     <string name="search_keyword">keyword</string>
     <!-- drawer_app_bar -->
+
     <!-- ** .java ** -->
     <string name="search_data_empty">Sorry, no studies found. Please try different filter options.</string>
     <string name="study_fragment_unable_to_parse">&unable_to_parse;</string>
@@ -871,10 +894,12 @@
     <string name="study_list_adapter_with_drawn">&withdrawn;</string>
     <string name="partial_participation">Partial Participation</string>
     <string name="no_participation">No Participation</string>
+
     <string name="study_list_adapter_mState_active">active</string>
     <string name="study_list_adapter_mState_upcoming">upcoming</string>
     <string name="study_list_adapter_mState_closed">closed</string>
     <string name="study_list_adapter_mState_paused">paused</string>
+
     <!-- ** .java ** -->
     <!-- ********************* ************************* *********************** -->
     <!-- ************************ StudySignInActivty **************************** -->
@@ -1219,6 +1244,7 @@
     <!-- ** .xml ** -->
     <!-- ** .java ** -->
     <string name="verification_email_content1">An email has been sent to</string>
+
     <string name="verification_dialog_text">Do you want to set a passcode for the app?</string>
     <string name="verification_dialog_yes">Yes</string>
     <string name="verification_dialog_no">No</string>
@@ -1362,8 +1388,10 @@
     <string name="side_menu_sign_up">Sign up</string>
     <string name="side_menu_sign_out">Sign Out</string>
     <string name="side_menu_version">v</string>
+
     <string name="search_study_by">Search study by</string>
     <string name="search_cancel">Cancel</string>
+
     <!-- .xml -->
     <!-- .java -->
     <string name="fda_study_activity_study_paused">&study_paused;</string>
@@ -1425,10 +1453,12 @@
     <!-- **************** ******************* ****************** -->
     <string name="covid_19_gateway_des">The FDA is pleased to offer this application to enable electronic consent for COVID-19 trials. Before you can access informed consent information for a clinical trial or study, you have to register with the app.</string>
     <string name="covid_19_gateway_des1">&gateway_des1;</string>
+
     <string name="covid_19_delete_account_content">You have chosen to delete your  COVID MyStudies Account. This will result in automatic withdrawal from all studies.\n\nBelow is a list of studies that you are a part of and information on how your response data will be handled with each after you withdraw. Please review and confirm.</string>
     <string name="covid_19_delete_message">Are you sure you wish to permanently delete your FDA Health Studies Gateway app account?  You will need to register again if you wish to join a study.</string>
     <string name="covid_19_my_studies">COVID MyStudies</string>
     <string name="covid_19_study_activity_cancel_btn">&cancel;</string>
+
     <string name="covid_19_studie_your_enrolled">It\'s been a while since you visited the COVID MyStudies app. Please consider continuing your participation in any studies in which you\'re enrolled.</string>
     <string name="prject_name">&covid_19_prject_name;</string>
     <string name="covid_19_per_completion">There are no more activities for this study in the COVID MyStudies app. Thank you for your participation.</string>
@@ -1556,6 +1586,7 @@
     <!-- ========================================================== -->
     <string name="rsb_exit">Exit</string>
     <string name="rsb_next">next</string>
+
     <string name="rsb_agree">Agree</string>
     <string name="rsb_consent">Consent</string>
     <string name="rsb_consent_review_alert_title">Review</string>
@@ -1608,5 +1639,6 @@
     <string name="rsb_quiz_evaluation_try_again">Try Again</string>
     <string name="rsb_submit">Submit</string>
     <string name="rsb_yes">Yes</string>
+
     <string name="change_language_alert_dialog_title">Wish to change default language</string>
 </resources>

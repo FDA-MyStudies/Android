@@ -292,8 +292,9 @@ public class StudyListAdapter extends RecyclerView.Adapter<StudyListAdapter.Hold
                             changeDefaultLocaleLanguageYesNoDialog((StudyActivity) mContext,alertDialogMessage,"Yes","No",holder.getAdapterPosition());
                         }
                     }
-                    else if(mItems.get(holder.getAdapterPosition()).getStudyLanguage().equalsIgnoreCase("spanish")){
-                        if(Locale.getDefault().getDisplayLanguage().toUpperCase().equalsIgnoreCase("español") ) {
+
+                    else if(mItems.get(holder.getAdapterPosition()).getStudyLanguage().equalsIgnoreCase("spanish")) {
+                        if (Locale.getDefault().getDisplayLanguage().toUpperCase().equalsIgnoreCase("español")) {
                             if (mItems.get(position).getStatus().equalsIgnoreCase(mContext.getString(R.string.active)) && mItems.get(position).getStudyStatus().equalsIgnoreCase(StudyFragment.IN_PROGRESS)) {
                                 studyFragment.getStudyUpdate(mItems.get(holder.getAdapterPosition()).getStudyId(), mItems.get(holder.getAdapterPosition()).getStudyVersion(), mItems.get(holder.getAdapterPosition()).getTitle(), "", "", "", "");
                             } else {
@@ -301,12 +302,25 @@ public class StudyListAdapter extends RecyclerView.Adapter<StudyListAdapter.Hold
                                 redirectToStudy(holder.getAdapterPosition());
 
                             }
-                        }
-                        else{
+                        } else {
                             alertDialogMessage = mContext.getResources().getString(R.string.language_change_alert_text1) + " " + mContext.getResources().getString(R.string.language_change_alert_spanish)
-                                    + " " + mContext.getResources().getString(R.string.language_change_alert_text2) + " " +  mContext.getResources().getString(R.string.language_change_alert_spanish) + " " + mContext.getResources().getString(R.string.language_change_alert_text3);
-                            changeDefaultLocaleLanguageYesNoDialog((StudyActivity) mContext,alertDialogMessage,"Yes","No",holder.getAdapterPosition());
+                                    + " " + mContext.getResources().getString(R.string.language_change_alert_text2) + " " + mContext.getResources().getString(R.string.language_change_alert_spanish) + " " + mContext.getResources().getString(R.string.language_change_alert_text3);
+                            changeDefaultLocaleLanguageYesNoDialog((StudyActivity) mContext, alertDialogMessage, "Yes", "No", holder.getAdapterPosition());
                         }
+                    }
+
+                    else {
+                        Intent intent = new Intent(mContext.getApplicationContext(), StudyInfoActivity.class);
+                        intent.putExtra("studyId", mItems.get(holder.getAdapterPosition()).getStudyId());
+                        intent.putExtra("title", mItems.get(holder.getAdapterPosition()).getTitle());
+                        intent.putExtra("bookmark", mItems.get(holder.getAdapterPosition()).isBookmarked());
+                        intent.putExtra("status", mItems.get(holder.getAdapterPosition()).getStatus());
+                        intent.putExtra("studyStatus", mItems.get(holder.getAdapterPosition()).getStudyStatus());
+                        intent.putExtra("position", "" + holder.getAdapterPosition());
+                        intent.putExtra("enroll", "" + mItems.get(holder.getAdapterPosition()).getSetting().isEnrolling());
+                        intent.putExtra("rejoin", "" + mItems.get(holder.getAdapterPosition()).getSetting().getRejoin());
+                        ((StudyActivity) mContext).startActivityForResult(intent, 100);
+                        //SetDialogHelper.changeDefaultLocaleLanguageYesNoDialog((StudyActivity) mContext,"Hai","Yes","No");
                     }
 
                 }

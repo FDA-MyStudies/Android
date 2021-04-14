@@ -88,5 +88,60 @@ public class SetDialogHelper {
         alertDialog.show();
     }
 
+    public static void changeDefaultLocaleLanguageYesNoDialog(final Context context, String message,String positiveButton,String negativeButton){
+        AlertDialog.Builder languageAlertDialogBuilder = new AlertDialog.Builder(context,R.style.MyAlertDialogStyle);
+        languageAlertDialogBuilder.setTitle(context.getResources().getString(R.string.change_language_alert_dialog_title));
+        languageAlertDialogBuilder.setMessage(message).setCancelable(true)
+                .setPositiveButton(positiveButton, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
+                        Log.e("Krishna", "setDialogHelper before local languague : "+ Locale.getDefault().getDisplayLanguage() + "  app langugae");
+                        Log.e("Krishna", "setDialogHelper before local languague : "+ Resources.getSystem().getConfiguration().locale.getLanguage() + "  app langugae" +Locale.getDefault().getLanguage());
+
+                       /* String languageToLoad  = "es";
+                        Locale locale = new Locale(languageToLoad);
+                        Locale.setDefault(locale);
+                        Configuration config = new Configuration();
+                        config.locale = locale;
+                        context.getResources().updateConfiguration(config,context.getResources().getDisplayMetrics());
+*/
+                        /*String languageToLoad = "es"; // your language
+                        Locale locale = new Locale(languageToLoad);
+                        Locale.setDefault(locale);
+                        Configuration config = new Configuration();
+                        config.locale = locale;
+                        context.getResources().updateConfiguration(config,
+                                context.getResources().getDisplayMetrics());
+                        dialog.dismiss();*/
+                        ((Activity)context).startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCALE_SETTINGS), 0);
+                        //rEditor.putString("language", languageToLoad);
+                       // rEditor.commit();
+
+
+
+                       // Intent refresh = new Intent(DashboardActivity.this, DashboardActivity.class);
+                      //  startActivity(refresh);
+                      //  finish();
+                        Log.e("Krishna", "setDialogHelper after local languague : "+ Locale.getDefault().getDisplayLanguage() + "  app langugae" );
+                        Log.e("Krishna", "setDialogHelper after local languague : "+ Resources.getSystem().getConfiguration().locale.getLanguage() + "  app langugae" +Locale.getDefault().getLanguage());
+                      //  Intent uiIntent = new Intent(((Activity) context).getIntent());
+                    //    uiIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //    dialog.dismiss();
+
+
+                  //      ((Activity) context).startActivity(uiIntent);
+                  //      ((Activity) context).finish();
+
+                    }
+                })
+                .setNegativeButton(negativeButton, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog alertDialog = languageAlertDialogBuilder.create();
+        alertDialog.show();
+    }
 }

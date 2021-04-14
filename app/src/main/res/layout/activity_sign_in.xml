@@ -32,7 +32,6 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/email_label"
                     style="@style/signUpTextField"
-
                     android:text="@string/sign_in_activity_email"/>
 
                 <androidx.appcompat.widget.AppCompatEditText

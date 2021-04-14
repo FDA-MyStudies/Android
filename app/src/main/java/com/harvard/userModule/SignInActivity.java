@@ -131,7 +131,9 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
     private void customTextViewAgree(AppCompatTextView view) {
         SpannableStringBuilder spanTxt = new SpannableStringBuilder(getResources().getString(R.string.sign_in_activity_you_agree_this_app));
         spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignInActivity.this, R.color.colorPrimaryBlack)), 0, spanTxt.length(), 0);
+
         spanTxt.append(" " +getResources().getString(R.string.sign_in_activity_terms2));
+
         spanTxt.setSpan(new ClickableSpan() {
             @Override
             public void updateDrawState(TextPaint ds) {
@@ -149,6 +151,7 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
                 }
             }
         }, spanTxt.length() - getResources().getString(R.string.sign_in_activity_terms2).length(), spanTxt.length(), 0);
+
 
         Log.e("Krisha", "customTextViewAgree: Span Text "+spanTxt);
         Log.e("Krisha", "customTextViewAgree: Span Text length"+spanTxt.length());

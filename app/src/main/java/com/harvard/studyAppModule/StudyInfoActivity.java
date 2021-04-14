@@ -482,7 +482,9 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
             mStudyHome = (StudyHome) response;
             if (mStudyHome != null) {
                 HashMap<String, String> header = new HashMap<>();
+
                 header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+
                 String url = URLs.GET_CONSENT_DOC + "?studyId=" + mStudyId + "&consentVersion=&activityId=&activityVersion=";
                 GetUserStudyInfoEvent getUserStudyInfoEvent = new GetUserStudyInfoEvent();
                 WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, StudyInfoActivity.GET_CONSENT_DOC, StudyInfoActivity.this, ConsentDocumentData.class, null, header, null, false, StudyInfoActivity.this);

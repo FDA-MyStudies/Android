@@ -170,6 +170,8 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         studyListArrayList = new RealmList<>();
         initializeXMLId(view);
         bindEvents();
+        Log.e("Krishna", "onCreateView local languague : "+ Locale.getDefault().getDisplayLanguage() + "  app langugae");
+        Log.e("Krishna", "onCreateView local languague : "+ Resources.getSystem().getConfiguration().locale.getLanguage() + "  app langugae" +Locale.getDefault().getLanguage());
 
         return view;
     }
