@@ -3,24 +3,13 @@ My Studies is an open-source project to take part in health surveys. ‘My Studi
 My Studies project is FISMA & HIPPA compliant.
 # Requirements
 My Studies requires Android Studio and can be run on Android versions starting from Kitkat to Pie.
-# Backend Server Integration
-My Studies fetches all the Studies, Activities, Consent and Resources from the backend, and responses provided by users is stored on the backend.
-#### Server
-Setup guide for Servers are provided here.
-1 - Registration Server stores user information & user’s status for each study and activity.
-2 - WCP Server provides the platform to create study, activities, consent, and Resources.
-3 - Response Server stores all user’s response to each study activity.
-Once you have successfully setup Registration server, WCP server and Response server, replace server URLs in URLs.java
-```java
-    public static final String BASE_URL_WCP_SERVER = "Your WCP server URL";
-    public static final String BASE_URL_REGISTRATION_SERVER = "Your Registration server URL";
-    public static final String BASE_URL_RESPONSE_SERVER = "Your Response server URL";
-```
+# Setup Instructions
+- [FDA MyStudies: Android Setup](https://www.labkey.org/FDAMyStudiesHelp/wiki-page.view?name=setupInstructions#android)
 
 # Author
 Harvard Pilgrim Health Care Institute (HPHCI)
 # License
-Copyright © 2017-2019 Harvard Pilgrim Health Care Institute (HPHCI) and its Contributors.
+Copyright © 2017-2021 Harvard Pilgrim Health Care Institute (HPHCI) and its Contributors.
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 associated documentation files (the "Software"), to deal in the Software without restriction, including
 without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
