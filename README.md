@@ -1,6 +1,6 @@
 # My Studies
 My Studies is an open-source project to take part in health surveys. ‘My Studies’ is developed using [ResearchStack](https://github.com/ResearchStack/ResearchStack) which is an open-source framework provided by ResearchStack.
-My Studies project is FISMA & HIPPA compliant.
+My Studies project is FISMA & HIPPA compliant..
 # Requirements
 My Studies requires Android Studio and can be run on Android versions starting from Kitkat to Pie.
 # Setup Instructions
