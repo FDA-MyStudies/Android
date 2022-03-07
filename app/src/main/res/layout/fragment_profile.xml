@@ -102,6 +102,9 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/email_label"
+                    android:layout_width="150dp"
+                    android:maxLines="2"
+                    android:paddingTop="10dp"
                     style="@style/profileTextField"
                     android:text="@string/email_id" />
 
@@ -119,7 +122,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@id/edittxt_email"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="20dp"
                     android:background="@color/colorSecondaryBg" />
             </RelativeLayout>
 

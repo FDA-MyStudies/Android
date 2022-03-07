@@ -190,8 +190,10 @@ public class ConsentBuilder {
 
         if (consent.getComprehension() != null && consent.getComprehension().getQuestions() != null && consent.getComprehension().getQuestions().size() > 0) {
 
-            InstructionStep instructionStep = new InstructionStep("key", "Comprehension", "Let's do a quick and simple test of your understanding of this Study.");
-            instructionStep.setStepTitle(R.string.notxt);
+            InstructionStep instructionStep = new InstructionStep("key", context.getResources().getString(R.string.comprehension_title), context.getResources().getString(R.string.comprehension_detail_text));
+
+            instructionStep.setStepTitle(R.string.consent_builder_no_txt);
+
             instructionStep.setOptional(false);
             visualSteps.add(instructionStep);
 
@@ -209,12 +211,12 @@ public class ConsentBuilder {
             QuestionStepCustom multiStep2 = new QuestionStepCustom("consentLarFirst");
             multiStep2.setStepTitle(R.string.notxt);
             ChoiceText[] choices2 = new ChoiceText[2];
-            choices2[0] = new ChoiceText("I am signing the consent form on behalf of myself.", "1", "", null);
-            choices2[1] = new ChoiceText("I am signing the consent form on behalf of the study participant as their legally authorized representative.", "2", "", null);
+            choices2[0] = new ChoiceText(context.getResources().getString(R.string.my_self_sign), "1", "", null);
+            choices2[1] = new ChoiceText(context.getResources().getString(R.string.on_behalf_sign), "2", "", null);
 
             SingleChoiceTextAnswerFormat choiceAnswerFormat2 = new SingleChoiceTextAnswerFormat(AnswerFormatCustom.CustomAnswerStyle.SingleTextChoice, choices2);
-            multiStep2.setTitle("The next few steps will capture your informed consent for participation in this study");
-            multiStep2.setText("Please select the appropriate option below");
+            multiStep2.setTitle(context.getResources().getString(R.string.single_choice_text_answer_format_title));
+            multiStep2.setText(context.getResources().getString(R.string.single_choice_text_answer_format_text));
             multiStep2.setAnswerFormat1(choiceAnswerFormat2);
             multiStep2.setOptional(false);
             visualSteps.add(multiStep2);
@@ -237,8 +239,8 @@ public class ConsentBuilder {
             consentSharingStep.setText(consent.getSharing().getText());
             consentSharingStep.setTitle(consent.getSharing().getTitle());
             Choice[] choices = new Choice[2];
-            choices[0] = new Choice("Share my data with " + consent.getSharing().getShortDesc() + " and qualified researchers worldwide", "True", "yes");
-            choices[1] = new Choice("Only share my data with " + consent.getSharing().getLongDesc(), "False", "no");
+            choices[0] = new Choice(context.getResources().getString(R.string.consent_share_data_with1) + consent.getSharing().getShortDesc() + context.getResources().getString(R.string.consent_share_data_with2), "True", "yes");
+            choices[1] = new Choice(context.getResources().getString(R.string.consent_only_share_data_with) + " " + consent.getSharing().getLongDesc(), "False", "no");
 
             AnswerFormat choiceAnswerFormat = new ChoiceAnswerFormat(AnswerFormat.ChoiceAnswerStyle.SingleChoice, choices);
             consentSharingStep.setAnswerFormat(choiceAnswerFormat);
@@ -297,7 +299,7 @@ public class ConsentBuilder {
         }
 
 
-        FormStep formStep = new FormStep(context.getResources().getString(R.string.signature_form_step),
+        FormStep formStep = new FormStep(context.getResources().getString(R.string.consent_builder_signature_form_step),
                 "",
                 "");
         formStep.setStepTitle(R.string.notxt);

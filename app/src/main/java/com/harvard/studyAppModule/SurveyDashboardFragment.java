@@ -1004,7 +1004,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         AppController.getHelperProgressDialog().dismissDialog();
         if (responseCode == DASHBOARD_INFO) {
             if (statusCode.equalsIgnoreCase("401")) {
-                Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
                 AppController.getHelperSessionExpired(mContext, errormsg);
             } else {
                 mScrollView.setVisibility(View.VISIBLE);
@@ -1012,7 +1012,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                 if (dashboardData != null) {
                     new ProcessData().execute();
                 } else {
-                    Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, getResources().getString(R.string.no_data_found), Toast.LENGTH_SHORT).show();
                 }
             }
         }

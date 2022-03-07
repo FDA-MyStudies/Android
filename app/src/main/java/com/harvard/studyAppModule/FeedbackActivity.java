@@ -125,11 +125,11 @@ public class FeedbackActivity extends AppCompatActivity implements ApiCall.OnAsy
     public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (statusCode.equalsIgnoreCase("401")) {
-            Toast.makeText(FeedbackActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(FeedbackActivity.this, errormsg);
         } else {
             if (responseCode == FEEDBACK) {
-                Toast.makeText(FeedbackActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.unable_to_process), Toast.LENGTH_SHORT).show();
             }
 
         }

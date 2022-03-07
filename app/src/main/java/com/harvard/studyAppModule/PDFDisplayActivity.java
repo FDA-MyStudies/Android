@@ -244,7 +244,7 @@ public class PDFDisplayActivity extends AppCompatActivity implements ApiCall.OnA
     public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (statusCode.equalsIgnoreCase("401")) {
-            Toast.makeText(PDFDisplayActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(PDFDisplayActivity.this, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(PDFDisplayActivity.this, errormsg);
         } else {
             try {
@@ -258,10 +258,10 @@ public class PDFDisplayActivity extends AppCompatActivity implements ApiCall.OnA
                     }
                     setPDFView();
                 } else {
-                    Toast.makeText(PDFDisplayActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PDFDisplayActivity.this, getResources().getString(R.string.no_data), Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
-                Toast.makeText(PDFDisplayActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(PDFDisplayActivity.this, getResources().getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }

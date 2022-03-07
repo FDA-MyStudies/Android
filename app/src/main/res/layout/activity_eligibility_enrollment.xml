@@ -136,7 +136,7 @@
                     android:layout_marginTop="70dp"
                     android:background="@drawable/rectangle_black_white"
                     android:gravity="center"
-                    android:text="@string/submit"
+                    android:text="@string/eligibility_enrollment_submit"
                     android:textColor="@color/colorPrimary" />
 
             </RelativeLayout>

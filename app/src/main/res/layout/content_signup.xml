@@ -3,7 +3,7 @@
             android:id="@+id/activity_signup"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-    android:fillViewport="true"
+            android:fillViewport="true"
             android:background="@android:color/white"
             android:scrollbars="none">
 
@@ -91,10 +91,13 @@
             android:layout_below="@id/rel_last_name"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
-            android:paddingTop="18dp">
+            android:paddingTop="10dp">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/email_label"
+                android:layout_width="150dp"
+                android:imeOptions="actionNext"
+                android:maxLines="2"
                 style="@style/signUpTextField"
                 android:text="@string/email_id"/>
 
@@ -138,7 +141,6 @@
                 android:inputType="textPassword"
                 android:imeOptions="actionNext"
                 android:singleLine="true"
-                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#$%&amp;'()*+,-.:;&lt;&gt;=?@[]^_{}|~"
                 android:maxLength="64"
                 android:textCursorDrawable="@drawable/custom_cursor_drawable"/>
 

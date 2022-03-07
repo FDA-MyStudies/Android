@@ -195,7 +195,7 @@ public class NotificationActivity extends AppCompatActivity implements ApiCall.O
     public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (statusCode.equalsIgnoreCase("401")) {
-            Toast.makeText(NotificationActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(NotificationActivity.this, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(NotificationActivity.this, errormsg);
         } else {
             NotificationData notification = dbServiceSubscriber.getNotificationFromDB(mRealm);

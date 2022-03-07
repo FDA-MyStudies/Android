@@ -98,10 +98,13 @@
                 android:layout_below="@id/rel_last_name"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:paddingTop="18dp">
+                android:paddingTop="10dp">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/email_label"
+                    android:layout_width="150dp"
+                    android:imeOptions="actionNext"
+                    android:maxLines="2"
                     style="@style/signUpTextField"
                     android:text="@string/email_id" />
 
@@ -110,6 +113,7 @@
                     style="@style/signUpEditText"
                     android:hint="@string/enter_email"
                     android:singleLine="true"
+
                     android:imeOptions="actionNext"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
@@ -141,12 +145,12 @@
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edittxt_password"
                     style="@style/signUpEditText"
+
                     android:hint="@string/add_password"
-                    android:inputType="textPassword"
                     android:imeOptions="actionNext"
-                    android:singleLine="true"
+                    android:inputType="textPassword"
                     android:maxLength="64"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#$%&amp;'()*+,-.:;&lt;&gt;=?@[]^_{}|~"
+                    android:singleLine="true"
                     android:textCursorDrawable="@drawable/custom_cursor_drawable" />
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -182,7 +186,6 @@
                     android:singleLine="true"
                     android:textCursorDrawable="@drawable/custom_cursor_drawable"
                     android:layout_alignParentTop="true"
-                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!#$%&amp;'()*+,-.:;&lt;&gt;=?@[]^_{}|~"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true" />
 

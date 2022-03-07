@@ -930,10 +930,10 @@ public class StudyActivity extends AppCompatActivity implements View.OnClickList
     public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (statusCode.equalsIgnoreCase("401")) {
-            Toast.makeText(this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(StudyActivity.this, errormsg);
         } else {
-            Toast.makeText(this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.server_error), Toast.LENGTH_SHORT).show();
         }
     }
 

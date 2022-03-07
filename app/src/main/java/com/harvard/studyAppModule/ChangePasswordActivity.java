@@ -140,21 +140,23 @@ public class ChangePasswordActivity extends AppCompatActivity implements ApiCall
             public void onClick(View view) {
                 if (mClicked == false) {
                     mClicked = true;
-                    String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!\"#$%&'()*+,-.:;<=>?@\\[\\]^_`{|}~])(?=\\S+$).{8,64}$";
+                    String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-zñáéíóúü])(?=.*[A-ZÑÁÉÍÓÚÜ])(?=.*[!\"#$%&'()*+,-.:;<=>?@\\[\\]^_`{|}~])(?=\\S+$).{8,64}$";
                     if (mNewPassword.getText().toString().equalsIgnoreCase("") && mOldPassword.getText().toString().equalsIgnoreCase("") && mConfirmPassword.getText().toString().equalsIgnoreCase("")) {
-                        Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.enter_all_field_empty), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.change_password_enter_all_field_empty), Toast.LENGTH_SHORT).show();
                     } else if (mOldPassword.getText().toString().equalsIgnoreCase("")) {
                         Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.password_old_empty), Toast.LENGTH_SHORT).show();
                     } else if (mNewPassword.getText().toString().equalsIgnoreCase("")) {
                         Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.password_new_empty), Toast.LENGTH_SHORT).show();
                     } else if (!mNewPassword.getText().toString().matches(PASSWORD_PATTERN)) {
-                        Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.password_validation), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.change_password_password_validation), Toast.LENGTH_SHORT).show();
                     } else if (checkPasswordContainsEmailID(mNewPassword.getText().toString())) {
-                        Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.password_contain_email), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.change_password_password_contain_email), Toast.LENGTH_SHORT).show();
                     } else if (mConfirmPassword.getText().toString().equalsIgnoreCase("")) {
-                        Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.confirm_password_empty), Toast.LENGTH_SHORT).show();
-                    }
-                    else if (!mConfirmPassword.getText().toString().equals(mNewPassword.getText().toString())) {
+
+                        Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.change_password_confirm_password_empty), Toast.LENGTH_SHORT).show();
+
+                    }else if (!mConfirmPassword.getText().toString().equals(mNewPassword.getText().toString())) {
+
                         Toast.makeText(ChangePasswordActivity.this, getResources().getString(R.string.password_mismatch_error1), Toast.LENGTH_SHORT).show();
                     } else {
                         AppController.getHelperProgressDialog().showProgress(ChangePasswordActivity.this, "", "", false);

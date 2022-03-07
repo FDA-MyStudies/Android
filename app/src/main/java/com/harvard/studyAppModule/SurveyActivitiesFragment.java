@@ -4972,7 +4972,7 @@ public class SurveyActivitiesFragment extends Fragment
     if (statusCode.equalsIgnoreCase("401")) {
       onItemsLoadComplete();
       AppController.getHelperProgressDialog().dismissDialog();
-      Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
+      Toast.makeText(mContext, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
       AppController.getHelperSessionExpired(mContext, errormsg);
     } else {
       if (responseCode == ACTIVTTYLIST_RESPONSECODE || responseCode == STUDY_UPDATES) {
@@ -4996,7 +4996,7 @@ public class SurveyActivitiesFragment extends Fragment
             mActivityVersion);
         launchSurvey(null);
       } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE_INITIAL) {
-        Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, getResources().getString(R.string.unable_to_process), Toast.LENGTH_SHORT).show();
         AppController.getHelperProgressDialog().dismissDialog();
       } else {
         try {

@@ -160,11 +160,11 @@ public class ContactUsActivity extends AppCompatActivity implements ApiCall.OnAs
     public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (statusCode.equalsIgnoreCase("401")) {
-            Toast.makeText(ContactUsActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(ContactUsActivity.this, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(ContactUsActivity.this, errormsg);
         } else {
             if (responseCode == CONTACT_US) {
-                Toast.makeText(ContactUsActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ContactUsActivity.this, getResources().getString(R.string.unable_to_process), Toast.LENGTH_SHORT).show();
             }
         }
     }

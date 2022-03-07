@@ -82,10 +82,10 @@ public class ResourcesFragment<T> extends Fragment implements ApiCall.OnAsyncReq
     public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (statusCode.equalsIgnoreCase("401")) {
-            Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(mContext, errormsg);
         } else if (responseCode == RESOURCE_REQUEST_CODE) {
-            Toast.makeText(getContext(), errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), getResources().getString(R.string.unable_to_process), Toast.LENGTH_SHORT).show();
         }
     }
 

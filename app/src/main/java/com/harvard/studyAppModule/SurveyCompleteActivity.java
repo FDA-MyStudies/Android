@@ -568,9 +568,10 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
     public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (statusCode.equalsIgnoreCase("401")) {
-            Toast.makeText(SurveyCompleteActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(SurveyCompleteActivity.this, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(SurveyCompleteActivity.this, errormsg);
-        } else {
+        }
+        else {
 
 
             /////////// offline data storing activity preference
@@ -615,7 +616,8 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
                 if (!getIntent().getStringExtra(CustomSurveyViewTaskActivity.FREQUENCY_TYPE).equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_ON_GOING)) {
                     AppController.pendingService(this,number, "post_object", URLs.UPDATE_STUDY_PREFERENCE, "", getStudyPreferenceJson("" + (int) completion, "" + (int) adherence).toString(), "registration", "", "", "");
                 }
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
             ////////// offline data storing study preference finish
@@ -767,9 +769,10 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
             statusCode, T response) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (statusCode.equalsIgnoreCase("401")) {
-            Toast.makeText(SurveyCompleteActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(SurveyCompleteActivity.this, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(SurveyCompleteActivity.this, errormsg);
-        } else {
+        }
+        else {
             /////////// offline data storing for response server
 
             String surveyId = getIntent().getStringExtra(CustomSurveyViewTaskActivity.EXTRA_STUDYID);

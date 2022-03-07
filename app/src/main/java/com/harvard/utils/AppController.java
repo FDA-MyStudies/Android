@@ -687,7 +687,7 @@ public class AppController{
     }
 
     // decrypt the pdf file and return CipherInputStream
-    public static CipherInputStream genarateDecryptedConsentPDF(String filePath) {
+    public static CipherInputStream     genarateDecryptedConsentPDF(String filePath) {
         try {
             FileInputStream fis = new FileInputStream(new File(filePath));
             Cipher encipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
@@ -790,5 +790,15 @@ public class AppController{
         // clear notifications from notification tray
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.cancelAll();
+    }
+    public static String deviceDisplayLanguage(String lan){
+        String lang = "";
+        if(lan.equalsIgnoreCase("English")){
+            lang = "English";
+        }else if( lan.equalsIgnoreCase("español")){
+            lang = "Spanish";
+        }
+
+        return lang;
     }
 }

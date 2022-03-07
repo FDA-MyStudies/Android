@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -199,6 +200,7 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
 
             eligibility = getIntent().getStringExtra(ELIGIBILITY);
             type = getIntent().getStringExtra(TYPE);
+            Log.e("Krishna", "onCreate:  task.getIdentifier()  "+task.getIdentifier());
             taskResult = new TaskResult(task.getIdentifier());
             taskResult.setStartDate(new Date());
         } else {
@@ -555,7 +557,8 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
                 AppController.getHelperProgressDialog().dismissDialog();
                 Toast.makeText(this, getResources().getString(R.string.unable_to_parse), Toast.LENGTH_SHORT).show();
             }
-        } else if (responseCode == STUDY_UPDATES) {
+        }
+        else if (responseCode == STUDY_UPDATES) {
             StudyUpdate studyUpdate = (StudyUpdate) response;
             AppController.getHelperProgressDialog().dismissDialog();
 
@@ -595,7 +598,8 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
             resultIntent.putExtra("PdfPath", pdfPath);
             setResult(RESULT_OK, resultIntent);
             finish();
-        } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {
+        }
+        else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {
             LoginData loginData = (LoginData) response;
             if (loginData != null) {
 //                update_eligibility_consent();
@@ -604,7 +608,8 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
             } else {
                 Toast.makeText(this, getResources().getString(R.string.unable_to_parse), Toast.LENGTH_SHORT).show();
             }
-        } else if (responseCode == GET_PREFERENCES) {
+        }
+        else if (responseCode == GET_PREFERENCES) {
             StudyData studies = (StudyData) response;
             if (studies != null) {
                 for (int i = 0; i < studies.getStudies().size(); i++) {
@@ -809,12 +814,12 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
             } else {
 //                StringBuilder docBuilder = new StringBuilder(
 //                        "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
-                String lar = "Consent by a Legally Authorized Representative";
+                String lar = getResources().getString(R.string.consent_lar_text);
                 docBuilder.append(String.format("<p><b>%1$s</b></p>", lar));
-                String detail = "I am signing the consent form on behalf of the study participant as their legally authorized representative.";
+                String detail = getResources().getString(R.string.on_behalf_sign);
                 docBuilder.append(String.format("<p>%1$s</p>", detail));
-                docBuilder.append("<p>Participant first name: <b>" + larFirstName + "</b></p>");
-                docBuilder.append("<p>Participant last name: <b>" + larLastName + "</b></p>");
+                docBuilder.append("<p>" + getResources().getString(R.string.ccv_task_participant_first_name) +"<b>" + larFirstName + "</b></p>");
+                docBuilder.append("<p>"+ getResources().getString(R.string.ccv_task_participant_last_name) +"<b>" + larLastName + "</b></p>");
 //                Paragraph consentItem1 = new Paragraph(Html.fromHtml(docBuilder.toString()).toString());
 //                consentItem1.add(Html.fromHtml(docBuilder.toString()).toString());
 
@@ -883,13 +888,13 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
 
                 docBuilder.append("<tr>");
                 docBuilder.append("<td>");
-                docBuilder.append("(First Name)");
+                docBuilder.append(getResources().getString(R.string.pdf_first_name));
                 docBuilder.append("</td>");
                 docBuilder.append("<td>");
-                docBuilder.append("(Last Name)");
+                docBuilder.append(getResources().getString(R.string.pdf_last_name));
                 docBuilder.append("</td>");
                 docBuilder.append("<td>");
-                docBuilder.append("(Relationship to Participant)");
+                docBuilder.append(getResources().getString(R.string.relationship_to_participant));
                 docBuilder.append("</td>");
                 docBuilder.append("</tr>");
                 docBuilder.append("</table>");
@@ -906,7 +911,7 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
             if(eligibilityConsent.getConsent().getReview().getAdditionalSignature() != null && eligibilityConsent.getConsent().getReview().getAdditionalSignature().equalsIgnoreCase("yes")) {
 //                StringBuilder docBuilder = new StringBuilder(
 //                        "</br><div style=\"padding: 10px 10px 10px 10px;\" class='header'>");
-                String additionalSignatureTitle = "Study Staff Signature(s)";
+                String additionalSignatureTitle = getResources().getString(R.string.study_staff_signature);
                 docBuilder.append("<br/>");
                 docBuilder.append(String.format("<p><b>%1$s</b></p>", additionalSignatureTitle));
 //                Paragraph consentItem1 = new Paragraph(Html.fromHtml(docBuilder.toString()).toString());
@@ -958,16 +963,16 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
 
                     docBuilder.append("<tr>");
                     docBuilder.append("<td>");
-                    docBuilder.append("(First Name)");
+                    docBuilder.append(getResources().getString(R.string.pdf_first_name));
                     docBuilder.append("</td>");
                     docBuilder.append("<td>");
-                    docBuilder.append("(Last Name)");
+                    docBuilder.append(getResources().getString(R.string.pdf_last_name));
                     docBuilder.append("</td>");
                     docBuilder.append("<td>");
-                    docBuilder.append("(Signature)");
+                    docBuilder.append(getResources().getString(R.string.pdf_signature));
                     docBuilder.append("</td>");
                     docBuilder.append("<td>");
-                    docBuilder.append("(Date)");
+                    docBuilder.append(getResources().getString(R.string.pdf_date));
                     docBuilder.append("</td>");
                     docBuilder.append("</tr>");
                     docBuilder.append("</table>");
@@ -1202,16 +1207,16 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
     public <T> void asyncResponseFailure(int responseCode, String errormsg, String statusCode, T response) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (statusCode.equalsIgnoreCase("401")) {
-            AppController.getHelperSessionExpired(this, errormsg);
+            AppController.getHelperSessionExpired(this, getResources().getString(R.string.session_expired));
         } else if (responseCode == ENROLL_ID_RESPONSECODE) {
             ResponseServerData responseServerData = (ResponseServerData) response;
             if (responseServerData != null) {
-                Toast.makeText(this, responseServerData.getException().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.ccv_task_server_error), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, getResources().getString(R.string.unable_to_parse), Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {
-            Toast.makeText(this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.unable_to_process), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1221,9 +1226,9 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
         if (statusCode.equalsIgnoreCase("401")) {
             AppController.getHelperSessionExpired(this, errormsg);
         } else if (responseCode == UPDATE_ELIGIBILITY_CONSENT_RESPONSECODE) {
-            Toast.makeText(this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.ccv_task_server_error), Toast.LENGTH_SHORT).show();
         } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {
-            Toast.makeText(this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.unable_to_process), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -1338,15 +1343,15 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
     @Override
     public void onCancelStep() {
         AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle)
-                .setMessage("Sorry, this study does not allow you to proceed for the selection you just made. Click OK to quit enrolling for the study or Cancel to change your selection.")
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                .setMessage(getResources().getString(R.string.ccv_task_alert_dialog_message))
+                .setPositiveButton(getResources().getString(R.string.ccv_task_alert_dialog_ok_btn), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         setResult(12345);
                         finish();
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getResources().getString(R.string.ccv_task_alert_dialog_cancle_btn), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
