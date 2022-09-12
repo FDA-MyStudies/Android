@@ -21,31 +21,71 @@
         android:layout_below="@+id/logo"
         android:textStyle="bold"
         android:layout_marginTop="70dp"
-        android:text="New Version Available"
+        android:text=""
         android:layout_centerHorizontal="true"
         android:textColor="@color/colorPrimaryBlack"
         android:textSize="22dp"/>
+
     <TextView
         android:id="@+id/message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_centerInParent="true"
         android:gravity="center"
         android:padding="15dp"
+        android:text=""
         android:textColor="@color/colorPrimaryBlack"
-        android:textSize="20dp"
-        android:text="Please update to the latest version of the app to continue."/>
+        android:textSize="20dp" />
+
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/upgrade"
         style="@style/TextType2"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="42dp"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="42dp"
         android:background="@drawable/rectangle_black_white"
         android:gravity="center"
+        android:text="@string/update"
         android:textAllCaps="true"
-        android:text="UPDATE"
-        android:textColor="@color/colorPrimary"/>
+        android:textColor="@color/colorPrimary" />
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/noForceUpgradeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/upgrade1"
+            style="@style/TextType2"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="42dp"
+            android:background="@drawable/rectangle_black_white"
+            android:gravity="center"
+            android:text="@string/update"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/upgradeCancel"
+            style="@style/TextType2"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="42dp"
+            android:background="@drawable/rectangle_black_white"
+            android:gravity="center"
+            android:text="@string/cancel"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </RelativeLayout>

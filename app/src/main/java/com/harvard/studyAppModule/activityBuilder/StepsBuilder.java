@@ -319,7 +319,8 @@ public class StepsBuilder {
                             steps.add(formstep);
                             break;
                     }
-                } else if (activityQuestionStep.get(i).getType().equalsIgnoreCase("form")) {
+                }
+                else if (activityQuestionStep.get(i).getType().equalsIgnoreCase("form")) {
                     QuestionStepCustom formstep = new QuestionStepCustom(activityobj.getSteps().get(i).getKey());
                     RealmList<Steps> activityFormStep = activityobj.getSteps().get(i).getSteps();
                     ArrayList<QuestionStep> questionSteps = getformquestion(context, activityFormStep, realm);
@@ -329,13 +330,15 @@ public class StepsBuilder {
                         formstep.setStepTitle(R.string.notxt);
                     formstep.setOptional(activityobj.getSteps().get(i).isSkippable());
                     steps.add(formstep);
-                } else if (activityQuestionStep.get(i).getType().equalsIgnoreCase("instruction")) {
+                }
+                else if (activityQuestionStep.get(i).getType().equalsIgnoreCase("instruction")) {
                     InstructionStep instructionStep = new InstructionStep(activityQuestionStep.get(i).getKey(), activityQuestionStep.get(i).getTitle(), activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                     instructionStep.setOptional(activityQuestionStep.get(i).isSkippable());
                     if (branching)
                         instructionStep.setStepTitle(R.string.notxt);
                     steps.add(instructionStep);
-                } else if (activityQuestionStep.get(i).getType().equalsIgnoreCase("task")) {
+                }
+                else if (activityQuestionStep.get(i).getType().equalsIgnoreCase("task")) {
                     switch (activityQuestionStep.get(i).getResultType()) {
                         case "fetalKickCounter":
                             QuestionStepCustom fetalkickIntroStep = new QuestionStepCustom(activityobj.getSteps().get(i).getKey() + "Intro");

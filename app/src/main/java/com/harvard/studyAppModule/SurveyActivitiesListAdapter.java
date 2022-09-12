@@ -7,6 +7,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -180,7 +181,7 @@ public class SurveyActivitiesListAdapter extends RecyclerView.Adapter<SurveyActi
                 }
                 holder.mRun.setVisibility(View.VISIBLE);
                 if (items.get(position).getFrequency().getType().equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_ON_GOING)) {
-                    holder.mRun.setText("Run(s): " + mCurrentRunStatusForActivities.get(position).getCompletedRun() + " " + mContext.getResources().getString(R.string.done2));
+                    holder.mRun.setText(mContext.getResources().getString(R.string.runs) + ": " + mCurrentRunStatusForActivities.get(position).getCompletedRun() + " " + mContext.getResources().getString(R.string.done2));
                 } else {
                     holder.mRun.setText(mContext.getResources().getString(R.string.run) + ": " + mCurrentRunStatusForActivities.get(position).getCurrentRunId() + "/" + mCurrentRunStatusForActivities.get(position).getTotalRun() + ", " + mCurrentRunStatusForActivities.get(position).getCompletedRun() + " " + mContext.getResources().getString(R.string.done2) + ", " + mCurrentRunStatusForActivities.get(position).getMissedRun() + " " + mContext.getResources().getString(R.string.missed));
                 }
@@ -214,7 +215,18 @@ public class SurveyActivitiesListAdapter extends RecyclerView.Adapter<SurveyActi
             } else if (items.get(position).getFrequency().getType().equalsIgnoreCase("One time")) {
                 holder.mWhenWasSurvey.setText(mContext.getResources().getString(R.string.onetime));
             } else {
-                holder.mWhenWasSurvey.setText(items.get(position).getFrequency().getType());
+
+                if (items.get(position).getFrequency().getType().equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_ON_GOING)){
+                    holder.mWhenWasSurvey.setText(mContext.getResources().getString(R.string.survey_activities_list_adapter_frequency_type_on_going));
+                }else if(items.get(position).getFrequency().getType().equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_DAILY)){
+                    holder.mWhenWasSurvey.setText(mContext.getResources().getString(R.string.survey_activities_list_adapter_frequency_type_daily));
+                }else if(items.get(position).getFrequency().getType().equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_WEEKLY)){
+                    holder.mWhenWasSurvey.setText(mContext.getResources().getString(R.string.survey_activities_list_adapter_frequency_type_weekly));
+                }else if(items.get(position).getFrequency().getType().equalsIgnoreCase(SurvayScheduler.FREQUENCY_TYPE_MONTHLY)){
+                    holder.mWhenWasSurvey.setText(mContext.getResources().getString(R.string.survey_activities_list_adapter_frequency_type_monthly));
+
+                }
+
             }
             Date startDate = null;
             Date endDate = null;

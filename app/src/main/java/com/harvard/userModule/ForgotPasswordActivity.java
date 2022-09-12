@@ -18,6 +18,7 @@ import com.harvard.webserviceModule.apiHelper.ApiCall;
 import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 public class ForgotPasswordActivity extends AppCompatActivity implements ApiCall.OnAsyncRequestComplete {
 
@@ -111,11 +112,13 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ApiCall
 
     private void callForgotPasswordWebService() {
 
+        HashMap<String, String> header = new HashMap<>();
+        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         HashMap<String, String> params = new HashMap<>();
         params.put("emailId", mEmail.getText().toString());
 
         ForgotPasswordEvent forgotPasswordEvent = new ForgotPasswordEvent();
-        RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.FORGOT_PASSWORD, FORGOT_PASSWORD_REQUEST, ForgotPasswordActivity.this, ForgotPasswordData.class, params, null, null, false, ForgotPasswordActivity.this);
+        RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.FORGOT_PASSWORD, FORGOT_PASSWORD_REQUEST, ForgotPasswordActivity.this, ForgotPasswordData.class, params, header, null, false, ForgotPasswordActivity.this);
         forgotPasswordEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
         UserModulePresenter userModulePresenter = new UserModulePresenter();
         userModulePresenter.performForgotPassword(forgotPasswordEvent);

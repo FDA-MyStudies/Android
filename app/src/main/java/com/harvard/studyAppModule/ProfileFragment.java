@@ -442,7 +442,7 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
     public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (statusCode.equalsIgnoreCase("401")) {
-            Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(mContext, errormsg);
         } else if (responseCode == USER_PROFILE_REQUEST) {
             mUserProfileData = dbServiceSubscriber.getUserProfileData(mRealm);
@@ -451,7 +451,8 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
             } else {
                 Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
             }
-        } else if (UPDATE_USER_PROFILE_REQUEST == responseCode) {
+        }
+        else if (UPDATE_USER_PROFILE_REQUEST == responseCode) {
             try {
 
                 if (mUserProfileData != null) {
@@ -594,7 +595,7 @@ public class ProfileFragment extends Fragment implements ApiCall.OnAsyncRequestC
             }
         } else if (requestCode == CHANGE_PASSCODE_REPSONSE) {
             if (resultCode == ((Activity) mContext).RESULT_OK) {
-                Toast.makeText(mContext, "Passcode updated", Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getResources().getString(R.string.passcode_updated), Toast.LENGTH_SHORT).show();
             }
         } else if (requestCode == PASSCODE_CHANGE_REPSONSE) {
             if (resultCode == ((Activity) mContext).RESULT_OK) {

@@ -62,6 +62,7 @@ import org.researchstack.backbone.task.OrderedTask;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.HashMap;
+import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -297,7 +298,9 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
 
             String url = URLs.BASE_URL_WCP_SERVER + URLs.CONSENT_METADATA + "?studyId=" + mStudyId;
             if (connectionDetector.isConnectingToInternet()) {
-                mResponseModel = HttpRequest.getRequest(url, new HashMap<String, String>(), "WCP");
+                HashMap<String, String> header = new HashMap<>();
+                header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+                mResponseModel = HttpRequest.getRequest(url, header, "WCP");
                 responseCode = mResponseModel.getResponseCode();
                 response = mResponseModel.getResponseData();
                 if (responseCode.equalsIgnoreCase("0") && response.equalsIgnoreCase("timeout")) {
@@ -478,6 +481,10 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
             mStudyHome = (StudyHome) response;
             if (mStudyHome != null) {
                 HashMap<String, String> header = new HashMap<>();
+
+                header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+
+
                 String url = URLs.GET_CONSENT_DOC + "?studyId=" + mStudyId + "&consentVersion=&activityId=&activityVersion=";
                 GetUserStudyInfoEvent getUserStudyInfoEvent = new GetUserStudyInfoEvent();
                 WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, StudyInfoActivity.GET_CONSENT_DOC, StudyInfoActivity.this, ConsentDocumentData.class, null, header, null, false, StudyInfoActivity.this);
@@ -658,6 +665,7 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
     private void callGetStudyInfoWebservice() {
         AppController.getHelperProgressDialog().showProgress(StudyInfoActivity.this, "", "", false);
         HashMap<String, String> header = new HashMap<>();
+        header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         String url = URLs.STUDY_INFO + "?studyId=" + mStudyId;
         GetUserStudyInfoEvent getUserStudyInfoEvent = new GetUserStudyInfoEvent();
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, STUDY_INFO, StudyInfoActivity.this, StudyHome.class, null, header, null, false, StudyInfoActivity.this);

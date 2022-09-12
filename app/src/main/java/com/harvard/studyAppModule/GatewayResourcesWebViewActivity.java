@@ -30,6 +30,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Locale;
 
 import static android.os.Build.VERSION_CODES.M;
 
@@ -218,14 +219,26 @@ public class GatewayResourcesWebViewActivity extends AppCompatActivity {
 
         try {
             FileOutputStream outputStream = new FileOutputStream(destinationFile);
-            InputStream inputStream = getAssets().open("pdf/appglossary.pdf");
-            byte[] buffer = new byte[1024];
-            int length = 0;
-            while ((length = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, length);
+            if(Locale.getDefault().getDisplayLanguage().toUpperCase().equalsIgnoreCase("español")){
+                InputStream inputStream = getAssets().open("pdf/appglossarys.pdf");
+                byte[] buffer = new byte[1024];
+                int length = 0;
+                while ((length = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, length);
+                }
+                outputStream.close();
+                inputStream.close();
+            }else{
+                InputStream inputStream = getAssets().open("pdf/appglossary.pdf");
+                byte[] buffer = new byte[1024];
+                int length = 0;
+                while ((length = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, length);
+                }
+                outputStream.close();
+                inputStream.close();
             }
-            outputStream.close();
-            inputStream.close();
+
         } catch (IOException e) {
         }
 

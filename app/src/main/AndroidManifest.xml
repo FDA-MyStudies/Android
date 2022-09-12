@@ -307,6 +307,7 @@
             </intent-filter>
         </receiver>
 
+
         <provider
             android:name=".offlineModule.auth.StubContentProvider"
             android:authorities="com.harvard.offlineModule.auth.syncadapterexample.provider"
@@ -355,7 +356,13 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
+        <receiver
+            android:name=".utils.ConnectivityReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
         <activity
             android:name=".EligibilityModule.NotEligibleActivity"
             android:configChanges="screenLayout|orientation"

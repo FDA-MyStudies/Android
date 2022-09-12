@@ -1,11 +1,14 @@
 package com.harvard.gatewayModule;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -17,6 +20,9 @@ import com.harvard.studyAppModule.StudyActivity;
 import com.harvard.userModule.SignInActivity;
 import com.harvard.userModule.SignupActivity;
 import com.harvard.utils.AppController;
+import com.harvard.utils.ConnectivityReceiver;
+
+import java.util.Locale;
 
 public class GatewayActivity extends AppCompatActivity {
     private static final int UPGRADE = 100;
@@ -33,11 +39,35 @@ public class GatewayActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(!ConnectivityReceiver.isConnected()){
+            if(AppController.getHelperSharedPreference().readPreference(getApplicationContext(),"currentLanguage",null) != null) {
+                Log.e("krishna", "gatewayactivity: onlinepreference");
+                Locale locale = new Locale(AppController.getHelperSharedPreference().readPreference(getApplicationContext(), "currentLanguage", null)); //
+                Locale.setDefault(locale);
+                Configuration configuration = getBaseContext().getResources().getConfiguration();
+                configuration.locale = locale;
+
+                getBaseContext().getResources().updateConfiguration(configuration,
+                        getBaseContext().getResources().getDisplayMetrics());
+            }
+            else {
+
+                Locale locale = new Locale(AppController.getLocalePreferenceHelper().readLocalePreference(getApplicationContext(), "currentLanguage", null)); //
+                Locale.setDefault(locale);
+                Configuration configuration = getBaseContext().getResources().getConfiguration();
+                configuration.locale = locale;
+                Log.e("krishna", "onAppGotoForeground: offlinepreference "+locale);
+
+                getBaseContext().getResources().updateConfiguration(configuration,
+                        getBaseContext().getResources().getDisplayMetrics());
+            }
+        }
         setContentView(R.layout.activity_gateway);
         initializeXMLId();
         setFont();
         bindEvents();
         setViewPagerView();
+
         if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").equalsIgnoreCase("forgot")) {
             Intent intent = new Intent(GatewayActivity.this, SignInActivity.class);
             startActivity(intent);

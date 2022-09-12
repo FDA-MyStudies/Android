@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.harvard.FDAApplication;
 import com.harvard.R;
 
 import org.researchstack.backbone.answerformat.ChoiceAnswerFormat;
@@ -87,7 +88,7 @@ public class SingleChoiceSharingStepBody<T> implements StepBody {
         params.setMargins(0, 20, 0, 20);
         params.gravity = Gravity.CENTER_HORIZONTAL;
         TextView label = new TextView(inflater.getContext());
-        label.setText("Load more");
+        label.setText(FDAApplication.getInstance().getResources().getString(R.string.single_choice_sharing_steps_load_more));
         label.setTextColor(inflater.getContext().getResources().getColor(R.color.colorPrimary));
         label.setLayoutParams(params);
 

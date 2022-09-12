@@ -26,6 +26,7 @@ import com.harvard.webserviceModule.apiHelper.ApiCall;
 import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 public class ChangePasswordActivity extends AppCompatActivity implements ApiCall.OnAsyncRequestComplete {
 
@@ -190,7 +191,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements ApiCall
         HashMap<String, String> header = new HashMap<>();
         header.put("auth", mAuth);
         header.put("userId", mUserId);
-
+        header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         HashMap<String, String> params = new HashMap<>();
         if (mPassword != null && mPassword.equalsIgnoreCase("")) {
             params.put("currentPassword", mPassword);

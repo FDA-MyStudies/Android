@@ -150,7 +150,7 @@ public class ConfirmPasscodeSetup extends AppCompatActivity implements ApiCall.O
     public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (responseCode == UPDATE_USER_PROFILE) {
-            Toast.makeText(this, "Couldn't update profile", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, errormsg, Toast.LENGTH_SHORT).show();
             finishPassSetup();
         }
     }

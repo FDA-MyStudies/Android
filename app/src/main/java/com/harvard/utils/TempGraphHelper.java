@@ -10,6 +10,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.harvard.FDAApplication;
 import com.harvard.R;
 
 import java.util.List;
@@ -62,7 +63,7 @@ public class TempGraphHelper {
             chart.setData(data);
         }
         chart.fitScreen();
-        chart.setNoDataText("No Data");
+        chart.setNoDataText(FDAApplication.getInstance().getResources().getString(R.string.chart_no_data));
         chart.invalidate();
 
         return chart;

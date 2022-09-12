@@ -15,6 +15,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
@@ -42,6 +43,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import static com.harvard.BuildConfig.VERSION_NAME;
 import static com.harvard.R.string.signup;
@@ -88,7 +90,12 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
         setFont();
         bindEvents();
         mTermsAndConditionData=new TermsAndConditionData();
-        mTermsAndConditionData.setPrivacy(getString(R.string.privacyurl));
+        if(AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()).equalsIgnoreCase("english")){
+            mTermsAndConditionData.setPrivacy(getString(R.string.privacyurl));
+        }else {
+            mTermsAndConditionData.setPrivacy(getString(R.string.privacySurl));
+        }
+
         mTermsAndConditionData.setTerms(getString(R.string.termsurl));
     }
 
@@ -124,8 +131,12 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
     // set link for privacy and policy
     private void customTextView(AppCompatTextView view) {
         SpannableStringBuilder spanTxt = new SpannableStringBuilder(getResources().getString(R.string.sign_up_activity_i_agree) + " ");
+        Log.e("Krishna", "customTextView: before appending text is "+spanTxt );
+        Log.e("Krishna", "customTextView: text length before appending is "+spanTxt.length() );
         spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignupActivity.this, R.color.colorPrimaryBlack)), 0, spanTxt.length(), 0);
         spanTxt.append(getResources().getString(R.string.sign_up_activity_terms2));
+        Log.e("Krishna", "customTextView: text after appening terms is "+spanTxt );
+        Log.e("Krishna", "customTextView: text after appening terms  length is "+spanTxt.length() );
         spanTxt.setSpan(new ClickableSpan() {
             @Override
             public void updateDrawState(TextPaint ds) {
@@ -144,8 +155,18 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
             }
         }, spanTxt.length() - getResources().getString(R.string.sign_up_activity_terms2).length(), spanTxt.length(), 0);
 
-        spanTxt.append(" " + getResources().getString(R.string.and));
-        spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignupActivity.this, R.color.colorPrimaryBlack)), 20, spanTxt.length(), 0);
+        spanTxt.append(" " + getResources().getString(R.string.sign_up_activity_and));
+        Log.e("Krishna", "customTextView: text after appening and is "+spanTxt );
+        Log.e("Krishna", "customTextView: text after appening and  length is "+spanTxt.length() );
+
+        if(!Locale.getDefault().getDisplayLanguage().toLowerCase().equalsIgnoreCase( "español")){
+            spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignupActivity.this, R.color.colorPrimaryBlack)), 20, spanTxt.length(), 0);
+        }else {
+            Log.e("Krishna", "customTextView: span text length"+spanTxt.length() );
+            spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignupActivity.this, R.color.colorPrimaryBlack)), 27, spanTxt.length(), 0);
+        }
+
+
 
         spanTxt.append(" " + getResources().getString(R.string.sign_up_activity_privacy_policy2));
         String temp = " " + getResources().getString(R.string.sign_up_activity_privacy_policy2);
@@ -241,7 +262,7 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
     }
 
     private void callRegisterUserWebService() {
-        String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!\"#$%&'()*+,-.:;<=>?@\\[\\]^_`{|}~])(?=\\S+$).{8,64}$";
+        String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-zñáéíóúü])(?=.*[A-ZÑÁÉÍÓÚÜ])(?=.*[!\"#$%&'()*+,-.:;<=>?@\\[\\]^_`{|}~])(?=\\S+$).{8,64}$";
         if (mPassword.getText().toString().equalsIgnoreCase("") && mEmail.getText().toString().equalsIgnoreCase("") && mConfirmPassword.getText().toString().equalsIgnoreCase("")) {
             Toast.makeText(this, getResources().getString(R.string.sign_up_activity_enter_all_field_empty), Toast.LENGTH_SHORT).show();
         } else if (mEmail.getText().toString().equalsIgnoreCase("")) {

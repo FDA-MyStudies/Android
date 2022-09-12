@@ -22,10 +22,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.harvard.FDAApplication;
 import com.harvard.R;
 import com.harvard.studyAppModule.activityBuilder.CustomSurveyViewTaskActivity;
 import com.harvard.studyAppModule.custom.QuestionStepCustom;
 import com.harvard.utils.ActiveTaskService;
+import com.harvard.utils.AppController;
 import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
 import com.ikovac.timepickerwithseconds.TimePicker;
 
@@ -139,6 +141,11 @@ public class Tappingactivity implements StepBody {
             }
         });
 
+        if(AppController.getLocalePreferenceHelper().getLocalePreferences(mContext).contains(AppController.CurrentLanguage)){
+            if (AppController.getLocalePreferenceHelper().readLocalePreference(mContext,AppController.CurrentLanguage,null).equalsIgnoreCase("es")){
+                startTimer.setImageDrawable(mContext.getResources().getDrawable(R.drawable.start_buttn1_spanish));
+            }
+        }
         startTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -222,7 +229,7 @@ public class Tappingactivity implements StepBody {
                     kickcounter.setText(String.valueOf(tappingcount + 1));
                     if (Integer.parseInt(kickcounter.getText().toString()) >= maxcount) {
                         timeup = true;
-                        endAlert("You have recorded " + kickcounter.getText().toString() + " kicks in " + mTimer.getText().toString() +". Proceed to submitting count and time?");
+                        endAlert(mContext.getResources().getString(R.string.tapping_activity_you_have_recorded) + " " + kickcounter.getText().toString() + " " + mContext.getResources().getString(R.string.tapping_activity_kicks_in) + " " + mTimer.getText().toString() + mContext.getResources().getString(R.string.tapping_activity_proceed_to));
                         timereditlayout.setVisibility(View.GONE);
                         try {
                             mContext.stopService(serviceintent);
@@ -236,7 +243,7 @@ public class Tappingactivity implements StepBody {
                         }
                     }
                 } else {
-                    Toast.makeText(inflater.getContext(), "max kick you can enter is " + maxcount, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(inflater.getContext(), FDAApplication.getInstance().getResources().getString(R.string.tapping_toast) + " " + maxcount, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -256,7 +263,7 @@ public class Tappingactivity implements StepBody {
             @Override
             public void afterTextChanged(Editable s) {
                 if (!s.toString().equalsIgnoreCase("") && Integer.parseInt(s.toString()) > maxcount) {
-                    Toast.makeText(inflater.getContext(), "max kick you can enter is " + maxcount, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(inflater.getContext(), FDAApplication.getInstance().getResources().getString(R.string.tapping_toast) + " " + maxcount, Toast.LENGTH_SHORT).show();
                     kickcounter.setText(pervioustxt[0]);
                     kickcounter.setSelection(kickcounter.getText().toString().length());
                 }
@@ -362,7 +369,8 @@ public class Tappingactivity implements StepBody {
                 timeup = true;
                 tapButton.setEnabled(false);
                 timereditlayout.setVisibility(View.GONE);
-                endAlert("You have recorded " + kickcounter.getText().toString() + " kicks in " + mTimer.getText().toString() + ". Proceed to submitting count and time?");
+                endAlert(mContext.getResources().getString(R.string.tapping_activity_you_have_recorded)+ " " + kickcounter.getText().toString() + " " + mContext.getResources().getString(R.string.tapping_activity_kicks_in) + " " + mTimer.getText().toString() + " " + mContext.getResources().getString(R.string.tapping_activity_proceed_to));
+               // endAlert("You have recorded " + kickcounter.getText().toString() + " kicks in " + mTimer.getText().toString() + ". Proceed to submitting count and time?");
                 mTimer.setText(formathrs(Integer.parseInt(intent.getStringExtra("sec"))));
             }
             finalSecond = Integer.parseInt(intent.getStringExtra("sec"));
@@ -386,12 +394,12 @@ public class Tappingactivity implements StepBody {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle);
         alertDialogBuilder.setTitle(mContext.getApplicationInfo().loadLabel(mContext.getPackageManager()).toString());
         alertDialogBuilder.setMessage(message).setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                .setPositiveButton(mContext.getResources().getString(R.string.tapping_activity_ok_btn), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         ((CustomSurveyViewTaskActivity) mContext).onSaveStep(StepCallbacks.ACTION_NEXT, step, getStepResult(false));
                     }
                 })
-                .setNegativeButton("EDIT", new DialogInterface.OnClickListener() {
+                .setNegativeButton(mContext.getResources().getString(R.string.tapping_activity_edit_btn), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                     }

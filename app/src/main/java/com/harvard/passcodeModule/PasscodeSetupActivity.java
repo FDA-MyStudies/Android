@@ -1,24 +1,32 @@
 package com.harvard.passcodeModule;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatTextView;
+
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.harvard.FDAApplication;
 import com.harvard.R;
 import com.harvard.gatewayModule.GatewayActivity;
 import com.harvard.storageModule.DBServiceSubscriber;
 import com.harvard.utils.AppController;
+import com.harvard.utils.ConnectivityReceiver;
 import com.harvard.utils.SharedPreferenceHelper;
+
+import java.util.Locale;
 
 public class PasscodeSetupActivity extends AppCompatActivity {
     private RelativeLayout mBackBtn;
@@ -27,21 +35,44 @@ public class PasscodeSetupActivity extends AppCompatActivity {
     private AppCompatTextView mCancelTxt;
     private PasscodeView mPasscodeView;
     TextView forgot;
+    Context mContext;
     TextView mPasscodeTitle;
     TextView mPasscodeDesc;
     DBServiceSubscriber dbServiceSubscriber;
-
+    public static PasscodeSetupActivity pcActivity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_passcode_setup);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         dbServiceSubscriber = new DBServiceSubscriber();
+        //checkLocaleUpdate();
+        mContext = this;
+        pcActivity = this;
         initializeXMLId();
         setTextForView();
         setFont();
         bindEvent();
 
+
+    }
+    private void checkLocaleUpdate() {
+        if(ConnectivityReceiver.isConnected()){
+            Log.e("Krishna", "checkLocaleUpdate: "+ConnectivityReceiver.isConnected() );
+            Locale locale = new Locale(AppController.getHelperSharedPreference().readPreference(FDAApplication.getInstance(),"currentLanguage",null));
+            Locale.setDefault(locale);
+            Configuration config = getBaseContext().getResources().getConfiguration();
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config,
+                    getBaseContext().getResources().getDisplayMetrics());
+        }else{
+            Locale locale = new Locale(AppController.getLocalePreferenceHelper().readLocalePreference(FDAApplication.getInstance(),"currentLanguage",null));
+            Locale.setDefault(locale);
+            Configuration config = getBaseContext().getResources().getConfiguration();
+            config.locale = locale;
+            getBaseContext().getResources().updateConfiguration(config,
+                    getBaseContext().getResources().getDisplayMetrics());
+        }
     }
 
     private void initializeXMLId() {
@@ -63,6 +94,7 @@ public class PasscodeSetupActivity extends AppCompatActivity {
         mPasscodeDesc.setVisibility(View.INVISIBLE);
         mTitle.setText("");
         mPasscodeTitle.setText(getString(R.string.enter_your_passcode));
+        forgot.setText(getResources().getString(R.string.forgot_passcode_signin_again));
     }
 
     private void setFont() {
@@ -154,5 +186,11 @@ public class PasscodeSetupActivity extends AppCompatActivity {
         if (getIntent().getStringExtra("from") != null && getIntent().getStringExtra("from").equalsIgnoreCase("profile")) {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //checkLocaleUpdate();
     }
 }

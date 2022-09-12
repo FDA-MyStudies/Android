@@ -331,12 +331,12 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
         } else if (responseCode == ENROLL_ID_RESPONSECODE) {
             ResponseServerData responseServerData = (ResponseServerData) response;
             if (responseServerData != null) {
-                Toast.makeText(this, responseServerData.getException().toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.client_error), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, getResources().getString(R.string.consent_completed_unable_to_parse), Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {
-            Toast.makeText(this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.unable_to_process), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -346,9 +346,9 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
         if (statusCode.equalsIgnoreCase("401")) {
             AppController.getHelperSessionExpired(this, errormsg);
         } else if (responseCode == UPDATE_ELIGIBILITY_CONSENT_RESPONSECODE) {
-            Toast.makeText(this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.server_error), Toast.LENGTH_SHORT).show();
         } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {
-            Toast.makeText(this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.unable_to_process), Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -29,7 +29,7 @@
         android:textSize="15sp"
         android:textColorHint="@color/dark_gray"
         android:editable="false"
-        android:hint="Tap to select an answer"
+        android:hint="@string/value_picker_hint"
         />
     <View
         android:layout_width="match_parent"

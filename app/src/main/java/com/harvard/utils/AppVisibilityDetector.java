@@ -6,13 +6,18 @@ import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.Application;
 import android.app.Application.ActivityLifecycleCallbacks;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.harvard.SplashActivity;
+import com.harvard.UpgradeAppActivity;
+
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Naveen Raj on 05/06/2017.
@@ -26,6 +31,7 @@ public class AppVisibilityDetector {
     private static Handler sHandler;
     private static final int MSG_GOTO_FOREGROUND = 1;
     private static final int MSG_GOTO_BACKGROUND = 2;
+    public static Activity currentActivity;
 
     public static void init(final Application app, AppVisibilityCallback appVisibilityCallback) {
         checkIsMainProcess(app);
@@ -89,6 +95,10 @@ public class AppVisibilityDetector {
         void onAppGotoBackground();
     }
 
+    public static Activity getCurrentActivity(){
+        return currentActivity;
+    }
+
     private static class AppActivityLifecycleCallbacks implements ActivityLifecycleCallbacks {
         int activityDisplayCount = 0;
 
@@ -97,6 +107,9 @@ public class AppVisibilityDetector {
             if (DEBUG) {
                 Log.d(TAG, activity.getClass().getName() + " onActivityCreated");
             }
+            currentActivity = activity;
+           // checkForLocaleChanges();
+            Log.d("Krishna", activity.getClass().getName() + " onActivityCreated");
         }
 
         @Override
@@ -112,6 +125,10 @@ public class AppVisibilityDetector {
                 Log.d(TAG, activity.getClass().getName() + " onActivityStarted "
                         + " activityDisplayCount: " + activityDisplayCount);
             }
+            Log.d("Krishna", activity.getClass().getName() + " onActivityStarted "
+                    + " activityDisplayCount: " + activityDisplayCount);
+            currentActivity = activity;
+           // checkForLocaleChanges();
         }
 
         @Override
@@ -119,6 +136,12 @@ public class AppVisibilityDetector {
             if (DEBUG) {
                 Log.d(TAG, activity.getClass().getName() + " onActivityResumed");
             }
+            Log.d("Krishna", activity.getClass().getName() + " onActivityResumed");
+            currentActivity = activity;
+            if(!AppController.getLocalePreferenceHelper().getLocalePreferences(getCurrentActivity().getApplicationContext()).contains(AppController.isUpdateCancelledByUser)) {
+                AppController.getHelperSharedPreference().writeLocaleBoolPreference(getCurrentActivity().getApplicationContext(), AppController.isUpdateCancelledByUser, false);
+            }
+            checkForLocaleChanges();
         }
 
         @Override
@@ -126,6 +149,9 @@ public class AppVisibilityDetector {
             if (DEBUG) {
                 Log.d(TAG, activity.getClass().getName() + " onActivityPaused");
             }
+            Log.d("Krishna", activity.getClass().getName() + " onActivityPaused");
+            //checkForLocaleChanges();
+
         }
 
         @Override
@@ -133,6 +159,9 @@ public class AppVisibilityDetector {
             if (DEBUG) {
                 Log.d(TAG, activity.getClass().getName() + " onActivitySaveInstanceState");
             }
+
+            //checkForLocaleChanges();
+            Log.d("Krishna", activity.getClass().getName() + " onActivitySaveInstanceState");
         }
 
         @Override
@@ -151,6 +180,10 @@ public class AppVisibilityDetector {
                 Log.d(TAG, activity.getClass().getName() + " onActivityStopped "
                         + " activityDisplayCount: " + activityDisplayCount);
             }
+            Log.d("Krishna", activity.getClass().getName() + " onActivityStopped "
+                    + " activityDisplayCount: " + activityDisplayCount);
+           // checkForLocaleChanges();
+
         }
 
         @Override
@@ -158,6 +191,89 @@ public class AppVisibilityDetector {
             if (DEBUG) {
                 Log.d(TAG, activity.getClass().getName() + " onActivityDestroyed");
             }
+            Log.d("Krishna", activity.getClass().getName() + " onActivityStopped "
+                    + " activityDisplayCount: " + activityDisplayCount);
+
+
+        }
+    }
+
+    private static void checkForLocaleChanges(){
+        if(ConnectivityReceiver.isConnected()) {
+            // Latest Changes
+
+            if (!AppController.getLocalePreferenceHelper().getLocalePreferences(getCurrentActivity().getApplicationContext()).contains(AppController.isLocaleChanged))
+            {
+                if (!AppController.getLocalePreferenceHelper().getLocalePreferences(getCurrentActivity().getApplicationContext()).contains(AppController.CurrentLanguage)) {
+                    if (!AppController.getLocalePreferenceHelper().getLocalePreferences(getCurrentActivity().getApplicationContext()).contains(AppController.PreviousLanguage)) {
+                        AppController.getLocalePreferenceHelper().writeLocalePreference(getCurrentActivity().getApplicationContext(), AppController.PreviousLanguage, Locale.getDefault().getLanguage());
+                        AppController.getLocalePreferenceHelper().writeLocalePreference(getCurrentActivity().getApplicationContext(), AppController.CurrentLanguage, Locale.getDefault().getLanguage());
+                        AppController.getLocalePreferenceHelper().writeLocaleBoolPreference(getCurrentActivity().getApplicationContext(), AppController.isLocaleChanged, false);
+                        Log.e("Krishna", "AppVisibilityDetector: latest localchanged,currentlanguage and previous language is null so writing fresh");
+                    } else {
+                        Log.e("Krishna", "SplashActivity: latest localchanged,currentlanguage  is null so writing fresh it has previous language and value is " + AppController.getHelperSharedPreference().readLocalePreference(getCurrentActivity().getApplicationContext(), AppController.PreviousLanguage, null));
+                        AppController.getLocalePreferenceHelper().writeLocaleBoolPreference(getCurrentActivity().getApplicationContext(), AppController.isLocaleChanged, false);
+                        AppController.getLocalePreferenceHelper().writeLocalePreference(getCurrentActivity().getApplicationContext(), AppController.CurrentLanguage, Locale.getDefault().getLanguage());
+                    }
+                }
+                else {
+                    if (!AppController.getLocalePreferenceHelper().getLocalePreferences(getCurrentActivity().getApplicationContext()).contains(AppController.PreviousLanguage)) {
+                        Log.e("Krishna", "AppVisibilityDetector: latest localchanged, previous language is null so writing fresh but has currentlanguage and value is " + AppController.getHelperSharedPreference().readLocalePreference(getCurrentActivity().getApplicationContext(), AppController.CurrentLanguage, null));
+                        AppController.getHelperSharedPreference().writeLocalePreference(getCurrentActivity().getApplicationContext(), AppController.PreviousLanguage, Locale.getDefault().getLanguage());
+                        AppController.getHelperSharedPreference().writeLocaleBoolPreference(getCurrentActivity().getApplicationContext(), AppController.isLocaleChanged, false);
+                    } else {
+                        Log.e("Krishna", "AppVisibilityDetector: latest, localchanged is null so writing fresh but has currentlanguage and previous lang value and value is " + AppController.getHelperSharedPreference().readLocalePreference(getCurrentActivity().getApplicationContext(), AppController.CurrentLanguage, null) + " Prev Lang " + AppController.getHelperSharedPreference().readLocalePreference(getCurrentActivity().getApplicationContext(), AppController.PreviousLanguage, null));
+                        AppController.getHelperSharedPreference().writeLocaleBoolPreference(getCurrentActivity().getApplicationContext(), AppController.isLocaleChanged, false);
+                    }
+                }
+            }
+            else {
+                //Compare current and previous locale if both are present
+                if (!AppController.getLocalePreferenceHelper().getLocalePreferences(getCurrentActivity().getApplicationContext()).contains(AppController.CurrentLanguage)) {
+                    if (!AppController.getLocalePreferenceHelper().getLocalePreferences(getCurrentActivity().getApplicationContext()).contains(AppController.PreviousLanguage)) {
+                        AppController.getHelperSharedPreference().writeLocalePreference(getCurrentActivity().getApplicationContext(), AppController.PreviousLanguage, Locale.getDefault().getLanguage());
+                        AppController.getHelperSharedPreference().writeLocalePreference(getCurrentActivity().getApplicationContext(), AppController.CurrentLanguage, Locale.getDefault().getLanguage());
+                        AppController.getHelperSharedPreference().writeLocaleBoolPreference(getCurrentActivity().getApplicationContext(), AppController.isLocaleChanged, false);
+                        Log.e("Krishna", "AppVisibilityDetector: latest currentlanguage and previous language is null so writing fresh but has localchage value" + AppController.getHelperSharedPreference().readLocaleBooleanPreference(getCurrentActivity().getApplicationContext(), AppController.isLocaleChanged, false));
+                    } else {
+                        AppController.getHelperSharedPreference().writeLocaleBoolPreference(getCurrentActivity().getApplicationContext(), AppController.isLocaleChanged, false);
+                        AppController.getHelperSharedPreference().writeLocalePreference(getCurrentActivity().getApplicationContext(), AppController.CurrentLanguage, Locale.getDefault().getLanguage());
+                        Log.e("Krishna", "AppVisibilityDetector: latest currentlanguage and previous language is null so writing fresh but has localchange value and previous Valule" + AppController.getHelperSharedPreference().readLocaleBooleanPreference(getCurrentActivity().getApplicationContext(), AppController.isLocaleChanged, false) + " " + AppController.getHelperSharedPreference().readLocalePreference(getCurrentActivity().getApplicationContext(), AppController.PreviousLanguage, null));
+                    }
+                } else {
+                    if (!AppController.getLocalePreferenceHelper().getLocalePreferences(getCurrentActivity().getApplicationContext()).contains(AppController.PreviousLanguage)) {
+                        AppController.getHelperSharedPreference().writeLocalePreference(getCurrentActivity().getApplicationContext(), AppController.PreviousLanguage, Locale.getDefault().getLanguage());
+                        AppController.getHelperSharedPreference().writeLocaleBoolPreference(getCurrentActivity().getApplicationContext(), AppController.isLocaleChanged, false);
+                        Log.e("Krishna", "AppVisibilityDetector: latest  previous language is null so writing fresh but has localchange value and " + AppController.getHelperSharedPreference().readLocaleBooleanPreference(getCurrentActivity().getApplicationContext(), AppController.isLocaleChanged, false) + " Current value " + AppController.getHelperSharedPreference().readLocalePreference(getCurrentActivity().getApplicationContext(), AppController.CurrentLanguage, null));
+                    } else {
+                        // localchanged , current language, and previous exists
+                        if (AppController.getLocalePreferenceHelper().readLocalePreference(getCurrentActivity().getApplicationContext(), AppController.CurrentLanguage, null).equalsIgnoreCase(Resources.getSystem().getConfiguration().locale.getLanguage())) {
+                            //locale update
+                            AppController.getHelperSharedPreference().writeLocaleBoolPreference(getCurrentActivity().getApplicationContext(), AppController.isLocaleChanged, false);
+                            AppController.getHelperSharedPreference().writeLocaleBoolPreference(getCurrentActivity().getApplicationContext(), AppController.isRefreshNeeded, false);
+                            Log.e("Krishna", "AppVisibilityDetector: latest  islocal,current and previous language is has value and value is local changed " + AppController.getHelperSharedPreference().readLocaleBooleanPreference(getCurrentActivity().getApplicationContext(), AppController.isLocaleChanged, false) + " Current value " + AppController.getHelperSharedPreference().readLocalePreference(getCurrentActivity().getApplicationContext(), AppController.CurrentLanguage, null) + " Previous value " + AppController.getHelperSharedPreference().readLocalePreference(getCurrentActivity().getApplicationContext(), AppController.PreviousLanguage, null));
+                            Log.e("Krishna", "AppVisibilityDetector: latest  is local,current and previous language is has value and value is local changed  current value is equal to  device/ app locale language " + Locale.getDefault().getLanguage());
+                            Log.e("Krishna", "AppVisibilityDetector: latest  is local,current and previous language is has value and value is local changed  resource valkue is " + Resources.getSystem().getConfiguration().locale.getLanguage());
+                            Log.e("Krishna", "AppVisibilityDetector: current Activity " + AppVisibilityDetector.getCurrentActivity());
+
+                        } else if (!AppController.getLocalePreferenceHelper().readLocalePreference(getCurrentActivity().getApplicationContext(), AppController.CurrentLanguage, null).equalsIgnoreCase(Resources.getSystem().getConfiguration().locale.getLanguage())) {
+                            AppController.getHelperSharedPreference().writeLocalePreference(getCurrentActivity().getApplicationContext(), AppController.PreviousLanguage, AppController.getLocalePreferenceHelper().readLocalePreference(getCurrentActivity().getApplicationContext(), AppController.CurrentLanguage, null));
+                            AppController.getHelperSharedPreference().writeLocalePreference(getCurrentActivity().getApplicationContext(), AppController.CurrentLanguage, Resources.getSystem().getConfiguration().locale.getLanguage());
+
+                            AppController.getHelperSharedPreference().writeLocaleBoolPreference(getCurrentActivity().getApplicationContext(), AppController.isLocaleChanged, true);
+                            AppController.getHelperSharedPreference().writeLocaleBoolPreference(getCurrentActivity().getApplicationContext(), AppController.isRefreshNeeded, true);
+                            Log.e("Krishna", "AppVisibilityDetector: latest  islocal,current and previous language is has value and value is local changed " + AppController.getHelperSharedPreference().readLocaleBooleanPreference(getCurrentActivity().getApplicationContext(), AppController.isLocaleChanged, false) + " Current value " + AppController.getHelperSharedPreference().readLocalePreference(getCurrentActivity().getApplicationContext(), AppController.CurrentLanguage, null) + " Previous value " + AppController.getHelperSharedPreference().readLocalePreference(getCurrentActivity().getApplicationContext(), AppController.PreviousLanguage, null));
+                            Log.e("Krishna", "AppVisibilityDetector: latest  is local,current and previous language is has value and value is local changedcurrent value is not equal to  device/ app locale language  so changing language " + Locale.getDefault().getLanguage());
+                            Log.e("Krishna", "AppVisibilityDetector: current Activity " + getCurrentActivity());
+
+                        }
+                    }
+                }
+
+            }
+        }
+        else{
+            Log.e("Krishna", "AppVisibilityDetector: latest, localchanged is null so writing fresh but has currentlanguage and previous lang value and value is " + AppController.getHelperSharedPreference().readLocalePreference(getCurrentActivity().getApplicationContext(), AppController.CurrentLanguage, null) + " Prev Lang " + AppController.getHelperSharedPreference().readLocalePreference(getCurrentActivity().getApplicationContext(), AppController.PreviousLanguage, null));
         }
     }
 }

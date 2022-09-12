@@ -48,6 +48,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import static com.harvard.BuildConfig.VERSION_NAME;
 
@@ -92,7 +93,11 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
         customTextView();
         bindEvents();
         mTermsAndConditionData=new TermsAndConditionData();
-        mTermsAndConditionData.setPrivacy(getString(R.string.privacyurl));
+        if(AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()).equalsIgnoreCase("english")){
+            mTermsAndConditionData.setPrivacy(getString(R.string.privacyurl));
+        }else {
+            mTermsAndConditionData.setPrivacy(getString(R.string.privacySurl));
+        }
         mTermsAndConditionData.setTerms(getString(R.string.termsurl));
         return view;
     }
@@ -125,7 +130,10 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
     private void customTextViewAgree(AppCompatTextView view) {
         SpannableStringBuilder spanTxt = new SpannableStringBuilder(mContext.getResources().getString(R.string.sign_in_fragment_you_agree_this_app) + "\n");
         spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.colorPrimaryBlack)), 0, spanTxt.length(), 0);
-        spanTxt.append(mContext.getResources().getString(R.string.sign_in_fragment_terms2));
+
+        spanTxt.append(" "+mContext.getResources().getString(R.string.sign_in_fragment_terms2));
+
+
         spanTxt.setSpan(new ClickableSpan() {
             @Override
             public void updateDrawState(TextPaint ds) {
@@ -175,7 +183,6 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
 
     private void setFont() {
         try {
-
             mEmailLabel.setTypeface(AppController.getTypeface(mContext, "regular"));
             mEmail.setTypeface(AppController.getTypeface(mContext, "regular"));
             mPasswordLabel.setTypeface(AppController.getTypeface(mContext, "regular"));
@@ -183,7 +190,7 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
             mSignInLabel.setTypeface(AppController.getTypeface(mContext, "regular"));
             mForgotPasswordLabel.setTypeface(AppController.getTypeface(mContext, "regular"));
             mNewUsrSignUp.setTypeface(AppController.getTypeface(mContext, "regular"));
-        } catch (Exception e) {
+        }catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -245,12 +252,14 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
             }
             AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
             LoginEvent loginEvent = new LoginEvent();
+            HashMap<String, String> header = new HashMap<>();
+            header.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             HashMap<String, String> params = new HashMap<>();
             params.put("emailId", mEmail.getText().toString());
             params.put("password", mPassword.getText().toString());
             params.put("appId", BuildConfig.APPLICATION_ID);
 
-            RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.LOGIN, LOGIN_REQUEST, mContext, LoginData.class, params, null, null, false, this);
+            RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.LOGIN, LOGIN_REQUEST, mContext, LoginData.class, params, header, null, false, this);
             loginEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
             UserModulePresenter userModulePresenter = new UserModulePresenter();
             userModulePresenter.performLogin(loginEvent);
@@ -373,7 +382,7 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
         AppController.getHelperProgressDialog().dismissDialog();
         if (responseCode == UPDATE_USER_PROFILE) {
             if (statusCode.equalsIgnoreCase("401")) {
-                Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
                 AppController.getHelperSessionExpired(mContext, errormsg);
             } else {
                 Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();

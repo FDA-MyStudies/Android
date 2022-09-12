@@ -2,6 +2,8 @@ package com.harvard.studyAppModule;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
@@ -10,6 +12,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +26,7 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
+import com.harvard.BuildConfig;
 import com.harvard.R;
 import com.harvard.offlineModule.model.OfflineData;
 import com.harvard.storageModule.DBServiceSubscriber;
@@ -35,6 +39,7 @@ import com.harvard.studyAppModule.consent.model.EligibilityConsent;
 import com.harvard.studyAppModule.events.ConsentPDFEvent;
 import com.harvard.studyAppModule.events.GetUserStudyInfoEvent;
 import com.harvard.studyAppModule.events.GetUserStudyListEvent;
+import com.harvard.studyAppModule.updateBuildVersion.UpdateBuildVersionsToSB;
 import com.harvard.studyAppModule.studyModel.ConsentDocumentData;
 import com.harvard.studyAppModule.studyModel.ConsentPDF;
 import com.harvard.studyAppModule.studyModel.Study;
@@ -43,6 +48,7 @@ import com.harvard.studyAppModule.studyModel.StudyUpdate;
 import com.harvard.studyAppModule.studyModel.StudyUpdateListdata;
 import com.harvard.studyAppModule.survayScheduler.SurvayScheduler;
 import com.harvard.studyAppModule.survayScheduler.model.CompletionAdeherenceCalc;
+import com.harvard.studyAppModule.updateBuildVersion.model.UpdateBuildVersionToSBModel;
 import com.harvard.userModule.UserModulePresenter;
 import com.harvard.userModule.event.GetPreferenceEvent;
 import com.harvard.userModule.event.UpdatePreferenceEvent;
@@ -74,6 +80,7 @@ import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import io.realm.Realm;
@@ -92,6 +99,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
     private AppCompatTextView mEmptyListMessage;
     public static final String CONSENT = "consent";
     private final int STUDY_LIST = 10;
+    private final int UPDATE_BUILD_TO_SB = 13;
     private final int GET_PREFERENCES = 11;
     private final int UPDATE_PREFERENCES = 12;
     RealmList<StudyList> studyListArrayList;
@@ -167,14 +175,21 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         studyListArrayList = new RealmList<>();
         initializeXMLId(view);
         bindEvents();
-
+     // Call updateBuildVersionToSB only one time.
+     // while releasing app to production for updating the version which we are uploading to playstore.
+       updateBuildVersionToSB();
         return view;
     }
 
     @Override
     public void onResume() {
         super.onResume();
+//        if(AppController.getHelperSharedPreference().readBooleanPreference(getActivity().getBaseContext().getApplicationContext(),"localeChanged",false)){
+//           getActivity().startActivity(getActivity().getIntent());
+//        }
+        Log.e("Krishna", "onResume: studyFragment webserviceCall "+webserviceCall);
         if (!webserviceCall) {
+
             webserviceCall = true;
             callGetStudyListWebservice();
         }
@@ -215,6 +230,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
 
     private void setStudyList(boolean offline) {
         if (!offline) {
+
             dbServiceSubscriber.saveStudyListToDB(mContext,mStudy);
         }
 
@@ -262,7 +278,8 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                             completionAdeherenceCalcSort = completionAdeherenceCalculation;
                             e.printStackTrace();
                         }
-                    } else {
+                    }
+                    else {
                         CompletionAdeherenceCalc completionAdeherenceCalculation = new CompletionAdeherenceCalc();
                         completionAdeherenceCalculation.setAdherence(0);
                         completionAdeherenceCalculation.setCompletion(0);
@@ -281,42 +298,48 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(ACTIVE) && studyListArrayList.get(i).getStudyStatus().equalsIgnoreCase(YET_TO_JOIN)) {
+            }
+            else if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(ACTIVE) && studyListArrayList.get(i).getStudyStatus().equalsIgnoreCase(YET_TO_JOIN)) {
                 activeYetToJoin.add(studyListArrayList.get(i));
                 try {
                     activeYetToJoinCompletionAdeherenceCalc.add(completionAdeherenceCalcSort);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(ACTIVE)) {
+            }
+            else if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(ACTIVE)) {
                 activeOthers.add(studyListArrayList.get(i));
                 try {
                     activeOthersCompletionAdeherenceCalc.add(completionAdeherenceCalcSort);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(UPCOMING)) {
+            }
+            else if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(UPCOMING)) {
                 upComing.add(studyListArrayList.get(i));
                 try {
                     upComingCompletionAdeherenceCalc.add(completionAdeherenceCalcSort);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(PAUSED)) {
+            }
+            else if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(PAUSED)) {
                 paused.add(studyListArrayList.get(i));
                 try {
                     pausedCompletionAdeherenceCalc.add(completionAdeherenceCalcSort);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(CLOSED)) {
+            }
+            else if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(CLOSED)) {
                 closed.add(studyListArrayList.get(i));
                 try {
                     closedCompletionAdeherenceCalc.add(completionAdeherenceCalcSort);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else {
+            }
+            else {
                 others.add(studyListArrayList.get(i));
                 try {
                     othersCompletionAdeherenceCalc.add(completionAdeherenceCalcSort);
@@ -373,7 +396,8 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else {
+        }
+        else {
             try {
                 studyListArrayList.clear();
             } catch (Exception e) {
@@ -538,10 +562,12 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                 } else {
                     studyListAdapter = new StudyListAdapter(mContext, searchResult(searchKey), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
                 }
-            } else {
+            }
+            else {
                 studyListAdapter = new StudyListAdapter(mContext, copyOfFilteredStudyList(), StudyFragment.this, mFilteredCompletionAdeherenceCalcs);
             }
-        } else {
+        }
+        else {
             addFilterCriteria(jsonObjectString, completionAdeherenceCalcs);
         }
 
@@ -629,10 +655,42 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
             if (categories.getBoolean("tobaccoUse")) {
                 temp3.add("Tobacco Use");
             }
+
+            ArrayList<String> temp4 = new ArrayList<>();
+            if (categories.getBoolean("biologicsSafety")) {
+                temp4.add("Seguridad de los productos biológicos");
+            }
+            if (categories.getBoolean("clinicalTrials")) {
+                temp4.add("Ensayos clínicos");
+            }
+            if (categories.getBoolean("cosmeticsSafety")) {
+                temp4.add("Seguridad de los cosméticos");
+            }
+            if (categories.getBoolean("drugSafety")) {
+                temp4.add("Seguridad de los medicamentos");
+            }
+            if (categories.getBoolean("foodSafety")) {
+                temp4.add("Seguridad alimenticia");
+            }
+            if (categories.getBoolean("medicalDeviceSafety")) {
+                temp4.add("Seguridad de dispositivos médicos");
+            }
+            if (categories.getBoolean("observationalStudies")) {
+                temp4.add("Estudios observacionales");
+            }
+            if (categories.getBoolean("publicHealth")) {
+                temp4.add("Salud pública");
+            }
+            if (categories.getBoolean("radiationEmittingProducts")) {
+                temp4.add("Productos emisores de radiación");
+            }
+            if (categories.getBoolean("tobaccoUse")) {
+                temp4.add("El consumo de tabaco");
+            }
             // to avoid duplicate list
             if (mFilteredStudyList.size() > 0)
                 mFilteredStudyList.clear();
-            mFilteredStudyList = fiterMatchingStudyList(mFilteredStudyList, temp1, temp2, temp3, bookmarked);
+            mFilteredStudyList = fiterMatchingStudyList(mFilteredStudyList, temp1, temp2, temp3,temp4, bookmarked);
             if (mFilteredStudyList.size() == 0)
                 Toast.makeText(mContext, mContext.getResources().getString(R.string.search_data_empty), Toast.LENGTH_SHORT).show();
             //chking that-----> currently is it working search functionality,
@@ -672,7 +730,8 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                 filteredStudyList = defaultSelectedFilterOption(filteredStudyList);
                 mTempStudyList = filteredStudyList;
             }
-        } else {
+        }
+        else {
             filteredStudyList.addAll(mFilteredStudyList);
         }
         return filteredStudyList;
@@ -701,10 +760,26 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         temp3.add("Public Health");
         temp3.add("Radiation-Emitting Products");
         temp3.add("Tobacco Use");
-        return fiterMatchingStudyList(filteredStudyList, temp1, temp2, temp3, bookmarked);
+
+        ArrayList<String> temp4 = new ArrayList<>();
+        temp4.add("Seguridad de los productos biológicos");
+        temp4.add("Ensayos clínicos");
+        temp4.add("Seguridad de los cosméticos");
+        temp4.add("Seguridad de los medicamentos");
+        temp4.add("Seguridad alimenticia");
+        temp4.add("Seguridad de dispositivos médicos");
+        temp4.add("Estudios observacionales");
+        temp4.add("Salud pública");
+        temp4.add("Productos emisores de radiación");
+        temp4.add("El consumo de tabaco");
+
+
+
+
+        return fiterMatchingStudyList(filteredStudyList, temp1, temp2, temp3,temp4, bookmarked);
     }
 
-    private RealmList<StudyList> fiterMatchingStudyList(RealmList<StudyList> studyList, ArrayList<String> list1, ArrayList<String> list2, ArrayList<String> list3, boolean bookmarked) {
+    private RealmList<StudyList> fiterMatchingStudyList(RealmList<StudyList> studyList, ArrayList<String> list1, ArrayList<String> list2, ArrayList<String> list3,ArrayList<String> list4, boolean bookmarked) {
         try {
             try {
                 if (mFilteredCompletionAdeherenceCalcs.size() > 0)
@@ -719,18 +794,30 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                     for (int i = 0; studyListArrayList.size() > i; i++) {
                         for (int j = 0; list1.size() > j; j++) {
                             if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(list1.get(j))) {
-                                for (int l = 0; list3.size() > l; l++) {
-                                    if (studyListArrayList.get(i).getCategory().equalsIgnoreCase(list3.get(l))) {
-                                        studyList.add(studyListArrayList.get(i));
-                                        mFilteredCompletionAdeherenceCalcs.add(completionAdeherenceCalcs.get(i));
-                                        break;
+                                if(studyListArrayList.get(i).getStudyLanguage().equalsIgnoreCase("english")) {
+                                    for (int l = 0; list3.size() > l; l++) {
+                                        if (studyListArrayList.get(i).getCategory().equalsIgnoreCase(list3.get(l))) {
+                                            studyList.add(studyListArrayList.get(i));
+                                            mFilteredCompletionAdeherenceCalcs.add(completionAdeherenceCalcs.get(i));
+                                            break;
+                                        }
+                                    }
+                                }
+                                else if(studyListArrayList.get(i).getStudyLanguage().equalsIgnoreCase("spanish")){
+                                    for (int l = 0; list4.size() > l; l++) {
+                                        if (studyListArrayList.get(i).getCategory().equalsIgnoreCase(list4.get(l))) {
+                                            studyList.add(studyListArrayList.get(i));
+                                            mFilteredCompletionAdeherenceCalcs.add(completionAdeherenceCalcs.get(i));
+                                            break;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
-            } else {
+            }
+            else {
                 // list2 is mandatory // logged User
                 if (studyListArrayList.size() > 0) {
                     for (int i = 0; studyListArrayList.size() > i; i++) {
@@ -739,9 +826,43 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                             if (studyListArrayList.get(i).isBookmarked()) {
                                 for (int j = 0; list1.size() > j; j++) {
                                     if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(list1.get(j))) {
+
                                         for (int k = 0; list2.size() > k; k++) {
                                             if (studyListArrayList.get(i).getStudyStatus().equalsIgnoreCase(list2.get(k))) {
+                                                if(studyListArrayList.get(i).getStudyLanguage().equalsIgnoreCase("english")){
+                                                    for (int l = 0; list3.size() > l; l++) {
+                                                        if (studyListArrayList.get(i).getCategory().equalsIgnoreCase(list3.get(l))) {
+                                                            studyList.add(studyListArrayList.get(i));
+                                                            mFilteredCompletionAdeherenceCalcs.add(completionAdeherenceCalcs.get(i));
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                                else if(studyListArrayList.get(i).getStudyLanguage().equalsIgnoreCase("spanish")){
+                                                    for (int l = 0; list4.size() > l; l++) {
+                                                        if (studyListArrayList.get(i).getCategory().equalsIgnoreCase(list4.get(l))) {
+                                                            studyList.add(studyListArrayList.get(i));
+                                                            mFilteredCompletionAdeherenceCalcs.add(completionAdeherenceCalcs.get(i));
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else {
+                            // not bookmarked
+                            for (int j = 0; list1.size() > j; j++) {
+                                if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(list1.get(j))) {
+                                    for (int k = 0; list2.size() > k; k++) {
+                                        if (studyListArrayList.get(i).getStudyStatus().equalsIgnoreCase(list2.get(k))) {
+                                            if(studyListArrayList.get(i).getStudyLanguage().equalsIgnoreCase("english")){
                                                 for (int l = 0; list3.size() > l; l++) {
+
                                                     if (studyListArrayList.get(i).getCategory().equalsIgnoreCase(list3.get(l))) {
                                                         studyList.add(studyListArrayList.get(i));
                                                         mFilteredCompletionAdeherenceCalcs.add(completionAdeherenceCalcs.get(i));
@@ -749,23 +870,17 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                                                     }
                                                 }
                                             }
-                                        }
-                                    }
-                                }
-                            }
-                        } else {
-                            // not bookmarked
-                            for (int j = 0; list1.size() > j; j++) {
-                                if (studyListArrayList.get(i).getStatus().equalsIgnoreCase(list1.get(j))) {
-                                    for (int k = 0; list2.size() > k; k++) {
-                                        if (studyListArrayList.get(i).getStudyStatus().equalsIgnoreCase(list2.get(k))) {
-                                            for (int l = 0; list3.size() > l; l++) {
-                                                if (studyListArrayList.get(i).getCategory().equalsIgnoreCase(list3.get(l))) {
-                                                    studyList.add(studyListArrayList.get(i));
-                                                    mFilteredCompletionAdeherenceCalcs.add(completionAdeherenceCalcs.get(i));
-                                                    break;
+                                            else if(studyListArrayList.get(i).getStudyLanguage().equalsIgnoreCase("spanish")){
+                                                for (int l = 0; list4.size() > l; l++) {
+
+                                                    if (studyListArrayList.get(i).getCategory().equalsIgnoreCase(list4.get(l))) {
+                                                        studyList.add(studyListArrayList.get(i));
+                                                        mFilteredCompletionAdeherenceCalcs.add(completionAdeherenceCalcs.get(i));
+                                                        break;
+                                                    }
                                                 }
                                             }
+
                                         }
                                     }
                                 }
@@ -789,6 +904,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         }
         GetUserStudyListEvent getUserStudyListEvent = new GetUserStudyListEvent();
         HashMap<String, String> header = new HashMap();
+        header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", URLs.STUDY_LIST, STUDY_LIST, mContext, Study.class, null, header, null, false, this);
 
         getUserStudyListEvent.setWcpConfigEvent(wcpConfigEvent);
@@ -796,7 +912,40 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         studyModulePresenter.performGetGateWayStudyList(getUserStudyListEvent);
     }
 
+    private void updateBuildVersionToSB(){
+        UpdateBuildVersionsToSB updateBuildVersionsToSB = new UpdateBuildVersionsToSB();
+        HashMap<String, String> header = new HashMap();
+        header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
 
+
+        JSONObject requestObject = new JSONObject();
+        try{
+            requestObject.put("appId", BuildConfig.APP_ID_VALUE);
+            requestObject.put("appName",mContext.getResources().getString(R.string.app_name));
+            requestObject.put("appVersion",currentVersion());
+            requestObject.put("osType","android");
+        }catch (Exception e){
+            Log.e("KRISHNA", "updateBuildVersionToSB: "+e.toString());
+        }
+        WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("post_object", URLs.UDATE_BUILDS_TO_SB, UPDATE_BUILD_TO_SB, mContext, UpdateBuildVersionToSBModel.class, null, header, requestObject, false, this);
+        updateBuildVersionsToSB.setWcpConfigEvent(wcpConfigEvent);
+        StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
+        studyModulePresenter.performUpdateBuildsInSB(updateBuildVersionsToSB);
+
+    }
+
+    public String currentVersion() {
+        PackageInfo pInfo = null;
+        try {
+            pInfo = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+        }
+        if (pInfo == null) {
+            return null;
+        } else {
+            return pInfo.versionName+"."+pInfo.versionCode;
+        }
+    }
     @Override
     public <T> void asyncResponse(T response, int responseCode) {
 
@@ -809,7 +958,8 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                     onItemsLoadComplete();
                     webserviceCall = false;
                     setStudyList(false);
-                } else {
+                }
+                else {
                     GetPreferenceEvent getPreferenceEvent = new GetPreferenceEvent();
                     HashMap<String, String> header = new HashMap();
                     header.put("auth", AppController.getHelperSharedPreference().readPreference(mContext, getResources().getString(R.string.auth), ""));
@@ -820,7 +970,8 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                     UserModulePresenter userModulePresenter = new UserModulePresenter();
                     userModulePresenter.performGetUserPreference(getPreferenceEvent);
                 }
-            } else {
+            }
+            else {
                 webserviceCall = false;
                 AppController.getHelperProgressDialog().dismissDialog();
                 onItemsLoadComplete();
@@ -836,7 +987,8 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
             } else {
                 Toast.makeText(mContext, R.string.study_fragment_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
-        } else if (responseCode == GET_PREFERENCES) {
+        }
+        else if (responseCode == GET_PREFERENCES) {
             AppController.getHelperSharedPreference().writePreference(mContext, "firstStudyState", "Done");
             AppController.getHelperProgressDialog().dismissDialog();
             onItemsLoadComplete();
@@ -871,7 +1023,8 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
             } else {
                 Toast.makeText(mContext, R.string.study_fragment_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
-        } else if (responseCode == UPDATE_PREFERENCES) {
+        }
+        else if (responseCode == UPDATE_PREFERENCES) {
             LoginData loginData = (LoginData) response;
             AppController.getHelperProgressDialog().dismissDialog();
             if (loginData != null && loginData.getMessage().equalsIgnoreCase("success")) {
@@ -892,7 +1045,8 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                 ///delete offline row
                 dbServiceSubscriber.deleteOfflineDataRow(mContext,mDeleteIndexNumberDB);
             }
-        } else if (responseCode == STUDY_UPDATES) {
+        }
+        else if (responseCode == STUDY_UPDATES) {
             StudyUpdate studyUpdate = (StudyUpdate) response;
             studyUpdate.setStudyId(mStudyId);
             StudyUpdateListdata studyUpdateListdata = new StudyUpdateListdata();
@@ -919,13 +1073,15 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                 intent.putExtra("localNotification", mLocalNotification);
                 mContext.startActivity(intent);
             }
-        } else if (responseCode == GET_CONSENT_DOC) {
+        }
+        else if (responseCode == GET_CONSENT_DOC) {
             ConsentDocumentData mConsentDocumentData = (ConsentDocumentData) response;
             mLatestConsentVersion = mConsentDocumentData.getConsent().getVersion();
 
             callGetConsentPDFWebservice();
 
-        } else if (responseCode == CONSENTPDF) {
+        }
+        else if (responseCode == CONSENTPDF) {
             ConsentPDF consentPDFData = (ConsentPDF) response;
             if (mLatestConsentVersion != null && consentPDFData != null && consentPDFData.getConsent() != null && consentPDFData.getConsent().getVersion() != null) {
                 if (!consentPDFData.getConsent().getVersion().equalsIgnoreCase(mLatestConsentVersion)) {
@@ -1155,10 +1311,10 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         onItemsLoadComplete();
         webserviceCall = false;
         if (statusCode.equalsIgnoreCase("401")) {
-            Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(mContext, errormsg);
         } else if (responseCode == CONSENT_METADATA) {
-            Toast.makeText(getActivity(), errormsg, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.unable_to_process), Toast.LENGTH_LONG).show();
         } else if (responseCode == STUDY_UPDATES || responseCode == GET_CONSENT_DOC || responseCode == CONSENTPDF) {
             Intent intent = new Intent(mContext, SurveyActivity.class);
             intent.putExtra("studyId", mStudyId);
@@ -1184,7 +1340,8 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                 realm.commitTransaction();
                 dbServiceSubscriber.updateStudyPreferenceToDb(mContext,lastUpdatedStudyId, lastUpdatedBookMark, lastUpdatedStatusStatus);
                 studyListAdapter.notifyItemChanged(lastUpdatedPosition);
-            } else {
+            }
+            else {
                 mEmptyListMessage.setVisibility(View.GONE);
 
                 mStudy = dbServiceSubscriber.getStudyListFromDB(realm);
@@ -1193,7 +1350,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                     studyListArrayList = dbServiceSubscriber.saveStudyStatusToStudyList(studyListArrayList, realm);
                     setStudyList(true);
                 } else {
-                    Toast.makeText(getActivity(), errormsg, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), getResources().getString(R.string.unknown_error), Toast.LENGTH_LONG).show();
                 }
             }
         }

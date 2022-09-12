@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,6 +20,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -34,12 +37,16 @@ import com.harvard.userModule.UserModulePresenter;
 import com.harvard.userModule.event.LogoutEvent;
 import com.harvard.userModule.webserviceModel.LoginData;
 import com.harvard.utils.AppController;
+import com.harvard.utils.AppVisibilityDetector;
+import com.harvard.utils.ConnectivityReceiver;
+import com.harvard.utils.MyContextWrapper;
 import com.harvard.utils.SharedPreferenceHelper;
 import com.harvard.utils.URLs;
 import com.harvard.webserviceModule.apiHelper.ApiCall;
 import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
 
 import java.util.HashMap;
+import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -187,6 +194,85 @@ public class SurveyActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Log.e("Krishna", "onResume: SurveyActivity ");
+        if(ConnectivityReceiver.isConnected())
+        {
+            if(AppController.getLocalePreferenceHelper().getLocalePreferences(SurveyActivity.this).contains("currentLanguage") && AppController.getLocalePreferenceHelper().readLocaleBooleanPreference(SurveyActivity.this,AppController.isRefreshNeeded,false)){
+                Log.e("Krishna", "onResume: study activity contains currentLanguage "+AppController.getLocalePreferenceHelper().readLocalePreference(getBaseContext(),"currentLanguage",null) + " and restarted need is " +AppController.getLocalePreferenceHelper().readLocaleBooleanPreference(SurveyActivity.this,AppController.isRefreshNeeded,false));
+                Locale locale = new Locale(AppController.getLocalePreferenceHelper().readLocalePreference(SurveyActivity.this,"currentLanguage",null)); //
+                Locale.setDefault(locale);
+                Configuration configuration =  getBaseContext().getResources().getConfiguration();
+                configuration.locale = locale;
+                // res.updateConfiguration(configuration, res.getDisplayMetrics());
+
+                MyContextWrapper.wrap(getBaseContext(),AppController.getLocalePreferenceHelper().readLocalePreference(getBaseContext(), "currentLanguage", null));
+                getBaseContext().getResources().updateConfiguration(configuration,getBaseContext().getResources().getDisplayMetrics());
+
+                //AppController.changeAppLocale(StudyActivity.this,AppController.getLocalePreferenceHelper().readPreference(getBaseContext(),"currentLanguage",null));
+
+//             mSidebarTitle.setText(getResources().getString(R.string.fda_listens));
+//             mPoweredBy.setText(getResources().getString(R.string.poweredby));
+//             mHomeLabel.setText(getResources().getString(R.string.side_menu_home));
+//             mResourceLabel.setText(getResources().getString(R.string.side_menu_resources));
+//             mReachoutLabel.setText(getResources().getString(R.string.covid_19_side_menu_reach_out));
+//             mSigninLabel.setText(getResources().getString(R.string.side_menu_sign_in));
+//             mNewUsrReachoutLabel.setText(getResources().getString(R.string.covid_19_side_menu_new_user));
+//             mSignOutLabel.setText(getResources().getString(R.string.side_menu_sign_out));
+                AppController.getHelperSharedPreference().writeLocaleBoolPreference(getApplicationContext(), AppController.isRefreshNeeded, false);
+                Handler handler = new Handler();
+                if(AppController.getHelperSharedPreference().readPreference(getApplicationContext(), getString(R.string.userid), "").equalsIgnoreCase("")){
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Do something after 5s = 5000ms
+                            Log.e("Krishna", "onResume: study activity is refresh needed before refreshing and after re-writing for non logged in user"+AppController.getLocalePreferenceHelper().readLocaleBooleanPreference(getApplicationContext(),AppController.isRefreshNeeded,false));
+                            Log.e("Krishna", "onResume: study activity is refresh needed before refreshing and after re-writing "+AppController.getLocalePreferenceHelper().readLocaleBooleanPreference(SurveyActivity.this,AppController.isRefreshNeeded,false));
+                            finish();
+                            startActivity(getIntent());
+                        }
+                    }, 1000);
+                }else{
+                    Log.e("Krishna", "onResume: survey activity is refresh needed before refreshing and after re-writing for logged in user "+AppController.getLocalePreferenceHelper().readLocaleBooleanPreference(getApplicationContext(),AppController.isRefreshNeeded,false));
+//                 handler.postDelayed(new Runnable() {
+//                     @Override
+//                     public void run() {
+//                         // Do something after 5s = 5000ms
+//                         Log.e("Krishna", "onResume: study activity is refresh needed before refreshing and after re-writing "+AppController.getLocalePreferenceHelper().readLocaleBooleanPreference(getApplicationContext(),AppController.isRefreshNeeded,false));
+//                         Log.e("Krishna", "onResume: study activity is refresh needed before refreshing and after re-writing "+AppController.getLocalePreferenceHelper().readLocaleBooleanPreference(StudyActivity.this,AppController.isRefreshNeeded,false));
+//                         finish();
+//                         startActivity(getIntent());
+//                     }
+//                 }, 1000);
+                }
+
+
+
+            }
+            if (AppController.getHelperSharedPreference().getPreferences(getBaseContext()).contains("localeChanged")){
+                Log.e("Krishna", " studyActivity onResume: is locale changed "+AppController.getHelperSharedPreference().readLocaleBooleanPreference(getBaseContext(),"localeChanged",false));
+                Log.e("Krishna", "studyActivity onResume: is prev changed "+AppController.getHelperSharedPreference().readPreference(getBaseContext(),"prevLanguage",null));
+            }
+        }
+        else{
+            if(AppController.getHelperSharedPreference().getLocalePreferences(getBaseContext()).contains("currentLanguage")) {
+                Log.e("krishna", " studyActivity onAppGotoForeground: onlinepreference");
+                Locale locale = new Locale(AppController.getLocalePreferenceHelper().readLocalePreference(getBaseContext(), "currentLanguage", null)); //
+                Locale.setDefault(locale);
+                Configuration configuration = getBaseContext().getResources().getConfiguration();
+                configuration.locale = locale;
+
+                MyContextWrapper.wrap(getBaseContext(),AppController.getLocalePreferenceHelper().readLocalePreference(getBaseContext(), "currentLanguage", null));
+                //  getBaseContext().getResources().updateConfiguration(configuration,getBaseContext().getResources().getDisplayMetrics());
+                Log.e("Krishna", " studyActivity onAppGotoForeground: CurrentActivity"+ AppVisibilityDetector.getCurrentActivity());
+              //  AppVisibilityDetector.getCurrentActivity().getBaseContext().createConfigurationContext(configuration);
+                getBaseContext().getResources().updateConfiguration(configuration,getBaseContext().getResources().getDisplayMetrics());
+
+            }
+        }
+    }
     private void checkSignOrSignOutScenario() {
         //signIn
         if (AppController.getHelperSharedPreference().readPreference(SurveyActivity.this, getString(R.string.userid), "").equalsIgnoreCase("")) {

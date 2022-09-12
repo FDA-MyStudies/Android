@@ -16,6 +16,7 @@ import com.harvard.studyAppModule.events.ProcessResponseEvent;
 import com.harvard.studyAppModule.events.UpdateEligibilityConsentStatusEvent;
 import com.harvard.studyAppModule.events.VerifyEnrollmentIdEvent;
 import com.harvard.studyAppModule.events.WithdrawFromStudyEvent;
+import com.harvard.studyAppModule.updateBuildVersion.UpdateBuildVersionsToSB;
 import com.harvard.userModule.event.GetTermsAndConditionEvent;
 
 /**
@@ -40,6 +41,9 @@ public class StudyModuleSubscriber extends BaseSubscriber {
         FDAEventBus.postEvent(getUserStudyListEvent.getWcpConfigEvent());
     }
 
+    public void onEvent(UpdateBuildVersionsToSB updateBuildVersionsToSB){
+        FDAEventBus.postEvent(updateBuildVersionsToSB.getWcpConfigEvent());
+    }
     public void onEvent(GetTermsAndConditionEvent getTermsAndConditionEvent) {
         FDAEventBus.postEvent(getTermsAndConditionEvent.getWcpConfigEvent());
     }

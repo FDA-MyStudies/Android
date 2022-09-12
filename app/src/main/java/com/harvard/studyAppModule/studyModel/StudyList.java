@@ -16,6 +16,7 @@ public class StudyList extends RealmObject{
     private String studyVersion;
     private String tagline;
     private String status;
+    private String studyLanguage;
     private String studyStatus = StudyFragment.YET_TO_JOIN;
     private String logo;
     @PrimaryKey
@@ -128,5 +129,11 @@ public class StudyList extends RealmObject{
 
     public void setStudyId(String studyId) {
         this.studyId = studyId;
+    }
+    public String getStudyLanguage(){
+        return studyLanguage;
+    }
+    public void setStudyLanguage(String studyLanguage){
+        this.studyLanguage = studyLanguage;
     }
 }

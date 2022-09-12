@@ -20,3 +20,4 @@ app/.idea/modules.xml
 app/.idea/vcs.xml
 app/.idea/
 app/local.properties
+apikey.properties

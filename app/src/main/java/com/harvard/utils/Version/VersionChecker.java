@@ -67,14 +67,15 @@ public class VersionChecker extends AsyncTask<String, String, String> {
         super.onPostExecute(s);
         String currentVersion = currentVersion();
 //        currentVersion = "1.0";
-        if ((currentVersion != null && currentVersion.equalsIgnoreCase(newVersion)) || newVersion == null) {
-            upgrade.isUpgrade(false, newVersion, force);
-        } else {
+        if ((currentVersion != null && !currentVersion.equalsIgnoreCase(newVersion)) || newVersion == null) {
+
             if (force) {
                 upgrade.isUpgrade(true, newVersion, force);
-            } else {
+            }else{
                 upgrade.isUpgrade(false, newVersion, force);
             }
+        }else {
+            upgrade.isUpgrade(false,"na",false);
         }
     }
 
@@ -91,7 +92,7 @@ public class VersionChecker extends AsyncTask<String, String, String> {
         if (pInfo == null) {
             return null;
         } else {
-            return pInfo.versionName;
+            return pInfo.versionName+"."+pInfo.versionCode;
         }
     }
 

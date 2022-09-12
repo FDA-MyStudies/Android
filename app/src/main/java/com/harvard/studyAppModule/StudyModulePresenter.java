@@ -12,6 +12,7 @@ import com.harvard.studyAppModule.events.GetUserStudyInfoEvent;
 import com.harvard.studyAppModule.events.GetUserStudyListEvent;
 import com.harvard.studyAppModule.events.ProcessResponseDataEvent;
 import com.harvard.studyAppModule.events.ProcessResponseEvent;
+import com.harvard.studyAppModule.updateBuildVersion.UpdateBuildVersionsToSB;
 import com.harvard.studyAppModule.events.UpdateEligibilityConsentStatusEvent;
 import com.harvard.studyAppModule.events.VerifyEnrollmentIdEvent;
 import com.harvard.studyAppModule.events.WithdrawFromStudyEvent;
@@ -80,6 +81,10 @@ public class StudyModulePresenter {
     }
     public void performProcessData(ProcessResponseDataEvent processResponseDataEvent) {
         FDAEventBus.postEvent(processResponseDataEvent);
+    }
+
+    public void performUpdateBuildsInSB(UpdateBuildVersionsToSB updateBuildVersionsToSB){
+        FDAEventBus.postEvent(updateBuildVersionsToSB);
     }
 
 }

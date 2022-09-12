@@ -2,6 +2,7 @@ package com.harvard.EligibilityModule;
 
 import android.content.Context;
 
+import com.harvard.FDAApplication;
 import com.harvard.R;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.Steps;
 import com.harvard.studyAppModule.custom.AnswerFormatCustom;
@@ -43,7 +44,7 @@ public class StepsBuilder {
         ArrayList<Step> steps = new ArrayList<>();
         if (activityQuestionStep != null) {
             if (!addEligibility && activityQuestionStep.size() > 0) {
-                InstructionStep instructionStep = new InstructionStep("Eligibility Test", "Eligibility Test", "Please answer the questions that follow to help ascertain your eligibility for this study.");
+                InstructionStep instructionStep = new InstructionStep("Eligibility Test", FDAApplication.getInstance().getResources().getString(R.string.eligibility_title), FDAApplication.getInstance().getResources().getString(R.string.eligibility_description));
                 instructionStep.setStepTitle(R.string.notxt);
                 instructionStep.setOptional(false);
                 steps.add(instructionStep);

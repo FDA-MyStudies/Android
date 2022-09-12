@@ -1541,6 +1541,8 @@
     <string name="permission_denied">Permission denied to read/write files</string>
     <string name="termsurl">https://www.fda.gov/AboutFDA/AboutThisWebsite/WebsitePolicies/</string>
     <string name="privacyurl">https://www.fda.gov/AboutFDA/AboutThisWebsite/WebsitePolicies/#privacy</string>
+    <string name="privacySurl">http://45.136.113.122:8082/fdahpStudyDesigner/policyPage.do</string>
+    <string name="privacySurlUAT">https://hpwcp-stage.lkcompliant.net/fdahpStudyDesigner/policyPage.do</string>
     <string name="FileProvider_authorities" translatable="false">com.myfileprovider</string>
     <string name="agree">I Agree to the Terms and Privacy Policy</string>
     <string name="enter_contact_us">Please let us know what you need help with. We will get back to you at the earliest.</string>

@@ -241,9 +241,11 @@ public class ChartActivity extends AppCompatActivity {
                             }
                         }
                     }
-                } else if (chartDataSource.getTimeRangeType().equalsIgnoreCase("runs")) {
+                }
+                else if (chartDataSource.getTimeRangeType().equalsIgnoreCase("runs")) {
                     ActivitiesWS activitiesWS = dbServiceSubscriber.getActivityItem(getIntent().getStringExtra("studyId"), chartDataSource.getActivity().getActivityId(), mRealm);
-                    if (activitiesWS.getFrequency().getType().equalsIgnoreCase("OnGoing")) {
+                    if (activitiesWS != null && activitiesWS.getFrequency().getType().equalsIgnoreCase("OnGoing"))
+                    {
                         RealmResults<ActivityRun> activityRuns = dbServiceSubscriber.getAllActivityRunFromDB(getIntent().getStringExtra("studyId"), chartDataSource.getActivity().getActivityId(), mRealm);
                         linearLayout1 = new LinearLayout(ChartActivity.this);
                         SimpleDateFormat simpleDateFormat = AppController.getDateFormat();
@@ -306,7 +308,6 @@ public class ChartActivity extends AppCompatActivity {
                                 runCharts.add(runChart);
                             }
                         }
-
                         //new chart
                         lists = split(runCharts, 5);
                         filteredXValues.clear();
@@ -319,7 +320,8 @@ public class ChartActivity extends AppCompatActivity {
                             }
                         }
                         addTimeLayoutRuns(lists, RUN, chartDataSource.getTimeRangeType(), chart, stepRecordCustomList, filteredXValues, entryList, activityRuns, i, dashboardData.getDashboard().getCharts().get(i).getConfiguration().getSettings().get(0).getBarColor(), chartDataSource.getActivity().getActivityId(), 0);
-                    } else {
+                    }
+                    else {
                         RealmResults<ActivityRun> activityRuns = dbServiceSubscriber.getAllActivityRunFromDB(getIntent().getStringExtra("studyId"), chartDataSource.getActivity().getActivityId(), mRealm);
                         linearLayout1 = new LinearLayout(ChartActivity.this);
                         SimpleDateFormat simpleDateFormat = AppController.getDateFormat();
@@ -396,7 +398,8 @@ public class ChartActivity extends AppCompatActivity {
                         }
                         addTimeLayoutRuns(lists, RUN, chartDataSource.getTimeRangeType(), chart, stepRecordCustomList, filteredXValues, entryList, activityRuns, i, dashboardData.getDashboard().getCharts().get(i).getConfiguration().getSettings().get(0).getBarColor(), chartDataSource.getActivity().getActivityId(), 0);
                     }
-                } else if (chartDataSource.getTimeRangeType().equalsIgnoreCase("hours_of_day")) {
+                }
+                else if (chartDataSource.getTimeRangeType().equalsIgnoreCase("hours_of_day")) {
                     final RealmResults<ActivityRun> activityRuns = dbServiceSubscriber.getAllActivityRunforDate(chartDataSource.getActivity().getActivityId(), getIntent().getStringExtra("studyId"), new Date(), mRealm);
                     addTimeLayout(DAY, chartDataSource.getTimeRangeType(), chart, stepRecordCustomList, filteredXValues, entryList, activityRuns, i, dashboardData.getDashboard().getCharts().get(i).getConfiguration().getSettings().get(0).getBarColor(), chartDataSource.getActivity().getActivityId());
                     filteredXValues.clear();

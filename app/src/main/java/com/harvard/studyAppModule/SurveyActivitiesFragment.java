@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.text.Html;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -223,6 +224,7 @@ public class SurveyActivitiesFragment extends Fragment
   @Override
   public void onAttach(Context context) {
     super.onAttach(context);
+    Log.e("Krishna", "onResume: SurveyActivity onAttach: "+context);
     this.mContext = context;
   }
 
@@ -251,6 +253,7 @@ public class SurveyActivitiesFragment extends Fragment
   @Override
   public void onResume() {
     super.onResume();
+    Log.e("Krishna", "onResume: surveyActivities");
     try {
       AppController.getHelperHideKeyboard(getActivity());
     } catch (Exception e) {
@@ -269,7 +272,7 @@ public class SurveyActivitiesFragment extends Fragment
     AppCompatImageView backBtnimg = view.findViewById(R.id.backBtnimg);
     AppCompatImageView menubtnimg = view.findViewById(R.id.menubtnimg);
 
-    if (AppConfig.AppType.equalsIgnoreCase(getString(R.string.app_gateway))) {
+    if (AppConfig.AppType.equalsIgnoreCase(mContext.getResources().getString(R.string.app_gateway))) {
       backBtnimg.setVisibility(View.VISIBLE);
       menubtnimg.setVisibility(View.GONE);
     } else {
@@ -295,7 +298,7 @@ public class SurveyActivitiesFragment extends Fragment
         new View.OnClickListener() {
           @Override
           public void onClick(View view) {
-            if (AppConfig.AppType.equalsIgnoreCase(getString(R.string.app_gateway))) {
+            if (AppConfig.AppType.equalsIgnoreCase(mContext.getResources().getString(R.string.app_gateway))) {
               Intent intent = new Intent(mContext, StudyActivity.class);
               ComponentName cn = intent.getComponent();
               Intent mainIntent = Intent.makeRestartActivityTask(cn);
@@ -349,6 +352,7 @@ public class SurveyActivitiesFragment extends Fragment
 
     GetUserStudyListEvent getUserStudyListEvent = new GetUserStudyListEvent();
     HashMap<String, String> header = new HashMap();
+
     StudyList studyList =
         dbServiceSubscriber.getStudiesDetails(
             ((SurveyActivity) mContext).getStudyId(), mRealm);
@@ -450,7 +454,7 @@ public class SurveyActivitiesFragment extends Fragment
             && !response.equalsIgnoreCase("")) {
           response = response;
         } else {
-          response = getString(R.string.unknown_error);
+          response = mContext.getResources().getString(R.string.unknown_error);
         }
       }
       return response;
@@ -542,7 +546,7 @@ public class SurveyActivitiesFragment extends Fragment
         }
       } else {
         AppController.getHelperProgressDialog().dismissDialog();
-        Toast.makeText(mContext, getString(R.string.unknown_error), Toast.LENGTH_SHORT)
+        Toast.makeText(mContext, mContext.getResources().getString(R.string.unknown_error), Toast.LENGTH_SHORT)
             .show();
       }
     }
@@ -670,7 +674,8 @@ public class SurveyActivitiesFragment extends Fragment
                         .getSignatureContent()
                         .toString())
                     .toString());
-      } else if (eligibilityConsent != null
+      }
+      else if (eligibilityConsent != null
           && eligibilityConsent.getConsent() != null
           && eligibilityConsent.getConsent().getVisualScreens() != null) {
         StringBuilder docBuilder;
@@ -813,7 +818,7 @@ public class SurveyActivitiesFragment extends Fragment
       if (studyUpdate
           .getStudyUpdateData()
           .getStatus()
-          .equalsIgnoreCase(getString(R.string.paused))) {
+          .equalsIgnoreCase(mContext.getString(R.string.paused))) {
         AppController.getHelperProgressDialog().dismissDialog();
         onItemsLoadComplete();
         Toast.makeText(mContext, R.string.studyPaused, Toast.LENGTH_SHORT).show();
@@ -821,7 +826,7 @@ public class SurveyActivitiesFragment extends Fragment
       } else if (studyUpdate
           .getStudyUpdateData()
           .getStatus()
-          .equalsIgnoreCase(getString(R.string.closed))) {
+          .equalsIgnoreCase(mContext.getString(R.string.closed))) {
         AppController.getHelperProgressDialog().dismissDialog();
         onItemsLoadComplete();
         Toast.makeText(mContext, R.string.studyClosed, Toast.LENGTH_SHORT).show();
@@ -861,7 +866,8 @@ public class SurveyActivitiesFragment extends Fragment
       } else {
         Toast.makeText(mContext, R.string.survey_activities_unable_to_parse, Toast.LENGTH_SHORT).show();
       }
-    } else if (responseCode == ACTIVTTYLIST_RESPONSECODE) {
+    }
+    else if (responseCode == ACTIVTTYLIST_RESPONSECODE) {
       activityListData = (ActivityListData) response;
         if (activityListData != null) {
             activityListData.setStudyId(((SurveyActivity) mContext).getStudyId());
@@ -905,7 +911,8 @@ public class SurveyActivitiesFragment extends Fragment
           onItemsLoadComplete();
         }
 
-    } else if (responseCode == GET_PREFERENCES) {
+    }
+    else if (responseCode == GET_PREFERENCES) {
       ActivityData activityData1 = (ActivityData) response;
       activityData1.setStudyId(((SurveyActivity) mContext).getStudyId());
       ActivityData activityData = new ActivityData();
@@ -935,7 +942,8 @@ public class SurveyActivitiesFragment extends Fragment
 
       calculateStartAnsEndDateForActivities();
 
-    } else if (responseCode == ACTIVTTYINFO_RESPONSECODE) {
+    }
+    else if (responseCode == ACTIVTTYINFO_RESPONSECODE) {
       AppController.getHelperProgressDialog().dismissDialog();
       onItemsLoadComplete();
       ActivityInfoData activityInfoData = (ActivityInfoData) response;
@@ -2403,11 +2411,11 @@ public class SurveyActivitiesFragment extends Fragment
           int totalRunVal = activityStatus.getTotalRun();
           int completedRunVal = activityStatus.getCompletedRun();
           if (missedRunVal == 0 && currentRunVal == 0 && totalRunVal == 0 && completedRunVal == 0) {
-            activityStatus.setStatus(getString(R.string.expired));
+            activityStatus.setStatus(mContext.getResources().getString(R.string.expired));
           } else if (missedRunVal > 0) {
-            activityStatus.setStatus(getString(R.string.incompleted2));
+            activityStatus.setStatus(mContext.getResources().getString(R.string.incompleted2));
           } else {
-            activityStatus.setStatus(getString(R.string.completed2));
+            activityStatus.setStatus(mContext.getResources().getString(R.string.completed2));
           }
           if (isWithinRange(
               simpleDateFormat.parse(activityListData.getActivities().get(i).getStartTime()),
@@ -2428,9 +2436,9 @@ public class SurveyActivitiesFragment extends Fragment
                   .setStartTime(mArrayList.get(j).getUserRegStartDate());
               activityListData.getActivities().get(i)
                   .setEndTime(mArrayList.get(j).getUserRegEndDate());
-            } else if (activityStatus.getStatus().equalsIgnoreCase(getString(R.string.expired))
-                || activityStatus.getStatus().equalsIgnoreCase(getString(R.string.incompleted2))
-                || activityStatus.getStatus().equalsIgnoreCase(getString(R.string.completed2))) {
+            } else if (activityStatus.getStatus().equalsIgnoreCase(mContext.getResources().getString(R.string.expired))
+                || activityStatus.getStatus().equalsIgnoreCase(mContext.getResources().getString(R.string.incompleted2))
+                || activityStatus.getStatus().equalsIgnoreCase(mContext.getResources().getString(R.string.completed2))) {
               activityListData.getActivities().get(i)
                   .setStartTime(mArrayList.get(j).getUserRegStartDate());
 //                            activityListData.getActivities().get(i).setEndTime(mArrayList.get(j).getUserRegEndDate());
@@ -2458,9 +2466,9 @@ public class SurveyActivitiesFragment extends Fragment
                   .setStartTime(mArrayList.get(j).getUserRegStartDate());
               activityListData.getActivities().get(i)
                   .setEndTime(mArrayList.get(j).getUserRegEndDate());
-            } else if (activityStatus.getStatus().equalsIgnoreCase(getString(R.string.expired))
-                || activityStatus.getStatus().equalsIgnoreCase(getString(R.string.incompleted2))
-                || activityStatus.getStatus().equalsIgnoreCase(getString(R.string.completed2))) {
+            } else if (activityStatus.getStatus().equalsIgnoreCase(mContext.getResources().getString(R.string.expired))
+                || activityStatus.getStatus().equalsIgnoreCase(mContext.getResources().getString(R.string.incompleted2))
+                || activityStatus.getStatus().equalsIgnoreCase(mContext.getResources().getString(R.string.completed2))) {
               activityListData.getActivities().get(i)
                   .setStartTime(mArrayList.get(j).getUserRegStartDate());
 //                            activityListData.getActivities().get(i).setEndTime(mArrayList.get(j).getUserRegEndDate());
@@ -2487,9 +2495,9 @@ public class SurveyActivitiesFragment extends Fragment
                   .setStartTime(mArrayList.get(j).getUserRegStartDate());
               activityListData.getActivities().get(i)
                   .setEndTime(mArrayList.get(j).getUserRegEndDate());
-            } else if (activityStatus.getStatus().equalsIgnoreCase(getString(R.string.expired))
-                || activityStatus.getStatus().equalsIgnoreCase(getString(R.string.incompleted2))
-                || activityStatus.getStatus().equalsIgnoreCase(getString(R.string.completed2))) {
+            } else if (activityStatus.getStatus().equalsIgnoreCase(mContext.getResources().getString(R.string.expired))
+                || activityStatus.getStatus().equalsIgnoreCase(mContext.getResources().getString(R.string.incompleted2))
+                || activityStatus.getStatus().equalsIgnoreCase(mContext.getResources().getString(R.string.completed2))) {
               activityListData.getActivities().get(i)
                   .setStartTime(mArrayList.get(j).getUserRegStartDate());
               activityListData.getActivities().get(i)
@@ -4631,7 +4639,11 @@ public class SurveyActivitiesFragment extends Fragment
         }*/ else if (missed > 0) {
           SetDialogHelper.setNeutralDialog(
                   mContext,
-                  mContext.getResources().getString(R.string.missed_activity),
+                  mContext.getResources().getString(R.string.missed_activity)
+                          + " "
+                          + ((SurveyActivity) mContext).getTitle1()
+                          + " "
+                          + mContext.getResources().getString(R.string.we_encourage),
                   false,
                   mContext.getResources().getString(R.string.survey_activities_ok_btn),
                   mContext.getResources().getString(R.string.app_name));
@@ -4674,7 +4686,11 @@ public class SurveyActivitiesFragment extends Fragment
         }*/ else if (motivationalNotification.getMissed() != missed) {
           SetDialogHelper.setNeutralDialog(
                   mContext,
-                  mContext.getResources().getString(R.string.missed_activity),
+                  mContext.getResources().getString(R.string.missed_activity)
+                          + " "
+                          + ((SurveyActivity) mContext).getTitle1()
+                          + " "
+                          + mContext.getResources().getString(R.string.we_encourage),
                   false,
                   mContext.getResources().getString(R.string.survey_activities_ok_btn),
                   mContext.getResources().getString(R.string.app_name));
@@ -4704,7 +4720,11 @@ public class SurveyActivitiesFragment extends Fragment
         } else if (motivationalNotification.getMissed() != missed) {
           SetDialogHelper.setNeutralDialog(
                   mContext,
-                  mContext.getResources().getString(R.string.missed_activity),
+                  mContext.getResources().getString(R.string.missed_activity)
+                          + " "
+                          + ((SurveyActivity) mContext).getTitle1()
+                          + " "
+                          + mContext.getResources().getString(R.string.we_encourage),
                   false,
                   mContext.getResources().getString(R.string.survey_activities_ok_btn),
                   mContext.getResources().getString(R.string.app_name));
@@ -4713,7 +4733,11 @@ public class SurveyActivitiesFragment extends Fragment
       } else if (motivationalNotification.getMissed() != missed) {
         SetDialogHelper.setNeutralDialog(
                 mContext,
-                mContext.getResources().getString(R.string.missed_activity),
+                mContext.getResources().getString(R.string.missed_activity)
+                        + " "
+                        + ((SurveyActivity) mContext).getTitle1()
+                        + " "
+                        + mContext.getResources().getString(R.string.we_encourage),
                 false,
                 mContext.getResources().getString(R.string.survey_activities_ok_btn),
                 mContext.getResources().getString(R.string.app_name));
@@ -4972,7 +4996,7 @@ public class SurveyActivitiesFragment extends Fragment
     if (statusCode.equalsIgnoreCase("401")) {
       onItemsLoadComplete();
       AppController.getHelperProgressDialog().dismissDialog();
-      Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
+      Toast.makeText(mContext, mContext.getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
       AppController.getHelperSessionExpired(mContext, errormsg);
     } else {
       if (responseCode == ACTIVTTYLIST_RESPONSECODE || responseCode == STUDY_UPDATES) {
@@ -4996,7 +5020,7 @@ public class SurveyActivitiesFragment extends Fragment
             mActivityVersion);
         launchSurvey(null);
       } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE_INITIAL) {
-        Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, mContext.getResources().getString(R.string.unable_to_process), Toast.LENGTH_SHORT).show();
         AppController.getHelperProgressDialog().dismissDialog();
       } else {
         try {
@@ -5072,9 +5096,17 @@ public class SurveyActivitiesFragment extends Fragment
   private void launchSurvey(ActivityObj activity) {
     try {
       mActivityObj = new ActivityObj();
+//      mActivityObj = activity;
+//      mActivityObj.setSurveyId(activity.getMetadata().getActivityId());
+//      mActivityObj.setStudyId(((SurveyActivity) mContext).getStudyId());
+//      dbServiceSubscriber.saveActivity(mContext, activity);
       mActivityObj =
           dbServiceSubscriber.getActivityBySurveyId(
               ((SurveyActivity) mContext).getStudyId(), mActivityId, mRealm);
+      if (mActivityObj != null){
+        dbServiceSubscriber.deleteActivityObjectFromDb(mContext,mActivityObj.getMetadata().getActivityId(),((SurveyActivity) mContext).getStudyId());
+        mActivityObj = null;
+      }
       if (mActivityObj == null && activity != null) {
         mActivityObj = activity;
         mActivityObj.setSurveyId(mActivityObj.getMetadata().getActivityId());
@@ -5084,7 +5116,7 @@ public class SurveyActivitiesFragment extends Fragment
 
       if (mActivityObj != null) {
         AppController.getHelperSharedPreference()
-            .writePreference(mContext, getString(R.string.mapCount), "0");
+            .writePreference(mContext, mContext.getString(R.string.mapCount), "0");
         stepsBuilder = new StepsBuilder(mContext, mActivityObj, mBranching, mRealm);
         mTask =
             ActivityBuilder.create(
@@ -5533,7 +5565,7 @@ public class SurveyActivitiesFragment extends Fragment
             && !response.equalsIgnoreCase("")) {
           response = response;
         } else {
-          response = getString(R.string.unknown_error);
+          response = mContext.getResources().getString(R.string.unknown_error);
         }
       }
       return response;
@@ -5686,7 +5718,7 @@ public class SurveyActivitiesFragment extends Fragment
         }
       } else {
         metadataProcess();
-        Toast.makeText(mContext, getString(R.string.unknown_error), Toast.LENGTH_SHORT)
+        Toast.makeText(mContext, mContext.getResources().getString(R.string.unknown_error), Toast.LENGTH_SHORT)
             .show();
       }
     }

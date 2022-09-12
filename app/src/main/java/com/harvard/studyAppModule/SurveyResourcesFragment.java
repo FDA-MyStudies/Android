@@ -639,7 +639,8 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                         metadataProcess();
                         e.printStackTrace();
                     }
-                } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK) {
+                }
+                else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK) {
                     if (anchorDateSchedulingDetails.getSourceType().equalsIgnoreCase("ActivityResponse")) {
                         try {
                             JSONObject jsonObject = new JSONObject(response);
@@ -772,20 +773,21 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
     public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (statusCode.equalsIgnoreCase("401")) {
-            Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(mContext, errormsg);
-        } else {
+        }
+        else {
             // offline functionality
             if (responseCode == RESOURCE_REQUEST_CODE) {
                 try {
                     if (dbServiceSubscriber.getStudyResource(mStudyId, mRealm) == null) {
-                        Toast.makeText(getActivity(), errormsg, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.network_exception), Toast.LENGTH_LONG).show();
                     } else if (dbServiceSubscriber.getStudyResource(mStudyId, mRealm).getResources() == null) {
-                        Toast.makeText(getActivity(), errormsg, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), getResources().getString(R.string.network_exception), Toast.LENGTH_LONG).show();
                     } else {
                         mResourceArrayList = dbServiceSubscriber.getStudyResource(mStudyId, mRealm).getResources();
                         if (mResourceArrayList == null || mResourceArrayList.size() == 0) {
-                            Toast.makeText(getActivity(), errormsg, Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), getResources().getString(R.string.network_exception), Toast.LENGTH_LONG).show();
                         } else {
                             calculatedResources(mResourceArrayList);
                         }
@@ -794,7 +796,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                     e.printStackTrace();
                 }
             } else {
-                Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, getResources().getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -867,7 +869,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
     public <T> void asyncResponseFailure(int responseCode, String errormsg, String
             statusCode, T response) {
         AppController.getHelperProgressDialog().dismissDialog();
-        Toast.makeText(getActivity(), errormsg, Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), getResources().getString(R.string.unable_to_withdraw_from_study), Toast.LENGTH_LONG).show();
     }
 
     @Override

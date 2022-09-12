@@ -15,6 +15,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -46,6 +47,7 @@ import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 
 import static com.harvard.BuildConfig.VERSION_NAME;
 
@@ -89,7 +91,11 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
         customTextView();
         bindEvents();
         mTermsAndConditionData=new TermsAndConditionData();
-        mTermsAndConditionData.setPrivacy(getString(R.string.privacyurl));
+        if(AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()).equalsIgnoreCase("english")){
+            mTermsAndConditionData.setPrivacy(getString(R.string.privacyurl));
+        }else {
+            mTermsAndConditionData.setPrivacy(getString(R.string.privacySurl));
+        }
         mTermsAndConditionData.setTerms(getString(R.string.termsurl));
     }
 
@@ -129,7 +135,11 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
     private void customTextViewAgree(AppCompatTextView view) {
         SpannableStringBuilder spanTxt = new SpannableStringBuilder(getResources().getString(R.string.sign_in_activity_you_agree_this_app));
         spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignInActivity.this, R.color.colorPrimaryBlack)), 0, spanTxt.length(), 0);
-        spanTxt.append(getResources().getString(R.string.sign_in_activity_terms2));
+
+
+        spanTxt.append(" " +getResources().getString(R.string.sign_in_activity_terms2));
+
+
         spanTxt.setSpan(new ClickableSpan() {
             @Override
             public void updateDrawState(TextPaint ds) {
@@ -148,8 +158,15 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
             }
         }, spanTxt.length() - getResources().getString(R.string.sign_in_activity_terms2).length(), spanTxt.length(), 0);
 
-        spanTxt.append(" " + getResources().getString(R.string.and));
-        spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignInActivity.this, R.color.colorPrimaryBlack)), spanTxt.length() - " and".length(), spanTxt.length(), 0);
+
+
+        Log.e("Krisha", "customTextViewAgree: Span Text "+spanTxt);
+        Log.e("Krisha", "customTextViewAgree: Span Text length"+spanTxt.length());
+        Log.e("Krisha", "customTextViewAgree: sign_in_activity_terms2 "+getResources().getString(R.string.sign_in_activity_terms2));
+        Log.e("Krisha", "customTextViewAgree: sign_in_activity_terms2 length"+getResources().getString(R.string.sign_in_activity_terms2).length());
+        spanTxt.append(" " + getResources().getString(R.string.sign_in_activity_and));
+        spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignInActivity.this, R.color.colorPrimaryBlack)), spanTxt.length() - getResources().getString(R.string.sign_in_activity_and).length(), spanTxt.length(), 0);
+
 
         spanTxt.append(" " + getResources().getString(R.string.sign_in_activity_privacy_policy2));
         String temp = " " + getResources().getString(R.string.sign_in_activity_privacy_policy2);
@@ -277,10 +294,12 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
             AppController.getHelperProgressDialog().showProgress(SignInActivity.this, "", "", false);
             LoginEvent loginEvent = new LoginEvent();
             HashMap<String, String> params = new HashMap<>();
+            HashMap<String, String> headerparams = new HashMap<>();
+            headerparams.put("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             params.put("emailId", mEmail.getText().toString());
             params.put("password", mPassword.getText().toString());
             params.put("appId", BuildConfig.APPLICATION_ID);
-            RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.LOGIN, LOGIN_REQUEST, this, LoginData.class, params, null, null, false, this);
+            RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent("post", URLs.LOGIN, LOGIN_REQUEST, this, LoginData.class, params, headerparams, null, false, this);
             loginEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
             UserModulePresenter userModulePresenter = new UserModulePresenter();
             userModulePresenter.performLogin(loginEvent);

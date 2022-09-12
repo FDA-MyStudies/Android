@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
@@ -14,6 +16,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AlertDialog;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -75,8 +78,13 @@ import io.realm.RealmConfiguration;
  */
 public class AppController{
 
-
+    public static String CurrentLanguage = "currentLanguage";
+    public static String PreviousLanguage = "previousLanguage";
+    public static String isLocaleChanged = "isLocaleChanged";
+    public static String isRefreshNeeded = "isRefreshNeeded";
+    public static String isUpdateCancelledByUser = "isForceUpdateCancelled";
     private static SharedPreferenceHelper sSharedPreferenceHelper;
+    private static SharedPreferenceHelper sLocaleSharedPreferenceHelper;
     private static JsonFormatHelper sJsonFormatHelper;
     private static SetDialogHelper sSetDialogHelper;
     private static ProgressDialogHelper sProgressDialogHelper;
@@ -90,6 +98,11 @@ public class AppController{
         if (sSharedPreferenceHelper == null)
             sSharedPreferenceHelper = new SharedPreferenceHelper();
         return sSharedPreferenceHelper;
+    }
+    public static SharedPreferenceHelper getLocalePreferenceHelper(){
+        if (sLocaleSharedPreferenceHelper == null)
+            sLocaleSharedPreferenceHelper = new SharedPreferenceHelper();
+        return sLocaleSharedPreferenceHelper;
     }
 
     public static JsonFormatHelper getHelperJsonFormat() {
@@ -211,12 +224,25 @@ public class AppController{
 
     public static Realm getRealmobj(Context context) {
         if (config == null) {
+
             RealmEncryptionHelper realmEncryptionHelper = RealmEncryptionHelper.initHelper(context, context.getString(R.string.app_name));
             byte[] key = realmEncryptionHelper.getEncryptKey();
             config = new RealmConfiguration.Builder()
                     .encryptionKey(key)
                     .deleteRealmIfMigrationNeeded()
                     .build();
+            ApplicationInfo applicationInfo = context.getApplicationInfo();
+            int stringId = applicationInfo.labelRes;
+
+             if (stringId == 0)
+            {
+                Log.e(TAG, "getRealmobj: config is null so initialize app name  string ==0 "+ applicationInfo.nonLocalizedLabel.toString());
+            }else {
+                 Log.e(TAG, "getRealmobj: config is null so initialize app name  string ==0 "+ context.getString(stringId));
+
+             }
+            Log.e(TAG, "getRealmobj: config is null so initialize "+config);
+
         }
         return Realm.getInstance(config);
     }
@@ -390,7 +416,8 @@ public class AppController{
                 }
             });
             return alertDialog;
-        } else {
+        }
+        else {
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
             dialogBuilder.setCancelable(false);
 
@@ -687,7 +714,7 @@ public class AppController{
     }
 
     // decrypt the pdf file and return CipherInputStream
-    public static CipherInputStream genarateDecryptedConsentPDF(String filePath) {
+    public static CipherInputStream     genarateDecryptedConsentPDF(String filePath) {
         try {
             FileInputStream fis = new FileInputStream(new File(filePath));
             Cipher encipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
@@ -791,4 +818,43 @@ public class AppController{
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
         notificationManager.cancelAll();
     }
+    public static String deviceDisplayLanguage(String lan){
+        String lang = "";
+        if(lan.equalsIgnoreCase("English")){
+            lang = "en";
+        }else if( lan.equalsIgnoreCase("español")){
+            lang = "es";
+        }
+
+        return lang;
+    }
+
+    public static void changeAppLocale(Context context, String language){
+        Locale locale = new Locale(language); //
+        Locale.setDefault(locale);
+        Configuration configuration =  context.getResources().getConfiguration();
+        configuration.locale = locale;
+        // res.updateConfiguration(configuration, res.getDisplayMetrics());
+
+        MyContextWrapper.wrap(context,language);
+        context.getResources().updateConfiguration(configuration,context.getResources().getDisplayMetrics());
+    }
+
+//    public static void writeLocalePreferenceValue(Context context,String key,String value){
+//        getLocalePreferenceHelper().writeLocalePreference(context,key,value);
+//        Log.e(TAG, "writeIsLocalePreferenceChanged: "+getLocalePreferenceStringFor(context,key));
+//    }
+//    public static void writeIsLocalePreferenceChangedBoolean(Context context,Boolean value){
+//        getLocalePreferenceHelper().writeLocaleBoolPreference(context,"isLocaleChanged",value);
+//        Log.e(TAG, "writeIsLocalePreferenceChangedBoolean: "+getLocalePreferenceBooleanFor(context,"isLocaleChanged"));
+//    }
+//    public static String getLocalePreferenceStringFor(Context context,String keyValue){
+//        Log.e(TAG, "getLocalePreferenceStringFor: "+keyValue+ " " + getLocalePreferenceHelper().readLocalePreference(context,keyValue,null) );
+//        return getLocalePreferenceHelper().readLocalePreference(context,keyValue,null);
+//    }
+//    public static Boolean getLocalePreferenceBooleanFor(Context context,String keyValue){
+//        Log.e(TAG, "getLocalePreferenceBooleanFor: "+keyValue);
+//        Log.e(TAG, "getLocalePreferenceBooleanFor: "+keyValue+ " " + getLocalePreferenceHelper().readLocaleBooleanPreference(context,keyValue,false) );
+//        return getLocalePreferenceHelper().readLocaleBooleanPreference(context,keyValue,false);
+//    }
 }

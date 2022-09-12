@@ -74,6 +74,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import io.realm.Realm;
@@ -192,22 +193,27 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         mChangeDateLabel.setText(setColorSpannbleString(mFromDayVal, 2));
         setColorForSelectedDayMonthYear(mDayLayout);
         bindEvents();
+
+        getDashboardData();
         setStudyStatus();
         setParticipationStatus();
-        getDashboardData();
         return view;
     }
 
     private void setStudyStatus() {
         String status = ((SurveyActivity) mContext).getStatus();
-        mStudyStatus.setText(status);
+
         if (status.equalsIgnoreCase("active")) {
+            mStudyStatus.setText(mContext.getResources().getString(R.string.active2));
             mStudyStatus.setTextColor(mContext.getResources().getColor(R.color.bullet_green_color));
         } else if (status.equalsIgnoreCase("upcoming")) {
+            mStudyStatus.setText(mContext.getResources().getString(R.string.upcoming1));
             mStudyStatus.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
         } else if (status.equalsIgnoreCase("closed")) {
+            mStudyStatus.setText(mContext.getResources().getString(R.string.closed_caps));
             mStudyStatus.setTextColor(mContext.getResources().getColor(R.color.red));
         } else if (status.equalsIgnoreCase("paused")) {
+            mStudyStatus.setText(mContext.getResources().getString(R.string.paused_first_cap));
             mStudyStatus.setTextColor(mContext.getResources().getColor(R.color.rectangle_yellow));
         }
     }
@@ -244,6 +250,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
         GetActivityListEvent getActivityListEvent = new GetActivityListEvent();
         HashMap<String, String> header = new HashMap();
+        header.put("language",AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
         String url = URLs.DASHBOARD_INFO + "?studyId=" + ((SurveyActivity) mContext).getStudyId();
         WCPConfigEvent wcpConfigEvent = new WCPConfigEvent("get", url, DASHBOARD_INFO, mContext, DashboardData.class, null, header, null, false, this);
 
@@ -317,37 +324,37 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
     private void setColorForSelectedDayMonthYear(RelativeLayout layout) {
 
         if (layout == mDayLayout) {
-            mDayLayout.setBackground(getResources().getDrawable(R.drawable.blue_radius));
-            mDayLabel.setTextColor(getResources().getColor(R.color.white));
+            mDayLayout.setBackground(mContext.getResources().getDrawable(R.drawable.blue_radius));
+            mDayLabel.setTextColor(mContext.getResources().getColor(R.color.white));
             GradientDrawable layoutBgShape = (GradientDrawable) mDayLayout.getBackground();
-            layoutBgShape.setColor(getResources().getColor(R.color.colorPrimary));
+            layoutBgShape.setColor(mContext.getResources().getColor(R.color.colorPrimary));
             mWeekLayout.setBackgroundResource(0);
             monthLayout.setBackgroundResource(0);
 
-            mWeekLabel.setTextColor(getResources().getColor(R.color.colorSecondary));
-            monthLabel.setTextColor(getResources().getColor(R.color.colorSecondary));
+            mWeekLabel.setTextColor(mContext.getResources().getColor(R.color.colorSecondary));
+            monthLabel.setTextColor(mContext.getResources().getColor(R.color.colorSecondary));
 
 
         } else if (layout == mWeekLayout) {
-            mWeekLayout.setBackground(getResources().getDrawable(R.drawable.blue_radius));
-            mWeekLabel.setTextColor(getResources().getColor(R.color.white));
+            mWeekLayout.setBackground(mContext.getResources().getDrawable(R.drawable.blue_radius));
+            mWeekLabel.setTextColor(mContext.getResources().getColor(R.color.white));
             GradientDrawable layoutBgShape = (GradientDrawable) mWeekLayout.getBackground();
-            layoutBgShape.setColor(getResources().getColor(R.color.colorPrimary));
+            layoutBgShape.setColor(mContext.getResources().getColor(R.color.colorPrimary));
             mDayLayout.setBackgroundResource(0);
             monthLayout.setBackgroundResource(0);
 
-            mDayLabel.setTextColor(getResources().getColor(R.color.colorSecondary));
-            monthLabel.setTextColor(getResources().getColor(R.color.colorSecondary));
+            mDayLabel.setTextColor(mContext.getResources().getColor(R.color.colorSecondary));
+            monthLabel.setTextColor(mContext.getResources().getColor(R.color.colorSecondary));
         } else if (layout == monthLayout) {
-            monthLayout.setBackground(getResources().getDrawable(R.drawable.blue_radius));
-            monthLabel.setTextColor(getResources().getColor(R.color.white));
+            monthLayout.setBackground(mContext.getResources().getDrawable(R.drawable.blue_radius));
+            monthLabel.setTextColor(mContext.getResources().getColor(R.color.white));
             GradientDrawable layoutBgShape = (GradientDrawable) monthLayout.getBackground();
-            layoutBgShape.setColor(getResources().getColor(R.color.colorPrimary));
+            layoutBgShape.setColor(mContext.getResources().getColor(R.color.colorPrimary));
             mWeekLayout.setBackgroundResource(0);
             mDayLayout.setBackgroundResource(0);
 
-            mDayLabel.setTextColor(getResources().getColor(R.color.colorSecondary));
-            mWeekLabel.setTextColor(getResources().getColor(R.color.colorSecondary));
+            mDayLabel.setTextColor(mContext.getResources().getColor(R.color.colorSecondary));
+            mWeekLabel.setTextColor(mContext.getResources().getColor(R.color.colorSecondary));
         }
         mSelectedLayout = layout;
 
@@ -643,7 +650,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                    Toast.makeText(mContext, getResources().getString(R.string.survey_dashboard_fragment_permission_enable_message_screenshot), Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.survey_dashboard_fragment_permission_enable_message_screenshot), Toast.LENGTH_LONG).show();
                 } else {
                     shareFunctionality(view);
                 }
@@ -709,7 +716,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
 
     private Spannable setColorSpannbleString(String str, int endVal) {
         Spannable wordtoSpan = new SpannableString(str);
-        wordtoSpan.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.colorPrimary)), 0, endVal, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        wordtoSpan.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.colorPrimary)), 0, endVal, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return wordtoSpan;
 
     }
@@ -768,7 +775,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         if (dashboardData != null && dashboardData.getDashboard().getStatistics().size() > 0) {
             setDay();
             for (int i = 0; i < dashboardData.getDashboard().getStatistics().size(); i++) {
-                RelativeLayout activitiesLayout = (RelativeLayout) view.inflate(getActivity(), R.layout.content_survey_dashboard_statistics, null);
+                RelativeLayout activitiesLayout = (RelativeLayout) view.inflate(mContext, R.layout.content_survey_dashboard_statistics, null);
                 addViewStatisticsInitializeXMLId(activitiesLayout);
                 addViewStatisticsSetFont();
                 addViewStatisticsSetText(dashboardData.getDashboard().getStatistics().get(i), activitiesLayout);
@@ -777,11 +784,11 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         } else {
             setWeekUnSelected();
             drawableImageColorChange();
-            mChangeDateLabel.setText(getResources().getString(R.string.date_range));
+            mChangeDateLabel.setText(mContext.getResources().getString(R.string.date_range));
             for (int i = 0; i < 3; i++) {
                 RelativeLayout activitiesLayout = (RelativeLayout) view.inflate(getActivity(), R.layout.content_survey_dashboard_statistics, null);
                 RelativeLayout rel = (RelativeLayout) activitiesLayout.findViewById(R.id.mRectBoxLayout);
-                rel.setBackground(getResources().getDrawable(R.color.colorSecondaryBg));
+                rel.setBackground(mContext.getResources().getDrawable(R.color.colorSecondaryBg));
                 mTotalStaticsLayout.addView(activitiesLayout);
             }
             disableHorizontalView(middleView);
@@ -798,14 +805,14 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
 
     private void setWeekUnSelected() {
         try {
-            mWeekLayout.setBackground(getResources().getDrawable(R.drawable.blue_radius));
-            mWeekLabel.setTextColor(getResources().getColor(R.color.colorSecondary));
+            mWeekLayout.setBackground(mContext.getResources().getDrawable(R.drawable.blue_radius));
+            mWeekLabel.setTextColor(mContext.getResources().getColor(R.color.colorSecondary));
             GradientDrawable layoutBgShape = (GradientDrawable) mWeekLayout.getBackground();
-            layoutBgShape.setColor(getResources().getColor(R.color.colorSecondaryBg));
+            layoutBgShape.setColor(mContext.getResources().getColor(R.color.colorSecondaryBg));
             mDayLayout.setBackgroundResource(0);
             monthLayout.setBackgroundResource(0);
-            mDayLabel.setTextColor(getResources().getColor(R.color.colorSecondary));
-            monthLabel.setTextColor(getResources().getColor(R.color.colorSecondary));
+            mDayLabel.setTextColor(mContext.getResources().getColor(R.color.colorSecondary));
+            monthLabel.setTextColor(mContext.getResources().getColor(R.color.colorSecondary));
         } catch (Resources.NotFoundException e) {
             e.printStackTrace();
         }
@@ -815,11 +822,11 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         try {
             Resources res = getResources();
             final Drawable drawableRight = res.getDrawable(R.drawable.arrow2_right);
-            drawableRight.setColorFilter(getResources().getColor(R.color.colorSecondary), PorterDuff.Mode.SRC_ATOP);
+            drawableRight.setColorFilter(mContext.getResources().getColor(R.color.colorSecondary), PorterDuff.Mode.SRC_ATOP);
             mRightArrow.setBackgroundDrawable(drawableRight);
 
             final Drawable drawableLeft = res.getDrawable(R.drawable.arrow2_left);
-            drawableLeft.setColorFilter(getResources().getColor(R.color.colorSecondary), PorterDuff.Mode.SRC_ATOP);
+            drawableLeft.setColorFilter(mContext.getResources().getColor(R.color.colorSecondary), PorterDuff.Mode.SRC_ATOP);
             mPreviousArrow.setBackgroundDrawable(drawableLeft);
 
         } catch (Exception e) {
@@ -849,11 +856,11 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
             } else {
                 setWeekUnSelected();
                 drawableImageColorChange();
-                mChangeDateLabel.setText(getResources().getString(R.string.date_range));
+                mChangeDateLabel.setText(mContext.getResources().getString(R.string.date_range));
                 for (int i = 0; i < 3; i++) {
                     RelativeLayout activitiesLayout = (RelativeLayout) view.inflate(getActivity(), R.layout.content_survey_dashboard_statistics, null);
                     RelativeLayout rel = (RelativeLayout) activitiesLayout.findViewById(R.id.mRectBoxLayout);
-                    rel.setBackground(getResources().getDrawable(R.color.colorSecondaryBg));
+                    rel.setBackground(mContext.getResources().getDrawable(R.color.colorSecondaryBg));
                     mTotalStaticsLayout.addView(activitiesLayout);
                 }
                 disableHorizontalView(middleView);
@@ -886,31 +893,31 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         SimpleDateFormat simpleDateFormat = AppController.getDateFormat();
         switch (statistics.getStatType()) {
             case "Activity":
-                mStatsIcon.setBackground(getResources().getDrawable(R.drawable.stat_icn_activity));
+                mStatsIcon.setBackground(mContext.getResources().getDrawable(R.drawable.stat_icn_activity));
                 break;
             case "Sleep":
-                mStatsIcon.setBackground(getResources().getDrawable(R.drawable.stat_icn_sleep));
+                mStatsIcon.setBackground(mContext.getResources().getDrawable(R.drawable.stat_icn_sleep));
                 break;
             case "Weight":
-                mStatsIcon.setBackground(getResources().getDrawable(R.drawable.stat_icn_weight));
+                mStatsIcon.setBackground(mContext.getResources().getDrawable(R.drawable.stat_icn_weight));
                 break;
             case "Heart Rate":
-                mStatsIcon.setBackground(getResources().getDrawable(R.drawable.stat_icn_heart_rate));
+                mStatsIcon.setBackground(mContext.getResources().getDrawable(R.drawable.stat_icn_heart_rate));
                 break;
             case "Nutrition":
-                mStatsIcon.setBackground(getResources().getDrawable(R.drawable.stat_icn_nutrition));
+                mStatsIcon.setBackground(mContext.getResources().getDrawable(R.drawable.stat_icn_nutrition));
                 break;
             case "Blood Glucose":
-                mStatsIcon.setBackground(getResources().getDrawable(R.drawable.stat_icn_glucose));
+                mStatsIcon.setBackground(mContext.getResources().getDrawable(R.drawable.stat_icn_glucose));
                 break;
             case "Active Task":
-                mStatsIcon.setBackground(getResources().getDrawable(R.drawable.stat_icn_active_task));
+                mStatsIcon.setBackground(mContext.getResources().getDrawable(R.drawable.stat_icn_active_task));
                 break;
             case "Baby Kicks":
-                mStatsIcon.setBackground(getResources().getDrawable(R.drawable.stat_icn_baby_kicks));
+                mStatsIcon.setBackground(mContext.getResources().getDrawable(R.drawable.stat_icn_baby_kicks));
                 break;
             case "Other":
-                mStatsIcon.setBackground(getResources().getDrawable(R.drawable.stat_icn_other));
+                mStatsIcon.setBackground(mContext.getResources().getDrawable(R.drawable.stat_icn_other));
                 break;
         }
 
@@ -1004,7 +1011,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
         AppController.getHelperProgressDialog().dismissDialog();
         if (responseCode == DASHBOARD_INFO) {
             if (statusCode.equalsIgnoreCase("401")) {
-                Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, mContext.getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
                 AppController.getHelperSessionExpired(mContext, errormsg);
             } else {
                 mScrollView.setVisibility(View.VISIBLE);
@@ -1012,7 +1019,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                 if (dashboardData != null) {
                     new ProcessData().execute();
                 } else {
-                    Toast.makeText(mContext, errormsg, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.no_data_found), Toast.LENGTH_SHORT).show();
                 }
             }
         }
@@ -1209,7 +1216,7 @@ public class SurveyDashboardFragment extends Fragment implements ApiCall.OnAsync
                 } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK && !response.equalsIgnoreCase("")) {
                     response = response;
                 } else {
-                    response = getString(R.string.unknown_error);
+                    response = mContext.getResources().getString(R.string.unknown_error);
                 }
             }
             return response;

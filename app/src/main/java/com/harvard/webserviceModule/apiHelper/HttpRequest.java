@@ -6,6 +6,9 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.harvard.AppConfig;
+import com.harvard.FDAApplication;
+import com.harvard.R;
+import com.harvard.utils.AppController;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -30,18 +33,28 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.SocketTimeoutException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.zip.GZIPInputStream;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import static io.fabric.sdk.android.services.network.UrlUtils.UTF8;
 
 public class HttpRequest {
 
@@ -55,6 +68,7 @@ public class HttpRequest {
      * @return Responsemodel
      */
     public static Responsemodel getRequest(String url, HashMap<String, String> mHeadersData, String serverType) {
+
         StringBuffer response = new StringBuffer();
         Responsemodel responseModel = new Responsemodel();
         String responsee;
@@ -69,9 +83,13 @@ public class HttpRequest {
             if (serverType.equalsIgnoreCase("WCP")) {
                 String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
                 urlConnection.setRequestProperty("Authorization", "Basic " + encoding);
+                urlConnection.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+            }else if(serverType.equalsIgnoreCase("Response")){
+                urlConnection.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }
             urlConnection.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
             urlConnection.setRequestProperty(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
+            //urlConnection.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
 
             if (mHeadersData != null) {
                 Set mapSet = (Set) mHeadersData.entrySet();
@@ -82,6 +100,7 @@ public class HttpRequest {
                     String value = (String) mapEntry.getValue();
                     urlConnection.setRequestProperty(keyValue, value);
                 }
+                Log.e("Krishna", "HttpRequest getRequest: "+ url + " server type " + serverType + " Header value in urlConnection " + urlConnection.getRequestProperties().toString() );
             }
             try {
                 // Will throw IOException if server responds with 401.
@@ -107,7 +126,8 @@ public class HttpRequest {
                 urlConnection.disconnect();
                 responsee = response.toString();
                 responseData = response.toString();
-            } else {
+            }
+            else {
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     String inputLine;
@@ -128,19 +148,36 @@ public class HttpRequest {
                 }
             }
             if (urlConnection.getHeaderField("StatusMessage") != null) {
-                responseModel.setServermsg(urlConnection.getHeaderField("StatusMessage"));
-            } else if (responseCode != HttpURLConnection.HTTP_OK && urlConnection.getHeaderField("StatusMessage") == null) {
+                if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("english")){
+                    responseModel.setServermsg(base64Decode(urlConnection.getHeaderField("StatusMessage")));
+                }else {
+                    responseModel.setServermsg(urlConnection.getHeaderField("StatusMessage"));
+                }
+                String loc = urlConnection.getHeaderField("StatusMessage");
+                byte [] locbytes = new byte[loc.length()];
+                for (int index = 0; index < locbytes.length; index++)
+                {
+                    locbytes[index] = (byte) loc.charAt(index);
+
+                }
+                //URLDecoder.decode(urlConnection.getHeaderField("StatusMessage"),"UTF-8");
+                Log.e("krishna", "getRequest: urlConnection  URLDecoder decode"+URLDecoder.decode(URLEncoder.encode(urlConnection.getHeaderField("StatusMessage"),"UTF-8"),"UTF-8"));
+                Log.e("krishna", "getRequest: urlConnection  URLDecoder encode"+ URLEncoder.encode(urlConnection.getHeaderField("StatusMessage"),"UTF-8"));
+            }
+            else if (responseCode != HttpURLConnection.HTTP_OK && urlConnection.getHeaderField("StatusMessage") == null) {
                 responseModel.setServermsg("server error");
-            } else {
+            }
+            else {
                 responseModel.setServermsg("success");
             }
-        } catch (ConnectException e) {
-            responseModel.setServermsg("No internet connection/cannot connect to server");
+        }
+        catch (ConnectException e) {
+            responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
             responseData = "timeout";
             responsee = "timeout";
             e.printStackTrace();
         } catch (Exception e) {
-            responseModel.setServermsg("No internet connection/cannot connect to server");
+            responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
             responsee = "";
             responseData = "";
             e.printStackTrace();
@@ -149,7 +186,7 @@ public class HttpRequest {
         responseModel.setResponseCode("" + responseCode);
         responseModel.setResponse(responsee);
         responseModel.setResponseData(responseData);
-
+        Log.e("Krishna", "HttpRequest getRequest: "+ url + " server type " + serverType + " response value " + responseModel.getResponseData() );
         return responseModel;
     }
 
@@ -162,6 +199,7 @@ public class HttpRequest {
      * @return Responsemodel
      */
     public static Responsemodel postRequestsWithHashmap(String url, HashMap<String, String> params, HashMap<String, String> mHeadersData, String serverType) {
+
         Responsemodel responseModel = new Responsemodel();
         String response = "";
         String responseData = "";
@@ -174,17 +212,22 @@ public class HttpRequest {
             conn.setConnectTimeout(180000);
             conn.setRequestMethod("POST");
             conn.setDoInput(true);
+
             if (params.size() > 0) {
                 conn.setRequestProperty("Content-Type", "application/json");
             }
             if (serverType.equalsIgnoreCase("WCP")) {
                 String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
                 conn.setRequestProperty("Authorization", "Basic " + encoding);
+                conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+            }else if(serverType.equalsIgnoreCase("Response")){
+                conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }
             conn.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
             conn.setRequestProperty(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
 
             if (mHeadersData != null) {
+
                 Set mapSet = (Set) mHeadersData.entrySet();
                 Iterator mapIterator = mapSet.iterator();
                 while (mapIterator.hasNext()) {
@@ -198,6 +241,7 @@ public class HttpRequest {
             conn.setDoOutput(true);
 
             OutputStream os = conn.getOutputStream();
+
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
             if (params.size() > 0) {
                 writer.write(getPostDataString(params));
@@ -210,7 +254,8 @@ public class HttpRequest {
             try {
                 // Will throw IOException if server responds with 401.
                 responseCode = conn.getResponseCode();
-            } catch (IOException e) {
+            }
+            catch (IOException e) {
                 e.printStackTrace();
                 // Will return 401, because now connection has the correct internal state.
                 responseCode = conn.getResponseCode();
@@ -219,7 +264,7 @@ public class HttpRequest {
                 String line;
                 BufferedReader br;
                 try {
-                    br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    br = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
                 } catch (IOException e) {
                     br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
                     e.printStackTrace();
@@ -229,7 +274,8 @@ public class HttpRequest {
                     response += line;
                     responseData += line;
                 }
-            } else {
+            }
+            else {
                 if (responseCode == HttpsURLConnection.HTTP_OK) {
                     String line;
                     BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -245,20 +291,27 @@ public class HttpRequest {
                     response = "http_not_ok";
                 }
             }
-            if (conn.getHeaderField("StatusMessage") != null) {
-                responseModel.setServermsg(conn.getHeaderField("StatusMessage"));
-            } else if (responseCode != HttpURLConnection.HTTP_OK && conn.getHeaderField("StatusMessage") == null) {
+
+            if (conn.getHeaderField("StatusMessage")!= null) {
+                if(!Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("english")) {
+                    responseModel.setServermsg(base64Decode(conn.getHeaderField("StatusMessage")));
+                }else{
+                    responseModel.setServermsg(conn.getHeaderField("StatusMessage"));
+                }
+            }
+            else if (responseCode != HttpURLConnection.HTTP_OK && conn.getHeaderField("StatusMessage") == null) {
                 responseModel.setServermsg("server error");
             } else {
                 responseModel.setServermsg("success");
             }
-        } catch (SocketTimeoutException e) {
-            responseModel.setServermsg("No internet connection/cannot connect to server");
+        }
+        catch (SocketTimeoutException e) {
+            responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
             responseData = "";
             response = "timeout";
             e.printStackTrace();
         } catch (Exception e) {
-            responseModel.setServermsg("No internet connection/cannot connect to server");
+            responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
             responseData = "";
             response = "";
             e.printStackTrace();
@@ -278,6 +331,7 @@ public class HttpRequest {
      * @return Responsemodel
      */
     static Responsemodel makePostRequestWithJson(String urlpath, JSONObject jsonObject, HashMap<String, String> mHeadersData, String serverType) {
+
         Responsemodel responseModel = new Responsemodel();
         String response = "";
         String responseData = "";
@@ -294,6 +348,9 @@ public class HttpRequest {
             if (serverType.equalsIgnoreCase("WCP")) {
                 String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
                 conn.setRequestProperty("Authorization", "Basic " + encoding);
+                conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+            }else if(serverType.equalsIgnoreCase("Response")){
+                conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }
             conn.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
             conn.setRequestProperty(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
@@ -357,19 +414,24 @@ public class HttpRequest {
                 }
             }
             if (conn.getHeaderField("StatusMessage") != null) {
-                responseModel.setServermsg(conn.getHeaderField("StatusMessage"));
+                if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("english")){
+                    responseModel.setServermsg(base64Decode(conn.getHeaderField("StatusMessage")));
+                }else {
+                    responseModel.setServermsg(conn.getHeaderField("StatusMessage"));
+                }
+
             } else if (responseCode != HttpURLConnection.HTTP_OK && conn.getHeaderField("StatusMessage") == null) {
                 responseModel.setServermsg("server error");
             } else {
                 responseModel.setServermsg("success");
             }
         } catch (SocketTimeoutException e) {
-            responseModel.setServermsg("No internet connection/cannot connect to server");
+            responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
             response = "timeout";
             responseData = "";
             e.printStackTrace();
         } catch (Exception e) {
-            responseModel.setServermsg("No internet connection/cannot connect to server");
+            responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
             response = "";
             responseData = "";
             e.printStackTrace();
@@ -390,6 +452,7 @@ public class HttpRequest {
      * @return Responsemodel
      */
     static Responsemodel makePostRequestWithJsonRefreshToken(String urlpath, JSONObject jsonObject, HashMap<String, String> mHeadersData, String serverType) {
+        Log.e("Krishna", "HttpRequest makePostRequestWithJsonRefreshToken: "+ urlpath + "server type " + serverType  + " Header value " + mHeadersData.toString()  );
         Responsemodel responseModel = new Responsemodel();
         String response = "";
         String responseData = "";
@@ -406,6 +469,10 @@ public class HttpRequest {
             if (serverType.equalsIgnoreCase("WCP")) {
                 String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
                 conn.setRequestProperty("Authorization", "Basic " + encoding);
+                conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+            }
+            else if(serverType.equalsIgnoreCase("Response")){
+                conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }
             conn.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
             conn.setRequestProperty(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
@@ -469,19 +536,24 @@ public class HttpRequest {
                 }
             }
             if (conn.getHeaderField("StatusMessage") != null) {
-                responseModel.setServermsg(conn.getHeaderField("StatusMessage"));
+                if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("english")){
+                    responseModel.setServermsg(base64Decode(conn.getHeaderField("StatusMessage")));
+                }else {
+                    responseModel.setServermsg(conn.getHeaderField("StatusMessage"));
+                }
+
             } else if (responseCode != HttpURLConnection.HTTP_OK && conn.getHeaderField("StatusMessage") == null) {
                 responseModel.setServermsg("server error");
             } else {
                 responseModel.setServermsg("success");
             }
         } catch (SocketTimeoutException e) {
-            responseModel.setServermsg("No internet connection/cannot connect to server");
+            responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
             response = "timeout";
             responseData = "";
             e.printStackTrace();
         } catch (Exception e) {
-            responseModel.setServermsg("No internet connection/cannot connect to server");
+            responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
             response = "";
             responseData = "";
             e.printStackTrace();
@@ -500,6 +572,7 @@ public class HttpRequest {
      * @return String
      */
     private static String getPostDataString(HashMap<String, String> params) {
+        Log.e("Krishna", "HttpRequest getPostDataString: "+ params.toString());
         return new Gson().toJson(params);
     }
 
@@ -514,6 +587,7 @@ public class HttpRequest {
      * @return web-service response as String
      */
     static Responsemodel postRequestMultipart(String urlPath, HashMap<String, String> headers, HashMap<String, String> formData, HashMap<String, File> files, String serverType) {
+        Log.e("Krishna", "HttpRequest postRequestMultipart: "+ urlPath + "server type " + serverType + " Header value " + headers.toString()   );
         Responsemodel responseModel = new Responsemodel();
         HttpURLConnection httpConn;
         String response = "";
@@ -533,6 +607,9 @@ public class HttpRequest {
             if (serverType.equalsIgnoreCase("WCP")) {
                 String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
                 httpConn.setRequestProperty("Authorization", "Basic " + encoding);
+                httpConn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+            }else if(serverType.equalsIgnoreCase("Response")){
+                httpConn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }
             httpConn.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
             httpConn.setRequestProperty(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
@@ -616,19 +693,23 @@ public class HttpRequest {
                 }
             }
             if (httpConn.getHeaderField("StatusMessage") != null) {
-                responseModel.setServermsg(httpConn.getHeaderField("StatusMessage"));
+                if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("english")){
+                    responseModel.setServermsg(base64Decode(httpConn.getHeaderField("StatusMessage")));
+                }else {
+                    responseModel.setServermsg(httpConn.getHeaderField("StatusMessage"));
+                }
             } else if (responseCode != HttpURLConnection.HTTP_OK && httpConn.getHeaderField("StatusMessage") == null) {
                 responseModel.setServermsg("server error");
             } else {
                 responseModel.setServermsg("success");
             }
         } catch (SocketTimeoutException e) {
-            responseModel.setServermsg("No internet connection/cannot connect to server");
+            responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
             response = "timeout";
             responseData = "";
             e.printStackTrace();
         } catch (Exception e) {
-            responseModel.setServermsg("No internet connection/cannot connect to server");
+            responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
             response = "";
             responseData = "";
             e.printStackTrace();
@@ -651,6 +732,7 @@ public class HttpRequest {
      */
 
     static Responsemodel deleteRequestsWithHashmap(String url, HashMap<String, String> params, HashMap<String, String> mHeadersData, String serverType) {
+        Log.e("Krishna", "HttpRequest deleteRequestsWithHashmap: "+ url + "server type " + serverType  );
         Responsemodel responseModel = new Responsemodel();
         String response = "";
         String responseData = "";
@@ -735,19 +817,24 @@ public class HttpRequest {
                     }
                 }
                 if (conn.getHeaderField("StatusMessage") != null) {
-                    responseModel.setServermsg(conn.getHeaderField("StatusMessage"));
+                    if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("english")){
+                        responseModel.setServermsg(base64Decode(conn.getHeaderField("StatusMessage")));
+                    }else {
+                        responseModel.setServermsg(conn.getHeaderField("StatusMessage"));
+                    }
+
                 } else {
                     responseModel.setServermsg("success");
                 }
 
             } catch (SocketTimeoutException e) {
                 responseData = "";
-                responseModel.setServermsg("No internet connection/cannot connect to server");
+                responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
                 response = "timeout";
                 e.printStackTrace();
             } catch (Exception e) {
                 responseData = "";
-                responseModel.setServermsg("No internet connection/cannot connect to server");
+                responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
                 response = "";
                 e.printStackTrace();
             }
@@ -849,6 +936,7 @@ public class HttpRequest {
     }
 
     static Responsemodel makeDeleteRequestWithJson(String urlpath, JSONObject jsonObject, HashMap<String, String> mHeadersData, String serverType) {
+        Log.e("Krishna", "HttpRequest makeDeleteRequestWithJson: "+ urlpath + "server type " + serverType  );
         Responsemodel responseModel = new Responsemodel();
         String response = "";
         String responseData = "";
@@ -866,6 +954,9 @@ public class HttpRequest {
                 if (serverType.equalsIgnoreCase("WCP")) {
                     String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
                     conn.setRequestProperty("Authorization", "Basic " + encoding);
+                    conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+                }else if(serverType.equalsIgnoreCase("Response")){
+                    conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
                 }
                 conn.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
                 conn.setRequestProperty(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
@@ -927,24 +1018,29 @@ public class HttpRequest {
                     }
                 }
                 if (conn.getHeaderField("StatusMessage") != null) {
-                    responseModel.setServermsg(conn.getHeaderField("StatusMessage"));
+                    if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("english")){
+                        responseModel.setServermsg(base64Decode(conn.getHeaderField("StatusMessage")));
+                    }else {
+                        responseModel.setServermsg(conn.getHeaderField("StatusMessage"));
+                    }
                 } else if (responseCode != HttpURLConnection.HTTP_OK && conn.getHeaderField("StatusMessage") == null) {
                     responseModel.setServermsg("server error");
                 } else {
                     responseModel.setServermsg("success");
                 }
             } catch (SocketTimeoutException e) {
-                responseModel.setServermsg("No internet connection/cannot connect to server");
+                responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
                 responseData = "";
                 response = "timeout";
                 e.printStackTrace();
             } catch (Exception e) {
-                responseModel.setServermsg("No internet connection/cannot connect to server");
+                responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
                 responseData = "";
                 response = "";
                 e.printStackTrace();
             }
-        } else {
+        }
+        else {
             try {
                 HttpParams my_httpParams = new BasicHttpParams();
                 HttpConnectionParams.setConnectionTimeout(my_httpParams, 180000);
@@ -961,6 +1057,9 @@ public class HttpRequest {
                         String value = (String) mapEntry.getValue();
                         httppost.addHeader(keyValue, value);
                     }
+                }
+                 if(serverType.equalsIgnoreCase("Response")){
+                    httppost.addHeader("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
                 }
                 httppost.addHeader("Content-Type", "application/json");
                 httppost.addHeader(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
@@ -1040,6 +1139,7 @@ public class HttpRequest {
     }
 
     static Responsemodel makeDeleteRequestWithJsonArray(String urlpath, JSONArray jsonArray, HashMap<String, String> mHeadersData, String serverType) {
+        Log.e("Krishna", "HttpRequest makeDeleteRequestWithJsonArray: "+ urlpath + "server type " + serverType  );
         Responsemodel responseModel = new Responsemodel();
         String response = "";
         String responseData = "";
@@ -1057,6 +1157,7 @@ public class HttpRequest {
                 if (serverType.equalsIgnoreCase("WCP")) {
                     String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
                     conn.setRequestProperty("Authorization", "Basic " + encoding);
+                    conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
                 }
                 conn.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
                 conn.setRequestProperty(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
@@ -1118,19 +1219,23 @@ public class HttpRequest {
                     }
                 }
                 if (conn.getHeaderField("StatusMessage") != null) {
-                    responseModel.setServermsg(conn.getHeaderField("StatusMessage"));
+                    if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("english")){
+                        responseModel.setServermsg(base64Decode(conn.getHeaderField("StatusMessage")));
+                    }else {
+                        responseModel.setServermsg(conn.getHeaderField("StatusMessage"));
+                    }
                 } else if (responseCode != HttpURLConnection.HTTP_OK && conn.getHeaderField("StatusMessage") == null) {
                     responseModel.setServermsg("server error");
                 } else {
                     responseModel.setServermsg("success");
                 }
             } catch (SocketTimeoutException e) {
-                responseModel.setServermsg("No internet connection/cannot connect to server");
+                responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
                 responseData = "";
                 response = "timeout";
                 e.printStackTrace();
             } catch (Exception e) {
-                responseModel.setServermsg("No internet connection/cannot connect to server");
+                responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
                 responseData = "";
                 response = "";
                 e.printStackTrace();
@@ -1247,6 +1352,20 @@ public class HttpRequest {
         public String getMethod() {
             return METHOD_NAME;
         }
+
+
+    }
+    public static String base64Decode(String message){
+        Log.e("Krishna", "HttpRequest base64Decode: "+ message );
+        String val="";
+        try {
+
+            val = new String(Base64.decode(message, Base64.DEFAULT),"UTF-8");
+            Log.e("Krishna", "base64Decode: "+val);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return val;
     }
 
 }

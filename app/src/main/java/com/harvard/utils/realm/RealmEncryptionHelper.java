@@ -7,6 +7,7 @@ import android.os.Build;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import android.util.Base64;
+import android.util.Log;
 
 import androidx.preference.PreferenceManager;
 
@@ -68,7 +69,7 @@ public class RealmEncryptionHelper {
         try {
             keyStore = KeyStore.getInstance(ANDROID_KEY_STORE);
             keyStore.load(null);
-
+            Log.e("krishna", "getEncryptKey: "+keyStore);
             if (!keyStore.containsAlias(mContext.getString(R.string.app_name))) {
                 // Create new key and save to KeyStore
                 KeyPairGenerator kpg = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_RSA, ANDROID_KEY_STORE);
@@ -81,7 +82,8 @@ public class RealmEncryptionHelper {
                             .build();
 
                     kpg.initialize(spec);
-                } else {
+                }
+                else {
                     // Generate a key pair for encryption
                     Calendar start = Calendar.getInstance();
                     Calendar end = Calendar.getInstance();

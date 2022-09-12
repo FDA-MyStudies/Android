@@ -46,6 +46,7 @@ public class URLs {
     public static String NOTIFICATIONS = "notifications";
     public static String DASHBOARD_INFO = "studyDashboard";
     public static String GET_CONSENT_DOC = "consentDocument";
+    public static String UDATE_BUILDS_TO_SB = "updateVersionInfo";
     /**
      * Response server
      */

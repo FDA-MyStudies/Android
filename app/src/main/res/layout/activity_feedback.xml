@@ -125,7 +125,7 @@
                 android:layout_toRightOf="@+id/subjecttitle"
                 android:background="@null"
                 android:gravity="right"
-                android:hint="@string/enter_subject"
+                android:hint="@string/feedback_enter_subject"
                 android:singleLine="true"
                 android:text=""
                 android:textColor="@color/colorPrimaryBlack"

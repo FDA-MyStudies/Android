@@ -68,8 +68,8 @@ public class ActiveTaskService extends Service implements ApiCall.OnAsyncRequest
                 Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
                 Notification notification = new NotificationCompat.Builder(this)
                         .setContentTitle(getResources().getString(R.string.prject_name))
-                        .setTicker("Sync adapter")
-                        .setContentText("Syncing offline data")
+                        .setTicker(getResources().getString(R.string.sync_adapter_dialog_title))
+                        .setContentText(getResources().getString(R.string.sync_adapter_dialog))
                         .setChannelId(FDAApplication.NOTIFICATION_CHANNEL_ID_SERVICE)
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setLargeIcon(

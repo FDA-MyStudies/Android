@@ -1,5 +1,7 @@
 package com.harvard.studyAppModule.consent;
 
+import android.util.Log;
+
 import org.researchstack.backbone.result.StepResult;
 import org.researchstack.backbone.result.TaskResult;
 import org.researchstack.backbone.step.Step;
@@ -10,6 +12,13 @@ import java.util.List;
 public class ConsentBuilderTask extends OrderedTask {
     public ConsentBuilderTask(String identifier, List<Step> steps) {
         super(identifier, steps);
+        for(int i=0;i< steps.size();i++){
+            Log.e("Krishna", "ConsentBuilderTask:steps in spanish: getIdentifier "+steps.get(i).getIdentifier());
+            Log.e("Krishna", "ConsentBuilderTask:steps in spanish: getText "+steps.get(i).getText());
+            Log.e("Krishna", "ConsentBuilderTask:steps in spanish: getTitle "+steps.get(i).getTitle());
+            Log.e("Krishna", "ConsentBuilderTask:steps in spanish: getStepTitle "+steps.get(i).getStepTitle());
+            Log.e("Krishna", "ConsentBuilderTask:steps in spanish: getStepLayoutClass "+steps.get(i).getStepLayoutClass());
+        }
     }
 
     public static ConsentBuilderTask create(String identifier, List<Step> steps) {

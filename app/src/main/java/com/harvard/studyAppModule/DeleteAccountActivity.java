@@ -374,7 +374,8 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
             } else {
                 Toast.makeText(DeleteAccountActivity.this, R.string.delete_account_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
-        } else if (responseCode == STUDY_INFO) {
+        }
+        else if (responseCode == STUDY_INFO) {
             if (response != null) {
                 mStudyHome = (StudyHome) response;
                 // adding withdrawal type
@@ -432,10 +433,10 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
     public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (statusCode.equalsIgnoreCase("401")) {
-            Toast.makeText(DeleteAccountActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(DeleteAccountActivity.this,getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(DeleteAccountActivity.this, errormsg);
         } else {
-            Toast.makeText(DeleteAccountActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(DeleteAccountActivity.this, getResources().getString(R.string.unable_to_withdraw_from_study), Toast.LENGTH_SHORT).show();
         }
     }
 

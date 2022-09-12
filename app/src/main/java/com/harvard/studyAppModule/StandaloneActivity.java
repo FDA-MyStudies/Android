@@ -362,7 +362,7 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
     public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
         AppController.getHelperProgressDialog().dismissDialog();
         if (statusCode.equalsIgnoreCase("401")) {
-            Toast.makeText(StandaloneActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+            Toast.makeText(StandaloneActivity.this, getResources().getString(R.string.session_expired), Toast.LENGTH_SHORT).show();
             AppController.getHelperSessionExpired(StandaloneActivity.this, errormsg);
         } else if (responseCode == STUDY_UPDATES || responseCode == GET_CONSENT_DOC || responseCode == CONSENTPDF) {
             Intent intent = new Intent(StandaloneActivity.this, SurveyActivity.class);
@@ -400,7 +400,7 @@ public class StandaloneActivity extends AppCompatActivity implements ApiCall.OnA
                     finish();
                 }
             } else {
-                Toast.makeText(StandaloneActivity.this, errormsg, Toast.LENGTH_LONG).show();
+                Toast.makeText(StandaloneActivity.this, getResources().getString(R.string.unknown_error), Toast.LENGTH_LONG).show();
                 finish();
             }
 

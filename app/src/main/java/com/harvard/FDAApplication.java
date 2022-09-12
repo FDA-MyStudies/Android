@@ -3,11 +3,16 @@ package com.harvard;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Build;
 import androidx.multidex.MultiDex;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.harvard.notificationModule.NotificationModuleSubscriber;
@@ -18,8 +23,11 @@ import com.harvard.userModule.UserModuleSubscriber;
 import com.harvard.userModule.webserviceModel.UserProfileData;
 import com.harvard.utils.AppController;
 import com.harvard.utils.AppVisibilityDetector;
+import com.harvard.utils.ConnectivityReceiver;
+import com.harvard.utils.MyContextWrapper;
 import com.harvard.utils.realm.RealmEncryptionHelper;
 import com.harvard.webserviceModule.WebserviceSubscriber;
+import com.harvard.webserviceModule.apiHelper.ConnectionDetector;
 
 import org.researchstack.backbone.StorageAccess;
 import org.researchstack.backbone.storage.database.AppDatabase;
@@ -31,6 +39,7 @@ import org.researchstack.backbone.storage.file.SimpleFileAccess;
 import org.researchstack.backbone.storage.file.UnencryptedProvider;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
@@ -44,7 +53,7 @@ import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 public class FDAApplication extends Application {
     private static FDAApplication sInstance;
     private FDAEventBusRegistry mRegistry;
-
+    private ConnectionDetector connectionDetector;
     public static final String NOTIFICATION_CHANNEL_ID_SERVICE = AppConfig.PackageName + ".service";
     public static final String NOTIFICATION_CHANNEL_ID_INFO = AppConfig.PackageName + ".general";
 
@@ -59,19 +68,22 @@ public class FDAApplication extends Application {
         Fabric.with(this, new Crashlytics());
         dbInitialize();
         initChannel();
-
+            connectionDetector = new ConnectionDetector(this);
 //        researchstackinit();
         startEventProcessing();
-
 
         AppVisibilityDetector.init(FDAApplication.this, new AppVisibilityDetector.AppVisibilityCallback() {
             @Override
             public void onAppGotoForeground() {
-                if (AppController.getHelperSharedPreference().readPreference(getApplicationContext(), getResources().getString(R.string.usepasscode), "").equalsIgnoreCase("yes")) {
+
+                if (AppController.getHelperSharedPreference().readPreference(getApplicationContext(), getResources().getString(R.string.usepasscode), "").equalsIgnoreCase("yes") ) {
                     AppController.getHelperSharedPreference().writePreference(getApplicationContext(), "passcodeAnswered", "no");
-                    Intent intent = new Intent(getApplicationContext(), PasscodeSetupActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_SINGLE_TOP);
-                    startActivity(intent);
+                    if(AppController.getHelperSharedPreference().readLocaleBooleanPreference(getApplicationContext(),AppController.isUpdateCancelledByUser,false).equals(true))
+                    {
+                        Intent intent = new Intent(getApplicationContext(), PasscodeSetupActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_SINGLE_TOP);
+                        startActivity(intent);
+                    }
                 }
                 try {
                     NotificationModuleSubscriber notificationModuleSubscriber = new NotificationModuleSubscriber(null, null);
@@ -79,6 +91,7 @@ public class FDAApplication extends Application {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+
             }
 
             @Override
@@ -86,6 +99,7 @@ public class FDAApplication extends Application {
                 //app is from foreground to background
 
                 try {
+
                     Realm mRealm = AppController.getRealmobj(getBaseContext());
                     DBServiceSubscriber dbServiceSubscriber = new DBServiceSubscriber();
                     UserProfileData mUserProfileData = dbServiceSubscriber.getUserProfileData(mRealm);
@@ -108,12 +122,21 @@ public class FDAApplication extends Application {
         });
     }
 
+
+    public static void triggerRebirth(Context context) {
+        PackageManager packageManager = context.getPackageManager();
+        Intent intent = packageManager.getLaunchIntentForPackage(context.getPackageName());
+        ComponentName componentName = intent.getComponent();
+        Intent mainIntent = Intent.makeRestartActivityTask(componentName);
+        context.startActivity(mainIntent);
+        Runtime.getRuntime().exit(0);
+    }
     private void dbInitialize() {
         Realm.init(this);
         RealmEncryptionHelper realmEncryptionHelper = RealmEncryptionHelper.initHelper(this, getString(R.string.app_name));
         byte[] key = realmEncryptionHelper.getEncryptKey();
         String s = bytesToHex(key);
-        Log.e("rohith", "bytesToHex = " + s);
+
 //        Stetho.initialize(
 //                Stetho.newInitializerBuilder(this)
 //                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
@@ -176,11 +199,17 @@ public class FDAApplication extends Application {
         MultiDex.install(this);
     }
 
+
+
+
     public void initChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             nm.createNotificationChannel(new NotificationChannel(NOTIFICATION_CHANNEL_ID_SERVICE, "App Service", NotificationManager.IMPORTANCE_DEFAULT));
             nm.createNotificationChannel(new NotificationChannel(NOTIFICATION_CHANNEL_ID_INFO, "General", NotificationManager.IMPORTANCE_HIGH));
         }
+    }
+    public void setConnectivityListener(ConnectivityReceiver.ConnectivityReceiverListener listener) {
+        ConnectivityReceiver.connectivityReceiverListener = listener;
     }
 }

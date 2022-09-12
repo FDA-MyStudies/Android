@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import com.harvard.studyAppModule.studyModel.Resource;
 import com.harvard.utils.AppController;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import io.realm.RealmList;
 
@@ -110,7 +113,12 @@ public class ResourcesListAdapter extends RecyclerView.Adapter<ResourcesListAdap
 
                         String message = ((SurveyResourcesFragment) fragment).getLeaveStudyMessage();
                         AlertDialog.Builder builder = new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle);
-                        builder.setTitle(mContext.getResources().getString(R.string.resource_list_adapter_leave_study) + "?");
+                         if(Locale.getDefault().getDisplayLanguage().toUpperCase().equalsIgnoreCase("español")){
+                            builder.setTitle("¿"+mContext.getResources().getString(R.string.resource_list_adapter_leave_study) + "?");
+                        }else {
+                              builder.setTitle(mContext.getResources().getString(R.string.resource_list_adapter_leave_study) + "?");
+                             }
+
                         builder.setMessage(message);
                         builder.setPositiveButton(mContext.getResources().getString(R.string.proceed_caps), new DialogInterface.OnClickListener() {
                             @Override
