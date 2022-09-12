@@ -1,0 +1,10 @@
+diff a/app/src/main/java/com/harvard/studyAppModule/DeleteAccountActivity.java b/app/src/main/java/com/harvard/studyAppModule/DeleteAccountActivity.java	(rejected hunks)
+@@ -372,7 +372,7 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
+                 setResult(RESULT_OK, intent);
+                 finish();
+             } else {
+-                Toast.makeText(DeleteAccountActivity.this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
++                Toast.makeText(DeleteAccountActivity.this, R.string.delete_account_unable_to_parse, Toast.LENGTH_SHORT).show();
+             }
+         }
+         else if (responseCode == STUDY_INFO) {

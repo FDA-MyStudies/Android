@@ -173,7 +173,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
     }
 
     private void setTextForView() {
-        mTitle.setText(getResources().getString(R.string.resources));
+        mTitle.setText(getResources().getString(R.string.survey_resources_fragment_resources));
     }
 
     private void setFont() {
@@ -226,9 +226,9 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
             LoginData loginData = (LoginData) response;
             if (loginData != null) {
                 AppController.getHelperSessionExpired(mContext, "");
-                Toast.makeText(mContext, R.string.account_deletion, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.survey_resources_fragment_account_deletion, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.survey_resources_fragment_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == STUDY_INFO) {
             if (response != null) {
@@ -624,7 +624,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                     AppController.getHelperSessionExpired(mContext, "session expired");
                 } else if (response.equalsIgnoreCase("timeout")) {
                     metadataProcess();
-                    Toast.makeText(mContext, mContext.getResources().getString(R.string.connection_timeout), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.survey_resources_fragment_connection_timeout), Toast.LENGTH_SHORT).show();
                 } else if (Integer.parseInt(responseCode) == 500) {
                     try {
                         JSONObject jsonObject = new JSONObject(String.valueOf(mResponseModel.getResponseData()));
@@ -725,7 +725,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
                     callLabkeyService(this.position + 1);
                 } else {
                     metadataProcess();
-                    Toast.makeText(mContext, mContext.getResources().getString(R.string.unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.survey_resources_fragment_unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
                 }
             } else {
                 metadataProcess();
@@ -754,9 +754,9 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
         mResourceArrayList.clear();
         labelArray.add(getResources().getString(R.string.about_study));
         if (AppConfig.isStudyConsentRequired) {
-            labelArray.add(getResources().getString(R.string.consent_pdf));
+            labelArray.add(getResources().getString(R.string.survey_resources_fragment_consent_pdf));
         }
-        labelArray.add(getResources().getString(R.string.leave_study));
+        labelArray.add(getResources().getString(R.string.survey_resources_fragment_leave_study));
 
         for (int i = 0; i < labelArray.size(); i++) {
             Resource r = new Resource();

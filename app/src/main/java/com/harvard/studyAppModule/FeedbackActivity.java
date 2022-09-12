@@ -77,7 +77,7 @@ public class FeedbackActivity extends AppCompatActivity implements ApiCall.OnAsy
             @Override
             public void onClick(View v) {
                 if (mSubject.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.subject_empty), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.feedback_activity_subject_empty), Toast.LENGTH_SHORT).show();
                 } else if (mFeedbackEdittext.getText().toString().equalsIgnoreCase("")) {
                     Toast.makeText(FeedbackActivity.this, getResources().getString(R.string.feedback_empty), Toast.LENGTH_SHORT).show();
                 } else {

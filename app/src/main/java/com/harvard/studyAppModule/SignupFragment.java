@@ -119,9 +119,9 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
 
     // set link for privacy and policy
     private void customTextView(AppCompatTextView view) {
-        SpannableStringBuilder spanTxt = new SpannableStringBuilder(mContext.getResources().getString(R.string.i_agree) + " ");
+        SpannableStringBuilder spanTxt = new SpannableStringBuilder(mContext.getResources().getString(R.string.sign_up_fragment_i_agree) + " ");
         spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.colorPrimaryBlack)), 0, spanTxt.length(), 0);
-        spanTxt.append(mContext.getResources().getString(R.string.terms2));
+        spanTxt.append(mContext.getResources().getString(R.string.sign_up_fragment_terms2));
         spanTxt.setSpan(new ClickableSpan() {
             @Override
             public void updateDrawState(TextPaint ds) {
@@ -138,13 +138,13 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
                     startActivity(termsIntent);
                 }
             }
-        }, spanTxt.length() - mContext.getResources().getString(R.string.terms2).length(), spanTxt.length(), 0);
+        }, spanTxt.length() - mContext.getResources().getString(R.string.sign_up_fragment_terms2).length(), spanTxt.length(), 0);
 
         spanTxt.append(" " + mContext.getResources().getString(R.string.and));
         spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.colorPrimaryBlack)), 20, spanTxt.length(), 0);
 
-        spanTxt.append(" " + mContext.getResources().getString(R.string.privacy_policy2));
-        String temp = " " + mContext.getResources().getString(R.string.privacy_policy2);
+        spanTxt.append(" " + mContext.getResources().getString(R.string.sign_up_fragment_privacy_policy2));
+        String temp = " " + mContext.getResources().getString(R.string.sign_up_fragment_privacy_policy2);
         spanTxt.setSpan(new ClickableSpan() {
 
             @Override
@@ -215,23 +215,23 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
     private void callRegisterUserWebService() {
         String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!\"#$%&'()*+,-.:;<=>?@\\[\\]^_`{|}~]).{8,64}$";
         if (mPassword.getText().toString().equalsIgnoreCase("") && mEmail.getText().toString().equalsIgnoreCase("") && mConfirmPassword.getText().toString().equalsIgnoreCase("")) {
-            Toast.makeText(mContext, getResources().getString(R.string.enter_all_field_empty), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, getResources().getString(R.string.sign_up_fragment_enter_all_field_empty), Toast.LENGTH_SHORT).show();
         } else if (mEmail.getText().toString().equalsIgnoreCase("")) {
-            Toast.makeText(mContext, getResources().getString(R.string.email_empty), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, getResources().getString(R.string.sign_up_fragment_enter_email_empty), Toast.LENGTH_SHORT).show();
         } else if (!AppController.getHelperIsValidEmail(mEmail.getText().toString())) {
-            Toast.makeText(mContext, getResources().getString(R.string.email_validation), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, getResources().getString(R.string.sign_up_fragment_enter_email_validation), Toast.LENGTH_SHORT).show();
         } else if (mPassword.getText().toString().equalsIgnoreCase("")) {
-            Toast.makeText(mContext, getResources().getString(R.string.password_empty), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, getResources().getString(R.string.sign_up_activity_password_empty), Toast.LENGTH_SHORT).show();
         } else if (!mPassword.getText().toString().matches(PASSWORD_PATTERN)) {
-            SetDialogHelper.setNeutralDialog(mContext, getResources().getString(R.string.password_validation), false, mContext.getResources().getString(R.string.ok), mContext.getResources().getString(R.string.app_name));
+            SetDialogHelper.setNeutralDialog(mContext, getResources().getString(R.string.sign_up_activity_password_validation), false, mContext.getResources().getString(R.string.sign_up_activity_ok_btn), mContext.getResources().getString(R.string.app_name));
         } else if (checkPasswordContainsEmailID(mEmail.getText().toString(), mPassword.getText().toString())) {
-            Toast.makeText(mContext, getResources().getString(R.string.password_contain_email), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, getResources().getString(R.string.sign_up_activity_password_contain_email), Toast.LENGTH_SHORT).show();
         } else if (mConfirmPassword.getText().toString().equalsIgnoreCase("")) {
-            Toast.makeText(mContext, getResources().getString(R.string.confirm_password_empty), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, getResources().getString(R.string.sign_up_activity_confirm_password_empty), Toast.LENGTH_SHORT).show();
         } else if (!mPassword.getText().toString().equals(mConfirmPassword.getText().toString())) {
-            Toast.makeText(mContext, getResources().getString(R.string.password_mismatch_error), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, getResources().getString(R.string.sign_up_activity_password_mismatch_error), Toast.LENGTH_SHORT).show();
         } else if (!mAgree.isChecked()) {
-            Toast.makeText(mContext, getResources().getString(R.string.terms_and_condition_validation), Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, getResources().getString(R.string.sign_up_activity_terms_and_condition_validation), Toast.LENGTH_SHORT).show();
         } else {
             try {
                 AppController.getHelperHideKeyboard((Activity) mContext);
@@ -269,7 +269,7 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
                 mUserAuth = mRegistrationData.getAuth();
                 new GetFCMRefreshToken().execute();
             } else {
-                Toast.makeText(mContext, mContext.getResources().getString(R.string.unable_to_signup), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, mContext.getResources().getString(R.string.sign_up_activity_unable_to_signup), Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == GET_TERMS_AND_CONDITION) {
             mTermsAndConditionData = (TermsAndConditionData) response;
@@ -279,10 +279,10 @@ public class SignupFragment extends Fragment implements ApiCall.OnAsyncRequestCo
                 if (updateUserProfileData.getMessage().equalsIgnoreCase("success")) {
                     signup(mRegistrationData);
                 } else {
-                    Toast.makeText(mContext, mContext.getResources().getString(R.string.unable_to_signup), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, mContext.getResources().getString(R.string.sign_up_activity_unable_to_signup), Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(mContext, mContext.getResources().getString(R.string.unable_to_signup), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, mContext.getResources().getString(R.string.sign_up_activity_unable_to_signup), Toast.LENGTH_SHORT).show();
             }
         }
     }

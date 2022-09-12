@@ -202,8 +202,8 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
 
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(VerificationStepActivity.this, R.style.MyAlertDialogStyle);
                 alertDialogBuilder.setTitle(VerificationStepActivity.this.getApplicationInfo().loadLabel(VerificationStepActivity.this.getPackageManager()).toString());
-                alertDialogBuilder.setMessage("Do you want to set a passcode for the app?").setCancelable(false)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                alertDialogBuilder.setMessage(getResources().getString(R.string.verification_dialog_text)).setCancelable(false)
+                        .setPositiveButton(getResources().getString(R.string.verification_dialog_yes), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Intent intent = new Intent(VerificationStepActivity.this, NewPasscodeSetupActivity.class);
                                 intent.putExtra("from", "StudyInfo");
@@ -212,7 +212,7 @@ public class VerificationStepActivity extends AppCompatActivity implements ApiCa
                                 AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.initialpasscodeset), "NO");
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(getResources().getString(R.string.verification_dialog_no), new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 AppController.getHelperSharedPreference().writePreference(VerificationStepActivity.this, getString(R.string.initialpasscodeset), "yes");
                                 Intent intent = new Intent();

@@ -191,22 +191,22 @@ public class SurveyActivity extends AppCompatActivity implements View.OnClickLis
         //signIn
         if (AppController.getHelperSharedPreference().readPreference(SurveyActivity.this, getString(R.string.userid), "").equalsIgnoreCase("")) {
             mSigninImg.setBackground(getResources().getDrawable(R.drawable.signin_menu1));
-            mSigninLabel.setText(getResources().getString(R.string.sign_in_btn));
+            mSigninLabel.setText(getResources().getString(R.string.survey_activity_sign_in_btn));
             mSignOutLayout.setVisibility(View.GONE);
             mReachoutLayout.setVisibility(View.VISIBLE);
             //set Reach out details to new user,
             mNewUsrReachoutImg.setBackground(getResources().getDrawable(R.drawable.newuser_menu1));
-            mNewUsrReachoutLabel.setText(getResources().getString(R.string.side_menu_new_user));
+            mNewUsrReachoutLabel.setText(getResources().getString(R.string.survey_activity_side_menu_new_user));
             mSignUpLabel.setVisibility(View.VISIBLE);
         } else {
             //Sign out
             mSigninImg.setBackground(getResources().getDrawable(R.drawable.profile_menu1));
-            mSigninLabel.setText(getResources().getString(R.string.profile_small));
+            mSigninLabel.setText(getResources().getString(R.string.survey_activity_profile_small));
             mSignOutLayout.setVisibility(View.VISIBLE);
             mReachoutLayout.setVisibility(View.GONE);
             //set Reach out details to new user,
             mNewUsrReachoutImg.setBackground(getResources().getDrawable(R.drawable.reachout_menu1));
-            mNewUsrReachoutLabel.setText(getResources().getString(R.string.side_menu_reach_out));
+            mNewUsrReachoutLabel.setText(getResources().getString(R.string.survey_activity_side_menu_reach_out));
             mSignUpLabel.setVisibility(View.GONE);
         }
     }
@@ -283,7 +283,7 @@ public class SurveyActivity extends AppCompatActivity implements View.OnClickLis
             public void onClick(View view) {
                 menulayout.setVisibility(View.GONE);
                 mToolbar.setVisibility(View.VISIBLE);
-                menutitle.setText(R.string.resources);
+                menutitle.setText(R.string.survey_activity_resources);
                 closeDrawer();
                 if (mPreviousValue != R.id.mResourcesLayout) {
                     mPreviousValue = R.id.mResourcesLayout;
@@ -302,10 +302,10 @@ public class SurveyActivity extends AppCompatActivity implements View.OnClickLis
                     mPreviousValue = R.id.mSignInProfileLayout;
                     if (AppController.getHelperSharedPreference().readPreference(SurveyActivity.this, getString(R.string.userid), "").equalsIgnoreCase("")) {
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutContainer, new SignInFragment(), "fragment").commit();
-                        menutitle.setText(R.string.sign_in);
+                        menutitle.setText(R.string.survey_activity_sign_in);
                     } else {
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutContainer, new ProfileFragment(), "fragment").commit();
-                        menutitle.setText(R.string.profile);
+                        menutitle.setText(R.string.survey_activity_profile);
                     }
                 }
             }
@@ -320,7 +320,7 @@ public class SurveyActivity extends AppCompatActivity implements View.OnClickLis
                     mPreviousValue = R.id.mNewUsrReachoutLayout;
                     if (AppController.getHelperSharedPreference().readPreference(SurveyActivity.this, getString(R.string.userid), "").equalsIgnoreCase("")) {
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutContainer, new SignupFragment(), "fragment").commit();
-                        menutitle.setText(R.string.sign_up);
+                        menutitle.setText(R.string.survey_activity_sign_up);
                     } else {
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayoutContainer, new ReachoutFragment(), "fragment").commit();
                         menutitle.setText(R.string.reachout);
@@ -348,16 +348,16 @@ public class SurveyActivity extends AppCompatActivity implements View.OnClickLis
     private void logout() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
 
-        alertDialogBuilder.setTitle(getResources().getString(R.string.sign_out));
+        alertDialogBuilder.setTitle(getResources().getString(R.string.survey_activity_sign_out));
         String message;
         if (checkOfflineDataEmpty()) {
-            message = getResources().getString(R.string.sign_out_message);
+            message = getResources().getString(R.string.survey_activity_sign_out_message);
         } else {
-            message = getResources().getString(R.string.sign_out_message_data_lost);
+            message = getResources().getString(R.string.survey_activity_sign_out_message_data_lost);
         }
 
         alertDialogBuilder.setMessage(message).setCancelable(false)
-                .setPositiveButton(getResources().getString(R.string.sign_out), new DialogInterface.OnClickListener() {
+                .setPositiveButton(getResources().getString(R.string.survey_activity_sign_out), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
                         AppController.getHelperProgressDialog().showProgress(SurveyActivity.this, "", "", false);
@@ -493,7 +493,7 @@ public class SurveyActivity extends AppCompatActivity implements View.OnClickLis
             if (isExit) {
                 finish();
             } else {
-                Toast.makeText(this, R.string.press_back_to_exit, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.survey_activity_press_back_to_exit, Toast.LENGTH_SHORT).show();
                 isExit = true;
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -552,7 +552,7 @@ public class SurveyActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public <T> void asyncResponse(T response, int responseCode) {
         if (responseCode == LOGOUT_REPSONSECODE) {
-            Toast.makeText(this, getResources().getString(R.string.signOut), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.survey_activity_sign_out), Toast.LENGTH_SHORT).show();
             SharedPreferences settings = SharedPreferenceHelper.getPreferences(SurveyActivity.this);
             settings.edit().clear().apply();
             // delete passcode from keystore

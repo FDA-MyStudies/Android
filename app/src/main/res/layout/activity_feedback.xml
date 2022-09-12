@@ -15,7 +15,7 @@
         android:layout_marginBottom="15dp"
         android:background="@drawable/rectangle_black_white"
         android:gravity="center"
-        android:text="@string/submit"
+        android:text="@string/feedback_activity_submit_btn"
         android:textColor="@color/colorPrimary"/>
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -112,7 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:text="@string/subject"
+                android:text="@string/feedback_activity_subject"
                 />
 
             <androidx.appcompat.widget.AppCompatEditText

@@ -161,7 +161,7 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
         switch (requestCode) {
             case PERMISSION_REQUEST_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_DENIED) {
-                    Toast.makeText(ConsentCompletedActivity.this, R.string.permission_deniedDate, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ConsentCompletedActivity.this, R.string.consent_completed_permission_deniedDate, Toast.LENGTH_SHORT).show();
                 } else {
                     displayPDF();
                 }
@@ -249,7 +249,7 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
                 getStudyUpdateFomWS();
             } else {
                 AppController.getHelperProgressDialog().dismissDialog();
-                Toast.makeText(this, getResources().getString(R.string.unable_to_parse), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.consent_completed_unable_to_parse), Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == STUDY_UPDATES) {
             StudyUpdate studyUpdate = (StudyUpdate) response;
@@ -279,7 +279,7 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
                 getStudySate();
 
             } else {
-                Toast.makeText(this, getResources().getString(R.string.unable_to_parse), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.consent_completed_unable_to_parse), Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == GET_PREFERENCES) {
             StudyData studies = (StudyData) response;
@@ -291,7 +291,7 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
                 update_eligibility_consent();
 
             } else {
-                Toast.makeText(this, getResources().getString(R.string.unable_to_parse), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.consent_completed_unable_to_parse), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -333,7 +333,7 @@ public class ConsentCompletedActivity extends AppCompatActivity implements ApiCa
             if (responseServerData != null) {
                 Toast.makeText(this, responseServerData.getException().toString(), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, getResources().getString(R.string.unable_to_parse), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.consent_completed_unable_to_parse), Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {
             Toast.makeText(this, errormsg, Toast.LENGTH_SHORT).show();

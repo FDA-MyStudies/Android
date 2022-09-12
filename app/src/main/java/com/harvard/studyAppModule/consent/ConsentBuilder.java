@@ -297,7 +297,7 @@ public class ConsentBuilder {
         }
 
 
-        FormStep formStep = new FormStep(context.getResources().getString(R.string.signature_form_step),
+        FormStep formStep = new FormStep(context.getResources().getString(R.string.consent_builder_signature_form_step),
                 "",
                 "");
         formStep.setStepTitle(R.string.notxt);

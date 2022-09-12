@@ -215,7 +215,7 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
                 }
             } else {
                 AppController.getHelperProgressDialog().dismissDialog();
-                Toast.makeText(StandaloneStudyInfoActivity.this, R.string.error_retriving_data, Toast.LENGTH_SHORT).show();
+                Toast.makeText(StandaloneStudyInfoActivity.this, R.string.standalone_error_retriving_data, Toast.LENGTH_SHORT).show();
                 finish();
             }
         } else if (responseCode == STUDY_INFO) {
@@ -234,7 +234,7 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
                 setViewPagerView(mStudyHome);
             } else {
                 AppController.getHelperProgressDialog().dismissDialog();
-                Toast.makeText(this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.standalone_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == GET_CONSENT_DOC) {
             AppController.getHelperProgressDialog().dismissDialog();
@@ -288,13 +288,13 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
                 StudyList studyList = dbServiceSubscriber.getStudiesDetails(AppConfig.StudyId, mRealm);
                 if (studyList != null) {
                     if (studyList.getStatus().equalsIgnoreCase(StudyFragment.UPCOMING)) {
-                        Toast.makeText(getApplication(), R.string.upcoming_study, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplication(), R.string.standalone_upcoming_study, Toast.LENGTH_SHORT).show();
                     } else if (!studyList.getSetting().isEnrolling()) {
-                        Toast.makeText(getApplication(), R.string.study_no_enroll, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplication(), R.string.standalone_study_no_enroll, Toast.LENGTH_SHORT).show();
                     } else if (studyList.getStatus().equalsIgnoreCase(StudyFragment.PAUSED)) {
-                        Toast.makeText(getApplication(), R.string.study_paused, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplication(), R.string.standalone_study_paused, Toast.LENGTH_SHORT).show();
                     } else if (!studyList.getSetting().getRejoin() && studyList.getStatus().equalsIgnoreCase(StudyFragment.WITHDRAWN)) {
-                        Toast.makeText(getApplication(), R.string.cannot_rejoin_study, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplication(), R.string.standalone_cannot_rejoin_study, Toast.LENGTH_SHORT).show();
                     } else {
                         new callConsentMetaData(false).execute();
 
@@ -303,7 +303,7 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
                     Toast.makeText(this, "No study present", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(StandaloneStudyInfoActivity.this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(StandaloneStudyInfoActivity.this, R.string.standalone_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -362,7 +362,7 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
                     AppController.getHelperSessionExpired(StandaloneStudyInfoActivity.this, "session expired");
                 } else if (response.equalsIgnoreCase("timeout")) {
                     AppController.getHelperProgressDialog().dismissDialog();
-                    Toast.makeText(StandaloneStudyInfoActivity.this, getResources().getString(R.string.connection_timeout), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StandaloneStudyInfoActivity.this, getResources().getString(R.string.standalone_connection_timeout), Toast.LENGTH_SHORT).show();
                 } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK) {
 
                     Gson gson = new GsonBuilder()
@@ -430,15 +430,15 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
                                     joinStudy();
                                 }
                             } else {
-                                Toast.makeText(StandaloneStudyInfoActivity.this, R.string.error_retriving_data, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(StandaloneStudyInfoActivity.this, R.string.standalone_error_retriving_data, Toast.LENGTH_SHORT).show();
                             }
                         }
                     } else {
-                        Toast.makeText(StandaloneStudyInfoActivity.this, R.string.error_retriving_data, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(StandaloneStudyInfoActivity.this, R.string.standalone_error_retriving_data, Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     AppController.getHelperProgressDialog().dismissDialog();
-                    Toast.makeText(StandaloneStudyInfoActivity.this, getResources().getString(R.string.unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StandaloneStudyInfoActivity.this, getResources().getString(R.string.standalone_unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
                 }
             } else {
                 AppController.getHelperProgressDialog().dismissDialog();
@@ -455,13 +455,13 @@ public class StandaloneStudyInfoActivity extends AppCompatActivity implements Ap
 
     private void joinStudy() {
         if (mStudy.getStudies().get(0).getStatus().equalsIgnoreCase(StudyFragment.UPCOMING)) {
-            Toast.makeText(getApplication(), R.string.upcoming_study, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(), R.string.standalone_upcoming_study, Toast.LENGTH_SHORT).show();
         } else if (!mStudy.getStudies().get(0).getSetting().isEnrolling()) {
-            Toast.makeText(getApplication(), R.string.study_no_enroll, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(), R.string.standalone_study_no_enroll, Toast.LENGTH_SHORT).show();
         } else if (mStudy.getStudies().get(0).getStatus().equalsIgnoreCase(StudyFragment.PAUSED)) {
-            Toast.makeText(getApplication(), R.string.study_paused, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(), R.string.standalone_study_paused, Toast.LENGTH_SHORT).show();
         } else if (!mStudy.getStudies().get(0).getSetting().getRejoin() && mStudy.getStudies().get(0).getStudyStatus().equalsIgnoreCase(StudyFragment.WITHDRAWN)) {
-            Toast.makeText(getApplication(), R.string.cannot_rejoin_study, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(), R.string.standalone_cannot_rejoin_study, Toast.LENGTH_SHORT).show();
         } else {
             if (eligibilityConsent.getEligibility().getType().equalsIgnoreCase("token")) {
                 Intent intent = new Intent(StandaloneStudyInfoActivity.this, EligibilityEnrollmentActivity.class);

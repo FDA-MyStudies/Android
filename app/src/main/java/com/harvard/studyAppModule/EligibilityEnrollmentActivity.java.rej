@@ -1,0 +1,10 @@
+diff a/app/src/main/java/com/harvard/studyAppModule/EligibilityEnrollmentActivity.java b/app/src/main/java/com/harvard/studyAppModule/EligibilityEnrollmentActivity.java	(rejected hunks)
+@@ -175,7 +175,7 @@ public class EligibilityEnrollmentActivity extends AppCompatActivity implements
+             }
+ 
+         } else {
+-            Toast.makeText(this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
++            Toast.makeText(this, R.string.eligibility_enrollment_unable_to_parse, Toast.LENGTH_SHORT).show();
+         }
+     }
+ 

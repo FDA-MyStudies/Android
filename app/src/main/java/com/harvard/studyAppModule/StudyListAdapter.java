@@ -139,13 +139,13 @@ public class StudyListAdapter extends RecyclerView.Adapter<StudyListAdapter.Hold
                     holder.mStatus.setText(R.string.completed);
                 } else if (mItems.get(position).getStudyStatus().equalsIgnoreCase(StudyFragment.NOT_ELIGIBLE)) {
                     holder.mStatusImg.setImageResource(R.drawable.not_eligible_icn1);
-                    holder.mStatus.setText(R.string.not_eligible);
+                    holder.mStatus.setText(R.string.study_list_adapter_not_eligible);
                 } else if (mItems.get(position).getStudyStatus().equalsIgnoreCase(StudyFragment.IN_PROGRESS)) {
                     holder.mStatusImg.setImageResource(R.drawable.in_progress_icn);
                     if (mItems.get(position).getStatus().equalsIgnoreCase("closed")) {
                         holder.mStatus.setText(R.string.partial_participation);
                     } else {
-                        holder.mStatus.setText(R.string.in_progress);
+                        holder.mStatus.setText(R.string.study_list_adapter_in_progress);
 
                     }
                 } else if (mItems.get(position).getStudyStatus().equalsIgnoreCase(StudyFragment.YET_TO_JOIN)) {
@@ -153,19 +153,19 @@ public class StudyListAdapter extends RecyclerView.Adapter<StudyListAdapter.Hold
                     if (mItems.get(position).getStatus().equalsIgnoreCase("closed")) {
                         holder.mStatus.setText(R.string.no_participation);
                     } else {
-                        holder.mStatus.setText(R.string.yet_to_join);
+                        holder.mStatus.setText(R.string.study_list_adapter_yet_to_join);
 
                     }
                 } else if (mItems.get(position).getStudyStatus().equalsIgnoreCase(StudyFragment.WITHDRAWN)) {
                     holder.mStatusImg.setImageResource(R.drawable.withdrawn_icn1);
-                    holder.mStatus.setText(R.string.withdrawn);
+                    holder.mStatus.setText(R.string.study_list_adapter_with_drawn);
                 } else {
                     holder.mStatusImg.setImageResource(R.drawable.yet_to_join_icn1);
-                    holder.mStatus.setText(R.string.yet_to_join);
+                    holder.mStatus.setText(R.string.study_list_adapter_yet_to_join);
                 }
             } else {
                 holder.mStatusImg.setImageResource(R.drawable.yet_to_join_icn1);
-                holder.mStatus.setText(R.string.yet_to_join);
+                holder.mStatus.setText(R.string.study_list_adapter_yet_to_join);
             }
 
             if (mItems.get(position).isBookmarked()) {

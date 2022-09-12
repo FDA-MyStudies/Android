@@ -50,7 +50,7 @@ public class UseTouchIDPasscodeActivity extends AppCompatActivity {
     }
 
     private void setTextForView() {
-        mTitle.setText(getResources().getString(R.string.sign_in));
+        mTitle.setText(getResources().getString(R.string.use_touch_id_passcode_activity_sign_in));
     }
 
     private void setFont() {

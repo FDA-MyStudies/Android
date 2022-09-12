@@ -91,7 +91,7 @@ public class PasscodeSetupActivity extends AppCompatActivity {
                 adb.setTitle(getResources().getString(R.string.app_name));
                 adb.setIcon(android.R.drawable.ic_dialog_alert);
                 adb.setMessage(R.string.forgotpasscodemsg);
-                adb.setPositiveButton(getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                adb.setPositiveButton(getResources().getString(R.string.passcode_setup_ok_btn), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         getHelperLogout();
                     }

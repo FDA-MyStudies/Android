@@ -97,9 +97,9 @@ public class ForgotPasswordActivity extends AppCompatActivity implements ApiCall
             @Override
             public void onClick(View view) {
                 if (mEmail.getText().toString().equalsIgnoreCase("")) {
-                    Toast.makeText(ForgotPasswordActivity.this, getResources().getString(R.string.email_empty), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ForgotPasswordActivity.this, getResources().getString(R.string.forgot_password_email_empty), Toast.LENGTH_SHORT).show();
                 } else if (!AppController.getHelperIsValidEmail(mEmail.getText().toString())) {
-                    Toast.makeText(ForgotPasswordActivity.this, getResources().getString(R.string.email_validation), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ForgotPasswordActivity.this, getResources().getString(R.string.forgot_password_email_validation), Toast.LENGTH_SHORT).show();
                 } else {
                     AppController.getHelperProgressDialog().showProgress(ForgotPasswordActivity.this, "", "", false);
                     callForgotPasswordWebService();

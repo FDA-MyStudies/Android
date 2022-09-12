@@ -361,7 +361,7 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
                     e.printStackTrace();
                 }
 
-                Toast.makeText(DeleteAccountActivity.this, getResources().getString(R.string.account_deletion), Toast.LENGTH_SHORT).show();
+                Toast.makeText(DeleteAccountActivity.this, getResources().getString(R.string.delete_account_account_deletion), Toast.LENGTH_SHORT).show();
                 SharedPreferences settings = SharedPreferenceHelper.getPreferences(DeleteAccountActivity.this);
                 settings.edit().clear().apply();
                 // delete passcode from keystore
@@ -372,7 +372,7 @@ public class DeleteAccountActivity extends AppCompatActivity implements ApiCall.
                 setResult(RESULT_OK, intent);
                 finish();
             } else {
-                Toast.makeText(DeleteAccountActivity.this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(DeleteAccountActivity.this, R.string.delete_account_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == STUDY_INFO) {
             if (response != null) {

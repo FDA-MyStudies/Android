@@ -419,7 +419,7 @@ public class ApiCall<T, V> extends AsyncTask<T, String, String> {
                 mOnAsyncRequestComplete.asyncResponseFailure(mResultCode, msg, mResponseModel.getResponseCode());
                 break;
             case "No network":
-                msg = mContext.getResources().getString(R.string.check_internet);
+                msg = mContext.getResources().getString(R.string.api_call_check_internet);
                 setShowalert(msg);
                 mOnAsyncRequestComplete.asyncResponseFailure(mResultCode, msg, "");
                 break;
@@ -549,7 +549,7 @@ public class ApiCall<T, V> extends AsyncTask<T, String, String> {
             alertDialogBuilder.setTitle(mContext.getApplicationInfo().loadLabel(mContext.getPackageManager()).toString());
 
             alertDialogBuilder.setMessage(msg).setCancelable(false)
-                    .setPositiveButton(mContext.getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    .setPositiveButton(mContext.getResources().getString(R.string.api_call_ok_btn), new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             dialog.dismiss();
                         }

@@ -305,7 +305,7 @@
                             style="@style/textTypeMenuItem"
                             android:layout_marginLeft="30dp"
                             android:layout_toRightOf="@id/mReachoutImg"
-                            android:text="@string/side_menu_reach_out"
+                            android:text="@string/survey_activity_side_menu_reach_out"
                             android:textColor="@android:color/black"/>
 
                     </LinearLayout>
@@ -356,7 +356,7 @@
                                 android:id="@+id/mNewUsrReachoutLabel"
                                 style="@style/textTypeMenuItem"
                                 android:layout_marginLeft="30dp"
-                                android:text="@string/side_menu_new_user"
+                                android:text="@string/survey_activity_side_menu_new_user"
                                 android:textColor="@android:color/black"/>
 
                             <androidx.appcompat.widget.AppCompatTextView

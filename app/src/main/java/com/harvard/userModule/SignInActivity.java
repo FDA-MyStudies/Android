@@ -112,12 +112,12 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
     private void setTextForView() {
         mCancelBtn.setVisibility(View.GONE);
         mInfoIcon.setVisibility(View.VISIBLE);
-        mTitle.setText(getResources().getString(R.string.sign_in));
+        mTitle.setText(getResources().getString(R.string.sign_in_activity_sign_in));
     }
 
     @SuppressWarnings("deprecation")
     private void customTextView() {
-        String html = getResources().getString(R.string.new_user) + " <font color=\"#007cba\">" + getResources().getString(R.string.side_menu_sign_up) + "</font>";
+        String html = getResources().getString(R.string.sign_in_activity_new_user) + " <font color=\"#007cba\">" + getResources().getString(R.string.side_menu_sign_up) + "</font>";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             mNewUsrSignUp.setText(Html.fromHtml(html, Html.FROM_HTML_MODE_LEGACY));
         } else {
@@ -127,9 +127,9 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
 
     // set link for privacy and policy
     private void customTextViewAgree(AppCompatTextView view) {
-        SpannableStringBuilder spanTxt = new SpannableStringBuilder(getResources().getString(R.string.you_agree_this_app));
+        SpannableStringBuilder spanTxt = new SpannableStringBuilder(getResources().getString(R.string.sign_in_activity_you_agree_this_app));
         spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignInActivity.this, R.color.colorPrimaryBlack)), 0, spanTxt.length(), 0);
-        spanTxt.append(getResources().getString(R.string.terms2));
+        spanTxt.append(getResources().getString(R.string.sign_in_activity_terms2));
         spanTxt.setSpan(new ClickableSpan() {
             @Override
             public void updateDrawState(TextPaint ds) {
@@ -146,13 +146,13 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
                     startActivity(termsIntent);
                 }
             }
-        }, spanTxt.length() - getResources().getString(R.string.terms2).length(), spanTxt.length(), 0);
+        }, spanTxt.length() - getResources().getString(R.string.sign_in_activity_terms2).length(), spanTxt.length(), 0);
 
         spanTxt.append(" " + getResources().getString(R.string.and));
         spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignInActivity.this, R.color.colorPrimaryBlack)), spanTxt.length() - " and".length(), spanTxt.length(), 0);
 
-        spanTxt.append(" " + getResources().getString(R.string.privacy_policy2));
-        String temp = " " + getResources().getString(R.string.privacy_policy2);
+        spanTxt.append(" " + getResources().getString(R.string.sign_in_activity_privacy_policy2));
+        String temp = " " + getResources().getString(R.string.sign_in_activity_privacy_policy2);
         spanTxt.setSpan(new ClickableSpan() {
 
             @Override
@@ -258,7 +258,7 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
         mInfoIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SetDialogHelper.setNeutralDialog(SignInActivity.this, getResources().getString(R.string.registration_message), false, getResources().getString(R.string.ok), getResources().getString(R.string.why_register));
+                SetDialogHelper.setNeutralDialog(SignInActivity.this, getResources().getString(R.string.sign_in_activity_registration_message), false, getResources().getString(R.string.sign_in_activity_ok_btn), getResources().getString(R.string.sign_in_activity_why_register));
             }
         });
     }
@@ -266,13 +266,13 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
 
     private void callLoginWebService() {
         if (mEmail.getText().toString().equalsIgnoreCase("") && mPassword.getText().toString().equalsIgnoreCase("")) {
-            Toast.makeText(this, getResources().getString(R.string.enter_all_field_empty), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.sign_in_activity_enter_all_field_empty), Toast.LENGTH_SHORT).show();
         } else if (mEmail.getText().toString().equalsIgnoreCase("")) {
-            Toast.makeText(this, getResources().getString(R.string.email_empty), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.sign_in_activity_enter_email_empty), Toast.LENGTH_SHORT).show();
         } else if (!AppController.getHelperIsValidEmail(mEmail.getText().toString())) {
-            Toast.makeText(this, getResources().getString(R.string.email_validation), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.sign_in_activity_enter_email_validation), Toast.LENGTH_SHORT).show();
         } else if (mPassword.getText().toString().equalsIgnoreCase("")) {
-            Toast.makeText(this, getResources().getString(R.string.password_empty), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.sign_in_activity_enter_password_empty), Toast.LENGTH_SHORT).show();
         } else {
             AppController.getHelperProgressDialog().showProgress(SignInActivity.this, "", "", false);
             LoginEvent loginEvent = new LoginEvent();
@@ -306,10 +306,10 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
                 if (updateUserProfileData.getMessage().equalsIgnoreCase("success")) {
                     callUserProfileWebService();
                 } else {
-                    Toast.makeText(this, getResources().getString(R.string.not_able_to_login), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getString(R.string.sign_in_activity_not_able_to_login), Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(this, getResources().getString(R.string.not_able_to_login), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.sign_in_activity_not_able_to_login), Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == USER_PROFILE_REQUEST) {
             userProfileData = (UserProfileData) response;
@@ -340,7 +340,7 @@ public class SignInActivity extends AppCompatActivity implements ApiCall.OnAsync
                     login();
                 }
             } else {
-                Toast.makeText(this, getResources().getString(R.string.not_able_to_login), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.sign_in_activity_not_able_to_login), Toast.LENGTH_SHORT).show();
             }
         } else if (GET_TERMS_AND_CONDITION == responseCode) {
             mTermsAndConditionData = (TermsAndConditionData) response;

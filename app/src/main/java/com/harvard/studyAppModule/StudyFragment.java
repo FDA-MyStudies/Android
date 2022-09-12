@@ -824,7 +824,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                 webserviceCall = false;
                 AppController.getHelperProgressDialog().dismissDialog();
                 onItemsLoadComplete();
-                Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.study_fragment_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == CONSENT_METADATA) {
             AppController.getHelperProgressDialog().dismissDialog();
@@ -834,7 +834,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                 saveConsentToDB(mContext,eligibilityConsent);
                 startConsent(eligibilityConsent.getConsent(), eligibilityConsent.getEligibility().getType());
             } else {
-                Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.study_fragment_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == GET_PREFERENCES) {
             AppController.getHelperSharedPreference().writePreference(mContext, "firstStudyState", "Done");
@@ -864,12 +864,12 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                         }
                     }
                 } else {
-                    Toast.makeText(mContext, R.string.error_retriving_data, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, R.string.study_fragment_error_retriving_data, Toast.LENGTH_SHORT).show();
                 }
                 setStudyList(false);
                 ((StudyActivity) getContext()).checkForNotification(((StudyActivity) getContext()).getIntent());
             } else {
-                Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, R.string.study_fragment_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == UPDATE_PREFERENCES) {
             LoginData loginData = (LoginData) response;
@@ -978,7 +978,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
 
     private void startConsent(Consent consent, String type) {
         eligibilityType = type;
-        Toast.makeText(mContext, mContext.getResources().getString(R.string.please_review_the_updated_consent), Toast.LENGTH_SHORT).show();
+        Toast.makeText(mContext, mContext.getResources().getString(R.string.study_fragment_please_review_the_updated_consent), Toast.LENGTH_SHORT).show();
         ConsentBuilder consentBuilder = new ConsentBuilder();
         List<Step> consentstep = consentBuilder.createsurveyquestion(mContext, consent, mtitle, "update");
         Task consentTask = new OrderedTask(CONSENT, consentstep);
@@ -1040,7 +1040,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                     AppController.getHelperSessionExpired(mContext, "session expired");
                 } else if (response.equalsIgnoreCase("timeout")) {
                     AppController.getHelperProgressDialog().dismissDialog();
-                    Toast.makeText(mContext, getResources().getString(R.string.connection_timeout), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, getResources().getString(R.string.study_fragment_connection_timeout), Toast.LENGTH_SHORT).show();
                 } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK) {
 
                     Gson gson = new GsonBuilder()
@@ -1083,11 +1083,11 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                         saveConsentToDB(mContext,eligibilityConsent);
                         startConsent(eligibilityConsent.getConsent(), eligibilityConsent.getEligibility().getType());
                     } else {
-                        Toast.makeText(mContext, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, R.string.study_fragment_unable_to_parse, Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     AppController.getHelperProgressDialog().dismissDialog();
-                    Toast.makeText(mContext, getResources().getString(R.string.unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, getResources().getString(R.string.study_fragment_unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
                 }
             } else {
                 AppController.getHelperProgressDialog().dismissDialog();
@@ -1372,14 +1372,14 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                     //don't update UI
                     Toast.makeText(
                             mContext,
-                            mContext.getResources().getString(R.string.connection_timeout),
+                            mContext.getResources().getString(R.string.study_fragment_connection_timeout),
                             Toast.LENGTH_SHORT)
                             .show();
                 } else if (Integer.parseInt(responseCode) == 500) {
                     //don't update UI
                     Toast.makeText(
                             mContext,
-                            mContext.getResources().getString(R.string.unable_to_retrieve_data),
+                            mContext.getResources().getString(R.string.study_fragment_unable_to_retrieve_data),
                             Toast.LENGTH_SHORT)
                             .show();
                 } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK) {
@@ -1423,7 +1423,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                     Toast.makeText(
                             mContext,
                             mContext.getResources()
-                                    .getString(R.string.unable_to_retrieve_data),
+                                    .getString(R.string.study_fragment_unable_to_retrieve_data),
                             Toast.LENGTH_SHORT)
                             .show();
                 }

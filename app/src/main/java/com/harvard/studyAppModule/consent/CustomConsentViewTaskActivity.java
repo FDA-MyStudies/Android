@@ -553,7 +553,7 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
                 getStudyUpdateFomWS();
             } else {
                 AppController.getHelperProgressDialog().dismissDialog();
-                Toast.makeText(this, getResources().getString(R.string.unable_to_parse), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.ccv_task_activity_unable_to_parse), Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == STUDY_UPDATES) {
             StudyUpdate studyUpdate = (StudyUpdate) response;
@@ -602,7 +602,7 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
                 getStudySate();
 
             } else {
-                Toast.makeText(this, getResources().getString(R.string.unable_to_parse), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.ccv_task_activity_unable_to_parse), Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == GET_PREFERENCES) {
             StudyData studies = (StudyData) response;
@@ -614,7 +614,7 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
                 update_eligibility_consent();
 
             } else {
-                Toast.makeText(this, getResources().getString(R.string.unable_to_parse), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.ccv_task_activity_unable_to_parse), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -673,7 +673,7 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
                 larLastName = larLastName.substring(0, 1).toUpperCase() + larLastName.substring(1);
             }
 
-            String formResult = new Gson().toJson(taskResult.getStepResult(getResources().getString(R.string.signature_form_step)).getResults());
+            String formResult = new Gson().toJson(taskResult.getStepResult(getResources().getString(R.string.ccv_task_activity_signature_form_step)).getResults());
             JSONObject formResultObj = new JSONObject(formResult);
             JSONObject fullNameObj = formResultObj.getJSONObject("First Name");
             JSONObject fullNameResult = fullNameObj.getJSONObject("results");
@@ -754,7 +754,7 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
 
                 String participant = getResources().getString(R.string.participant);
                 docBuilder.append(String.format("<p><b>%1$s</b></p>", participant));
-                String detail = getResources().getString(R.string.agree_participate_research_study);
+                String detail = getResources().getString(R.string.ccv_task_activity_agree_participate_reasearch_study);
                 docBuilder.append(String.format("<p>%1$s</p>", detail));
 //                Paragraph consentItem1 = new Paragraph(Html.fromHtml(docBuilder.toString()).toString());
 //                consentItem1.add(Html.fromHtml(docBuilder.toString()).toString());
@@ -787,13 +787,13 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
 
                 docBuilder.append("<tr>");
                 docBuilder.append("<td>(");
-                docBuilder.append(getResources().getString(R.string.participans_name));
+                docBuilder.append(getResources().getString(R.string.ccv_task_activity_participans_name));
                 docBuilder.append(")</td>");
                 docBuilder.append("<td>(");
-                docBuilder.append(getResources().getString(R.string.participants_signature));
+                docBuilder.append(getResources().getString(R.string.ccv_task_activity_participants_signature));
                 docBuilder.append(")</td>");
                 docBuilder.append("<td>(");
-                docBuilder.append(getResources().getString(R.string.date));
+                docBuilder.append(getResources().getString(R.string.ccv_task_activity_date));
                 docBuilder.append(")</td>");
                 docBuilder.append("</tr>");
                 docBuilder.append("</table>");
@@ -853,7 +853,7 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
                 docBuilder.append("");
                 docBuilder.append("</b></td>");
                 docBuilder.append("<td>(");
-                docBuilder.append(getResources().getString(R.string.date));
+                docBuilder.append(getResources().getString(R.string.ccv_task_activity_date));
                 docBuilder.append(")</td>");
                 docBuilder.append("</tr>");
 //                PdfPTable table1 = new PdfPTable(3);
@@ -1068,7 +1068,7 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
             }
 
         } catch (IOException | DocumentException e) {
-            Toast.makeText(CustomConsentViewTaskActivity.this, R.string.not_able_create_pdf, Toast.LENGTH_SHORT).show();
+            Toast.makeText(CustomConsentViewTaskActivity.this, R.string.ccv_task_activity_not_able_create_pdf, Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -1208,7 +1208,7 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
             if (responseServerData != null) {
                 Toast.makeText(this, responseServerData.getException().toString(), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, getResources().getString(R.string.unable_to_parse), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.ccv_task_activity_unable_to_parse), Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE) {
             Toast.makeText(this, errormsg, Toast.LENGTH_SHORT).show();

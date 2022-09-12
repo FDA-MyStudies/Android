@@ -1,0 +1,31 @@
+diff a/app/src/main/java/com/harvard/userModule/SignupActivity.java b/app/src/main/java/com/harvard/userModule/SignupActivity.java	(rejected hunks)
+@@ -126,8 +126,12 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
+     // set link for privacy and policy
+     private void customTextView(AppCompatTextView view) {
+         SpannableStringBuilder spanTxt = new SpannableStringBuilder(getResources().getString(R.string.sign_up_activity_i_agree) + " ");
++        Log.e("Krishna", "customTextView: before appending text is "+spanTxt );
++        Log.e("Krishna", "customTextView: text length before appending is "+spanTxt.length() );
+         spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignupActivity.this, R.color.colorPrimaryBlack)), 0, spanTxt.length(), 0);
+         spanTxt.append(getResources().getString(R.string.sign_up_activity_terms2));
++        Log.e("Krishna", "customTextView: text after appening terms is "+spanTxt );
++        Log.e("Krishna", "customTextView: text after appening terms  length is "+spanTxt.length() );
+         spanTxt.setSpan(new ClickableSpan() {
+             @Override
+             public void updateDrawState(TextPaint ds) {
+@@ -147,12 +151,14 @@ public class SignupActivity extends AppCompatActivity implements ApiCall.OnAsync
+         }, spanTxt.length() - getResources().getString(R.string.sign_up_activity_terms2).length(), spanTxt.length(), 0);
+ 
+         spanTxt.append(" " + getResources().getString(R.string.sign_up_activity_and));
+-
++        Log.e("Krishna", "customTextView: text after appening and is "+spanTxt );
++        Log.e("Krishna", "customTextView: text after appening and  length is "+spanTxt.length() );
+ 
+         if(!Locale.getDefault().getDisplayLanguage().toLowerCase().equalsIgnoreCase( "español")){
+             spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignupActivity.this, R.color.colorPrimaryBlack)), 20, spanTxt.length(), 0);
+         }else {
+-            spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignupActivity.this, R.color.colorPrimaryBlack)), 35, spanTxt.length(), 0);
++            Log.e("Krishna", "customTextView: span text length"+spanTxt.length() );
++            spanTxt.setSpan(new ForegroundColorSpan(ContextCompat.getColor(SignupActivity.this, R.color.colorPrimaryBlack)), 27, spanTxt.length(), 0);
+         }
+ 
+ 

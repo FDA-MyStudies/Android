@@ -241,13 +241,13 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
 
     private void joinStudy() {
         if (mStatus.equalsIgnoreCase(StudyFragment.UPCOMING)) {
-            Toast.makeText(getApplication(), R.string.upcoming_study, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(), R.string.study_info_activity_upcoming_study, Toast.LENGTH_SHORT).show();
         } else if (mEnroll.equalsIgnoreCase("false")) {
-            Toast.makeText(getApplication(), R.string.study_no_enroll, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(), R.string.study_info_activity_study_no_enroll, Toast.LENGTH_SHORT).show();
         } else if (mStatus.equalsIgnoreCase(StudyFragment.PAUSED)) {
-            Toast.makeText(getApplication(), R.string.study_paused, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(), R.string.study_info_activity_study_paused, Toast.LENGTH_SHORT).show();
         } else if (mRejoin.equalsIgnoreCase("false") && mStudyStatus.equalsIgnoreCase(StudyFragment.WITHDRAWN)) {
-            Toast.makeText(getApplication(), R.string.cannot_rejoin_study, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplication(), R.string.study_info_activity_cannot_rejoin_study, Toast.LENGTH_SHORT).show();
         } else {
             if (eligibilityConsent.getEligibility().getType().equalsIgnoreCase("token")) {
                 Intent intent = new Intent(StudyInfoActivity.this, EligibilityEnrollmentActivity.class);
@@ -333,7 +333,7 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
                     AppController.getHelperSessionExpired(StudyInfoActivity.this, "session expired");
                 } else if (response.equalsIgnoreCase("timeout")) {
                     AppController.getHelperProgressDialog().dismissDialog();
-                    Toast.makeText(StudyInfoActivity.this, getResources().getString(R.string.connection_timeout), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StudyInfoActivity.this, getResources().getString(R.string.study_info_activity_connection_timeout), Toast.LENGTH_SHORT).show();
                 } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK) {
 
                     Gson gson = new GsonBuilder()
@@ -400,15 +400,15 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
                                     joinStudy();
                                 }
                             } else {
-                                Toast.makeText(StudyInfoActivity.this, R.string.error_retriving_data, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(StudyInfoActivity.this, R.string.study_info_activity_error_retriving_data, Toast.LENGTH_SHORT).show();
                             }
                         }
                     } else {
-                        Toast.makeText(StudyInfoActivity.this, R.string.error_retriving_data, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(StudyInfoActivity.this, R.string.study_info_activity_error_retriving_data, Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     AppController.getHelperProgressDialog().dismissDialog();
-                    Toast.makeText(StudyInfoActivity.this, getResources().getString(R.string.unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(StudyInfoActivity.this, getResources().getString(R.string.study_info_activity_unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
                 }
             } else {
                 AppController.getHelperProgressDialog().dismissDialog();
@@ -487,7 +487,7 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
                 studyModulePresenter.performGetGateWayStudyInfo(getUserStudyInfoEvent);
             } else {
                 AppController.getHelperProgressDialog().dismissDialog();
-                Toast.makeText(this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.study_info_activity_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == UPDATE_PREFERENCES) {
             LoginData loginData = (LoginData) response;
@@ -530,18 +530,18 @@ public class StudyInfoActivity extends AppCompatActivity implements ApiCall.OnAs
                 userPreferenceStudies = studies.getStudies();
                 StudyList studyList = dbServiceSubscriber.getStudiesDetails(mStudyId, mRealm);
                 if (studyList.getStatus().equalsIgnoreCase(StudyFragment.UPCOMING)) {
-                    Toast.makeText(getApplication(), R.string.upcoming_study, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), R.string.study_info_activity_upcoming_study, Toast.LENGTH_SHORT).show();
                 } else if (!studyList.getSetting().isEnrolling()) {
-                    Toast.makeText(getApplication(), R.string.study_no_enroll, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), R.string.study_info_activity_study_no_enroll, Toast.LENGTH_SHORT).show();
                 } else if (studyList.getStatus().equalsIgnoreCase(StudyFragment.PAUSED)) {
-                    Toast.makeText(getApplication(), R.string.study_paused, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), R.string.study_info_activity_study_paused, Toast.LENGTH_SHORT).show();
                 } else if (!studyList.getSetting().getRejoin() && studyList.getStatus().equalsIgnoreCase(StudyFragment.WITHDRAWN)) {
-                    Toast.makeText(getApplication(), R.string.cannot_rejoin_study, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplication(), R.string.study_info_activity_cannot_rejoin_study, Toast.LENGTH_SHORT).show();
                 } else {
                     new callConsentMetaData(false).execute();
                 }
             } else {
-                Toast.makeText(StudyInfoActivity.this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(StudyInfoActivity.this, R.string.study_info_activity_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -526,7 +526,7 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
 
             } else {
                 AppController.getHelperProgressDialog().dismissDialog();
-                Toast.makeText(this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.survey_complete_unable_to_parse, Toast.LENGTH_SHORT).show();
             }
         } else if (responseCode == UPDATE_STUDY_PREFERENCE) {
             String activityId[] = updateActivityPreferenceAndReturnActivityID();

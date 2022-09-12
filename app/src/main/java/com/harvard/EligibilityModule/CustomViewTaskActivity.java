@@ -356,8 +356,8 @@ public class CustomViewTaskActivity<T> extends AppCompatActivity implements Step
 
     private void showConfirmExitDialog() {
         AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle).setTitle(R.string.app_name)
-                .setMessage(R.string.exit_activity)
-                .setPositiveButton(R.string.endtask, new DialogInterface.OnClickListener() {
+                .setMessage(R.string.cv_task_exit_activity)
+                .setPositiveButton(R.string.cv_task_endtask, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         finish();

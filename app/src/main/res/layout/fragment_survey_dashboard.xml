@@ -169,7 +169,7 @@
                             style="@style/TextType2"
                             android:layout_below="@id/mParticipationStatusLabel"
                             android:layout_centerHorizontal="true"
-                            android:text="@string/in_progress" />
+                            android:text="@string/survey_dashboard_fragment_in_progress" />
                     </RelativeLayout>
 
                 </LinearLayout>

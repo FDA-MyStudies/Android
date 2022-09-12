@@ -187,7 +187,7 @@ public class NotificationActivity extends AppCompatActivity implements ApiCall.O
             setRecyclearView(notifications);
             dbServiceSubscriber.saveNotification(notification,mRealm);
         } else {
-            Toast.makeText(this, R.string.unable_to_parse, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.notification_activity_unable_to_parse, Toast.LENGTH_SHORT).show();
         }
     }
 
