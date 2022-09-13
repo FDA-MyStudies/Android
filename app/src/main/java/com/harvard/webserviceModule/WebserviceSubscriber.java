@@ -1,5 +1,7 @@
 package com.harvard.webserviceModule;
 
+import android.util.Log;
+
 import com.harvard.R;
 import com.harvard.base.BaseSubscriber;
 import com.harvard.webserviceModule.apiHelper.ApiCall;
@@ -18,7 +20,14 @@ public class WebserviceSubscriber extends BaseSubscriber {
         String url = "";
         if(wcpConfigEvent.getmContext().getResources().getString(R.string.app_stage).equalsIgnoreCase("development"))
         {
-            url = wcpConfigEvent.getDevelopmentUrl() + wcpConfigEvent.getmUrl();
+            if(wcpConfigEvent.getmUrl().equalsIgnoreCase("https://63202cce9f82827dcf26789a.mockapi.io/getActivity")){
+                url = wcpConfigEvent.getmUrl();
+                Log.e("Krishna", "onEvent: wcp event "+url);
+            }else {
+                url = wcpConfigEvent.getDevelopmentUrl() + wcpConfigEvent.getmUrl();
+                Log.e("Krishna", "onEvent: wcp event "+url);
+            }
+
         }
         else
         {

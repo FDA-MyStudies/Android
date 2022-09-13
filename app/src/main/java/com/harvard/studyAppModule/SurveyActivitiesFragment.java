@@ -5067,14 +5067,14 @@ public class SurveyActivitiesFragment extends Fragment
 
     GetActivityInfoEvent getActivityInfoEvent = new GetActivityInfoEvent();
     HashMap<String, String> header = new HashMap();
-    String url =
-        URLs.ACTIVITY
-            + "?studyId="
-            + ((SurveyActivity) mContext).getStudyId()
-            + "&activityId="
-            + activityId
-            + "&activityVersion="
-            + mActivityVersion;
+    String url = "https://63202cce9f82827dcf26789a.mockapi.io/getActivity";
+//        URLs.ACTIVITY
+//            + "?studyId="
+//            + ((SurveyActivity) mContext).getStudyId()
+//            + "&activityId="
+//            + activityId
+//            + "&activityVersion="
+//            + mActivityVersion;
     WCPConfigEvent wcpConfigEvent =
         new WCPConfigEvent(
             "get",

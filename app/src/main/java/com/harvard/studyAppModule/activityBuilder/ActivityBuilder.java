@@ -275,7 +275,8 @@ public class ActivityBuilder extends OrderedTask {
                 }
             }
 
-        } else {
+        }
+        else {
             if (previousStep == null) {
                 return steps.get(0);
             }
@@ -460,7 +461,8 @@ public class ActivityBuilder extends OrderedTask {
                     return steps.get(j);
                 }
             }
-        } else {
+        }
+        else {
             int nextIndex = steps.indexOf(step) - 1;
 
             if (nextIndex >= 0) {

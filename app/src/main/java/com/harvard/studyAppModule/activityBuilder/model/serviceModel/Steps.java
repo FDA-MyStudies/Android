@@ -2,6 +2,8 @@ package com.harvard.studyAppModule.activityBuilder.model.serviceModel;
 
 
 import com.harvard.studyAppModule.activityBuilder.model.Format;
+import com.harvard.studyAppModule.activityBuilder.model.Piping;
+import com.harvard.studyAppModule.activityBuilder.model.PreLoadLogic;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -11,6 +13,7 @@ import io.realm.RealmObject;
  */
 public class Steps extends RealmObject {
     private String type;
+    private String groupId;
     private String resultType;
     private String key;
     private String title;
@@ -23,6 +26,42 @@ public class Steps extends RealmObject {
     private String healthDataKey;
     private Format format;
     private RealmList<Steps> steps;
+
+    public String getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(String groupId) {
+        this.groupId = groupId;
+    }
+
+    public boolean isDefaultVisibility() {
+        return defaultVisibility;
+    }
+
+    public void setDefaultVisibility(boolean defaultVisibility) {
+        this.defaultVisibility = defaultVisibility;
+    }
+
+    public PreLoadLogic getPreLoadLogic() {
+        return preLoadLogic;
+    }
+
+    public void setPreLoadLogic(PreLoadLogic preLoadLogic) {
+        this.preLoadLogic = preLoadLogic;
+    }
+
+    public Piping getPiping() {
+        return piping;
+    }
+
+    public void setPiping(Piping piping) {
+        this.piping = piping;
+    }
+
+    private boolean defaultVisibility;
+    private PreLoadLogic preLoadLogic;
+    private Piping piping;
 
     public RealmList<Steps> getSteps() {
         return steps;
