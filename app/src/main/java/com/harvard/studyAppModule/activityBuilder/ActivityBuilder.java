@@ -1,6 +1,7 @@
 package com.harvard.studyAppModule.activityBuilder;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.harvard.storageModule.DBServiceSubscriber;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.ActivityObj;
@@ -13,6 +14,7 @@ import org.researchstack.backbone.result.TaskResult;
 import org.researchstack.backbone.step.Step;
 import org.researchstack.backbone.task.OrderedTask;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +48,7 @@ public class ActivityBuilder extends OrderedTask {
 
     @Override
     public Step getStepAfterStep(Step previousStep, TaskResult taskResult) {
-
+        Realm realmStep = AppController.getRealmobj(mcontext);
         if (mBranching) {
             Steps stepsData = null;
             for (int i = 0; i < activityQuestionStep.size(); i++) {
@@ -251,7 +253,8 @@ public class ActivityBuilder extends OrderedTask {
                         return steps.get(nextIndex);
                     }
                 }
-            } else {
+            }
+            else {
 
                 if (previousStep == null) {
                     return steps.get(0);
@@ -281,10 +284,129 @@ public class ActivityBuilder extends OrderedTask {
                 return steps.get(0);
             }
 
-            int nextIndex = steps.indexOf(previousStep) + 1;
+            if(!activityQuestionStep.get(steps.indexOf(previousStep)).isDefaultVisibility()){
+                // check for preload logic of nextstep based on the index of first step
+                switch (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getOperator()){
+                    case ">":
+                         if(Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) > Double.valueOf(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())){
+                             int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationTrueStepKey()));
+                          
+                             if (nextIndex < steps.size()) {
 
-            if (nextIndex < steps.size()) {
-                return steps.get(nextIndex);
+                                 return steps.get(nextIndex);
+                             }
+                         }else{
+                             int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
+
+                             if (nextIndex < steps.size()) {
+
+                                 return steps.get(nextIndex);
+                             }
+                         }
+                         break;
+                    case "<":
+                        if(Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) > Double.valueOf(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())){
+
+                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationTrueStepKey()));
+
+                            if (nextIndex < steps.size()) {
+
+                                return steps.get(nextIndex);
+                            }
+                        }else{
+                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
+
+                            if (nextIndex < steps.size()) {
+
+                                return steps.get(nextIndex);
+                            }
+                        }
+                        break;
+                    case  "<=":
+                        if(Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) > Double.valueOf(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())){
+
+                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationTrueStepKey()));
+
+                            if (nextIndex < steps.size()) {
+
+                                return steps.get(nextIndex);
+                            }
+                        }else{
+                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
+
+                            if (nextIndex < steps.size()) {
+
+                                return steps.get(nextIndex);
+                            }
+                        }
+                        break;
+                    case ">=":
+                        if(Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) > Double.valueOf(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())){
+
+                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationTrueStepKey()));
+
+                            if (nextIndex < steps.size()) {
+
+                                return steps.get(nextIndex);
+                            }
+                        }else{
+                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
+
+                            if (nextIndex < steps.size()) {
+
+                                return steps.get(nextIndex);
+                            }
+                        }
+                        break;
+
+                    case "=":
+
+                        if(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString().equalsIgnoreCase(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())){
+
+                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationTrueStepKey()));
+
+                            if (nextIndex < steps.size()) {
+
+                                return steps.get(nextIndex);
+                            }
+                        }else{
+                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
+
+                            if (nextIndex < steps.size()) {
+
+                                return steps.get(nextIndex);
+                            }
+                        }
+
+                        break;
+                    case "!=":
+                        if(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString().equalsIgnoreCase(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())){
+
+                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationTrueStepKey()));
+
+                            if (nextIndex < steps.size()) {
+
+                                return steps.get(nextIndex);
+                            }
+                        }else{
+                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
+                            if (nextIndex < steps.size()) {
+
+                                return steps.get(nextIndex);
+                            }
+                        }
+
+                        break;
+                    default:break;
+                }
+
+            }
+            else {
+                int nextIndex = steps.indexOf(previousStep) + 1;
+                if (nextIndex < steps.size()) {
+
+                    return steps.get(nextIndex);
+                }
             }
         }
 
@@ -480,6 +602,22 @@ public class ActivityBuilder extends OrderedTask {
         }
 
         return null;
+    }
+
+    @Override
+    public Step getStepWithIdentifier(String identifier) {
+        Iterator var2 = this.steps.iterator();
+
+        Step step;
+        do {
+            if (!var2.hasNext()) {
+                return null;
+            }
+
+            step = (Step)var2.next();
+        } while(!identifier.equals(step.getIdentifier()));
+
+        return step;
     }
 
 }

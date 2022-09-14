@@ -26,7 +26,9 @@ public class Steps extends RealmObject {
     private String healthDataKey;
     private Format format;
     private RealmList<Steps> steps;
-
+    private boolean defaultVisibility;
+    private PreLoadLogic preLoadLogic;
+    private Piping piping;
     public String getGroupId() {
         return groupId;
     }
@@ -59,9 +61,7 @@ public class Steps extends RealmObject {
         this.piping = piping;
     }
 
-    private boolean defaultVisibility;
-    private PreLoadLogic preLoadLogic;
-    private Piping piping;
+
 
     public RealmList<Steps> getSteps() {
         return steps;

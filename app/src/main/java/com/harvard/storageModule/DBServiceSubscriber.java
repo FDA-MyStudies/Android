@@ -913,6 +913,10 @@ public class DBServiceSubscriber {
         steps.setRepeatableText(step.getRepeatableText());
         steps.setSkippable(step.isSkippable());
         steps.setTitle(step.getTitle());
+        steps.setDefaultVisibility(step.isDefaultVisibility());
+        steps.setPreLoadLogic(step.getPreLoadLogic());
+        steps.setPiping(step.getPiping());
+        steps.setGroupId(step.getGroupId());
         realm.commitTransaction();
         return steps;
     }

@@ -8,6 +8,29 @@ import io.realm.RealmObject;
 public class PreLoadLogic extends RealmObject implements Serializable {
     private String value;
     private String operator;
+    private String activityId;
+    private String activityVersion;
+    private boolean isPiping;
+    private RealmList<DestinationStep> destinationStep;
+    private String destinationTrueStepKey;
+    private String destinationFalseStepKey;
+    public String getDestinationTrueStepKey() {
+        return destinationTrueStepKey;
+    }
+
+    public void setDestinationTrueStepKey(String destinationTrueStepKey) {
+        this.destinationTrueStepKey = destinationTrueStepKey;
+    }
+
+    public String getDestinationFalseStepKey() {
+        return destinationFalseStepKey;
+    }
+
+    public void setDestinationFalseStepKey(String destinationFalseStepKey) {
+        this.destinationFalseStepKey = destinationFalseStepKey;
+    }
+
+
 
     public String getValue() {
         return value;
@@ -57,8 +80,5 @@ public class PreLoadLogic extends RealmObject implements Serializable {
         this.destinationStep = destinationStep;
     }
 
-    private String activityId;
-    private String activityVersion;
-    private boolean isPiping;
-    private RealmList<DestinationStep> destinationStep;
+
 }

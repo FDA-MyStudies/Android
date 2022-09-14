@@ -85,7 +85,7 @@ public class StepsBuilder {
                             QuestionStepCustom continousscaleStep = new QuestionStepCustom(activityQuestionStep.get(i).getKey(), context.getResources().getString(R.string.survey), ContinousScaleFormat);
                             continousscaleStep.setAnswerFormat1(ContinousScaleFormat);
                             if (branching)
-                                continousscaleStep.setStepTitle(R.string.notxt);
+                            continousscaleStep.setStepTitle(R.string.notxt);
                             continousscaleStep.setTitle(activityQuestionStep.get(i).getTitle());
                             continousscaleStep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                             continousscaleStep.setOptional(activityQuestionStep.get(i).isSkippable());
