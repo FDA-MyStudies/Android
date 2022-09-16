@@ -28,6 +28,16 @@ public class Steps extends RealmObject {
     private RealmList<Steps> steps;
     private boolean defaultVisibility;
     private PreLoadLogic preLoadLogic;
+    private boolean isPiping;
+
+    public boolean isPiping() {
+        return isPiping;
+    }
+
+    public void setPiping(boolean piping) {
+        isPiping = piping;
+    }
+
     private Piping piping;
     public String getGroupId() {
         return groupId;

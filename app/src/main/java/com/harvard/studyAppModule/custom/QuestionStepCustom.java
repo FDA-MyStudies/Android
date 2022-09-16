@@ -14,15 +14,38 @@ public class QuestionStepCustom extends QuestionStep {
     private String addmoretitle;
     private String TimeIntevalDuration;
 
+    public String key_pipe;
+    public boolean isPPing;
+    public String pipeValue;
+    public String pipeOperator;
+    public String pipingSnippet;
+    public String pipeSocuceKey;
+
+    public String getPipeSocuceKey() {
+        return pipeSocuceKey;
+    }
+
+    public void setPipeSocuceKey(String pipeSocuceKey) {
+        this.pipeSocuceKey = pipeSocuceKey;
+    }
+
     /**
      * Returns a new question step that includes the specified identifier.
      *
      * @param identifier The identifier of the step (a step identifier should be unique within the
      *                   task).
      */
-    public QuestionStepCustom(String identifier) {
+    public QuestionStepCustom(String identifier,boolean isPPing,String pipeOperator,String key_pipe,
+
+                              String pipeValue,String pipingSnippet, String pipeSocuceKey) {
         super(identifier);
         this.identifier = identifier;
+        this.isPPing = isPPing;
+        this.pipeOperator = pipeOperator;
+        this.key_pipe = key_pipe;
+        this.pipeValue = pipeValue;
+        this.pipingSnippet = pipingSnippet;
+        this.pipeSocuceKey=pipeSocuceKey;
     }
 
     /**
@@ -32,9 +55,17 @@ public class QuestionStepCustom extends QuestionStep {
      *                   task).
      * @param title      A localized string that represents the primary text of the question.
      */
-    public QuestionStepCustom(String identifier, String title) {
+    public QuestionStepCustom(String identifier, String title,boolean isPPing,String pipeOperator,String key_pipe,
+
+                              String pipeValue,String pipingSnippet, String pipeSocuceKey) {
         super(identifier, title);
         this.identifier = identifier;
+        this.isPPing = isPPing;
+        this.pipeOperator = pipeOperator;
+        this.key_pipe = key_pipe;
+        this.pipeValue = pipeValue;
+        this.pipingSnippet = pipingSnippet;
+        this.pipeSocuceKey=pipeSocuceKey;
     }
 
     /**
@@ -46,10 +77,19 @@ public class QuestionStepCustom extends QuestionStep {
      * @param title      A localized string that represents the primary text of the question.
      * @param format     The format in which the answer is expected.
      */
-    public QuestionStepCustom(String identifier, String title, AnswerFormatCustom format) {
+    public QuestionStepCustom(String identifier, String title, AnswerFormatCustom format, boolean isPPing, String pipeOperator, String key_pipe,
+
+                              String pipeValue, String pipingSnippet, String pipeSocuceKey
+    ) {
         super(identifier, title);
         this.answerFormat = format;
         this.identifier = identifier;
+        this.isPPing = isPPing;
+        this.pipeOperator = pipeOperator;
+        this.key_pipe = key_pipe;
+        this.pipeValue = pipeValue;
+        this.pipingSnippet = pipingSnippet;
+        this.pipeSocuceKey=pipeSocuceKey;
     }
 
     public void setidentifier(String identifier) {
@@ -145,6 +185,43 @@ public class QuestionStepCustom extends QuestionStep {
         this.addmoretitle = addMoreTitle;
     }
 
+    public String getKey_pipe() {
+        return key_pipe;
+    }
 
+    public void setKey_pipe(String key_pipe) {
+        this.key_pipe = key_pipe;
+    }
 
+    public boolean isPPing() {
+        return isPPing;
+    }
+
+    public void setPPing(boolean PPing) {
+        isPPing = PPing;
+    }
+
+    public String getPipeValue() {
+        return pipeValue;
+    }
+
+    public void setPipeValue(String pipeValue) {
+        this.pipeValue = pipeValue;
+    }
+
+    public String getPipeOperator() {
+        return pipeOperator;
+    }
+
+    public void setPipeOperator(String pipeOperator) {
+        this.pipeOperator = pipeOperator;
+    }
+
+    public String getPipingSnippet() {
+        return pipingSnippet;
+    }
+
+    public void setPipingSnippet(String pipingSnippet) {
+        this.pipingSnippet = pipingSnippet;
+    }
 }

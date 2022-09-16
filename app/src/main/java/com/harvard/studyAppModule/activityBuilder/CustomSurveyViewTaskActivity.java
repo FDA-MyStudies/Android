@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
@@ -30,11 +31,29 @@ import com.harvard.studyAppModule.SurveyCompleteActivity;
 import com.harvard.studyAppModule.activityBuilder.model.Choices;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.ActivityObj;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.Steps;
+import com.harvard.studyAppModule.custom.AnswerFormatCustom;
 import com.harvard.studyAppModule.custom.ChoiceAnswerFormatCustom;
 import com.harvard.studyAppModule.custom.QuestionStepCustom;
 import com.harvard.studyAppModule.custom.Result.StepRecordCustom;
 import com.harvard.studyAppModule.custom.Result.TaskRecordCustom;
 import com.harvard.studyAppModule.custom.StepSwitcherCustom;
+import com.harvard.studyAppModule.custom.question.ChoiceCustomImage;
+import com.harvard.studyAppModule.custom.question.ChoiceText;
+import com.harvard.studyAppModule.custom.question.ChoiceTextExclusive;
+import com.harvard.studyAppModule.custom.question.ContinousScaleAnswerFormat;
+import com.harvard.studyAppModule.custom.question.DateAnswerformatCustom;
+import com.harvard.studyAppModule.custom.question.DecimalUnitAnswerFormat;
+import com.harvard.studyAppModule.custom.question.EmailAnswerFormatCustom;
+import com.harvard.studyAppModule.custom.question.HeightAnswerFormat;
+import com.harvard.studyAppModule.custom.question.IntegerUnitAnswerFormat;
+import com.harvard.studyAppModule.custom.question.LocationAnswerFormat;
+import com.harvard.studyAppModule.custom.question.MultiChoiceImageAnswerFormat;
+import com.harvard.studyAppModule.custom.question.MultiChoiceTextAnswerFormat;
+import com.harvard.studyAppModule.custom.question.ScaleAnswerFormat;
+import com.harvard.studyAppModule.custom.question.ScaleTextAnswerFormat;
+import com.harvard.studyAppModule.custom.question.SingleChoiceTextAnswerFormat;
+import com.harvard.studyAppModule.custom.question.TextAnswerFormatRegex;
+import com.harvard.studyAppModule.custom.question.TimeIntervalAnswerFormat;
 import com.harvard.studyAppModule.studyModel.NotificationDbResources;
 import com.harvard.studyAppModule.studyModel.Resource;
 import com.harvard.studyAppModule.studyModel.StudyHome;
@@ -43,7 +62,9 @@ import com.harvard.utils.AppController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.researchstack.backbone.answerformat.BooleanAnswerFormat;
 import org.researchstack.backbone.answerformat.ChoiceAnswerFormat;
+import org.researchstack.backbone.model.Choice;
 import org.researchstack.backbone.result.StepResult;
 import org.researchstack.backbone.result.TaskResult;
 import org.researchstack.backbone.step.QuestionStep;
@@ -56,6 +77,8 @@ import org.researchstack.backbone.utils.FormatHelper;
 
 import java.lang.reflect.Constructor;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -103,6 +126,8 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
     String mActivityId;
     Realm realm;
     public static String RESOURCES = "resources";
+    String resultValue ;
+    ArrayList<String>names = new ArrayList<>();
 
     public static Intent newIntent(Context context, String surveyId, String studyId, int mCurrentRunId, String mActivityStatus, int missedRun, int completedRun, int totalRun, String mActivityVersion, Date currentRunStartDate, Date currentRunEndDate, String activityId, boolean branching, String frequencyType) {
         Intent intent = new Intent(context, CustomSurveyViewTaskActivity.class);
@@ -270,6 +295,8 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                 if (!stepResult.getResults().isEmpty()) {
                     Gson gson = new GsonBuilder().setDateFormat(FormatHelper.DATE_FORMAT_ISO_8601).create();
                     stepRecord.result = gson.toJson(stepResult.getResults());
+                    resultValue="";
+                    resultValue = "" + stepResult.getResults().get("answer");
                 }
 
                 dbServiceSubscriber.updateStepRecord(this,stepRecord);
@@ -371,9 +398,13 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
     private void showStep(Step step) {
         //branching logic here
-        currentStepPosition = task.getProgressOfCurrentStep(currentStep, taskResult)
+         currentStepPosition = task.getProgressOfCurrentStep(currentStep, taskResult)
                 .getCurrent();
         int newStepPosition = task.getProgressOfCurrentStep(step, taskResult).getCurrent();
+
+       initiatePiping("",currentStep,taskResult,step,currentStepPosition,newStepPosition);
+
+
 
         StepLayout stepLayout = getLayoutForStep(step);
         stepLayout.getLayout().setTag(org.researchstack.backbone.R.id.rsb_step_layout_id, step.getIdentifier());
@@ -383,6 +414,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                         : StepSwitcherCustom.SHIFT_RIGHT);
         currentStep = step;
         AppController.getHelperHideKeyboard(this);
+        resultValue = "";
     }
 
     protected StepLayout getLayoutForStep(Step step) {
@@ -594,6 +626,28 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
             realm.commitTransaction();
         } else {
             Toast.makeText(this, getResources().getString(R.string.step_couldnt_add), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    public void initiatePiping(String identifier, Step currentStep, TaskResult taskResult, Step step, int currentStepPosition, int newStepPosition){
+        if(!currentStep.getIdentifier().equalsIgnoreCase("Instructionstep")&&!step.getIdentifier().equalsIgnoreCase("Instructionstep")&& this.currentStepPosition !=newStepPosition&&!currentStep.getIdentifier().equalsIgnoreCase("boolean")&&!step.getIdentifier().equalsIgnoreCase("boolean")) {
+            QuestionStepCustom currentStepPipe = (QuestionStepCustom) currentStep;
+            QuestionStepCustom nextStepPipe = (QuestionStepCustom) step;
+
+            if (currentStepPipe.isPPing()) {
+                if(currentStepPipe.getKey_pipe().equalsIgnoreCase(nextStepPipe.getPipeSocuceKey())) {
+
+                    String replaceString = step.getText().replace(nextStepPipe.getPipingSnippet(),resultValue);
+                    nextStepPipe.setPipingSnippet(resultValue);
+                    String val;
+                    val = "";
+                    val = step.getText() + resultValue;
+                    step.setText("");
+                    step.setText(replaceString);
+                    Log.e("pipetryue", "" + currentStepPipe.getPipeValue() + " " + currentStepPipe.getKey_pipe() + " ");
+                }
+            }
         }
     }
 
