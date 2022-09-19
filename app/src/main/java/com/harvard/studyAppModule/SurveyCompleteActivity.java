@@ -176,7 +176,8 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
                                     }
                                     resultarrobj.put("value", findPrimitiveData(jsonParser.parse(StepRecord.get(j).getResult()), activityObj, i));
                                 }
-                            } else {
+                            }
+                            else {
                                 Map<String, Object> map = (Map<String, Object>) parseData(jsonParser.parse(StepRecord.get(j).getResult()));
                                 JSONArray jsonArrayMain = new JSONArray();
 
@@ -352,6 +353,7 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
                                     resultarrobj.put("value", jsonArrayMain);
                                 }
                             }
+                            resultarrobj.put("isHidden", activityObj.getSteps().get(i).isHidden());
                             resultarray.put(resultarrobj);
 
                             dataobj.put("results", resultarray);

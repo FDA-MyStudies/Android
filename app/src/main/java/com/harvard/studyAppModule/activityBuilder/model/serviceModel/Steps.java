@@ -45,7 +45,7 @@ public class Steps extends RealmObject {
 
     private boolean isPiping;
     private PreLoadLogic preLoadLogic;
-    private boolean isPiping;
+
 
     public boolean isPiping() {
         return isPiping;
@@ -57,13 +57,7 @@ public class Steps extends RealmObject {
 
     private Piping piping;
 
-    public boolean isPiping() {
-        return isPiping;
-    }
 
-    public void setPiping(boolean piping) {
-        isPiping = piping;
-    }
 
     public String getGroupId() {
         return groupId;

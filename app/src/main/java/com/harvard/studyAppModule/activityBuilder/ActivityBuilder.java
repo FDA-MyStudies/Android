@@ -704,19 +704,31 @@ public class ActivityBuilder extends OrderedTask {
         }
         else {
 
+            if(activityQuestionStep.get(steps.indexOf(step)).isHidden()){
+                while (activityQuestionStep.get(steps.indexOf(step)).isHidden()){
+                    int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(step)).getSourceQuestionKey()));
 
-            if(!activityQuestionStep.get(steps.indexOf(step)).getSourceQuestionKey().equalsIgnoreCase("")){
-                int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(step)).getSourceQuestionKey()));
-                taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(nextIndex)).getKey()).getResult().toString();
+                    if(nextIndex >= 0) {
+                        if (taskResult.getStepResult(activityQuestionStep.get(nextIndex).getKey()).getResult().toString() != null) {
+                            return steps.get(nextIndex);
+                        }else{
+                            nextIndex -= 1;
+                        }
+                    }
 
-                //int nextIndex = steps.indexOf(step) - 1;
-                if (nextIndex >= 0) {
-                    return steps.get(nextIndex);
                 }
-            }else{
+//                int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(step)).getSourceQuestionKey()));
+//                taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(nextIndex)).getKey()).getResult().toString();
+//
+//                //int nextIndex = steps.indexOf(step) - 1;
+//                if (nextIndex >= 0) {
+//                    return steps.get(nextIndex);
+//                }
+
+            }else if(!activityQuestionStep.get(steps.indexOf(step)).isHidden()){
                 int nextIndex = steps.indexOf(step) - 1;
 
-                taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(nextIndex)).getKey()).getResult().toString();
+                //taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(nextIndex)).getKey()).getResult().toString();
                 if (nextIndex >= 0) {
                     return steps.get(nextIndex);
                 }
