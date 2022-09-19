@@ -914,9 +914,11 @@ public class DBServiceSubscriber {
         steps.setSkippable(step.isSkippable());
         steps.setTitle(step.getTitle());
         steps.setDefaultVisibility(step.isDefaultVisibility());
+        steps.setHidden(step.isHidden());
         steps.setPreLoadLogic(step.getPreLoadLogic());
         steps.setPiping(step.getPiping());
         steps.setGroupId(step.getGroupId());
+        steps.setSourceQuestionKey(step.getSourceQuestionKey());
         realm.commitTransaction();
         return steps;
     }

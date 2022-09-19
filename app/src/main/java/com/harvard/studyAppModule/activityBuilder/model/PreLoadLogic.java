@@ -10,25 +10,19 @@ public class PreLoadLogic extends RealmObject implements Serializable {
     private String operator;
     private String activityId;
     private String activityVersion;
-    private boolean isPiping;
+    private String destinationStepKey;
     private RealmList<DestinationStep> destinationStep;
-    private String destinationTrueStepKey;
-    private String destinationFalseStepKey;
-    public String getDestinationTrueStepKey() {
-        return destinationTrueStepKey;
+
+    public String getDestinationStepKey() {
+        return destinationStepKey;
     }
 
-    public void setDestinationTrueStepKey(String destinationTrueStepKey) {
-        this.destinationTrueStepKey = destinationTrueStepKey;
+    public void setDestinationStepKey(String destinationStepKey) {
+        this.destinationStepKey = destinationStepKey;
     }
 
-    public String getDestinationFalseStepKey() {
-        return destinationFalseStepKey;
-    }
 
-    public void setDestinationFalseStepKey(String destinationFalseStepKey) {
-        this.destinationFalseStepKey = destinationFalseStepKey;
-    }
+
 
 
 
@@ -64,13 +58,6 @@ public class PreLoadLogic extends RealmObject implements Serializable {
         this.activityVersion = activityVersion;
     }
 
-    public boolean isPiping() {
-        return isPiping;
-    }
-
-    public void setPiping(boolean piping) {
-        isPiping = piping;
-    }
 
     public RealmList<DestinationStep> getDestinationStep() {
         return destinationStep;

@@ -20,7 +20,7 @@ public class WebserviceSubscriber extends BaseSubscriber {
         String url = "";
         if(wcpConfigEvent.getmContext().getResources().getString(R.string.app_stage).equalsIgnoreCase("development"))
         {
-            if(wcpConfigEvent.getmUrl().equalsIgnoreCase("https://63202cce9f82827dcf26789a.mockapi.io/getActivity")){
+            if(wcpConfigEvent.getmUrl().equalsIgnoreCase("https://63202cce9f82827dcf26789a.mockapi.io/getActivityM")){
                 url = wcpConfigEvent.getmUrl();
                 Log.e("Krishna", "onEvent: wcp event "+url);
             }else {

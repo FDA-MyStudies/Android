@@ -289,72 +289,136 @@ public class ActivityBuilder extends OrderedTask {
                 switch (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getOperator()){
                     case ">":
                          if(Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) > Double.valueOf(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())){
-                             int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationTrueStepKey()));
-                          
-                             if (nextIndex < steps.size()) {
-
-                                 return steps.get(nextIndex);
-                             }
-                         }else{
-                             int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
+                             int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
 
                              if (nextIndex < steps.size()) {
 
                                  return steps.get(nextIndex);
                              }
                          }
+                         else{
+                             int nextIndex = steps.indexOf(previousStep) + 1;
+                             if(activityQuestionStep.get(nextIndex).isHidden()) {
+                                 while (activityQuestionStep.get(nextIndex).isHidden()) {
+                                        nextIndex += 1;
+                                     if (!activityQuestionStep.get(nextIndex).isHidden()) {
+                                         if (nextIndex < steps.size()) {
+
+                                             return steps.get(nextIndex);
+                                         }else {
+                                             return null;
+                                         }
+
+                                     }
+                                 }
+                             }else {
+
+                                 if (nextIndex < steps.size()) {
+
+                                     return steps.get(nextIndex);
+                                 }
+                             }
+                         }
                          break;
                     case "<":
                         if(Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) > Double.valueOf(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())){
 
-                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationTrueStepKey()));
+                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
 
                             if (nextIndex < steps.size()) {
 
                                 return steps.get(nextIndex);
                             }
                         }else{
-                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
+                            int nextIndex = steps.indexOf(previousStep) + 1;
 
-                            if (nextIndex < steps.size()) {
+                            if(activityQuestionStep.get(nextIndex).isHidden()) {
+                                while (activityQuestionStep.get(nextIndex).isHidden()) {
+                                    nextIndex += 1;
+                                    if (!activityQuestionStep.get(nextIndex).isHidden()) {
+                                        if (nextIndex < steps.size()) {
 
-                                return steps.get(nextIndex);
+                                            return steps.get(nextIndex);
+                                        }else {
+                                            return null;
+                                        }
+
+                                    }
+                                }
+                            }else {
+
+                                if (nextIndex < steps.size()) {
+
+                                    return steps.get(nextIndex);
+                                }
                             }
                         }
                         break;
                     case  "<=":
                         if(Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) > Double.valueOf(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())){
 
-                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationTrueStepKey()));
+                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
 
                             if (nextIndex < steps.size()) {
 
                                 return steps.get(nextIndex);
                             }
                         }else{
-                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
+                            int nextIndex = steps.indexOf(previousStep) + 1;
 
-                            if (nextIndex < steps.size()) {
+                            if(activityQuestionStep.get(nextIndex).isHidden()) {
+                                while (activityQuestionStep.get(nextIndex).isHidden()) {
+                                    nextIndex += 1;
+                                    if (!activityQuestionStep.get(nextIndex).isHidden()) {
+                                        if (nextIndex < steps.size()) {
 
-                                return steps.get(nextIndex);
+                                            return steps.get(nextIndex);
+                                        }else {
+                                            return null;
+                                        }
+
+                                    }
+                                }
+                            }else {
+
+                                if (nextIndex < steps.size()) {
+
+                                    return steps.get(nextIndex);
+                                }
                             }
                         }
                         break;
                     case ">=":
                         if(Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) > Double.valueOf(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())){
 
-                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationTrueStepKey()));
+                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
 
                             if (nextIndex < steps.size()) {
 
                                 return steps.get(nextIndex);
                             }
                         }else{
-                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
+                            int nextIndex = steps.indexOf(previousStep) + 1;
 
-                            if (nextIndex < steps.size()) {
+                            if(activityQuestionStep.get(nextIndex).isHidden()) {
+                                while (activityQuestionStep.get(nextIndex).isHidden()) {
+                                    nextIndex += 1;
+                                    if (!activityQuestionStep.get(nextIndex).isHidden()) {
+                                        if (nextIndex < steps.size()) {
 
-                                return steps.get(nextIndex);
+                                            return steps.get(nextIndex);
+                                        }else {
+                                            return null;
+                                        }
+
+                                    }
+                                }
+                            }else {
+
+                                if (nextIndex < steps.size()) {
+
+                                    return steps.get(nextIndex);
+                                }
                             }
                         }
                         break;
@@ -363,18 +427,35 @@ public class ActivityBuilder extends OrderedTask {
 
                         if(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString().equalsIgnoreCase(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())){
 
-                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationTrueStepKey()));
+                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
 
                             if (nextIndex < steps.size()) {
 
                                 return steps.get(nextIndex);
                             }
                         }else{
-                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
+                         //   int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
+                            int nextIndex = steps.indexOf(previousStep) + 1;
 
-                            if (nextIndex < steps.size()) {
+                            if(activityQuestionStep.get(nextIndex).isHidden()) {
+                                while (activityQuestionStep.get(nextIndex).isHidden()) {
+                                    nextIndex += 1;
+                                    if (!activityQuestionStep.get(nextIndex).isHidden()) {
+                                        if (nextIndex < steps.size()) {
 
-                                return steps.get(nextIndex);
+                                            return steps.get(nextIndex);
+                                        }else {
+                                            return null;
+                                        }
+
+                                    }
+                                }
+                            }else {
+
+                                if (nextIndex < steps.size()) {
+
+                                    return steps.get(nextIndex);
+                                }
                             }
                         }
 
@@ -382,30 +463,67 @@ public class ActivityBuilder extends OrderedTask {
                     case "!=":
                         if(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString().equalsIgnoreCase(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())){
 
-                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationTrueStepKey()));
+                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
 
                             if (nextIndex < steps.size()) {
 
                                 return steps.get(nextIndex);
                             }
                         }else{
-                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
-                            if (nextIndex < steps.size()) {
+                           // int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
+                            int nextIndex = steps.indexOf(previousStep) + 1;
 
-                                return steps.get(nextIndex);
+                            if(activityQuestionStep.get(nextIndex).isHidden()) {
+                                while (activityQuestionStep.get(nextIndex).isHidden()) {
+                                    nextIndex += 1;
+                                    if (!activityQuestionStep.get(nextIndex).isHidden()) {
+                                        if (nextIndex < steps.size()) {
+
+                                            return steps.get(nextIndex);
+                                        }else {
+                                            return null;
+                                        }
+
+                                    }
+                                }
+                            }else {
+
+                                if (nextIndex < steps.size()) {
+
+                                    return steps.get(nextIndex);
+                                }
                             }
                         }
 
                         break;
-                    default:break;
+
                 }
 
             }
             else {
+
                 int nextIndex = steps.indexOf(previousStep) + 1;
                 if (nextIndex < steps.size()) {
+                    if (activityQuestionStep.get(nextIndex).isHidden()) {
+                        while (activityQuestionStep.get(nextIndex).isHidden()) {
+                            nextIndex += 1;
+                            if (!activityQuestionStep.get(nextIndex).isHidden()) {
+                                if (nextIndex < steps.size()) {
 
-                    return steps.get(nextIndex);
+                                    return steps.get(nextIndex);
+                                } else {
+                                    return null;
+                                }
+
+                            }
+                        }
+                    } else {
+
+                        if (nextIndex < steps.size()) {
+
+                            return steps.get(nextIndex);
+                        }
+                    }
                 }
             }
         }
@@ -585,12 +703,24 @@ public class ActivityBuilder extends OrderedTask {
             }
         }
         else {
-            int nextIndex = steps.indexOf(step) - 1;
 
-            if (nextIndex >= 0) {
-                return steps.get(nextIndex);
+
+            if(!activityQuestionStep.get(steps.indexOf(step)).getSourceQuestionKey().equalsIgnoreCase("")){
+                int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(step)).getSourceQuestionKey()));
+                taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(nextIndex)).getKey()).getResult().toString();
+
+                //int nextIndex = steps.indexOf(step) - 1;
+                if (nextIndex >= 0) {
+                    return steps.get(nextIndex);
+                }
+            }else{
+                int nextIndex = steps.indexOf(step) - 1;
+
+                taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(nextIndex)).getKey()).getResult().toString();
+                if (nextIndex >= 0) {
+                    return steps.get(nextIndex);
+                }
             }
-
             return null;
         }
 

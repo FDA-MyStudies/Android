@@ -5067,7 +5067,8 @@ public class SurveyActivitiesFragment extends Fragment
 
     GetActivityInfoEvent getActivityInfoEvent = new GetActivityInfoEvent();
     HashMap<String, String> header = new HashMap();
-    String url = "https://63202cce9f82827dcf26789a.mockapi.io/getActivity";
+    String url = "https://63202cce9f82827dcf26789a.mockapi.io/getActivityM";
+    //String url = "https://63202cce9f82827dcf26789a.mockapi.io/getActivityM";
 //        URLs.ACTIVITY
 //            + "?studyId="
 //            + ((SurveyActivity) mContext).getStudyId()
@@ -5168,7 +5169,8 @@ public class SurveyActivitiesFragment extends Fragment
         } else {
           Toast.makeText(mContext, R.string.no_task_available, Toast.LENGTH_SHORT).show();
         }
-      } else {
+      }
+      else {
         Toast.makeText(mContext, R.string.no_ableto_getdata, Toast.LENGTH_SHORT).show();
       }
     } catch (Exception e) {
