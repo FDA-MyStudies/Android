@@ -94,6 +94,7 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
 
         RealmResults<Activities> activitiesRealmResults = realm.where(Activities.class).equalTo("studyId", getIntent().getStringExtra(STUDYID)).findAll();
         Activities activities = null;
+
         for (int i = 0; i < activitiesRealmResults.size(); i++) {
             if (activitiesRealmResults.get(i).getActivityId().equalsIgnoreCase(activityId[1]))
                 activities = activitiesRealmResults.get(i);
@@ -107,7 +108,8 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
         if (activities != null && activityObj != null) {
 
 
-            ResponseServerConfigEvent responseServerConfigEvent = new ResponseServerConfigEvent("post_object", URLs.PROCESS_RESPONSE, PROCESS_RESPONSE_RESPONSECODE, this, LoginData.class, null, null, getResponseDataJson(activityObj, activities, participantId), false, this);
+            ResponseServerConfigEvent responseServerConfigEvent = new ResponseServerConfigEvent("post_object", URLs.PROCESS_RESPONSE, PROCESS_RESPONSE_RESPONSECODE, this, LoginData.class, null, null,
+                    getResponseDataJson(activityObj, activities, participantId), false, this);
             processResponseEvent.setResponseServerConfigEvent(responseServerConfigEvent);
             StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
             studyModulePresenter.performProcessResponse(processResponseEvent);

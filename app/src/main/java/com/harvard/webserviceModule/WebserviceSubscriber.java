@@ -27,7 +27,6 @@ public class WebserviceSubscriber extends BaseSubscriber {
                 url = wcpConfigEvent.getDevelopmentUrl() + wcpConfigEvent.getmUrl();
                 Log.e("Krishna", "onEvent: wcp event "+url);
             }
-
         }
         else
         {
