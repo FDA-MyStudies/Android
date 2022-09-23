@@ -1,6 +1,7 @@
 package com.harvard.storageModule;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.harvard.notificationModule.PendingIntents;
 import com.harvard.notificationModule.model.NotificationDb;
@@ -875,7 +876,19 @@ public class DBServiceSubscriber {
         return realm.where(StepRecordCustom.class).max("id");
     }
 
+    public void deleteStepRecord(Context context, String stepId){
+        realm = AppController.getRealmobj(context);
+        StepRecordCustom stepRecordCustom = realm.where(StepRecordCustom.class).equalTo("stepId",stepId).findFirst();
+
+        realm.beginTransaction();
+        if(stepRecordCustom != null){
+            stepRecordCustom.deleteFromRealm();
+        }
+        realm.commitTransaction();
+        closeRealmObj(realm);
+    }
     public void updateStepRecord(Context context, StepRecordCustom stepRecordCustom) {
+        Log.e("Krishna", "updateStepRecord: getstepId "+stepRecordCustom.getStepId());
         realm = AppController.getRealmobj(context);
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(stepRecordCustom);
