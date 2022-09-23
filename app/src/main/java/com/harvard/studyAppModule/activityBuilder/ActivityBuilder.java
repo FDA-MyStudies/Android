@@ -14,6 +14,7 @@ import org.researchstack.backbone.result.TaskResult;
 import org.researchstack.backbone.step.Step;
 import org.researchstack.backbone.task.OrderedTask;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -534,8 +535,8 @@ public class ActivityBuilder extends OrderedTask {
 
     @Override
     public Step getStepBeforeStep(Step step, TaskResult taskResult) {
-
-        if (mBranching) {
+       taskResult.getResults().remove(step.getIdentifier());
+       if (mBranching) {
             String identifier = "";
             for (int i = 0; i < activityQuestionStep.size(); i++) {
                 for (int k = 0; k < activityQuestionStep.get(i).getDestinations().size(); k++) {
@@ -711,6 +712,8 @@ public class ActivityBuilder extends OrderedTask {
 
                     if (prevIndex >= 0) {
                     Log.e("Krishna", "getStepBeforeStep: taskResult Hidden true return");
+                    List<String> ids = new ArrayList<>();
+
                     return steps.get(prevIndex);
                          }
                 }
