@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 import io.realm.RealmObject;
 
-public class Piping extends RealmObject implements Serializable {
+public class PipingLogic extends RealmObject implements Serializable {
     public String getSourceQuestionKey() {
         return sourceQuestionKey;
     }

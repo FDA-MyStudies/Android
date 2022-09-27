@@ -55,8 +55,6 @@ Gapp/src/main/java/com/harvard/offlineModule/auth/StubAuthenticator.java,e\0\e0
 Napp/src/main/java/com/harvard/offlineModule/auth/StubAuthenticatorService.java,7\2\72206ea247fe21c785bea2099fc21eddc83d1f98
 W
 'app/src/limitjia/res/values/strings.xml,c\d\cd51fd2935871358f54b8b37b09ec038220d53a9
-@
-app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
 q
 Aapp/src/main/java/com/harvard/offlineModule/auth/SyncAdapter.java,6\5\65a63ac403cb821ec832a3953ec35885d04782fc
 x
@@ -79,8 +77,6 @@ X
 (app/src/limitjia/res/xml/syncadapter.xml,9\8\98a970286a493aca989575de04be8bb33ad06d39
 U
 %app/src/limitjia/google-services.json,3\4\34623e3f3d868a79254d94a39e7fcd3a4f009f15
-P
- app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
 T
 $app/src/limitjia/AndroidManifest.xml,2\a\2a0e4b54858584b91459b647ee9661632e30f6ef
 O

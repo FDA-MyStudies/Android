@@ -2,7 +2,7 @@ package com.harvard.studyAppModule.activityBuilder.model.serviceModel;
 
 
 import com.harvard.studyAppModule.activityBuilder.model.Format;
-import com.harvard.studyAppModule.activityBuilder.model.Piping;
+import com.harvard.studyAppModule.activityBuilder.model.PipingLogic;
 import com.harvard.studyAppModule.activityBuilder.model.PreLoadLogic;
 
 import io.realm.RealmList;
@@ -38,6 +38,9 @@ public class Steps extends RealmObject {
     private boolean piping;
     private PreLoadLogic preLoadLogic;
 
+    private PipingLogic pipingLogic;
+
+
     public boolean isHidden() {
         return isHidden;
     }
@@ -53,7 +56,6 @@ public class Steps extends RealmObject {
         piping = piping;
     }
 
-    private Piping pipingLogic;
 
 
 
@@ -81,11 +83,11 @@ public class Steps extends RealmObject {
         this.preLoadLogic = preLoadLogic;
     }
 
-    public Piping getPiping() {
+    public PipingLogic getPiping() {
         return pipingLogic;
     }
 
-    public void setPiping(Piping piping) {
+    public void setPiping(PipingLogic piping) {
         this.pipingLogic = piping;
     }
 
