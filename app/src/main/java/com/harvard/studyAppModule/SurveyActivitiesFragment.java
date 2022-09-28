@@ -5149,6 +5149,9 @@ public class SurveyActivitiesFragment extends Fragment
     String survetTosurveyActivityId= AppController.getHelperSharedPreference()
             .readPreference(mContext,
                     "survetTosurveyActivityId", "");
+    String activityVersion= AppController.getHelperSharedPreference()
+            .readPreference(mContext,
+                    "survetTosurveyactivityVersion", "");
     GetActivityInfoEvent getActivityInfoEvent = new GetActivityInfoEvent();
     HashMap<String, String> header = new HashMap();
     //String url = "https://632adb4b713d41bc8e790540.mockapi.io/getactivitym/getactivity";
@@ -5159,7 +5162,7 @@ public class SurveyActivitiesFragment extends Fragment
            + "&activityId="
            + survetTosurveyActivityId
             + "&activityVersion="
-           + mActivityVersion;
+           + activityVersion;
     WCPConfigEvent wcpConfigEvent =
             new WCPConfigEvent(
                     "get",

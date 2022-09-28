@@ -256,6 +256,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
             QuestionStepCustom currentStepPipe = (QuestionStepCustom) currentStep;
             String activityid = ""+currentStepPipe.getActivityId();
             String sourceKey = ""+currentStepPipe.getDestinationStepKey();
+            String activityVersion = ""+currentStepPipe.getActivityVersion();
             AppController.getHelperSharedPreference()
                     .writePreference(
                             CustomSurveyViewTaskActivity.this,
@@ -285,7 +286,11 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                                 CustomSurveyViewTaskActivity.this,
                                 "survetTosurveySourceKey2",
                                 sourceKey);
-
+                AppController.getHelperSharedPreference()
+                        .writePreference(
+                                CustomSurveyViewTaskActivity.this,
+                                "survetTosurveyactivityVersion",
+                                activityVersion);
            }
          }
         Step nextStep = task.getStepAfterStep(currentStep, taskResult);
