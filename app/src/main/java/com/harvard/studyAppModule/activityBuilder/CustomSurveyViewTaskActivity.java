@@ -130,6 +130,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
     ArrayList<String>names = new ArrayList<>();
     boolean surveyTosurveyFlag=false;
     boolean flag=false;
+    int count;
 
     public static Intent newIntent(Context context, String surveyId, String studyId, int mCurrentRunId, String mActivityStatus, int missedRun, int completedRun, int totalRun, String mActivityVersion, Date currentRunStartDate, Date currentRunEndDate, String activityId, boolean branching, String frequencyType) {
         Intent intent = new Intent(context, CustomSurveyViewTaskActivity.class);
@@ -250,7 +251,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
     protected void showNextStep() {
         savestepresult(currentStep, true);
-              if(!currentStep.getIdentifier().equalsIgnoreCase("Instructionstep")) {
+        if(!currentStep.getIdentifier().equalsIgnoreCase("Instructionstep")) {
 
             QuestionStepCustom currentStepPipe = (QuestionStepCustom) currentStep;
             String activityid = ""+currentStepPipe.getActivityId();
@@ -266,27 +267,33 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                             "survetTosurveySourceKey",
                             "");
             if(activityid!=null&&!activityid.equalsIgnoreCase("")){
-                surveyTosurveyFlag=true;
-                saveAndFinish();
+               surveyTosurveyFlag=true;
+               saveAndFinish();
+               AppController.getHelperSharedPreference()
+                       .writePreference(
+                               CustomSurveyViewTaskActivity.this,
+                               "survetTosurveyActivityId",
+                               activityid);
+               AppController.getHelperSharedPreference()
+                       .writePreference(
+                               CustomSurveyViewTaskActivity.this,
+                               "survetTosurveySourceKey",
+                               sourceKey);
+
                 AppController.getHelperSharedPreference()
                         .writePreference(
                                 CustomSurveyViewTaskActivity.this,
-                                "survetTosurveyActivityId",
-                                activityid);
-                AppController.getHelperSharedPreference()
-                        .writePreference(
-                                CustomSurveyViewTaskActivity.this,
-                                "survetTosurveySourceKey",
+                                "survetTosurveySourceKey2",
                                 sourceKey);
 
-            }
-        }
+           }
+         }
         Step nextStep = task.getStepAfterStep(currentStep, taskResult);
         if (nextStep == null&&surveyTosurveyFlag==false) {
             saveAndFinish();
         } else {
             showStep(nextStep);
-        }
+         }
     }
 
     private void savestepresult(Step currentStep, boolean savecurrent) {
@@ -448,12 +455,27 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
     }
 
     protected void showPreviousStep() {
+     boolean flag =false;
+
+        String survetTosurveySourceKey2=AppController.getHelperSharedPreference()
+                .readPreference(
+                        CustomSurveyViewTaskActivity.this, "survetTosurveySourceKey2", "");
+
+
+        if(currentStep.getIdentifier().equalsIgnoreCase(survetTosurveySourceKey2)){
+            flag=true;
+        }else {
+            flag=false;
+
+        }
         Step previousStep = task.getStepBeforeStep(currentStep, taskResult);
-        if (previousStep == null) {
-            finish();
-        } else {
-            savestepresult(previousStep, false);
-            showStep(previousStep);
+        if(flag==false) {
+            if (previousStep == null) {
+                finish();
+            } else {
+                savestepresult(previousStep, false);
+                showStep(previousStep);
+            }
         }
     }
 
@@ -483,7 +505,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         String title = task.getTitleForStep(this, step);
         setActionBarTitle(title);
 
-        // Get result from the TaskResult, can be null
+
         String survetTosurveyActivityId= AppController.getHelperSharedPreference()
                 .readPreference(CustomSurveyViewTaskActivity.this,
                         "survetTosurveyActivityId", "");
@@ -492,11 +514,11 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                         CustomSurveyViewTaskActivity.this, "survetTosurveySourceKey", "");
         StepResult result;
         if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&!survetTosurveySourceKey.equalsIgnoreCase("")){
-            // Get result from the TaskResult, can be null
-            result = taskResult.getStepResult(survetTosurveySourceKey);
+             // Get result from the TaskResult, can be null
+              result = taskResult.getStepResult(survetTosurveySourceKey);
         }else {
             // Get result from the TaskResult, can be null
-            result = taskResult.getStepResult(step.getIdentifier());
+              result = taskResult.getStepResult(step.getIdentifier());
         }
 
 
@@ -640,7 +662,9 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         if (action == StepCallbacks.ACTION_NEXT) {
             showNextStep();
         } else if (action == StepCallbacks.ACTION_PREV) {
-            showPreviousStep();
+
+                showPreviousStep();
+
         } else if (action == StepCallbacks.ACTION_END) {
             showConfirmExitDialog();
         } else if (action == StepCallbacks.ACTION_NONE) {
@@ -721,16 +745,16 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
             QuestionStepCustom currentStepPipe = (QuestionStepCustom) currentStep;
             QuestionStepCustom nextStepPipe = (QuestionStepCustom) step;
 
-            if (currentStepPipe.isPPing()) {
+            if (currentStepPipe.isPPing()&&resultValue!=null&&!resultValue.equalsIgnoreCase("")&&!resultValue.equalsIgnoreCase("null")) {
                 if(currentStepPipe.getKey_pipe().equalsIgnoreCase(nextStepPipe.getPipeSocuceKey())) {
 
-                    String replaceString = step.getText().replace(nextStepPipe.getPipingSnippet(),resultValue);
+                    String replaceString = step.getTitle().replace(nextStepPipe.getPipingSnippet(),resultValue);
                     nextStepPipe.setPipingSnippet(resultValue);
                     String val;
                     val = "";
                     val = step.getText() + resultValue;
-                    step.setText("");
-                    step.setText(replaceString);
+                    step.setTitle("");
+                    step.setTitle(replaceString);
                     Log.e("pipetryue", "" + currentStepPipe.getPipeValue() + " " + currentStepPipe.getKey_pipe() + " ");
                 }
             }

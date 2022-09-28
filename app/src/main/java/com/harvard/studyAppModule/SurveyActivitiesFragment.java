@@ -1037,11 +1037,17 @@ public class SurveyActivitiesFragment extends Fragment
                 .readPreference(
                         mContext, "survetTosurveySourceKey", "");
 
-        if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&!survetTosurveySourceKey.equalsIgnoreCase("")){
+        if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&&!survetTosurveySourceKey.equalsIgnoreCase("")){
           if(!activityInfoData.getActivity().getMetadata().getActivityId().equalsIgnoreCase(survetTosurveyActivityId)) {
             Log.e("ysysysys","navigated to other survey successfully222222");
+            Filter filter = getFilterList();
+            for(int i=0;i<filter.getActivitiesArrayList1().size();i++) {
+               if(filter.getActivitiesArrayList1().get(i).getActivityId().equalsIgnoreCase(survetTosurveyActivityId)) {
 
-            launchSurvey2(activityInfoData.getActivity());
+                if(filter.getStatus().get(i).equalsIgnoreCase(STATUS_CURRENT))
+                launchSurvey2(activityInfoData.getActivity());
+              }
+            }
           }
         }
 
@@ -5140,18 +5146,20 @@ public class SurveyActivitiesFragment extends Fragment
 
    private void updateActivityInfo2() {
     AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
-
+    String survetTosurveyActivityId= AppController.getHelperSharedPreference()
+            .readPreference(mContext,
+                    "survetTosurveyActivityId", "");
     GetActivityInfoEvent getActivityInfoEvent = new GetActivityInfoEvent();
     HashMap<String, String> header = new HashMap();
-    String url = "https://632adb4b713d41bc8e790540.mockapi.io/getactivitym/getactivity";
+    //String url = "https://632adb4b713d41bc8e790540.mockapi.io/getactivitym/getactivity";
     //String url = "https://63202cce9f82827dcf26789a.mockapi.io/getActivityM";
-//        URLs.ACTIVITY
-//            + "?studyId="
-//            + ((SurveyActivity) mContext).getStudyId()
-//            + "&activityId="
-//            + activityId
-//            + "&activityVersion="
-//            + mActivityVersion;
+    String url =URLs.ACTIVITY
+           + "?studyId="
+           + ((SurveyActivity) mContext).getStudyId()
+           + "&activityId="
+           + survetTosurveyActivityId
+            + "&activityVersion="
+           + mActivityVersion;
     WCPConfigEvent wcpConfigEvent =
             new WCPConfigEvent(
                     "get",
