@@ -182,7 +182,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
 
         if (savedsteps != null) {
-            String survetTosurveyActivityId= AppController.getHelperSharedPreference()
+           /* String survetTosurveyActivityId= AppController.getHelperSharedPreference()
                     .readPreference(CustomSurveyViewTaskActivity.this,
                             "survetTosurveyActivityId", "");
             String survetTosurveySourceKey=AppController.getHelperSharedPreference()
@@ -198,8 +198,8 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                 currentStep = task.getStepWithIdentifier(savedsteps.getStepId());
 
             }
-
-            //currentStep = task.getStepWithIdentifier(savedsteps.getStepId());
+*/
+            currentStep = task.getStepWithIdentifier(savedsteps.getStepId());
 
 
 
@@ -288,7 +288,8 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                             "");
             if(activityid!=null&&!activityid.equalsIgnoreCase("")&&!activityid.equalsIgnoreCase("null")){
                surveyTosurveyFlag=true;
-               saveAndFinish();
+
+                saveAndFinish();
                AppController.getHelperSharedPreference()
                        .writePreference(
                                CustomSurveyViewTaskActivity.this,
