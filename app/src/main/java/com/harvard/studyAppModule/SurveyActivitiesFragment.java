@@ -609,7 +609,7 @@ public class SurveyActivitiesFragment extends Fragment
               .readPreference(
                       mContext, "survetTosurveySourceKey", "");
 
-      if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&!survetTosurveySourceKey.equalsIgnoreCase("")){
+      if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&&!survetTosurveySourceKey.equalsIgnoreCase("")&&!survetTosurveyActivityId.equalsIgnoreCase("null")&&!survetTosurveySourceKey.equalsIgnoreCase("null")){
         Log.e("ysysysys","navigated to other survey successfully");
         setRecyclerView2();
 
@@ -1037,7 +1037,7 @@ public class SurveyActivitiesFragment extends Fragment
                 .readPreference(
                         mContext, "survetTosurveySourceKey", "");
 
-        if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&&!survetTosurveySourceKey.equalsIgnoreCase("")){
+        if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&&!survetTosurveySourceKey.equalsIgnoreCase("")&&!survetTosurveyActivityId.equalsIgnoreCase("null")&&!survetTosurveySourceKey.equalsIgnoreCase("null")){
           if(!activityInfoData.getActivity().getMetadata().getActivityId().equalsIgnoreCase(survetTosurveyActivityId)) {
             Log.e("ysysysys","navigated to other survey successfully222222");
             Filter filter = getFilterList();

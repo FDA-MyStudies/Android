@@ -24,6 +24,15 @@ public class QuestionStepCustom extends QuestionStep {
     public String activityId;
     public String destinationStepKey;
     public String activityVersion;
+    public String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getActivityVersion() {
         return activityVersion;
@@ -67,7 +76,7 @@ public class QuestionStepCustom extends QuestionStep {
     public QuestionStepCustom(String identifier,boolean isPPing,String pipeOperator,String key_pipe,
 
                               String pipeValue,String pipingSnippet, String pipeSocuceKey,  String activityId,
-                                        String destinationStepKey,String activityVersion ) {
+                                        String destinationStepKey,String activityVersion , String type) {
         super(identifier);
         this.identifier = identifier;
         this.isPPing = isPPing;
@@ -79,6 +88,7 @@ public class QuestionStepCustom extends QuestionStep {
         this.activityId=activityId;
         this. destinationStepKey=destinationStepKey;
         this. activityVersion=activityVersion;
+        this.type=type;
      }
 
     /**
@@ -91,7 +101,7 @@ public class QuestionStepCustom extends QuestionStep {
     public QuestionStepCustom(String identifier, String title,boolean isPPing,String pipeOperator,String key_pipe,
 
                               String pipeValue,String pipingSnippet, String pipeSocuceKey,String activityId,
-                              String destinationStepKey,String activityVersion ) {
+                              String destinationStepKey,String activityVersion, String type ) {
         super(identifier, title);
         this.identifier = identifier;
         this.isPPing = isPPing;
@@ -103,6 +113,7 @@ public class QuestionStepCustom extends QuestionStep {
         this.activityId=activityId;
         this. destinationStepKey=destinationStepKey;
         this. activityVersion=activityVersion;
+        this.type=type;
     }
 
     /**
@@ -115,9 +126,8 @@ public class QuestionStepCustom extends QuestionStep {
      * @param format     The format in which the answer is expected.
      */
     public QuestionStepCustom(String identifier, String title, AnswerFormatCustom format, boolean isPPing, String pipeOperator, String key_pipe,
-
                               String pipeValue, String pipingSnippet, String pipeSocuceKey,String activityId,
-                              String destinationStepKey,String activityVersion
+                              String destinationStepKey,String activityVersion, String type
 
     ) {
         super(identifier, title);
@@ -132,6 +142,7 @@ public class QuestionStepCustom extends QuestionStep {
         this.activityId=activityId;
         this. destinationStepKey=destinationStepKey;
         this. activityVersion=activityVersion;
+        this.type=type;
     }
 
     public void setidentifier(String identifier) {

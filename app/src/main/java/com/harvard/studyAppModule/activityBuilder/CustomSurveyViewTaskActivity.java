@@ -67,6 +67,7 @@ import org.researchstack.backbone.answerformat.ChoiceAnswerFormat;
 import org.researchstack.backbone.model.Choice;
 import org.researchstack.backbone.result.StepResult;
 import org.researchstack.backbone.result.TaskResult;
+import org.researchstack.backbone.step.InstructionStep;
 import org.researchstack.backbone.step.QuestionStep;
 import org.researchstack.backbone.step.Step;
 import org.researchstack.backbone.storage.database.TaskRecord;
@@ -188,7 +189,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                     .readPreference(
                             CustomSurveyViewTaskActivity.this, "survetTosurveySourceKey", "");
 
-            if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&!survetTosurveySourceKey.equalsIgnoreCase("")){
+            if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&&!survetTosurveySourceKey.equalsIgnoreCase("")&&!survetTosurveyActivityId.equalsIgnoreCase("null")&&!survetTosurveySourceKey.equalsIgnoreCase("null")){
                 currentStep = task.getStepWithIdentifier(survetTosurveySourceKey);
                 taskResult = new TaskResult(task.getIdentifier());
                 taskResult.setStartDate(new Date());
@@ -251,7 +252,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
     protected void showNextStep() {
         savestepresult(currentStep, true);
-        if(!currentStep.getIdentifier().equalsIgnoreCase("Instructionstep")) {
+        if(currentStep.getClass()!= InstructionStep.class&&currentStep.getClass()!=QuestionStep.class)  {
 
             QuestionStepCustom currentStepPipe = (QuestionStepCustom) currentStep;
             String activityid = ""+currentStepPipe.getActivityId();
@@ -267,7 +268,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                             CustomSurveyViewTaskActivity.this,
                             "survetTosurveySourceKey",
                             "");
-            if(activityid!=null&&!activityid.equalsIgnoreCase("")){
+            if(activityid!=null&&!activityid.equalsIgnoreCase("")&&!activityid.equalsIgnoreCase("null")){
                surveyTosurveyFlag=true;
                saveAndFinish();
                AppController.getHelperSharedPreference()
@@ -518,7 +519,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                 .readPreference(
                         CustomSurveyViewTaskActivity.this, "survetTosurveySourceKey", "");
         StepResult result;
-        if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&!survetTosurveySourceKey.equalsIgnoreCase("")){
+        if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&&!survetTosurveySourceKey.equalsIgnoreCase("")&&!survetTosurveyActivityId.equalsIgnoreCase("null")&&!survetTosurveySourceKey.equalsIgnoreCase("null")){
              // Get result from the TaskResult, can be null
               result = taskResult.getStepResult(survetTosurveySourceKey);
         }else {
@@ -746,17 +747,19 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
 
     public void initiatePiping(String identifier, Step currentStep, TaskResult taskResult, Step step, int currentStepPosition, int newStepPosition){
-            QuestionStepCustom currentStepPipe = (QuestionStepCustom) currentStep;
-            QuestionStepCustom nextStepPipe = (QuestionStepCustom) step;
-            ((QuestionStepCustom) currentStep).isPPing();
-                    if(((QuestionStepCustom) currentStep).isPPing) {
-                        if(!taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString().isEmpty()) {
-                            String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPipingSnippet(), taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString());
-                            nextStepPipe.setPipingSnippet(taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString());
-                            step.setTitle("");
-                            step.setTitle(replaceString);
-                        }
-                    }
+
+          if(step.getClass()!= InstructionStep.class&&step.getClass()!=QuestionStep.class) {
+              QuestionStepCustom nextStepPipe = (QuestionStepCustom) step;
+              ((QuestionStepCustom) currentStep).isPPing();
+              if (((QuestionStepCustom) currentStep).isPPing) {
+                  if (taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult() != null && !taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString().isEmpty()) {
+                      String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPipingSnippet(), taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString());
+                      nextStepPipe.setPipingSnippet(taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString());
+                      step.setTitle("");
+                      step.setTitle(replaceString);
+                  }
+              }
+          }
     }
 
 }
