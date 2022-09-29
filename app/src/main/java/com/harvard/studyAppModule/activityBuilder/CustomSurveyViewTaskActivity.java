@@ -296,7 +296,8 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         Step nextStep = task.getStepAfterStep(currentStep, taskResult);
         if (nextStep == null&&surveyTosurveyFlag==false) {
             saveAndFinish();
-        } else {
+        }
+        else {
             showStep(nextStep);
          }
     }
@@ -309,7 +310,6 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         taskRecord.completed = taskResult.getEndDate();
 
         for (StepResult stepResult : taskResult.getResults().values()) {
-//            Log.e("Krishna", "savestepresult: identifier "+stepResult.getIdentifier());
             if (stepResult != null && stepResult.getIdentifier().equalsIgnoreCase(currentStep.getIdentifier())) {
                 StepRecordCustom stepRecord = new StepRecordCustom();
 
@@ -490,7 +490,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                 .getCurrent();
         int newStepPosition = task.getProgressOfCurrentStep(step, taskResult).getCurrent();
 
-       initiatePiping("",currentStep,taskResult,step,currentStepPosition,newStepPosition);
+       initiatePiping("",step,taskResult,step,currentStepPosition,newStepPosition);
 
 
 
@@ -746,24 +746,17 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
 
     public void initiatePiping(String identifier, Step currentStep, TaskResult taskResult, Step step, int currentStepPosition, int newStepPosition){
-        if(!currentStep.getIdentifier().equalsIgnoreCase("Instructionstep")&&!step.getIdentifier().equalsIgnoreCase("Instructionstep")&& this.currentStepPosition !=newStepPosition&&!currentStep.getIdentifier().equalsIgnoreCase("boolean")&&!step.getIdentifier().equalsIgnoreCase("boolean")) {
             QuestionStepCustom currentStepPipe = (QuestionStepCustom) currentStep;
             QuestionStepCustom nextStepPipe = (QuestionStepCustom) step;
-
-            if (currentStepPipe.isPPing()&&resultValue!=null&&!resultValue.equalsIgnoreCase("")&&!resultValue.equalsIgnoreCase("null")) {
-                if(currentStepPipe.getKey_pipe().equalsIgnoreCase(nextStepPipe.getPipeSocuceKey())) {
-
-                    String replaceString = step.getTitle().replace(nextStepPipe.getPipingSnippet(),resultValue);
-                    nextStepPipe.setPipingSnippet(resultValue);
-                    String val;
-                    val = "";
-                    val = step.getText() + resultValue;
-                    step.setTitle("");
-                    step.setTitle(replaceString);
-                    Log.e("pipetryue", "" + currentStepPipe.getPipeValue() + " " + currentStepPipe.getKey_pipe() + " ");
-                }
-            }
-        }
+            ((QuestionStepCustom) currentStep).isPPing();
+                    if(((QuestionStepCustom) currentStep).isPPing) {
+                        if(!taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString().isEmpty()) {
+                            String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPipingSnippet(), taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString());
+                            nextStepPipe.setPipingSnippet(taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString());
+                            step.setTitle("");
+                            step.setTitle(replaceString);
+                        }
+                    }
     }
 
 }

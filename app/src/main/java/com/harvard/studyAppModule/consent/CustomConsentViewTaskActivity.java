@@ -255,7 +255,8 @@ public class CustomConsentViewTaskActivity<T> extends AppCompatActivity implemen
             }
             if (nextStep == null) {
                 saveAndFinish();
-            } else {
+            }
+            else {
                 String checkIdentifier;
 //                mConsent.getReview().setConsentByLAR("Yes");
                 if(mConsent.getReview() != null && mConsent.getReview().getConsentByLAR() != null && mConsent.getReview().getConsentByLAR().equalsIgnoreCase("Yes")) {

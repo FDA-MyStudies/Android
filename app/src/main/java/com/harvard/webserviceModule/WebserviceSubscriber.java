@@ -20,16 +20,16 @@ public class WebserviceSubscriber extends BaseSubscriber {
         String url = "";
         if(wcpConfigEvent.getmContext().getResources().getString(R.string.app_stage).equalsIgnoreCase("development"))
         {
-            url = wcpConfigEvent.getDevelopmentUrl() + wcpConfigEvent.getmUrl();
-//            if(wcpConfigEvent.getmUrl().equalsIgnoreCase("https://63202cce9f82827dcf26789a.mockapi.io/getActivityM")){
-//                url = wcpConfigEvent.getmUrl();
-//                Log.e("Krishna", "onEvent: wcp event "+url);
-//            }else if (wcpConfigEvent.getmUrl().equalsIgnoreCase("https://632adb4b713d41bc8e790540.mockapi.io/getactivitym/getactivity")){
-//                url = wcpConfigEvent.getmUrl();
-//            } else{
-//                url = wcpConfigEvent.getDevelopmentUrl() + wcpConfigEvent.getmUrl();
-//                Log.e("Krishna", "onEvent: wcp event "+url);
-//            }
+//            url = wcpConfigEvent.getDevelopmentUrl() + wcpConfigEvent.getmUrl();
+            if(wcpConfigEvent.getmUrl().contains("https://10d6-139-59-77-253.ngrok.io")){
+                url = wcpConfigEvent.getmUrl();
+
+            }else if (wcpConfigEvent.getmUrl().equalsIgnoreCase("https://632adb4b713d41bc8e790540.mockapi.io/getactivitym/getactivity")){
+                url = wcpConfigEvent.getmUrl();
+            } else{
+                url = wcpConfigEvent.getDevelopmentUrl() + wcpConfigEvent.getmUrl();
+                Log.e("Krishna", "onEvent: wcp event "+url);
+            }
         }
         else
         {
