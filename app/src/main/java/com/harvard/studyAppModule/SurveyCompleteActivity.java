@@ -380,7 +380,7 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
                                     resultarrobj.put("value", jsonArrayMain);
                                 }
                             }
-                            resultarrobj.put("isHidden", activityObj.getSteps().get(i).isHidden());
+                            resultarrobj.put("hidden", activityObj.getSteps().get(i).isHidden());
                             resultarray.put(resultarrobj);
 
                             dataobj.put("results", resultarray);

@@ -293,15 +293,19 @@ public class ActivityBuilder extends OrderedTask {
                 if (nextIndex < steps.size()) {
                     if (activityQuestionStep.get(nextIndex).isHidden()) {
                         while (activityQuestionStep.get(nextIndex).isHidden()) {
-                            nextIndex += 1;
-                            if (!activityQuestionStep.get(nextIndex).isHidden()) {
-                                if (nextIndex < steps.size()) {
+                             nextIndex += 1;
+                            if(nextIndex < steps.size()) {
+                                if (!activityQuestionStep.get(nextIndex).isHidden()) {
+                                    if (nextIndex < steps.size()) {
+                                        return steps.get(nextIndex);
+                                    } else {
+                                        return null;
+                                    }
 
-                                    return steps.get(nextIndex);
-                                } else {
-                                    return null;
                                 }
-
+                            }
+                            else{
+                                return null;
                             }
                         }
                     }
