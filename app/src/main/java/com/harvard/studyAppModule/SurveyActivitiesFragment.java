@@ -1038,7 +1038,7 @@ public class SurveyActivitiesFragment extends Fragment
                         mContext, "survetTosurveySourceKey", "");
 
         if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&&!survetTosurveySourceKey.equalsIgnoreCase("")&&!survetTosurveyActivityId.equalsIgnoreCase("null")&&!survetTosurveySourceKey.equalsIgnoreCase("null")){
-          if(!activityInfoData.getActivity().getMetadata().getActivityId().equalsIgnoreCase(survetTosurveyActivityId)) {
+          if(activityInfoData.getActivity().getMetadata().getActivityId().equalsIgnoreCase(survetTosurveyActivityId)) {
             Log.e("ysysysys","navigated to other survey successfully222222");
             Filter filter = getFilterList();
             for(int i=0;i<filter.getActivitiesArrayList1().size();i++) {

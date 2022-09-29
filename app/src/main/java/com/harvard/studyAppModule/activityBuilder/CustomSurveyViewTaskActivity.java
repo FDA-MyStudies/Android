@@ -222,8 +222,26 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                 taskResult.setStartDate(new Date());
             }
         } else {
-            taskResult = new TaskResult(task.getIdentifier());
-            taskResult.setStartDate(new Date());
+
+            String survetTosurveyActivityId= AppController.getHelperSharedPreference()
+                    .readPreference(CustomSurveyViewTaskActivity.this,
+                            "survetTosurveyActivityId", "");
+            String survetTosurveySourceKey=AppController.getHelperSharedPreference()
+                    .readPreference(
+                            CustomSurveyViewTaskActivity.this, "survetTosurveySourceKey", "");
+
+            if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&&!survetTosurveySourceKey.equalsIgnoreCase("")&&!survetTosurveyActivityId.equalsIgnoreCase("null")&&!survetTosurveySourceKey.equalsIgnoreCase("null")){
+                currentStep = task.getStepWithIdentifier(survetTosurveySourceKey);
+                taskResult = new TaskResult(task.getIdentifier());
+                taskResult.setStartDate(new Date());
+                flag=true;
+            }else {
+                taskResult = new TaskResult(task.getIdentifier());
+                taskResult.setStartDate(new Date());
+            }
+
+
+
         }
 
         task.validateParameters();
