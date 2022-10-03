@@ -42,6 +42,7 @@ import com.harvard.studyAppModule.activityBuilder.ActivityBuilder;
 import com.harvard.studyAppModule.activityBuilder.CustomSurveyViewTaskActivity;
 import com.harvard.studyAppModule.activityBuilder.StepsBuilder;
 import com.harvard.studyAppModule.activityBuilder.model.ActivityRun;
+import com.harvard.studyAppModule.activityBuilder.model.SurveyToSurveyModel;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.ActivityInfoData;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.ActivityObj;
 import com.harvard.studyAppModule.acvitityListModel.ActivitiesWS;
@@ -156,6 +157,7 @@ public class SurveyActivitiesFragment extends Fragment
   private String mActivityVersion; // mActivityVersion for webservice on click of activity
 
   public final int ACTIVTTYLIST_RESPONSECODE = 100;
+
   public final int ACTIVTTYINFO_RESPONSECODE = 101;
   public final int ACTIVTTYINFO_RESPONSECODE2 = 10208;
   public static final String YET_To_START = "yetToJoin";
@@ -245,7 +247,11 @@ public class SurveyActivitiesFragment extends Fragment
     setTextForView();
     setFont();
     bindEvents();
+
+
     getStudyUpdateFomWS(false);
+
+
 
     Logger.showDbStats();
     return view;
@@ -260,6 +266,20 @@ public class SurveyActivitiesFragment extends Fragment
     } catch (Exception e) {
       e.printStackTrace();
     }
+    /*SurveyToSurveyModel surveyToSurveyModel =dbServiceSubscriber.getSurveyToSurveyModelData(mRealm);
+
+    if(surveyToSurveyModel!=null) {
+      AppController.getHelperSharedPreference()
+              .writePreference(
+                      mContext,
+                      "survetTosurveyActivityId",
+                      surveyToSurveyModel.getSurvetTosurveyActivityId());
+      AppController.getHelperSharedPreference()
+              .writePreference(
+                      mContext,
+                      "survetTosurveySourceKey",
+                      surveyToSurveyModel.getSurvetTosurveySourceKey());
+    }*/
   }
 
   private void initializeXMLId(View view) {
@@ -406,10 +426,37 @@ public class SurveyActivitiesFragment extends Fragment
     StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
     studyModulePresenter.performGetActivityList(getActivityListEvent);
   }
-
-
   private void setRecyclerView2() {
-    updateActivityInfo2();
+    String survetTosurveyActivityId= AppController.getHelperSharedPreference()
+            .readPreference(mContext,
+                    "survetTosurveyActivityId", "");
+    String activityVersion= AppController.getHelperSharedPreference()
+            .readPreference(mContext,
+                    "survetTosurveyactivityVersion", "");
+
+    String survetTosurveySourceKey=AppController.getHelperSharedPreference()
+            .readPreference(
+                    mContext, "survetTosurveySourceKey", "");
+    if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&&!survetTosurveySourceKey.equalsIgnoreCase("")&&!survetTosurveyActivityId.equalsIgnoreCase("null")&&!survetTosurveySourceKey.equalsIgnoreCase("null")){
+
+        Log.e("ysysysys","navigated to other survey successfully222222");
+        Filter filter = getFilterList();
+        for(int i=0;i<filter.getActivitiesArrayList1().size();i++) {
+          if(filter.getActivitiesArrayList1().get(i).getActivityId().equalsIgnoreCase(survetTosurveyActivityId)) {
+
+            if(filter.getStatus().get(i).equalsIgnoreCase(STATUS_CURRENT))
+              getActivityInfo2(survetTosurveyActivityId,filter.getCurrentRunStatusForActivities().get(i).getCurrentRunId(),filter.getCurrentRunStatusForActivities().get(i).getStatus(),filter.getActivitiesArrayList1().get(i).getBranching(),activityVersion,filter.getCurrentRunStatusForActivities().get(i),filter.getActivitiesArrayList1().get(i));
+
+          }
+
+      }
+    }
+
+
+
+
+
+    //updateActivityInfo2();
   }
   private void callConsentMetaDataWebservice() {
 
@@ -602,22 +649,10 @@ public class SurveyActivitiesFragment extends Fragment
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == 123) {
-      String survetTosurveyActivityId= AppController.getHelperSharedPreference()
-              .readPreference(mContext,
-                      "survetTosurveyActivityId", "");
-      String survetTosurveySourceKey=AppController.getHelperSharedPreference()
-              .readPreference(
-                      mContext, "survetTosurveySourceKey", "");
-
-      if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&&!survetTosurveySourceKey.equalsIgnoreCase("")&&!survetTosurveyActivityId.equalsIgnoreCase("null")&&!survetTosurveySourceKey.equalsIgnoreCase("null")){
-        Log.e("ysysysys","navigated to other survey successfully");
-        setRecyclerView2();
 
 
-      }else {
-        setRecyclerView();
+      setRecyclerView();
 
-      }
     } else if (requestCode == CONSENT_RESPONSECODE) {
       if (resultCode == getActivity().RESULT_OK) {
         Intent intent = new Intent(getActivity(), ConsentCompletedActivity.class);
@@ -962,6 +997,7 @@ public class SurveyActivitiesFragment extends Fragment
 
       calculateStartAnsEndDateForActivities();
 
+
     }
     else if (responseCode == ACTIVTTYINFO_RESPONSECODE) {
       AppController.getHelperProgressDialog().dismissDialog();
@@ -1023,13 +1059,22 @@ public class SurveyActivitiesFragment extends Fragment
 
         //updateActivityState
         updateUserPreferenceForAllActivities("", "", UPDATE_USERPREFERENCE_RESPONSECODE_INITIAL);
-      }
-    } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE_INITIAL) {
-      AppController.getHelperProgressDialog().dismissDialog();
-    }else if (responseCode == ACTIVTTYINFO_RESPONSECODE2) {
-      AppController.getHelperProgressDialog().dismissDialog();
-      ActivityInfoData activityInfoData = (ActivityInfoData) response;
-      if (activityInfoData != null) {
+
+        //survey to survey
+        SurveyToSurveyModel surveyToSurveyModel =dbServiceSubscriber.getSurveyToSurveyModelData(mRealm);
+
+        if(surveyToSurveyModel!=null) {
+          AppController.getHelperSharedPreference()
+                  .writePreference(
+                          mContext,
+                          "survetTosurveyActivityId",
+                          surveyToSurveyModel.getSurvetTosurveyActivityId());
+          AppController.getHelperSharedPreference()
+                  .writePreference(
+                          mContext,
+                          "survetTosurveySourceKey",
+                          surveyToSurveyModel.getSurvetTosurveySourceKey());
+        }
         String survetTosurveyActivityId= AppController.getHelperSharedPreference()
                 .readPreference(mContext,
                         "survetTosurveyActivityId", "");
@@ -1038,6 +1083,29 @@ public class SurveyActivitiesFragment extends Fragment
                         mContext, "survetTosurveySourceKey", "");
 
         if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&&!survetTosurveySourceKey.equalsIgnoreCase("")&&!survetTosurveyActivityId.equalsIgnoreCase("null")&&!survetTosurveySourceKey.equalsIgnoreCase("null")){
+          Log.e("ysysysys","navigated to other survey successfully");
+          setRecyclerView2();
+
+
+        }
+
+
+
+      }
+    } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE_INITIAL) {
+      AppController.getHelperProgressDialog().dismissDialog();
+    }else if (responseCode == ACTIVTTYINFO_RESPONSECODE2) {
+      AppController.getHelperProgressDialog().dismissDialog();
+       ActivityInfoData activityInfoData = (ActivityInfoData) response;
+
+      if (activityInfoData != null) {
+        String survetTosurveyActivityId= AppController.getHelperSharedPreference()
+                .readPreference(mContext,
+                        "survetTosurveyActivityId", "");
+        String survetTosurveySourceKey=AppController.getHelperSharedPreference()
+                .readPreference(
+                        mContext, "survetTosurveySourceKey", "");
+         if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&&!survetTosurveySourceKey.equalsIgnoreCase("")&&!survetTosurveyActivityId.equalsIgnoreCase("null")&&!survetTosurveySourceKey.equalsIgnoreCase("null")){
           if(activityInfoData.getActivity().getMetadata().getActivityId().equalsIgnoreCase(survetTosurveyActivityId)) {
             Log.e("ysysysys","navigated to other survey successfully222222");
             Filter filter = getFilterList();
@@ -1046,6 +1114,17 @@ public class SurveyActivitiesFragment extends Fragment
 
                 if(filter.getStatus().get(i).equalsIgnoreCase(STATUS_CURRENT))
                 launchSurvey2(activityInfoData.getActivity());
+
+                 AppController.getHelperSharedPreference()
+                         .writePreference(
+                                 mContext,
+                                 "survetTosurveyActivityId",
+                                 "");
+                 AppController.getHelperSharedPreference()
+                         .writePreference(
+                                 mContext,
+                                 "survetTosurveySourceKey",
+                                 "");
               }
             }
           }
@@ -5111,12 +5190,37 @@ public class SurveyActivitiesFragment extends Fragment
     }
   }
 
+  public void getActivityInfo2(
+          String activityId,
+          int currentRunId,
+          String status,
+          boolean branching,
+          String activityVersion,
+          ActivityStatus activityStatus,
+          ActivitiesWS activitiesWS) {
+    mCurrentRunId = currentRunId;
+    mActivityStatus = status;
+    mActivityStatusData = activityStatus;
+    mActivityId = activityId;
+    mBranching = branching;
+    mActivityVersion = activityVersion;
+    selectedActivity = activitiesWS;
+    if (status.equalsIgnoreCase(YET_To_START)) {
+      updatePreferenceToDB = true;
+      updateUserPreference(
+              ((SurveyActivity) mContext).getStudyId(), status, activityId, mCurrentRunId);
+     } else {
+      updatePreferenceToDB = false;
+      updateActivityInfo2(activityId,mActivityVersion);
+    }
+  }
+
   private void updateActivityInfo(String activityId) {
     AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
 
     GetActivityInfoEvent getActivityInfoEvent = new GetActivityInfoEvent();
     HashMap<String, String> header = new HashMap();
-   // String url = "https://632adb4b713d41bc8e790540.mockapi.io/getactivitym/getactivity";
+    //String url = "https://632adb4b713d41bc8e790540.mockapi.io/getactivitym/getactivity";
     //String url = "https://63202cce9f82827dcf26789a.mockapi.io/getActivityM";
     String url = URLs.ACTIVITY
             + "?studyId="
@@ -5142,9 +5246,7 @@ public class SurveyActivitiesFragment extends Fragment
     StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
     studyModulePresenter.performGetActivityInfo(getActivityInfoEvent);
   }
-
-
-   private void updateActivityInfo2() {
+  private void updateActivityInfo2(String activityId, String mActivityVersion) {
     AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
     String survetTosurveyActivityId= AppController.getHelperSharedPreference()
             .readPreference(mContext,
@@ -5160,9 +5262,9 @@ public class SurveyActivitiesFragment extends Fragment
            + "?studyId="
            + ((SurveyActivity) mContext).getStudyId()
            + "&activityId="
-           + survetTosurveyActivityId
+           + activityId
             + "&activityVersion="
-           + activityVersion;
+           + mActivityVersion;
     WCPConfigEvent wcpConfigEvent =
             new WCPConfigEvent(
                     "get",
@@ -5264,10 +5366,7 @@ public class SurveyActivitiesFragment extends Fragment
       e.printStackTrace();
     }
   }
-
-
-
-   private void launchSurvey2(ActivityObj activity) {
+  private void launchSurvey2(ActivityObj activity) {
     try {
       mActivityObj = new ActivityObj();
 //      mActivityObj = activity;

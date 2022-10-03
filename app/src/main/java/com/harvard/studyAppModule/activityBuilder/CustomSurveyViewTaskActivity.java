@@ -29,6 +29,7 @@ import com.harvard.notificationModule.NotificationModuleSubscriber;
 import com.harvard.storageModule.DBServiceSubscriber;
 import com.harvard.studyAppModule.SurveyCompleteActivity;
 import com.harvard.studyAppModule.activityBuilder.model.Choices;
+import com.harvard.studyAppModule.activityBuilder.model.SurveyToSurveyModel;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.ActivityObj;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.Steps;
 import com.harvard.studyAppModule.custom.AnswerFormatCustom;
@@ -182,7 +183,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
 
         if (savedsteps != null) {
-           /* String survetTosurveyActivityId= AppController.getHelperSharedPreference()
+            String survetTosurveyActivityId= AppController.getHelperSharedPreference()
                     .readPreference(CustomSurveyViewTaskActivity.this,
                             "survetTosurveyActivityId", "");
             String survetTosurveySourceKey=AppController.getHelperSharedPreference()
@@ -194,12 +195,14 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                 taskResult = new TaskResult(task.getIdentifier());
                 taskResult.setStartDate(new Date());
                 flag=true;
+                if (currentStep == null) {
+                    currentStep = task.getStepWithIdentifier(savedsteps.getStepId());
+                }
             }else {
                 currentStep = task.getStepWithIdentifier(savedsteps.getStepId());
 
             }
-*/
-            currentStep = task.getStepWithIdentifier(savedsteps.getStepId());
+            //currentStep = task.getStepWithIdentifier(savedsteps.getStepId());
 
 
 
@@ -319,6 +322,8 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         }
         else {
             showStep(nextStep);
+            count = count+1;
+            Log.e("countt", String.valueOf(count));
          }
     }
 
@@ -627,6 +632,8 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
     private void notifyStepOfBackPress() {
         StepLayout currentStepLayout = (StepLayout) findViewById(org.researchstack.backbone.R.id.rsb_current_step);
         currentStepLayout.isBackEventConsumed();
+        count = count-1;
+        Log.e("countt", String.valueOf(count));
 
         if (isMyServiceRunning(ActiveTaskService.class)) {
             try {
@@ -642,7 +649,43 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
     @Override
     protected void onDestroy() {
+        dbServiceSubscriber.clearSurveyToSurveyModelData();
+
+        String survetTosurveyActivityId= AppController.getHelperSharedPreference()
+                .readPreference(CustomSurveyViewTaskActivity.this,
+                        "survetTosurveyActivityId", "");
+        String activityVersion= AppController.getHelperSharedPreference()
+                .readPreference(CustomSurveyViewTaskActivity.this,
+                        "survetTosurveyactivityVersion", "");
+
+        String survetTosurveySourceKey=AppController.getHelperSharedPreference()
+                .readPreference(
+                        CustomSurveyViewTaskActivity.this, "survetTosurveySourceKey", "");
+        SurveyToSurveyModel surveyToSurveyModel = new SurveyToSurveyModel();
+        surveyToSurveyModel.setSurvetTosurveyActivityId(survetTosurveyActivityId);
+        surveyToSurveyModel.setSurvetTosurveyactivityVersion(activityVersion);
+        surveyToSurveyModel.setSurvetTosurveySourceKey(survetTosurveySourceKey);
+
+        dbServiceSubscriber.saveSurveyTosurveyData(this,surveyToSurveyModel);
+        AppController.getHelperSharedPreference()
+                .writePreference(
+                        CustomSurveyViewTaskActivity.this,
+                        "survetTosurveyActivityId",
+                        "");
+        AppController.getHelperSharedPreference()
+                .writePreference(
+                        CustomSurveyViewTaskActivity.this,
+                        "survetTosurveySourceKey",
+                        "");
+
         dbServiceSubscriber.closeRealmObj(realm);
+
+
+       /* AppController.getHelperSharedPreference()
+                .writePreference(
+                        CustomSurveyViewTaskActivity.this,
+                        "survetTosurveySourceKey2",
+                        "");*/
         if (isMyServiceRunning(ActiveTaskService.class)) {
             try {
                 if (serviceintent != null && receiver != null) {
@@ -723,6 +766,11 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                                 .writePreference(
                                         CustomSurveyViewTaskActivity.this,
                                         "survetTosurveySourceKey",
+                                        "");
+                        AppController.getHelperSharedPreference()
+                                .writePreference(
+                                        CustomSurveyViewTaskActivity.this,
+                                        "survetTosurveySourceKey2",
                                         "");
                     }
                 })

@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.harvard.R;
+import com.harvard.studyAppModule.activityBuilder.CustomSurveyViewTaskActivity;
 import com.harvard.studyAppModule.acvitityListModel.ActivitiesWS;
 import com.harvard.studyAppModule.survayScheduler.SurvayScheduler;
 import com.harvard.studyAppModule.survayScheduler.model.ActivityStatus;
@@ -153,6 +154,7 @@ public class SurveyActivitiesListAdapter extends RecyclerView.Adapter<SurveyActi
                 holder.mProcess.setVisibility(View.VISIBLE);
                 holder.mProcess.setText(R.string.resume);
                 bgShape.setColor(mContext.getResources().getColor(R.color.rectangle_yellow));
+
             } else if (mCurrentRunStatusForActivities.get(holder.getAdapterPosition()).getStatus().equalsIgnoreCase(SurveyActivitiesFragment.COMPLETED)) {
                 holder.mProcess.setVisibility(View.VISIBLE);
                 holder.mProcess.setText(R.string.completed2);
@@ -420,6 +422,11 @@ public class SurveyActivitiesListAdapter extends RecyclerView.Adapter<SurveyActi
                             if (mStatus.get(holder.getAdapterPosition()).equalsIgnoreCase(SurveyActivitiesFragment.STATUS_CURRENT) && (mCurrentRunStatusForActivities.get(holder.getAdapterPosition()).getStatus().equalsIgnoreCase(SurveyActivitiesFragment.IN_PROGRESS) || mCurrentRunStatusForActivities.get(holder.getAdapterPosition()).getStatus().equalsIgnoreCase(SurveyActivitiesFragment.YET_To_START))) {
                                 if (mCurrentRunStatusForActivities.get(holder.getAdapterPosition()).isRunIdAvailable()) {
                                     mSurveyActivitiesFragment.getActivityInfo(items.get(holder.getAdapterPosition()).getActivityId(), mCurrentRunStatusForActivities.get(holder.getAdapterPosition()).getCurrentRunId(), mCurrentRunStatusForActivities.get(holder.getAdapterPosition()).getStatus(), items.get(holder.getAdapterPosition()).getBranching(), items.get(holder.getAdapterPosition()).getActivityVersion(), mCurrentRunStatusForActivities.get(holder.getAdapterPosition()), items.get(holder.getAdapterPosition()));
+                                    AppController.getHelperSharedPreference()
+                                            .writePreference(
+                                                    mContext,
+                                                    "currentActivityId",
+                                                    items.get(holder.getAdapterPosition()).getActivityId());
                                 } else {
                                     Toast.makeText(mContext, mContext.getResources().getString(R.string.survey_activities_list_adapter_survey_message), Toast.LENGTH_SHORT).show();
                                 }

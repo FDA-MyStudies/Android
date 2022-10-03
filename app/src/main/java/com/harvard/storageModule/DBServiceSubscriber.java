@@ -9,6 +9,7 @@ import com.harvard.offlineModule.model.OfflineData;
 import com.harvard.storageModule.events.DatabaseEvent;
 import com.harvard.studyAppModule.SurveyActivitiesFragment;
 import com.harvard.studyAppModule.activityBuilder.model.ActivityRun;
+import com.harvard.studyAppModule.activityBuilder.model.SurveyToSurveyModel;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.ActivityObj;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.Steps;
 import com.harvard.studyAppModule.acvitityListModel.ActivitiesWS;
@@ -1252,6 +1253,25 @@ public class DBServiceSubscriber {
         realm.copyToRealmOrUpdate(userProfileData);
         realm.commitTransaction();
         closeRealmObj(realm);
+    }
+    public void saveSurveyTosurveyData(Context context, SurveyToSurveyModel surveyToSurveyModel) {
+        realm = AppController.getRealmobj(context);
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(surveyToSurveyModel);
+        realm.commitTransaction();
+        closeRealmObj(realm);
+    }
+
+    public SurveyToSurveyModel getSurveyToSurveyModelData(Realm realm) {
+        return realm.where(SurveyToSurveyModel.class).findFirst();
+    }
+    public void clearSurveyToSurveyModelData() {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.delete(SurveyToSurveyModel.class);
+             }
+        });
     }
 
     public void deleteUserProfileDataDuplicateRow(Context context) {

@@ -88,13 +88,24 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
                         .writePreference(
                                 SurveyCompleteActivity.this,
                                 "backflag",
-                                "no");
+                                "yes");
                 if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&&!survetTosurveySourceKey.equalsIgnoreCase("")&&!survetTosurveyActivityId.equalsIgnoreCase("null")&&!survetTosurveySourceKey.equalsIgnoreCase("null")){
                     getAlert();
+
                 }else {
                     mNext.setClickable(false);
                     mNext.setEnabled(false);
                     updateProcessResponse();
+                    AppController.getHelperSharedPreference()
+                            .writePreference(
+                                    SurveyCompleteActivity.this,
+                                    "survetTosurveySourceKey2",
+                                    "");
+                    AppController.getHelperSharedPreference()
+                            .writePreference(
+                                    SurveyCompleteActivity.this,
+                                    "survetTosurveyActivityId",
+                                    "");
                     AppController.getHelperSharedPreference()
                             .writePreference(
                                     SurveyCompleteActivity.this,
