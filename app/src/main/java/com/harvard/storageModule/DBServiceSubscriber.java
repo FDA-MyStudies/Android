@@ -1265,7 +1265,7 @@ public class DBServiceSubscriber {
     public SurveyToSurveyModel getSurveyToSurveyModelData(Realm realm) {
         return realm.where(SurveyToSurveyModel.class).findFirst();
     }
-    public void clearSurveyToSurveyModelData() {
+    public void clearSurveyToSurveyModelData(Realm realm) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

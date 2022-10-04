@@ -649,7 +649,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
     @Override
     protected void onDestroy() {
-        dbServiceSubscriber.clearSurveyToSurveyModelData();
+        dbServiceSubscriber.clearSurveyToSurveyModelData(realm);
 
         String survetTosurveyActivityId= AppController.getHelperSharedPreference()
                 .readPreference(CustomSurveyViewTaskActivity.this,
