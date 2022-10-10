@@ -3,7 +3,10 @@ package com.harvard.studyAppModule.activityBuilder;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.harvard.R;
+import com.harvard.studyAppModule.activityBuilder.model.Choices;
+import com.harvard.studyAppModule.activityBuilder.model.PipingBolleanData;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.ActivityObj;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.Steps;
 import com.harvard.studyAppModule.custom.AnswerFormatCustom;
@@ -63,7 +66,7 @@ public class StepsBuilder {
 
     private List<Step> createsurveyquestion(Context context, ActivityObj activityobj, boolean branching, Realm realm) {
         ArrayList<Step> steps = new ArrayList<>();
-        RealmList<Steps> activityQuestionStep = activityobj.getSteps();
+        final RealmList<Steps> activityQuestionStep = activityobj.getSteps();
         if (activityQuestionStep != null)
             for (int i = 0; i < activityQuestionStep.size(); i++) {
                 if (activityQuestionStep.get(i).getType().equalsIgnoreCase("question")) {
@@ -139,6 +142,8 @@ public class StepsBuilder {
                             break;
                         case "textChoice":
                             if (activityQuestionStep.get(i).getFormat().getSelectionStyle().equalsIgnoreCase("Single")) {
+                               // String val = new Gson().toJson(activityQuestionStep.get(i));
+
                                 ChoiceText[] choices = new ChoiceText[activityQuestionStep.get(i).getFormat().getTextChoices().size()];
                                 for (int j = 0; j < activityQuestionStep.get(i).getFormat().getTextChoices().size(); j++) {
                                     choices[j] = new ChoiceText(activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getText(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getValue(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getDetail(),activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getOther());
@@ -169,14 +174,51 @@ public class StepsBuilder {
                             }
                             break;
                         case "boolean":
-                            QuestionStep booleanStep = new QuestionStep(activityobj.getSteps().get(i).getKey());
+                            /*PipingBolleanData pipingBolleanData = new PipingBolleanData();
+                            pipingBolleanData.setIsPiping(activityQuestionStep.get(i).isPiping());
+                            pipingBolleanData.setOperator(activityQuestionStep.get(i).getPreLoadLogic().getOperator());
+                            pipingBolleanData.setKey(activityQuestionStep.get(i).getKey());
+                            pipingBolleanData.setValue(activityQuestionStep.get(i).getPreLoadLogic().getValue());
+                            pipingBolleanData.setPipingSnippit(activityQuestionStep.get(i).getPiping().getPipingSnippet());
+                            pipingBolleanData.setSourceQuestionKey(activityQuestionStep.get(i).getPiping().getSourceQuestionKey());
+                            pipingBolleanData.setActivityId(activityQuestionStep.get(i).getPreLoadLogic().getActivityId());
+                            pipingBolleanData.setDestinationKey(activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey());
+                            pipingBolleanData.setActivityVersion(activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion());
+                            pipingBolleanData.setResultType(activityQuestionStep.get(i).getResultType());*/
+
+
+
+                           // String pipingData = new Gson().toJson(pipingBolleanData) ;.
+
+
+
+                            //String val = new Gson().toJson(activityQuestionStep.get(i));
+                            ChoiceText[] choices = new ChoiceText[activityQuestionStep.get(i).getFormat().getTextChoices().size()];
+                            for (int j = 0; j < activityQuestionStep.get(i).getFormat().getTextChoices().size(); j++) {
+                                choices[j] = new ChoiceText(activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getText(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getValue(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getDetail(),activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getOther());
+                            }
+                            SingleChoiceTextAnswerFormat choiceAnswerFormat = new SingleChoiceTextAnswerFormat(AnswerFormatCustom.CustomAnswerStyle.SingleTextChoice, choices);
+                            QuestionStepCustom multiStep = new QuestionStepCustom(activityobj.getSteps().get(i).getKey(),activityQuestionStep.get(i).isPiping(),activityQuestionStep.get(i).getPreLoadLogic().getOperator(),activityQuestionStep.get(i).getKey(),activityQuestionStep.get(i).getPreLoadLogic().getValue(),activityQuestionStep.get(i).getPiping().getPipingSnippet(),activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion(),activityQuestionStep.get(i).getResultType() );
+                            if (branching)
+                                multiStep.setStepTitle(R.string.notxt);
+                            multiStep.setTitle(activityobj.getSteps().get(i).getTitle());
+                            multiStep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
+                            multiStep.setAnswerFormat1(choiceAnswerFormat);
+                            multiStep.setOptional(activityQuestionStep.get(i).isSkippable());
+                            steps.add(multiStep);
+
+                           // String val = new Gson().toJson(activityQuestionStep.get(i));
+
+                           /* QuestionStep booleanStep = new QuestionStep(activityobj.getSteps().get(i).getKey());
                             if (branching)
                                 booleanStep.setStepTitle(R.string.notxt);
                             booleanStep.setTitle(activityobj.getSteps().get(i).getTitle());
                             booleanStep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
+
+
                             booleanStep.setAnswerFormat(new BooleanAnswerFormat(context.getResources().getString(R.string.yes), context.getResources().getString(R.string.no)));
                             booleanStep.setOptional(activityQuestionStep.get(i).isSkippable());
-                            steps.add(booleanStep);
+                            steps.add(booleanStep);*/
                             break;
                         case "numeric":
                             ChoiceAnswerFormatCustom answerFormat;

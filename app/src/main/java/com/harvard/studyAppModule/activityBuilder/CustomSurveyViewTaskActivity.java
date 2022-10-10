@@ -32,29 +32,11 @@ import com.harvard.studyAppModule.activityBuilder.model.Choices;
 import com.harvard.studyAppModule.activityBuilder.model.SurveyToSurveyModel;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.ActivityObj;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.Steps;
-import com.harvard.studyAppModule.custom.AnswerFormatCustom;
 import com.harvard.studyAppModule.custom.ChoiceAnswerFormatCustom;
 import com.harvard.studyAppModule.custom.QuestionStepCustom;
 import com.harvard.studyAppModule.custom.Result.StepRecordCustom;
 import com.harvard.studyAppModule.custom.Result.TaskRecordCustom;
 import com.harvard.studyAppModule.custom.StepSwitcherCustom;
-import com.harvard.studyAppModule.custom.question.ChoiceCustomImage;
-import com.harvard.studyAppModule.custom.question.ChoiceText;
-import com.harvard.studyAppModule.custom.question.ChoiceTextExclusive;
-import com.harvard.studyAppModule.custom.question.ContinousScaleAnswerFormat;
-import com.harvard.studyAppModule.custom.question.DateAnswerformatCustom;
-import com.harvard.studyAppModule.custom.question.DecimalUnitAnswerFormat;
-import com.harvard.studyAppModule.custom.question.EmailAnswerFormatCustom;
-import com.harvard.studyAppModule.custom.question.HeightAnswerFormat;
-import com.harvard.studyAppModule.custom.question.IntegerUnitAnswerFormat;
-import com.harvard.studyAppModule.custom.question.LocationAnswerFormat;
-import com.harvard.studyAppModule.custom.question.MultiChoiceImageAnswerFormat;
-import com.harvard.studyAppModule.custom.question.MultiChoiceTextAnswerFormat;
-import com.harvard.studyAppModule.custom.question.ScaleAnswerFormat;
-import com.harvard.studyAppModule.custom.question.ScaleTextAnswerFormat;
-import com.harvard.studyAppModule.custom.question.SingleChoiceTextAnswerFormat;
-import com.harvard.studyAppModule.custom.question.TextAnswerFormatRegex;
-import com.harvard.studyAppModule.custom.question.TimeIntervalAnswerFormat;
 import com.harvard.studyAppModule.studyModel.NotificationDbResources;
 import com.harvard.studyAppModule.studyModel.Resource;
 import com.harvard.studyAppModule.studyModel.StudyHome;
@@ -63,9 +45,7 @@ import com.harvard.utils.AppController;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.researchstack.backbone.answerformat.BooleanAnswerFormat;
 import org.researchstack.backbone.answerformat.ChoiceAnswerFormat;
-import org.researchstack.backbone.model.Choice;
 import org.researchstack.backbone.result.StepResult;
 import org.researchstack.backbone.result.TaskResult;
 import org.researchstack.backbone.step.InstructionStep;
@@ -79,7 +59,6 @@ import org.researchstack.backbone.utils.FormatHelper;
 
 import java.lang.reflect.Constructor;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -173,7 +152,36 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
 
         mActivityObject = dbServiceSubscriber.getActivityBySurveyId((String) getIntent().getSerializableExtra(STUDYID), mActivityId, realm);
+       /* for(int i=0;i<mActivityObject.getSteps().size();i++){
+            if(mActivityObject.getSteps().get(i).getResultType().equalsIgnoreCase("boolean")){
 
+                final RealmList<Choices> textChoices = new RealmList<>();
+                Choices choices1 = new Choices();
+                choices1.setText("Yes");
+                choices1.setValue("true");
+                choices1.setDetail("");
+                choices1.setExclusive(false);
+                textChoices.add(choices1);
+                Choices choices2 = new Choices();
+                choices2.setText("No");
+                choices2.setValue("false");
+                choices2.setDetail("");
+                choices2.setExclusive(false);
+                textChoices.add(choices2);
+
+
+                final int finalI = i;
+                realm.executeTransaction(new Realm.Transaction() {
+                    @Override
+                    public void execute(Realm realm) {
+                        mActivityObject.getSteps().get(finalI).getFormat().setTextChoices(textChoices);
+                        mActivityObject.getSteps().get(finalI).getFormat().setSelectionStyle("Single");
+
+
+                    }
+                });
+            }
+        }*/
         StepsBuilder stepsBuilder = new StepsBuilder(CustomSurveyViewTaskActivity.this, mActivityObject, getIntent().getBooleanExtra(BRANCHING, false), realm);
 
         task = ActivityBuilder.create(this,((String) getIntent().getSerializableExtra(EXTRA_STUDYID)), stepsBuilder.getsteps(), mActivityObject, getIntent().getBooleanExtra(BRANCHING, false), dbServiceSubscriber);
@@ -820,13 +828,54 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
               ((QuestionStepCustom) currentStep).isPPing();
               if (((QuestionStepCustom) currentStep).isPPing) {
                   if (taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult() != null && !taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString().isEmpty()) {
-                      String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPipingSnippet(), taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString());
-                      nextStepPipe.setPipingSnippet(taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString());
+                      Object val = taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResults().get("answer");
+                     String answer ="";
+                      Object o = val;
+                      if (o instanceof Object[]) {
+                          Object[] objects = (Object[]) o;
+                          if (objects[0] instanceof String) {
+                              answer = "" + ((String) objects[0]);
+                          } else if (objects[0] instanceof Integer) {
+                              answer = "" + ((int) objects[0]);
+                          }
+                      } else {
+                          answer = taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString();
+                      }
+
+
+
+                      String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPipingSnippet(), answer);
+                      nextStepPipe.setPipingSnippet(answer);
                       step.setTitle("");
                       step.setTitle(replaceString);
                   }
               }
-          }
+          }/*else {
+              if(step.getClass()==QuestionStep.class) {
+                  QuestionStep currentStep1 = (QuestionStep) currentStep;
+                  QuestionStep nextStepPipe = (QuestionStep) step;
+                  String nextPipingdata=nextStepPipe.getText();
+                  String currentPipingdata=currentStep1.getText();
+
+                  PipingBolleanData  currentPipingBolleanData = new Gson().fromJson(currentPipingdata, PipingBolleanData.class);
+                  PipingBolleanData  nextPipingBolleanData = new Gson().fromJson(nextPipingdata, PipingBolleanData.class);
+
+                  if (currentPipingBolleanData.getIsPiping()) {
+                      if (taskResult.getStepResult(currentPipingBolleanData.getSourceQuestionKey()).getResult() != null && !taskResult.getStepResult(currentPipingBolleanData.getSourceQuestionKey()).getResult().toString().isEmpty()) {
+                          String one =currentPipingBolleanData.getPipingSnippit();
+                          String two = taskResult.getStepResult(currentPipingBolleanData.getSourceQuestionKey()).getResult().toString();
+                          String replaceString = step.getTitle().replace(one, two);
+                          //nextPipingBolleanData.setPipingSnippit(taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString());
+                          nextStepPipe.setTitle("");
+                          nextStepPipe.setText("");
+                          nextStepPipe.setTitle(replaceString);
+                      }
+                  }
+
+
+              }
+
+          }*/
     }
 
 }

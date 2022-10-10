@@ -42,6 +42,7 @@ import com.harvard.studyAppModule.activityBuilder.ActivityBuilder;
 import com.harvard.studyAppModule.activityBuilder.CustomSurveyViewTaskActivity;
 import com.harvard.studyAppModule.activityBuilder.StepsBuilder;
 import com.harvard.studyAppModule.activityBuilder.model.ActivityRun;
+import com.harvard.studyAppModule.activityBuilder.model.Choices;
 import com.harvard.studyAppModule.activityBuilder.model.SurveyToSurveyModel;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.ActivityInfoData;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.ActivityObj;
@@ -1002,7 +1003,39 @@ public class SurveyActivitiesFragment extends Fragment
     else if (responseCode == ACTIVTTYINFO_RESPONSECODE) {
       AppController.getHelperProgressDialog().dismissDialog();
       onItemsLoadComplete();
-      ActivityInfoData activityInfoData = (ActivityInfoData) response;
+      final ActivityInfoData activityInfoData = (ActivityInfoData) response;
+
+
+      for(int i=0;i<activityInfoData.getActivity().getSteps().size();i++){
+        if(activityInfoData.getActivity().getSteps().get(i).getResultType().equalsIgnoreCase("boolean")){
+
+          final RealmList<Choices> textChoices = new RealmList<>();
+          Choices choices1 = new Choices();
+          choices1.setText("Yes");
+          choices1.setValue("true");
+          choices1.setDetail("");
+          choices1.setExclusive(false);
+          textChoices.add(choices1);
+          Choices choices2 = new Choices();
+          choices2.setText("No");
+          choices2.setValue("false");
+          choices2.setDetail("");
+          choices2.setExclusive(false);
+          textChoices.add(choices2);
+
+
+          final int finalI = i;
+          mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+              activityInfoData.getActivity().getSteps().get(finalI).getFormat().setTextChoices(textChoices);
+              activityInfoData.getActivity().getSteps().get(finalI).getFormat().setSelectionStyle("Single");
+
+
+            }
+          });
+        }
+      }
       if (activityInfoData != null) {
         launchSurvey(activityInfoData.getActivity());
       } else {
@@ -5306,6 +5339,37 @@ public class SurveyActivitiesFragment extends Fragment
       if (mActivityObj != null) {
         AppController.getHelperSharedPreference()
             .writePreference(mContext, mContext.getString(R.string.mapCount), "0");
+        for(int i=0;i<mActivityObj.getSteps().size();i++){
+          if(mActivityObj.getSteps().get(i).getResultType().equalsIgnoreCase("boolean")){
+
+            final RealmList<Choices> textChoices = new RealmList<>();
+            Choices choices1 = new Choices();
+            choices1.setText("Yes");
+            choices1.setValue("true");
+            choices1.setDetail("");
+            choices1.setExclusive(false);
+            textChoices.add(choices1);
+            Choices choices2 = new Choices();
+            choices2.setText("No");
+            choices2.setValue("false");
+            choices2.setDetail("");
+            choices2.setExclusive(false);
+            textChoices.add(choices2);
+
+
+            final int finalI = i;
+            mRealm.executeTransaction(new Realm.Transaction() {
+              @Override
+              public void execute(Realm realm) {
+                mActivityObj.getSteps().get(finalI).getFormat().setTextChoices(textChoices);
+                mActivityObj.getSteps().get(finalI).getFormat().setSelectionStyle("Single");
+
+
+              }
+            });
+          }
+        }
+
         stepsBuilder = new StepsBuilder(mContext, mActivityObj, mBranching, mRealm);
         mTask =
             ActivityBuilder.create(
@@ -5390,6 +5454,37 @@ public class SurveyActivitiesFragment extends Fragment
       if (mActivityObj != null) {
         AppController.getHelperSharedPreference()
                 .writePreference(mContext, mContext.getString(R.string.mapCount), "0");
+
+        for(int i=0;i<mActivityObj.getSteps().size();i++){
+          if(mActivityObj.getSteps().get(i).getResultType().equalsIgnoreCase("boolean")){
+
+            final RealmList<Choices> textChoices = new RealmList<>();
+            Choices choices1 = new Choices();
+            choices1.setText("Yes");
+            choices1.setValue("true");
+            choices1.setDetail("");
+            choices1.setExclusive(false);
+            textChoices.add(choices1);
+            Choices choices2 = new Choices();
+            choices2.setText("No");
+            choices2.setValue("false");
+            choices2.setDetail("");
+            choices2.setExclusive(false);
+            textChoices.add(choices2);
+
+
+            final int finalI = i;
+            mRealm.executeTransaction(new Realm.Transaction() {
+              @Override
+              public void execute(Realm realm) {
+                mActivityObj.getSteps().get(finalI).getFormat().setTextChoices(textChoices);
+                mActivityObj.getSteps().get(finalI).getFormat().setSelectionStyle("Single");
+
+
+              }
+            });
+          }
+        }
         stepsBuilder = new StepsBuilder(mContext, mActivityObj, mBranching, mRealm);
         String survetTosurveySourceKey=AppController.getHelperSharedPreference()
                 .readPreference(
