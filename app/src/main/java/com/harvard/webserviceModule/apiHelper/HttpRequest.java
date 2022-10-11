@@ -68,7 +68,7 @@ public class HttpRequest {
      * @return Responsemodel
      */
     public static Responsemodel getRequest(String url, HashMap<String, String> mHeadersData, String serverType) {
-
+        Log.e("Krishna", "SB/WCP Url issue getRequest: and url is "+url);
         StringBuffer response = new StringBuffer();
         Responsemodel responseModel = new Responsemodel();
         String responsee;
@@ -80,6 +80,7 @@ public class HttpRequest {
             urlConnection = (HttpURLConnection) obj.openConnection();
             urlConnection.setRequestMethod("GET");
             urlConnection.setReadTimeout(180000);// 3 min timeout
+            urlConnection.setConnectTimeout(180000);// 3 min timeout
             if (serverType.equalsIgnoreCase("WCP")) {
                 String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
                 urlConnection.setRequestProperty("Authorization", "Basic " + encoding);
@@ -104,6 +105,7 @@ public class HttpRequest {
             }
             try {
                 // Will throw IOException if server responds with 401.
+                Log.e("Krishna", "SB/WCP Url issue getRequest: Hit api "+url);
                 responseCode = urlConnection.getResponseCode();
             } catch (IOException e) {
                 // Will return 401, because now connection has the correct internal state.
@@ -168,10 +170,12 @@ public class HttpRequest {
                 responseModel.setServermsg("server error");
             }
             else {
+                Log.e("Krishna", "SB/WCP Url issue getRequest: success time out "+url);
                 responseModel.setServermsg("success");
             }
         }
         catch (ConnectException e) {
+            Log.e("Krishna", "SB/WCP Url issue getRequest: connection time out "+e.toString());
             responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
             responseData = "timeout";
             responsee = "timeout";
@@ -199,7 +203,7 @@ public class HttpRequest {
      * @return Responsemodel
      */
     public static Responsemodel postRequestsWithHashmap(String url, HashMap<String, String> params, HashMap<String, String> mHeadersData, String serverType) {
-
+        Log.e("Krishna", "SB/WCP Url issue postRequestsWithHashmap: and url is "+url);
         Responsemodel responseModel = new Responsemodel();
         String response = "";
         String responseData = "";
@@ -253,6 +257,7 @@ public class HttpRequest {
 
             try {
                 // Will throw IOException if server responds with 401.
+                Log.e("Krishna", "SB/WCP Url issue postRequestsWithHashmap: hit api "+url);
                 responseCode = conn.getResponseCode();
             }
             catch (IOException e) {
@@ -302,10 +307,12 @@ public class HttpRequest {
             else if (responseCode != HttpURLConnection.HTTP_OK && conn.getHeaderField("StatusMessage") == null) {
                 responseModel.setServermsg("server error");
             } else {
+                Log.e("Krishna", "SB/WCP Url issue postRequestsWithHashmap: success "+url);
                 responseModel.setServermsg("success");
             }
         }
         catch (SocketTimeoutException e) {
+            Log.e("Krishna", "SB/WCP Url issue postRequestsWithHashmap: time out "+url);
             responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
             responseData = "";
             response = "timeout";
@@ -331,7 +338,7 @@ public class HttpRequest {
      * @return Responsemodel
      */
     static Responsemodel makePostRequestWithJson(String urlpath, JSONObject jsonObject, HashMap<String, String> mHeadersData, String serverType) {
-
+        Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJson: and url is "+urlpath);
         Responsemodel responseModel = new Responsemodel();
         String response = "";
         String responseData = "";
@@ -378,6 +385,7 @@ public class HttpRequest {
 
             try {
                 // Will throw IOException if server responds with 401.
+                Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJson: hit api "+urlpath);
                 responseCode = conn.getResponseCode();
             } catch (IOException e) {
                 // Will return 401, because now connection has the correct internal state.
@@ -423,14 +431,17 @@ public class HttpRequest {
             } else if (responseCode != HttpURLConnection.HTTP_OK && conn.getHeaderField("StatusMessage") == null) {
                 responseModel.setServermsg("server error");
             } else {
+                Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJson: Success "+urlpath);
                 responseModel.setServermsg("success");
             }
         } catch (SocketTimeoutException e) {
+            Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJson: and url is "+urlpath + " time out "+e.toString());
             responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
             response = "timeout";
             responseData = "";
             e.printStackTrace();
         } catch (Exception e) {
+            Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJson: and url is "+urlpath + " other exception "+e.toString());
             responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
             response = "";
             responseData = "";
@@ -453,6 +464,7 @@ public class HttpRequest {
      */
     static Responsemodel makePostRequestWithJsonRefreshToken(String urlpath, JSONObject jsonObject, HashMap<String, String> mHeadersData, String serverType) {
         Log.e("Krishna", "HttpRequest makePostRequestWithJsonRefreshToken: "+ urlpath + "server type " + serverType  + " Header value " + mHeadersData.toString()  );
+        Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJsonRefreshToken: and url is "+urlpath);
         Responsemodel responseModel = new Responsemodel();
         String response = "";
         String responseData = "";
@@ -500,9 +512,11 @@ public class HttpRequest {
 
             try {
                 // Will throw IOException if server responds with 401.
+                Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJsonRefreshToken: hit api and url is "+urlpath);
                 responseCode = conn.getResponseCode();
             } catch (IOException e) {
                 // Will return 401, because now connection has the correct internal state.
+                Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJsonRefreshToken: hit api and url is "+urlpath+ "exception is "+e.toString());
                 responseCode = conn.getResponseCode();
             }
 
@@ -531,6 +545,7 @@ public class HttpRequest {
                     response = "session expired";
                     responseData = "";
                 } else {
+
                     response = "http_not_ok";
                     responseData = "";
                 }
@@ -545,14 +560,17 @@ public class HttpRequest {
             } else if (responseCode != HttpURLConnection.HTTP_OK && conn.getHeaderField("StatusMessage") == null) {
                 responseModel.setServermsg("server error");
             } else {
+                Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJsonRefreshToken: success and url is "+urlpath);
                 responseModel.setServermsg("success");
             }
         } catch (SocketTimeoutException e) {
+            Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJsonRefreshToken: and url is "+urlpath+ "time out ex" + e.toString());
             responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
             response = "timeout";
             responseData = "";
             e.printStackTrace();
         } catch (Exception e) {
+            Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJsonRefreshToken: and url is "+urlpath + "other excepption"+ e.toString());
             responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
             response = "";
             responseData = "";
@@ -573,6 +591,7 @@ public class HttpRequest {
      */
     private static String getPostDataString(HashMap<String, String> params) {
         Log.e("Krishna", "HttpRequest getPostDataString: "+ params.toString());
+
         return new Gson().toJson(params);
     }
 
