@@ -37,6 +37,7 @@ import com.harvard.studyAppModule.custom.QuestionStepCustom;
 import com.harvard.studyAppModule.custom.Result.StepRecordCustom;
 import com.harvard.studyAppModule.custom.Result.TaskRecordCustom;
 import com.harvard.studyAppModule.custom.StepSwitcherCustom;
+import com.harvard.studyAppModule.custom.question.SingleChoiceTextAnswerFormat;
 import com.harvard.studyAppModule.studyModel.NotificationDbResources;
 import com.harvard.studyAppModule.studyModel.Resource;
 import com.harvard.studyAppModule.studyModel.StudyHome;
@@ -112,7 +113,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
     boolean surveyTosurveyFlag=false;
     boolean flag=false;
     int count;
-
+    ChoiceAnswerFormatCustom duplicateFormat;
     public static Intent newIntent(Context context, String surveyId, String studyId, int mCurrentRunId, String mActivityStatus, int missedRun, int completedRun, int totalRun, String mActivityVersion, Date currentRunStartDate, Date currentRunEndDate, String activityId, boolean branching, String frequencyType) {
         Intent intent = new Intent(context, CustomSurveyViewTaskActivity.class);
         intent.putExtra(EXTRA_STUDYID, surveyId);
@@ -375,6 +376,8 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                     if (stepResult.getAnswerFormat() == null) {
                         QuestionStepCustom step = (QuestionStepCustom) currentStep;
                         ChoiceAnswerFormatCustom format = (ChoiceAnswerFormatCustom) step.getAnswerFormat1();
+
+                        duplicateFormat=format;
                         RealmList<Choices> textChoices = new RealmList<>();
                         for (int i = 0; i < format.getChoices().length; i++) {
                             Choices choices = new Choices();
@@ -523,7 +526,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                 .getCurrent();
         int newStepPosition = task.getProgressOfCurrentStep(step, taskResult).getCurrent();
 
-       initiatePiping("",step,taskResult,step,currentStepPosition,newStepPosition);
+       initiatePiping("",step,taskResult,step,currentStepPosition,newStepPosition,currentStep);
 
 
 
@@ -821,29 +824,41 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
     }
 
 
-    public void initiatePiping(String identifier, Step currentStep, TaskResult taskResult, Step step, int currentStepPosition, int newStepPosition){
+    public void initiatePiping(String identifier, Step currentStep, TaskResult taskResult, Step step, int currentStepPosition, int newStepPosition, Step currentStep1){
 
           if(step.getClass()!= InstructionStep.class&&step.getClass()!=QuestionStep.class) {
               QuestionStepCustom nextStepPipe = (QuestionStepCustom) step;
               ((QuestionStepCustom) currentStep).isPPing();
               if (((QuestionStepCustom) currentStep).isPPing) {
                   if (taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult() != null && !taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString().isEmpty()) {
-                      Object val = taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResults().get("answer");
-                     String answer ="";
+                     Object val = taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResults().get("answer");
+                      String answer ="";
                       Object o = val;
                       if (o instanceof Object[]) {
                           Object[] objects = (Object[]) o;
                           if (objects[0] instanceof String) {
                               answer = "" + ((String) objects[0]);
+                              if(((QuestionStepCustom) currentStep1).getGetPipingChoices()!=null) {
+                                  for (int i = 0; i < ((QuestionStepCustom) currentStep1).getGetPipingChoices().size(); i++) {
+                                      if (((QuestionStepCustom) currentStep1).getGetPipingChoices().get(i).getValue().equals(answer)) {
+                                          answer = ((QuestionStepCustom) currentStep1).getGetPipingChoices().get(i).getText();
+                                      }
+                                  }
+                              }
+
                           } else if (objects[0] instanceof Integer) {
                               answer = "" + ((int) objects[0]);
+                              if(((QuestionStepCustom) currentStep1).getGetPipingChoices()!=null) {
+                                  for (int i = 0; i < ((QuestionStepCustom) currentStep1).getGetPipingChoices().size(); i++) {
+                                      if (((QuestionStepCustom) currentStep1).getGetPipingChoices().get(i).getValue().equals(answer)) {
+                                          answer = ((QuestionStepCustom) currentStep1).getGetPipingChoices().get(i).getText();
+                                      }
+                                  }
+                              }
                           }
                       } else {
                           answer = taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString();
                       }
-
-
-
                       String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPipingSnippet(), answer);
                       nextStepPipe.setPipingSnippet(answer);
                       step.setTitle("");

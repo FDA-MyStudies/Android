@@ -1,7 +1,13 @@
 package com.harvard.studyAppModule.custom;
 
+import com.harvard.studyAppModule.activityBuilder.model.GetPipingChoices;
+import com.harvard.studyAppModule.custom.question.ChoiceText;
+import com.harvard.studyAppModule.custom.question.ChoiceTextExclusive;
+
 import org.researchstack.backbone.step.QuestionStep;
 import org.researchstack.backbone.ui.step.layout.SurveyStepLayout;
+
+import io.realm.RealmList;
 
 /**
  * Created by Naveen Raj on 11/14/2016.
@@ -21,10 +27,21 @@ public class QuestionStepCustom extends QuestionStep {
     public String pipingSnippet;
     public String pipeSocuceKey;
 
+
+
     public String activityId;
     public String destinationStepKey;
     public String activityVersion;
     public String type;
+    RealmList<GetPipingChoices>getPipingChoices;
+
+    public RealmList<GetPipingChoices> getGetPipingChoices() {
+        return getPipingChoices;
+    }
+
+    public void setGetPipingChoices(RealmList<GetPipingChoices> getPipingChoices) {
+        this.getPipingChoices = getPipingChoices;
+    }
 
     public String getType() {
         return type;
@@ -73,10 +90,10 @@ public class QuestionStepCustom extends QuestionStep {
      * @param identifier The identifier of the step (a step identifier should be unique within the
      *                   task).
      */
-    public QuestionStepCustom(String identifier,boolean isPPing,String pipeOperator,String key_pipe,
+    public QuestionStepCustom(String identifier, boolean isPPing, String pipeOperator, String key_pipe,
 
-                              String pipeValue,String pipingSnippet, String pipeSocuceKey,  String activityId,
-                                        String destinationStepKey,String activityVersion , String type) {
+                              String pipeValue, String pipingSnippet, String pipeSocuceKey, String activityId,
+                              String destinationStepKey, String activityVersion , String type, RealmList<GetPipingChoices> getPipingChoices) {
         super(identifier);
         this.identifier = identifier;
         this.isPPing = isPPing;
@@ -89,6 +106,7 @@ public class QuestionStepCustom extends QuestionStep {
         this. destinationStepKey=destinationStepKey;
         this. activityVersion=activityVersion;
         this.type=type;
+        this.getPipingChoices=getPipingChoices;
      }
 
     /**
@@ -126,8 +144,8 @@ public class QuestionStepCustom extends QuestionStep {
      * @param format     The format in which the answer is expected.
      */
     public QuestionStepCustom(String identifier, String title, AnswerFormatCustom format, boolean isPPing, String pipeOperator, String key_pipe,
-                              String pipeValue, String pipingSnippet, String pipeSocuceKey,String activityId,
-                              String destinationStepKey,String activityVersion, String type
+                              String pipeValue, String pipingSnippet, String pipeSocuceKey, String activityId,
+                              String destinationStepKey, String activityVersion, String type,RealmList<GetPipingChoices>getPipingChoices
 
     ) {
         super(identifier, title);
@@ -143,6 +161,7 @@ public class QuestionStepCustom extends QuestionStep {
         this. destinationStepKey=destinationStepKey;
         this. activityVersion=activityVersion;
         this.type=type;
+        this.getPipingChoices=getPipingChoices;
     }
 
     public void setidentifier(String identifier) {
