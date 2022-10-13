@@ -865,7 +865,8 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                       step.setTitle(replaceString);
                   }
               }
-          }/*else {
+          }
+          /*else {
               if(step.getClass()==QuestionStep.class) {
                   QuestionStep currentStep1 = (QuestionStep) currentStep;
                   QuestionStep nextStepPipe = (QuestionStep) step;

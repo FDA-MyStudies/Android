@@ -9,6 +9,8 @@ import com.harvard.studyAppModule.activityBuilder.model.serviceModel.Steps;
 import com.harvard.studyAppModule.custom.Result.StepRecordCustom;
 import com.harvard.utils.AppController;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.researchstack.backbone.result.StepResult;
 import org.researchstack.backbone.result.TaskResult;
 import org.researchstack.backbone.step.Step;
@@ -959,8 +961,26 @@ public class ActivityBuilder extends OrderedTask {
                                         }
                                     }
                                 }
+                            }else if (activityQuestionStep.get(steps.indexOf(previousStep)).getResultType().equalsIgnoreCase("grouped")){
+                                StepRecordCustom stepRecordCustom = mDBServiceSubscriber.getResultFromDB(mIdentifier + "_" + activityQuestionStep.get(steps.indexOf(previousStep)).getKey(), realmStep);
+                                if(stepRecordCustom != null){
+                                    try {
+                                        JSONObject object = new JSONObject(stepRecordCustom.getResult());
+                                        if(object.getJSONObject(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1 ).getKey()).getJSONObject("results").get("answer").toString().equalsIgnoreCase(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())){
+
+                                        }else{
+
+                                        }
+                                        object.get("results");
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+
                             }
                             else {
+
+
                                 if (taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString().equalsIgnoreCase(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())) {
 
                                     int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
