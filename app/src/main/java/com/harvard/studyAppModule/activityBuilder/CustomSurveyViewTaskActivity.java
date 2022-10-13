@@ -877,32 +877,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                     step.setTitle(replaceString);
                 }
             }
-        }/*else {
-              if(step.getClass()==QuestionStep.class) {
-                  QuestionStep currentStep1 = (QuestionStep) currentStep;
-                  QuestionStep nextStepPipe = (QuestionStep) step;
-                  String nextPipingdata=nextStepPipe.getText();
-                  String currentPipingdata=currentStep1.getText();
-
-                  PipingBolleanData  currentPipingBolleanData = new Gson().fromJson(currentPipingdata, PipingBolleanData.class);
-                  PipingBolleanData  nextPipingBolleanData = new Gson().fromJson(nextPipingdata, PipingBolleanData.class);
-
-                  if (currentPipingBolleanData.getIsPiping()) {
-                      if (taskResult.getStepResult(currentPipingBolleanData.getSourceQuestionKey()).getResult() != null && !taskResult.getStepResult(currentPipingBolleanData.getSourceQuestionKey()).getResult().toString().isEmpty()) {
-                          String one =currentPipingBolleanData.getPipingSnippit();
-                          String two = taskResult.getStepResult(currentPipingBolleanData.getSourceQuestionKey()).getResult().toString();
-                          String replaceString = step.getTitle().replace(one, two);
-                          //nextPipingBolleanData.setPipingSnippit(taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString());
-                          nextStepPipe.setTitle("");
-                          nextStepPipe.setText("");
-                          nextStepPipe.setTitle(replaceString);
-                      }
-                  }
-
-
-              }
-
-          }*/
+        }
     }
 
 }
