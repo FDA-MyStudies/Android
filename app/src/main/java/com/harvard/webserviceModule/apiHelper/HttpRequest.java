@@ -84,8 +84,10 @@ public class HttpRequest {
             if (serverType.equalsIgnoreCase("WCP")) {
                 String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
                 urlConnection.setRequestProperty("Authorization", "Basic " + encoding);
+                urlConnection.setRequestProperty("Connection", "keep-alive");
                 urlConnection.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }else if(serverType.equalsIgnoreCase("Response")){
+                urlConnection.setRequestProperty("Connection", "keep-alive");
                 urlConnection.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }
             urlConnection.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
@@ -223,8 +225,10 @@ public class HttpRequest {
             if (serverType.equalsIgnoreCase("WCP")) {
                 String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
                 conn.setRequestProperty("Authorization", "Basic " + encoding);
+                conn.setRequestProperty("Connection", "keep-alive");
                 conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }else if(serverType.equalsIgnoreCase("Response")){
+                conn.setRequestProperty("Connection", "keep-alive");
                 conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }
             conn.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
@@ -355,8 +359,10 @@ public class HttpRequest {
             if (serverType.equalsIgnoreCase("WCP")) {
                 String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
                 conn.setRequestProperty("Authorization", "Basic " + encoding);
+                conn.setRequestProperty("Connection", "keep-alive");
                 conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }else if(serverType.equalsIgnoreCase("Response")){
+                conn.setRequestProperty("Connection", "keep-alive");
                 conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }
             conn.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
@@ -481,9 +487,11 @@ public class HttpRequest {
             if (serverType.equalsIgnoreCase("WCP")) {
                 String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
                 conn.setRequestProperty("Authorization", "Basic " + encoding);
+                conn.setRequestProperty("Connection", "keep-alive");
                 conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }
             else if(serverType.equalsIgnoreCase("Response")){
+                conn.setRequestProperty("Connection", "keep-alive");
                 conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }
             conn.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
@@ -626,8 +634,10 @@ public class HttpRequest {
             if (serverType.equalsIgnoreCase("WCP")) {
                 String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
                 httpConn.setRequestProperty("Authorization", "Basic " + encoding);
+                httpConn.setRequestProperty("Connection", "keep-alive");
                 httpConn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }else if(serverType.equalsIgnoreCase("Response")){
+                httpConn.setRequestProperty("Connection", "keep-alive");
                 httpConn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }
             httpConn.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
@@ -1176,6 +1186,7 @@ public class HttpRequest {
                 if (serverType.equalsIgnoreCase("WCP")) {
                     String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
                     conn.setRequestProperty("Authorization", "Basic " + encoding);
+                    conn.setRequestProperty("Connection", "keep-alive");
                     conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
                 }
                 conn.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
