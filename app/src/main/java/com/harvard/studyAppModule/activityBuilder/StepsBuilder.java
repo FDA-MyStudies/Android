@@ -99,7 +99,7 @@ public class StepsBuilder {
                             for (int j = 0; j < activityQuestionStep.get(i).getFormat().getTextChoices().size(); j++) {
                                 textScaleChoices[j] = new ChoiceTextExclusive(activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getText(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getValue(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getDetail(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).isExclusive(), null);
                             }
-                            RealmList<GetPipingChoices>getPipingChoices = new RealmList<>();
+                            ArrayList<GetPipingChoices>getPipingChoices = new ArrayList<>();
                             for(int k=0;k<textScaleChoices.length;k++) {
                                 GetPipingChoices getPipingChoices1 = new GetPipingChoices();
                                 getPipingChoices1.setText(textScaleChoices[k].getText());
@@ -156,7 +156,7 @@ public class StepsBuilder {
                                 for (int j = 0; j < activityQuestionStep.get(i).getFormat().getTextChoices().size(); j++) {
                                     choices[j] = new ChoiceText(activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getText(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getValue(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getDetail(),activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getOther());
                                 }
-                                RealmList<GetPipingChoices>getPipingChoices3 = new RealmList<>();
+                                ArrayList<GetPipingChoices>getPipingChoices3 = new ArrayList<>();
                                 for(int k=0;k<choices.length;k++){
                                   GetPipingChoices getPipingChoices1 = new GetPipingChoices();
                                   getPipingChoices1.setText(choices[k].getText());

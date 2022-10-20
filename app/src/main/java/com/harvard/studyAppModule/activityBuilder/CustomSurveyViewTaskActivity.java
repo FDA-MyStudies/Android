@@ -195,7 +195,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
 
         if (savedsteps != null) {
-            SurveyToSurveyModel surveyToSurveyModel = dbServiceSubscriber.getSurveyToSurveyModelData(realm);
+            /*SurveyToSurveyModel surveyToSurveyModel = dbServiceSubscriber.getSurveyToSurveyModelData(realm);
 
             if (surveyToSurveyModel != null) {
                 AppController.getHelperSharedPreference()
@@ -208,7 +208,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                                 CustomSurveyViewTaskActivity.this,
                                 "survetTosurveySourceKey",
                                 surveyToSurveyModel.getSurvetTosurveySourceKey());
-            }
+            }*/
             String survetTosurveyActivityId = AppController.getHelperSharedPreference()
                     .readPreference(CustomSurveyViewTaskActivity.this,
                             "survetTosurveyActivityId", "");
@@ -295,6 +295,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
     }
 
     protected void showNextStep() {
+
         savestepresult(currentStep, true);
         if (currentStep.getClass() != InstructionStep.class && currentStep.getClass() != QuestionStep.class) {
 
@@ -316,6 +317,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                 surveyTosurveyFlag = true;
 
                 saveAndFinish();
+
                 AppController.getHelperSharedPreference()
                         .writePreference(
                                 CustomSurveyViewTaskActivity.this,
@@ -339,13 +341,15 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                                 activityVersion);
             }
         }
-        Step nextStep = task.getStepAfterStep(currentStep, taskResult);
-        if (nextStep == null && surveyTosurveyFlag == false) {
-            saveAndFinish();
-        } else {
-            showStep(nextStep);
-            count = count + 1;
-            Log.e("countt", String.valueOf(count));
+        if(surveyTosurveyFlag == false) {
+            Step nextStep = task.getStepAfterStep(currentStep, taskResult);
+            if (nextStep == null && surveyTosurveyFlag == false) {
+                saveAndFinish();
+            } else {
+                showStep(nextStep);
+                count = count + 1;
+                Log.e("countt", String.valueOf(count));
+            }
         }
     }
 
@@ -522,8 +526,9 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
             flag = false;
 
         }
-        Step previousStep = task.getStepBeforeStep(currentStep, taskResult);
+
         if (flag == false) {
+            Step previousStep = task.getStepBeforeStep(currentStep, taskResult);
             if (previousStep == null) {
                 finish();
             } else {

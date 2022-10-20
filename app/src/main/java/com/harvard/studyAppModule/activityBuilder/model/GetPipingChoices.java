@@ -1,5 +1,7 @@
 package com.harvard.studyAppModule.activityBuilder.model;
 
+import java.io.Serializable;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -7,7 +9,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by Rohit on 2/23/2017.
  */
 
-public class GetPipingChoices extends RealmObject {
+public class GetPipingChoices implements Serializable {
     @PrimaryKey
     private String value;
     private String text;

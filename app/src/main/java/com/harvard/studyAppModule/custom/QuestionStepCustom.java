@@ -7,6 +7,8 @@ import com.harvard.studyAppModule.custom.question.ChoiceTextExclusive;
 import org.researchstack.backbone.step.QuestionStep;
 import org.researchstack.backbone.ui.step.layout.SurveyStepLayout;
 
+import java.util.ArrayList;
+
 import io.realm.RealmList;
 
 /**
@@ -33,13 +35,13 @@ public class QuestionStepCustom extends QuestionStep {
     public String destinationStepKey;
     public String activityVersion;
     public String type;
-    RealmList<GetPipingChoices>getPipingChoices;
+    ArrayList<GetPipingChoices> getPipingChoices;
 
-    public RealmList<GetPipingChoices> getGetPipingChoices() {
+    public ArrayList<GetPipingChoices> getGetPipingChoices() {
         return getPipingChoices;
     }
 
-    public void setGetPipingChoices(RealmList<GetPipingChoices> getPipingChoices) {
+    public void setGetPipingChoices(ArrayList<GetPipingChoices> getPipingChoices) {
         this.getPipingChoices = getPipingChoices;
     }
 
@@ -93,7 +95,7 @@ public class QuestionStepCustom extends QuestionStep {
     public QuestionStepCustom(String identifier, boolean isPPing, String pipeOperator, String key_pipe,
 
                               String pipeValue, String pipingSnippet, String pipeSocuceKey, String activityId,
-                              String destinationStepKey, String activityVersion , String type, RealmList<GetPipingChoices> getPipingChoices) {
+                              String destinationStepKey, String activityVersion , String type, ArrayList<GetPipingChoices> getPipingChoices) {
         super(identifier);
         this.identifier = identifier;
         this.isPPing = isPPing;
@@ -145,7 +147,7 @@ public class QuestionStepCustom extends QuestionStep {
      */
     public QuestionStepCustom(String identifier, String title, AnswerFormatCustom format, boolean isPPing, String pipeOperator, String key_pipe,
                               String pipeValue, String pipingSnippet, String pipeSocuceKey, String activityId,
-                              String destinationStepKey, String activityVersion, String type,RealmList<GetPipingChoices>getPipingChoices
+                              String destinationStepKey, String activityVersion, String type,ArrayList<GetPipingChoices>getPipingChoices
 
     ) {
         super(identifier, title);
