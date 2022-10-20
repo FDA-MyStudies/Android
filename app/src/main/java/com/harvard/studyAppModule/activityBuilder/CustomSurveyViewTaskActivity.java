@@ -842,7 +842,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
             QuestionStepCustom nextStepPipe = (QuestionStepCustom) step;
             ((QuestionStepCustom) currentStep).isPPing();
             if (((QuestionStepCustom) currentStep).isPPing) {
-                if (taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult() != null && !taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString().isEmpty()) {
+                if (taskResult.getResults().size()!=0&&taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult() != null && !taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString().isEmpty()) {
                     Object val = taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResults().get("answer");
                     String answer = "";
                     Object o = val;
