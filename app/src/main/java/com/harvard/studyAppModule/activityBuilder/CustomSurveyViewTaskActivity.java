@@ -39,7 +39,6 @@ import com.harvard.studyAppModule.custom.QuestionStepCustom;
 import com.harvard.studyAppModule.custom.Result.StepRecordCustom;
 import com.harvard.studyAppModule.custom.Result.TaskRecordCustom;
 import com.harvard.studyAppModule.custom.StepSwitcherCustom;
-import com.harvard.studyAppModule.custom.question.SingleChoiceTextAnswerFormat;
 import com.harvard.studyAppModule.studyModel.NotificationDbResources;
 import com.harvard.studyAppModule.studyModel.Resource;
 import com.harvard.studyAppModule.studyModel.StudyHome;
@@ -847,7 +846,12 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
             QuestionStepCustom nextStepPipe = (QuestionStepCustom) step;
             ((QuestionStepCustom) currentStep).isPPing();
             if (((QuestionStepCustom) currentStep).isPPing) {
-                if (taskResult.getResults().size()!=0&&taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult() != null && !taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString().isEmpty()) {
+
+                if (taskResult!=null
+                        && taskResult.getResults()!=null&&taskResult.getResults().size()!=0
+                        && taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey())!=null
+                        && taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult() != null
+                        && !taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString().isEmpty()) {
                     Object val = taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResults().get("answer");
                     String answer = "";
                     Object o = val;

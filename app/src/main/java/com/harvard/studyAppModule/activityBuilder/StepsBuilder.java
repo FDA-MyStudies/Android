@@ -367,7 +367,18 @@ public class StepsBuilder {
                             steps.add(locationStep);
                             break;
                         case "form":
-                            QuestionStepCustom formstep = new QuestionStepCustom(activityobj.getSteps().get(i).getKey(),activityQuestionStep.get(i).isPiping(),activityQuestionStep.get(i).getPreLoadLogic().getOperator(),activityQuestionStep.get(i).getKey(),activityQuestionStep.get(i).getPreLoadLogic().getValue(),activityQuestionStep.get(i).getPiping().getPipingSnippet(),activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion(),activityQuestionStep.get(i).getResultType(),null );
+                            QuestionStepCustom formstep = new QuestionStepCustom(
+                                    activityobj.getSteps().get(i).getKey(),
+                                    activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).isPiping(),
+                                    activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).getPreLoadLogic().getOperator(),
+                                    activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).getKey(),
+                                    activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).getPreLoadLogic().getValue(),
+                                    activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).getPiping().getPipingSnippet(),
+                                    activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).getPiping().getSourceQuestionKey(),
+                                    activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).getPreLoadLogic().getActivityId(),
+                                    activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).getPreLoadLogic().getDestinationStepKey(),
+                                    activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).getPreLoadLogic().getActivityVersion(),
+                                    activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).getResultType(),null );
                             RealmList<Steps> activityFormStep = activityobj.getSteps();
                             ChoiceAnswerFormatCustom formsFormat = new ChoiceAnswerFormatCustom(ChoiceAnswerFormatCustom.CustomAnswerStyle.Form, formstep, getformquestion(context, activityFormStep, realm), activityobj.getSteps().get(i).isRepeatable(), activityobj.getSteps().get(i).getRepeatableText());
                             formstep.setAnswerFormat1(formsFormat);
@@ -379,7 +390,20 @@ public class StepsBuilder {
                     }
                 }
                 else if (activityQuestionStep.get(i).getType().equalsIgnoreCase("form")) {
-                    QuestionStepCustom formstep = new QuestionStepCustom(activityobj.getSteps().get(i).getKey(),activityQuestionStep.get(i).isPiping(),activityQuestionStep.get(i).getPreLoadLogic().getOperator(),activityQuestionStep.get(i).getKey(),activityQuestionStep.get(i).getPreLoadLogic().getValue(),activityQuestionStep.get(i).getPiping().getPipingSnippet(),activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion(),activityQuestionStep.get(i).getResultType(),null );
+                  //  QuestionStepCustom formstep = new QuestionStepCustom(activityobj.getSteps().get(i).getKey(),activityQuestionStep.get(i).isPiping(),activityQuestionStep.get(i).getPreLoadLogic().getOperator(),activityQuestionStep.get(i).getKey(),activityQuestionStep.get(i).getPreLoadLogic().getValue(),activityQuestionStep.get(i).getPiping().getPipingSnippet(),activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion(),activityQuestionStep.get(i).getResultType(),null );
+                    QuestionStepCustom formstep = new QuestionStepCustom(
+                            activityobj.getSteps().get(i).getKey(),
+                            activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).isPiping(),
+                            activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).getPreLoadLogic().getOperator(),
+                            activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).getKey(),
+                            activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).getPreLoadLogic().getValue(),
+                            activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).getPiping().getPipingSnippet(),
+                            activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).getPiping().getSourceQuestionKey(),
+                            activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).getPreLoadLogic().getActivityId(),
+                            activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).getPreLoadLogic().getDestinationStepKey(),
+                            activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).getPreLoadLogic().getActivityVersion(),
+                            activityQuestionStep.get(i).getSteps().get(activityQuestionStep.get(i).getSteps().size()-1).getResultType(),null );
+
                     RealmList<Steps> activityFormStep = activityobj.getSteps().get(i).getSteps();
                     ArrayList<QuestionStep> questionSteps = getformquestion(context, activityFormStep, realm);
                     ChoiceAnswerFormatCustom formsFormat = new ChoiceAnswerFormatCustom(ChoiceAnswerFormatCustom.CustomAnswerStyle.Form, formstep, questionSteps, activityobj.getSteps().get(i).isRepeatable(), activityobj.getSteps().get(i).getRepeatableText());
