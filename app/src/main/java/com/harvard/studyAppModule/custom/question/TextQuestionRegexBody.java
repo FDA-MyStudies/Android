@@ -50,6 +50,12 @@ public class TextQuestionRegexBody implements StepBody {
         format = (TextAnswerFormatRegex) (step).getAnswerFormat1();
         editText = (EditText) body.findViewById(org.researchstack.backbone.R.id.value);
         editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
+        if (step.getType2().equalsIgnoreCase("instruction")) {
+            editText.setVisibility(View.GONE);
+        } else {
+            editText.setVisibility(View.VISIBLE);
+        }
         if (step.getPlaceholder() != null) {
             editText.setHint(step.getPlaceholder());
         } else {

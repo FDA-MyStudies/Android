@@ -74,7 +74,7 @@ public class StepsBuilder {
                     switch (activityQuestionStep.get(i).getResultType()) {
                         case "scale":
                             ScaleAnswerFormat ScaleFormat = new ScaleAnswerFormat(ChoiceAnswerFormatCustom.CustomAnswerStyle.Scale, activityQuestionStep.get(i).getFormat().getStep(), activityQuestionStep.get(i).getFormat().getMinValue(), activityQuestionStep.get(i).getFormat().getMaxValue(), activityQuestionStep.get(i).getFormat().isVertical(), activityQuestionStep.get(i).getFormat().getMaxDesc(), activityQuestionStep.get(i).getFormat().getMinDesc(), activityQuestionStep.get(i).getFormat().getMaxImage(), activityQuestionStep.get(i).getFormat().getMinImage(), activityQuestionStep.get(i).getFormat().getDefaultValue());
-                            QuestionStepCustom scaleStep = new QuestionStepCustom(activityQuestionStep.get(i).getKey(), context.getResources().getString(R.string.survey), ScaleFormat,activityQuestionStep.get(i).isPiping(),activityQuestionStep.get(i).getPreLoadLogic().getOperator(),activityQuestionStep.get(i).getKey(),activityQuestionStep.get(i).getPreLoadLogic().getValue(),activityQuestionStep.get(i).getPiping().getPipingSnippet(),activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion(),activityQuestionStep.get(i).getResultType(),null);
+                            QuestionStepCustom scaleStep = new QuestionStepCustom(activityQuestionStep.get(i).getKey(), context.getResources().getString(R.string.survey), ScaleFormat,activityQuestionStep.get(i).isPiping(),activityQuestionStep.get(i).getPreLoadLogic().getOperator(),activityQuestionStep.get(i).getKey(),activityQuestionStep.get(i).getPreLoadLogic().getValue(),activityQuestionStep.get(i).getPiping().getPipingSnippet(),activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion(),activityQuestionStep.get(i).getResultType(),null,"");
                             scaleStep.setAnswerFormat1(ScaleFormat);
                             if (branching)
                                 scaleStep.setStepTitle(R.string.notxt);
@@ -85,7 +85,7 @@ public class StepsBuilder {
                             break;
                         case "continuousScale":
                             ContinousScaleAnswerFormat ContinousScaleFormat = new ContinousScaleAnswerFormat(ChoiceAnswerFormatCustom.CustomAnswerStyle.Scale, activityQuestionStep.get(i).getFormat().getMaxFractionDigits(), activityQuestionStep.get(i).getFormat().getMinValue(), activityQuestionStep.get(i).getFormat().getMaxValue(), activityQuestionStep.get(i).getFormat().isVertical(), activityQuestionStep.get(i).getFormat().getMaxDesc(), activityQuestionStep.get(i).getFormat().getMinDesc(), activityQuestionStep.get(i).getFormat().getMaxImage(), activityQuestionStep.get(i).getFormat().getMinImage(), activityQuestionStep.get(i).getFormat().getDefaultValue());
-                            QuestionStepCustom continousscaleStep = new QuestionStepCustom(activityQuestionStep.get(i).getKey(), context.getResources().getString(R.string.survey), ContinousScaleFormat,activityQuestionStep.get(i).isPiping(),activityQuestionStep.get(i).getPreLoadLogic().getOperator(),activityQuestionStep.get(i).getKey(),activityQuestionStep.get(i).getPreLoadLogic().getValue(),activityQuestionStep.get(i).getPiping().getPipingSnippet(),activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion(),activityQuestionStep.get(i).getResultType(),null  );
+                            QuestionStepCustom continousscaleStep = new QuestionStepCustom(activityQuestionStep.get(i).getKey(), context.getResources().getString(R.string.survey), ContinousScaleFormat,activityQuestionStep.get(i).isPiping(),activityQuestionStep.get(i).getPreLoadLogic().getOperator(),activityQuestionStep.get(i).getKey(),activityQuestionStep.get(i).getPreLoadLogic().getValue(),activityQuestionStep.get(i).getPiping().getPipingSnippet(),activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion(),activityQuestionStep.get(i).getResultType(),null,""  );
                             continousscaleStep.setAnswerFormat1(ContinousScaleFormat);
                             if (branching)
                             continousscaleStep.setStepTitle(R.string.notxt);
@@ -104,12 +104,24 @@ public class StepsBuilder {
                                 GetPipingChoices getPipingChoices1 = new GetPipingChoices();
                                 getPipingChoices1.setText(textScaleChoices[k].getText());
 
-                                getPipingChoices1.setValue(""+textScaleChoices[k].getText());
+                                getPipingChoices1.setValue(""+textScaleChoices[k].getValue());
                                 getPipingChoices.add(getPipingChoices1);
                             }
                             ScaleTextAnswerFormat ScaleTextFormat = new ScaleTextAnswerFormat(ChoiceAnswerFormatCustom.CustomAnswerStyle.ScaleText, textScaleChoices, activityQuestionStep.get(i).getFormat().getDefaultValue(), activityQuestionStep.get(i).getFormat().isVertical());
 
-                            QuestionStepCustom scaleTextStep = new QuestionStepCustom(activityQuestionStep.get(i).getKey(), context.getResources().getString(R.string.survey), ScaleTextFormat,activityQuestionStep.get(i).isPiping(),activityQuestionStep.get(i).getPreLoadLogic().getOperator(),activityQuestionStep.get(i).getKey(),activityQuestionStep.get(i).getPreLoadLogic().getValue(),activityQuestionStep.get(i).getPiping().getPipingSnippet(),activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion() ,activityQuestionStep.get(i).getResultType(),getPipingChoices );
+                            QuestionStepCustom scaleTextStep = new QuestionStepCustom(
+                                    activityQuestionStep.get(i).getKey(),
+                                    context.getResources().getString(R.string.survey),
+                                    ScaleTextFormat,activityQuestionStep.get(i).isPiping(),
+                                    activityQuestionStep.get(i).getPreLoadLogic().getOperator(),
+                                    activityQuestionStep.get(i).getKey(),
+                                    activityQuestionStep.get(i).getPreLoadLogic().getValue(),
+                                    activityQuestionStep.get(i).getPiping().getPipingSnippet(),
+                                    activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),
+                                    activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),
+                                    activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),
+                                    activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion() ,
+                                    activityQuestionStep.get(i).getResultType(),getPipingChoices,"" );
                             scaleTextStep.setAnswerFormat1(ScaleTextFormat);
                             if (branching)
                                 scaleTextStep.setStepTitle(R.string.notxt);
@@ -119,13 +131,35 @@ public class StepsBuilder {
                             steps.add(scaleTextStep);
                             break;
                         case "valuePicker":
-                            QuestionStepCustom valuepicker = new QuestionStepCustom(activityQuestionStep.get(i).getKey(),activityQuestionStep.get(i).isPiping(),activityQuestionStep.get(i).getPreLoadLogic().getOperator(),activityQuestionStep.get(i).getKey(),activityQuestionStep.get(i).getPreLoadLogic().getValue(),activityQuestionStep.get(i).getPiping().getPipingSnippet(),activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion(),activityQuestionStep.get(i).getResultType(),null );
-                            if (branching)
-                                valuepicker.setStepTitle(R.string.notxt);
+
+
                             Choice[] valuechoice = new Choice[activityQuestionStep.get(i).getFormat().getTextChoices().size()];
                             for (int j = 0; j < activityQuestionStep.get(i).getFormat().getTextChoices().size(); j++) {
                                 valuechoice[j] = new Choice(activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getText(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getValue(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getDetail());
                             }
+                            ArrayList<GetPipingChoices>getPipingChoices2 = new ArrayList<>();
+                            for(int k=0;k<valuechoice.length;k++) {
+                                GetPipingChoices getPipingChoices1 = new GetPipingChoices();
+                                getPipingChoices1.setText(valuechoice[k].getText());
+
+                                getPipingChoices1.setValue(""+valuechoice[k].getValue());
+                                getPipingChoices2.add(getPipingChoices1);
+                            }
+                            QuestionStepCustom valuepicker = new QuestionStepCustom(
+                                    activityQuestionStep.get(i).getKey(),
+                                    activityQuestionStep.get(i).isPiping(),
+                                    activityQuestionStep.get(i).getPreLoadLogic().getOperator(),
+                                    activityQuestionStep.get(i).getKey(),
+                                    activityQuestionStep.get(i).getPreLoadLogic().getValue(),
+                                    activityQuestionStep.get(i).getPiping().getPipingSnippet(),
+                                    activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),
+                                    activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),
+                                    activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),
+                                    activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion(),
+                                    activityQuestionStep.get(i).getResultType(),getPipingChoices2 );
+                            if (branching)
+
+                            valuepicker.setStepTitle(R.string.notxt);
                             ChoiceAnswerFormatCustom pickerformat = new ChoiceAnswerFormatCustom(AnswerFormatCustom.CustomAnswerStyle.valuePicker, valuepicker, valuechoice);
                             valuepicker.setTitle(activityobj.getSteps().get(i).getTitle());
                             valuepicker.setAnswerFormat1(pickerformat);
@@ -253,7 +287,7 @@ public class StepsBuilder {
                                     answerFormat = new DecimalUnitAnswerFormat(activityQuestionStep.get(i).getFormat().getMinValue(), activityQuestionStep.get(i).getFormat().getMaxValue(), activityQuestionStep.get(i).getFormat().getUnit());
                                 }
                             }
-                            QuestionStepCustom numericItem = new QuestionStepCustom(activityobj.getSteps().get(i).getKey(), activityobj.getSteps().get(i).getTitle(), answerFormat,activityQuestionStep.get(i).isPiping(),activityQuestionStep.get(i).getPreLoadLogic().getOperator(),activityQuestionStep.get(i).getKey(),activityQuestionStep.get(i).getPreLoadLogic().getValue(),activityQuestionStep.get(i).getPiping().getPipingSnippet(),activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion() ,activityQuestionStep.get(i).getResultType(),null);
+                            QuestionStepCustom numericItem = new QuestionStepCustom(activityobj.getSteps().get(i).getKey(), activityobj.getSteps().get(i).getTitle(), answerFormat,activityQuestionStep.get(i).isPiping(),activityQuestionStep.get(i).getPreLoadLogic().getOperator(),activityQuestionStep.get(i).getKey(),activityQuestionStep.get(i).getPreLoadLogic().getValue(),activityQuestionStep.get(i).getPiping().getPipingSnippet(),activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion() ,activityQuestionStep.get(i).getResultType(),null,"");
                             numericItem.setText(activityobj.getSteps().get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                             numericItem.setPlaceholder(activityQuestionStep.get(i).getFormat().getPlaceholder());
                             if (branching)
@@ -302,7 +336,7 @@ public class StepsBuilder {
                             } else {
                                 dateFormat = new DateAnswerformatCustom(AnswerFormatCustom.DateAnswerStyle.DateAndTime, defaultval, mindate, maxdate, activityobj.getSteps().get(i).getFormat().getDateRange());
                             }
-                            QuestionStepCustom dateFormatItem = new QuestionStepCustom(activityobj.getSteps().get(i).getKey(), activityobj.getSteps().get(i).getTitle(), dateFormat,activityQuestionStep.get(i).isPiping(),activityQuestionStep.get(i).getPreLoadLogic().getOperator(),activityQuestionStep.get(i).getKey(),activityQuestionStep.get(i).getPreLoadLogic().getValue(),activityQuestionStep.get(i).getPiping().getPipingSnippet(),activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion(),activityQuestionStep.get(i).getResultType() ,null);
+                            QuestionStepCustom dateFormatItem = new QuestionStepCustom(activityobj.getSteps().get(i).getKey(), activityobj.getSteps().get(i).getTitle(), dateFormat,activityQuestionStep.get(i).isPiping(),activityQuestionStep.get(i).getPreLoadLogic().getOperator(),activityQuestionStep.get(i).getKey(),activityQuestionStep.get(i).getPreLoadLogic().getValue(),activityQuestionStep.get(i).getPiping().getPipingSnippet(),activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion(),activityQuestionStep.get(i).getResultType() ,null,"");
                             if (branching)
                                 dateFormatItem.setStepTitle(R.string.notxt);
                             dateFormatItem.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
@@ -313,7 +347,7 @@ public class StepsBuilder {
                         case "text":
                             TextAnswerFormatRegex textAnswerFormat = new TextAnswerFormatRegex(activityQuestionStep.get(i).getFormat().getMaxLength(), activityQuestionStep.get(i).getFormat().getValidationRegex(), activityQuestionStep.get(i).getFormat().getInvalidMessage());
                             textAnswerFormat.setIsMultipleLines(activityQuestionStep.get(i).getFormat().isMultipleLines());
-                            QuestionStepCustom textstep = new QuestionStepCustom(activityobj.getSteps().get(i).getKey(), activityobj.getSteps().get(i).getTitle(), textAnswerFormat,activityQuestionStep.get(i).isPiping(),activityQuestionStep.get(i).getPreLoadLogic().getOperator(),activityQuestionStep.get(i).getKey(),activityQuestionStep.get(i).getPreLoadLogic().getValue(),activityQuestionStep.get(i).getPiping().getPipingSnippet(),activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion(),activityQuestionStep.get(i).getResultType(),null );
+                            QuestionStepCustom textstep = new QuestionStepCustom(activityobj.getSteps().get(i).getKey(), activityobj.getSteps().get(i).getTitle(), textAnswerFormat,activityQuestionStep.get(i).isPiping(),activityQuestionStep.get(i).getPreLoadLogic().getOperator(),activityQuestionStep.get(i).getKey(),activityQuestionStep.get(i).getPreLoadLogic().getValue(),activityQuestionStep.get(i).getPiping().getPipingSnippet(),activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion(),activityQuestionStep.get(i).getResultType(),null,"" );
                             if (branching)
                                 textstep.setStepTitle(R.string.notxt);
                             textstep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
@@ -324,7 +358,7 @@ public class StepsBuilder {
                             break;
                         case "email":
                             EmailAnswerFormatCustom emailformat = new EmailAnswerFormatCustom(255);
-                            QuestionStepCustom emailstep = new QuestionStepCustom(activityobj.getSteps().get(i).getKey(), activityobj.getSteps().get(i).getTitle(), emailformat,activityQuestionStep.get(i).isPiping(),activityQuestionStep.get(i).getPreLoadLogic().getOperator(),activityQuestionStep.get(i).getKey(),activityQuestionStep.get(i).getPreLoadLogic().getValue(),activityQuestionStep.get(i).getPiping().getPipingSnippet(),activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion(),activityQuestionStep.get(i).getResultType(),null );
+                            QuestionStepCustom emailstep = new QuestionStepCustom(activityobj.getSteps().get(i).getKey(), activityobj.getSteps().get(i).getTitle(), emailformat,activityQuestionStep.get(i).isPiping(),activityQuestionStep.get(i).getPreLoadLogic().getOperator(),activityQuestionStep.get(i).getKey(),activityQuestionStep.get(i).getPreLoadLogic().getValue(),activityQuestionStep.get(i).getPiping().getPipingSnippet(),activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion(),activityQuestionStep.get(i).getResultType(),null,"" );
                             emailstep.setPlaceholder(activityQuestionStep.get(i).getFormat().getPlaceholder());
                             emailstep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                             if (branching)
@@ -414,11 +448,34 @@ public class StepsBuilder {
                     steps.add(formstep);
                 }
                 else if (activityQuestionStep.get(i).getType().equalsIgnoreCase("instruction")) {
-                    InstructionStep instructionStep = new InstructionStep(activityQuestionStep.get(i).getKey(), activityQuestionStep.get(i).getTitle(), activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
+                    /*InstructionStep instructionStep = new InstructionStep(activityQuestionStep.get(i).getKey(), activityQuestionStep.get(i).getTitle(), activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                     instructionStep.setOptional(activityQuestionStep.get(i).isSkippable());
                     if (branching)
                         instructionStep.setStepTitle(R.string.notxt);
-                    steps.add(instructionStep);
+                    steps.add(instructionStep);*/
+                    TextAnswerFormatRegex textAnswerFormat = new TextAnswerFormatRegex(activityQuestionStep.get(i).getFormat().getMaxLength(), activityQuestionStep.get(i).getFormat().getValidationRegex(), activityQuestionStep.get(i).getFormat().getInvalidMessage());
+                    //textAnswerFormat.setIsMultipleLines(activityQuestionStep.get(i).getFormat().isMultipleLines());
+                    QuestionStepCustom textstep = new QuestionStepCustom(
+                            activityobj.getSteps().get(i).getKey(),
+                            activityobj.getSteps().get(i).getTitle(),
+                            textAnswerFormat,
+                            activityQuestionStep.get(i).isPiping(),
+                            activityQuestionStep.get(i).getPreLoadLogic().getOperator(),
+                            activityQuestionStep.get(i).getKey(),
+                            activityQuestionStep.get(i).getPreLoadLogic().getValue(),
+                            activityQuestionStep.get(i).getPiping().getPipingSnippet(),
+                            activityQuestionStep.get(i).getPiping().getSourceQuestionKey(),
+                            activityQuestionStep.get(i).getPreLoadLogic().getActivityId(),
+                            activityQuestionStep.get(i).getPreLoadLogic().getDestinationStepKey(),
+                            activityQuestionStep.get(i).getPreLoadLogic().getActivityVersion(),
+                            activityQuestionStep.get(i).getResultType(),null ,activityQuestionStep.get(i).getType());
+                    if (branching)
+                        textstep.setStepTitle(R.string.notxt);
+                    textstep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
+                    //textstep.setPlaceholder(activityQuestionStep.get(i).getFormat().getPlaceholder());
+                    textstep.setAnswerFormat1(textAnswerFormat);
+                    textstep.setOptional(activityQuestionStep.get(i).isSkippable());
+                    steps.add(textstep);
                 }
                 else if (activityQuestionStep.get(i).getType().equalsIgnoreCase("task")) {
                     switch (activityQuestionStep.get(i).getResultType()) {
@@ -454,7 +511,7 @@ public class StepsBuilder {
                 switch (formsteps.get(i).getResultType()) {
                     case "scale":
                         ScaleAnswerFormat ScaleFormat = new ScaleAnswerFormat(ChoiceAnswerFormatCustom.CustomAnswerStyle.Scale, formsteps.get(i).getFormat().getStep(), formsteps.get(i).getFormat().getMinValue(), formsteps.get(i).getFormat().getMaxValue(), formsteps.get(i).getFormat().isVertical(), formsteps.get(i).getFormat().getMaxDesc(), formsteps.get(i).getFormat().getMinDesc(), formsteps.get(i).getFormat().getMaxImage(), formsteps.get(i).getFormat().getMinImage(), formsteps.get(i).getFormat().getDefaultValue());
-                        QuestionStepCustom scaleStep = new QuestionStepCustom(formsteps.get(i).getKey(), context.getResources().getString(R.string.survey), ScaleFormat,false,"","","","","","","","","",null);
+                        QuestionStepCustom scaleStep = new QuestionStepCustom(formsteps.get(i).getKey(), context.getResources().getString(R.string.survey), ScaleFormat,false,"","","","","","","","","",null,"");
                         scaleStep.setAnswerFormat1(ScaleFormat);
                         scaleStep.setTitle(formsteps.get(i).getTitle());
                         scaleStep.setText(formsteps.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
@@ -463,7 +520,7 @@ public class StepsBuilder {
                         break;
                     case "continuousScale":
                         ContinousScaleAnswerFormat ContinousScaleFormat = new ContinousScaleAnswerFormat(ChoiceAnswerFormatCustom.CustomAnswerStyle.Scale, formsteps.get(i).getFormat().getMaxFractionDigits(), formsteps.get(i).getFormat().getMinValue(), formsteps.get(i).getFormat().getMaxValue(), formsteps.get(i).getFormat().isVertical(), formsteps.get(i).getFormat().getMaxDesc(), formsteps.get(i).getFormat().getMinDesc(), formsteps.get(i).getFormat().getMaxImage(), formsteps.get(i).getFormat().getMinImage(), formsteps.get(i).getFormat().getDefaultValue());
-                        QuestionStepCustom continousscaleStep = new QuestionStepCustom(formsteps.get(i).getKey(), context.getResources().getString(R.string.survey), ContinousScaleFormat,false,"","","","","","","","","",null);
+                        QuestionStepCustom continousscaleStep = new QuestionStepCustom(formsteps.get(i).getKey(), context.getResources().getString(R.string.survey), ContinousScaleFormat,false,"","","","","","","","","",null,"");
                         continousscaleStep.setAnswerFormat1(ContinousScaleFormat);
                         continousscaleStep.setTitle(formsteps.get(i).getTitle());
                         continousscaleStep.setText(formsteps.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
@@ -478,7 +535,7 @@ public class StepsBuilder {
 
                         ScaleTextAnswerFormat ScaleTextFormat = new ScaleTextAnswerFormat(ChoiceAnswerFormatCustom.CustomAnswerStyle.ScaleText, textScaleChoices, formsteps.get(i).getFormat().getDefaultValue(), formsteps.get(i).getFormat().isVertical());
 
-                        QuestionStepCustom scaleTextStep = new QuestionStepCustom(formsteps.get(i).getKey(), context.getResources().getString(R.string.survey), ScaleTextFormat,false,"","","","","","","","","",null);
+                        QuestionStepCustom scaleTextStep = new QuestionStepCustom(formsteps.get(i).getKey(), context.getResources().getString(R.string.survey), ScaleTextFormat,false,"","","","","","","","","",null,"");
                         scaleTextStep.setAnswerFormat1(ScaleTextFormat);
                         scaleTextStep.setTitle(formsteps.get(i).getTitle());
                         scaleTextStep.setText(formsteps.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
@@ -577,7 +634,7 @@ public class StepsBuilder {
                                 answerFormat = new DecimalUnitAnswerFormat(formsteps.get(i).getFormat().getMinValue(), formsteps.get(i).getFormat().getMaxValue(), formsteps.get(i).getFormat().getUnit());
                             }
                         }
-                        QuestionStepCustom numericItem = new QuestionStepCustom(formsteps.get(i).getKey(), formsteps.get(i).getTitle(), answerFormat,false,"","","","","","","","","",null);
+                        QuestionStepCustom numericItem = new QuestionStepCustom(formsteps.get(i).getKey(), formsteps.get(i).getTitle(), answerFormat,false,"","","","","","","","","",null,"");
                         numericItem.setText(formsteps.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                         numericItem.setPlaceholder(formsteps.get(i).getFormat().getPlaceholder());
                         numericItem.setAnswerFormat1(answerFormat);
@@ -622,7 +679,7 @@ public class StepsBuilder {
                         } else {
                             dateFormat = new DateAnswerformatCustom(AnswerFormatCustom.DateAnswerStyle.DateAndTime, defaultval, mindate, maxdate, formsteps.get(i).getFormat().getDateRange());
                         }
-                        QuestionStepCustom dateFormatItem = new QuestionStepCustom(formsteps.get(i).getKey(), formsteps.get(i).getTitle(), dateFormat,false,"","","","","","","","","",null);
+                        QuestionStepCustom dateFormatItem = new QuestionStepCustom(formsteps.get(i).getKey(), formsteps.get(i).getTitle(), dateFormat,false,"","","","","","","","","",null,"");
                         dateFormatItem.setText(formsteps.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                         dateFormatItem.setAnswerFormat1(dateFormat);
                         dateFormatItem.setOptional(formsteps.get(i).isSkippable());
@@ -631,7 +688,7 @@ public class StepsBuilder {
                     case "text":
                         TextAnswerFormatRegex textAnswerFormat = new TextAnswerFormatRegex(formsteps.get(i).getFormat().getMaxLength(), formsteps.get(i).getFormat().getValidationRegex(), formsteps.get(i).getFormat().getInvalidMessage());
                         textAnswerFormat.setIsMultipleLines(formsteps.get(i).getFormat().isMultipleLines());
-                        QuestionStepCustom textstep = new QuestionStepCustom(formsteps.get(i).getKey(), formsteps.get(i).getTitle(), textAnswerFormat,false,"","","","","","","","","",null);
+                        QuestionStepCustom textstep = new QuestionStepCustom(formsteps.get(i).getKey(), formsteps.get(i).getTitle(), textAnswerFormat,false,"","","","","","","","","",null,"");
                         textstep.setText(formsteps.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                         textstep.setPlaceholder(formsteps.get(i).getFormat().getPlaceholder());
                         textstep.setAnswerFormat1(textAnswerFormat);
@@ -640,7 +697,7 @@ public class StepsBuilder {
                         break;
                     case "email":
                         EmailAnswerFormatCustom emailformat = new EmailAnswerFormatCustom(255);
-                        QuestionStepCustom emailstep = new QuestionStepCustom(formsteps.get(i).getKey(), formsteps.get(i).getTitle(), emailformat,false,"","","","","","","","","",null);
+                        QuestionStepCustom emailstep = new QuestionStepCustom(formsteps.get(i).getKey(), formsteps.get(i).getTitle(), emailformat,false,"","","","","","","","","",null,"");
                         emailstep.setText(formsteps.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
                         emailstep.setPlaceholder(formsteps.get(i).getFormat().getPlaceholder());
                         emailstep.setOptional(formsteps.get(i).isSkippable());

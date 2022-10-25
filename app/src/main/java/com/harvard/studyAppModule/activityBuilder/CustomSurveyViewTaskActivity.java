@@ -840,9 +840,10 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
     }
 
 
-    public void initiatePiping(String identifier, Step currentStep, TaskResult taskResult, Step step, int currentStepPosition, int newStepPosition, Step currentStep1) {
+    public void initiatePiping(String identifier, Step currentStep,
+                               TaskResult taskResult, Step step, int currentStepPosition, int newStepPosition, Step currentStep1) {
 
-        if (step.getClass() != InstructionStep.class && step.getClass() != QuestionStep.class) {
+        if (step.getClass() != QuestionStep.class) {
             QuestionStepCustom nextStepPipe = (QuestionStepCustom) step;
             ((QuestionStepCustom) currentStep).isPPing();
             if (((QuestionStepCustom) currentStep).isPPing) {
@@ -853,6 +854,12 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                         && taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult() != null
                         && !taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString().isEmpty()) {
                     Object val = taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResults().get("answer");
+
+                    if(task.getStepWithIdentifier(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getIdentifier().equalsIgnoreCase(((QuestionStepCustom) currentStep).getPipeSocuceKey())){
+                        Step step1 = task.getStepWithIdentifier(((QuestionStepCustom) currentStep).getPipeSocuceKey());
+                        QuestionStepCustom currentStepPipe = (QuestionStepCustom) step1;
+                        ((QuestionStepCustom) currentStep1).setGetPipingChoices(currentStepPipe.getGetPipingChoices());
+                    }
                     String answer = "";
                     Object o = val;
                     if (o instanceof Object[]) {
@@ -879,6 +886,22 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                         }
                     } else {
                         answer = taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString();
+
+                        if (((QuestionStepCustom) currentStep1).getGetPipingChoices() != null) {
+                            for (int i = 0; i < ((QuestionStepCustom) currentStep1).getGetPipingChoices().size(); i++) {
+                                if (((QuestionStepCustom) currentStep1).getGetPipingChoices().get(i).getValue().equals(answer)) {
+                                    answer = ((QuestionStepCustom) currentStep1).getGetPipingChoices().get(i).getText();
+                                    break;
+                                }else {
+                                    answer = taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString();
+
+                                }
+                            }
+                        }else {
+                            answer = taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString();
+
+                        }
+
                     }
                     String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPipingSnippet(), answer);
                     nextStepPipe.setPipingSnippet(answer);

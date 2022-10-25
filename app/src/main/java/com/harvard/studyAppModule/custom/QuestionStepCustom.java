@@ -29,12 +29,19 @@ public class QuestionStepCustom extends QuestionStep {
     public String pipingSnippet;
     public String pipeSocuceKey;
 
+    public String getType2() {
+        return type2;
+    }
 
+    public void setType2(String type2) {
+        this.type2 = type2;
+    }
 
     public String activityId;
     public String destinationStepKey;
     public String activityVersion;
     public String type;
+    String type2;
     ArrayList<GetPipingChoices> getPipingChoices;
 
     public ArrayList<GetPipingChoices> getGetPipingChoices() {
@@ -147,7 +154,7 @@ public class QuestionStepCustom extends QuestionStep {
      */
     public QuestionStepCustom(String identifier, String title, AnswerFormatCustom format, boolean isPPing, String pipeOperator, String key_pipe,
                               String pipeValue, String pipingSnippet, String pipeSocuceKey, String activityId,
-                              String destinationStepKey, String activityVersion, String type,ArrayList<GetPipingChoices>getPipingChoices
+                              String destinationStepKey, String activityVersion, String type,ArrayList<GetPipingChoices>getPipingChoices,String type2
 
     ) {
         super(identifier, title);
@@ -164,6 +171,7 @@ public class QuestionStepCustom extends QuestionStep {
         this. activityVersion=activityVersion;
         this.type=type;
         this.getPipingChoices=getPipingChoices;
+        this.type2 =type2;
     }
 
     public void setidentifier(String identifier) {
