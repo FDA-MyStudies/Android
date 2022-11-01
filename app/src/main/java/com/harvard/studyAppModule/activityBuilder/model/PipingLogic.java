@@ -23,4 +23,22 @@ public class PipingLogic extends RealmObject implements Serializable {
 
     private String sourceQuestionKey;
     private String pipingSnippet;
+    private String activityId;
+    private String activityVersion;
+
+    public String getActivityId() {
+        return activityId;
+    }
+
+    public void setActivityId(String activityId) {
+        this.activityId = activityId;
+    }
+
+    public String getActivityVersion() {
+        return activityVersion;
+    }
+
+    public void setActivityVersion(String activityVersion) {
+        this.activityVersion = activityVersion;
+    }
 }

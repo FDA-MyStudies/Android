@@ -542,9 +542,12 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         currentStepPosition = task.getProgressOfCurrentStep(currentStep, taskResult)
                 .getCurrent();
         int newStepPosition = task.getProgressOfCurrentStep(step, taskResult).getCurrent();
-
-        initiatePiping("", step, taskResult, step, currentStepPosition, newStepPosition, currentStep);
-
+        QuestionStepCustom stepCustom = (QuestionStepCustom) currentStep;
+        if(stepCustom.getPipingLogic()!=null){
+            //call apis
+        }else {
+            initiatePiping("", step, taskResult, step, currentStepPosition, newStepPosition, currentStep);
+        }
 
         StepLayout stepLayout = getLayoutForStep(step);
         stepLayout.getLayout().setTag(org.researchstack.backbone.R.id.rsb_step_layout_id, step.getIdentifier());
@@ -910,6 +913,10 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                 }
             }
         }
+    }
+
+    public void surveyTosurveyPiping(){
+
     }
 
 }

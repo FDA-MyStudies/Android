@@ -117,13 +117,15 @@ public class TextQuestionRegexBody implements StepBody {
     @Override
     public BodyAnswer getBodyAnswerState() {
         TextAnswerFormatRegex format = (TextAnswerFormatRegex) step.getAnswerFormat1();
-        if (!format.isAnswerValid(editText.getText().toString())) {
-            if (!format.getInValidMsg().equalsIgnoreCase("")) {
-                return new BodyAnswerCustom(false, format.getInValidMsg());
-            } else
-                return BodyAnswer.INVALID;
-        }
-
+        QuestionStepCustom step1 = (QuestionStepCustom) step;
+        if (!step1.getType2().equalsIgnoreCase("instruction")){
+            if (!format.isAnswerValid(editText.getText().toString())) {
+                if (!format.getInValidMsg().equalsIgnoreCase("")) {
+                    return new BodyAnswerCustom(false, format.getInValidMsg());
+                } else
+                    return BodyAnswer.INVALID;
+            }
+    }
         return BodyAnswer.VALID;
     }
 }
