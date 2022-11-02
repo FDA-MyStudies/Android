@@ -55,7 +55,8 @@ public class StepsBuilder {
                     switch (activityQuestionStep.get(i).getResultType()) {
 
                         case "imageChoice":
-                            QuestionStepCustom multichoiceStep = new QuestionStepCustom(activityQuestionStep.get(i).getKey(),false,"","","","","","","","","",null);
+                            QuestionStepCustom multichoiceStep = new QuestionStepCustom(
+                                    activityQuestionStep.get(i).getKey(),false,"","","","","","","","","",null,"","","","");
 
                             ChoiceCustomImage[] choicechoices = new ChoiceCustomImage[activityQuestionStep.get(i).getFormat().getImageChoices().size()];
                             for (int j = 0; j < activityQuestionStep.get(i).getFormat().getImageChoices().size(); j++) {
@@ -77,7 +78,7 @@ public class StepsBuilder {
                                     choices[j] = new ChoiceText(activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getText(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getValue(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getDetail(),null);
                                 }
                                 SingleChoiceTextAnswerFormat choiceAnswerFormat = new SingleChoiceTextAnswerFormat(AnswerFormatCustom.CustomAnswerStyle.SingleTextChoice, choices);
-                                QuestionStepCustom multiStep = new QuestionStepCustom(activityQuestionStep.get(i).getKey(),false,"","","","","","","","","",null);
+                                QuestionStepCustom multiStep = new QuestionStepCustom(activityQuestionStep.get(i).getKey(),false,"","","","","","","","","",null,"","","","");
 
                                 multiStep.setTitle(activityQuestionStep.get(i).getTitle());
                                 multiStep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));
@@ -91,7 +92,7 @@ public class StepsBuilder {
                                     choices[j] = new ChoiceTextExclusive(activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getText(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getValue(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getDetail(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).isExclusive(),null);
                                 }
                                 MultiChoiceTextAnswerFormat choiceAnswerFormat = new MultiChoiceTextAnswerFormat(AnswerFormatCustom.CustomAnswerStyle.MultipleTextChoice, choices);
-                                QuestionStepCustom multiStep = new QuestionStepCustom(activityQuestionStep.get(i).getKey(),false,"","","","","","","","","",null);
+                                QuestionStepCustom multiStep = new QuestionStepCustom(activityQuestionStep.get(i).getKey(),false,"","","","","","","","","",null,"","","","");
 
                                 multiStep.setTitle(activityQuestionStep.get(i).getTitle());
                                 multiStep.setText(activityQuestionStep.get(i).getText().replaceAll("(\r\n|\n)", "<br />"));

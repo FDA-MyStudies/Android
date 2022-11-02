@@ -90,7 +90,7 @@ public class FormBodyCustom implements StepBody {
                 for (int j = 0; j < questionSteps.size(); j++) {
                     if (entry.getKey().contains("_addMoreEnabled") && entry.getKey().substring(0, entry.getKey().lastIndexOf("-")).equalsIgnoreCase(questionSteps.get(j).getIdentifier())) {
                         if (questionSteps.get(j) instanceof QuestionStepCustom) {
-                            QuestionStepCustom questionStep1 = new QuestionStepCustom(entry.getKey(), questionSteps.get(j).getTitle(),false,"","","","","","","","","");
+                            QuestionStepCustom questionStep1 = new QuestionStepCustom(entry.getKey(), questionSteps.get(j).getTitle(),false,"","","","","","","","","","","","","");
                             questionStep1.setAnswerFormat1(((QuestionStepCustom) questionSteps.get(j)).getAnswerFormat1());
                             questionStep1.setOptional(questionSteps.get(j).isOptional());
                             questionStep1.setStepTitle(questionSteps.get(j).getStepTitle());
@@ -180,7 +180,7 @@ public class FormBodyCustom implements StepBody {
                 for (int i = 0; i < questionSteps.size(); i++) {
                     if (!questionSteps.get(i).getIdentifier().contains("_addMoreEnabled")) {
                         if (questionSteps.get(i) instanceof QuestionStepCustom) {
-                            QuestionStepCustom questionStep1 = new QuestionStepCustom(questionSteps.get(i).getIdentifier() + "-" + j + "_addMoreEnabled", questionSteps.get(i).getTitle(),false,"","","","","","","","","");
+                            QuestionStepCustom questionStep1 = new QuestionStepCustom(questionSteps.get(i).getIdentifier() + "-" + j + "_addMoreEnabled", questionSteps.get(i).getTitle(),false,"","","","","","","","","","","","","");
                             questionStep1.setAnswerFormat1(((QuestionStepCustom) questionSteps.get(i)).getAnswerFormat1());
                             questionStep1.setOptional(questionSteps.get(i).isOptional());
                             questionStep1.setStepTitle(questionSteps.get(i).getStepTitle());

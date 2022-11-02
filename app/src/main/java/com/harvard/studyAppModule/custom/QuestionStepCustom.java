@@ -43,14 +43,41 @@ public class QuestionStepCustom extends QuestionStep {
     public String activityVersion;
     public String type;
     String type2;
-    PipingLogic  pipingLogic;
+    private String psourceQuestionKey;
+    private String ppipingSnippet;
+    private String pactivityId;
+    private String pactivityVersion;
 
-    public PipingLogic getPipingLogic() {
-        return pipingLogic;
+    public String getPsourceQuestionKey() {
+        return psourceQuestionKey;
     }
 
-    public void setPipingLogic(PipingLogic pipingLogic) {
-        this.pipingLogic = pipingLogic;
+    public void setPsourceQuestionKey(String psourceQuestionKey) {
+        this.psourceQuestionKey = psourceQuestionKey;
+    }
+
+    public String getPpipingSnippet() {
+        return ppipingSnippet;
+    }
+
+    public void setPpipingSnippet(String ppipingSnippet) {
+        this.ppipingSnippet = ppipingSnippet;
+    }
+
+    public String getPactivityId() {
+        return pactivityId;
+    }
+
+    public void setPactivityId(String pactivityId) {
+        this.pactivityId = pactivityId;
+    }
+
+    public String getPactivityVersion() {
+        return pactivityVersion;
+    }
+
+    public void setPactivityVersion(String pactivityVersion) {
+        this.pactivityVersion = pactivityVersion;
     }
 
     ArrayList<GetPipingChoices> getPipingChoices;
@@ -113,7 +140,12 @@ public class QuestionStepCustom extends QuestionStep {
     public QuestionStepCustom(String identifier, boolean isPPing, String pipeOperator, String key_pipe,
 
                               String pipeValue, String pipingSnippet, String pipeSocuceKey, String activityId,
-                              String destinationStepKey, String activityVersion , String type, ArrayList<GetPipingChoices> getPipingChoices,PipingLogic  pipingLogic) {
+                              String destinationStepKey, String activityVersion , String type,
+                              ArrayList<GetPipingChoices> getPipingChoices,
+                              String psourceQuestionKey,
+                                        String ppipingSnippet,
+                                        String pactivityId,
+                                        String pactivityVersion) {
         super(identifier);
         this.identifier = identifier;
         this.isPPing = isPPing;
@@ -127,7 +159,10 @@ public class QuestionStepCustom extends QuestionStep {
         this. activityVersion=activityVersion;
         this.type=type;
         this.getPipingChoices=getPipingChoices;
-        this.pipingLogic = pipingLogic;
+        this.psourceQuestionKey=psourceQuestionKey;
+        this.ppipingSnippet=ppipingSnippet;
+        this.pactivityId=pactivityId;
+        this.pactivityVersion=pactivityVersion;
      }
 
     /**
@@ -140,7 +175,10 @@ public class QuestionStepCustom extends QuestionStep {
     public QuestionStepCustom(String identifier, String title,boolean isPPing,String pipeOperator,String key_pipe,
 
                               String pipeValue,String pipingSnippet, String pipeSocuceKey,String activityId,
-                              String destinationStepKey,String activityVersion, String type ,PipingLogic pipingLogic) {
+                              String destinationStepKey,String activityVersion, String type ,String psourceQuestionKey,
+                              String ppipingSnippet,
+                              String pactivityId,
+                              String pactivityVersion) {
         super(identifier, title);
         this.identifier = identifier;
         this.isPPing = isPPing;
@@ -153,7 +191,10 @@ public class QuestionStepCustom extends QuestionStep {
         this. destinationStepKey=destinationStepKey;
         this. activityVersion=activityVersion;
         this.type=type;
-        this.pipingLogic = pipingLogic;
+        this.psourceQuestionKey=psourceQuestionKey;
+        this.ppipingSnippet=ppipingSnippet;
+        this.pactivityId=pactivityId;
+        this.pactivityVersion=pactivityVersion;
     }
 
     /**
@@ -168,7 +209,10 @@ public class QuestionStepCustom extends QuestionStep {
     public QuestionStepCustom(String identifier, String title, AnswerFormatCustom format, boolean isPPing, String pipeOperator, String key_pipe,
                               String pipeValue, String pipingSnippet, String pipeSocuceKey, String activityId,
                               String destinationStepKey, String activityVersion, String type,
-                              ArrayList<GetPipingChoices>getPipingChoices,String type2,PipingLogic pipingLogic
+                              ArrayList<GetPipingChoices>getPipingChoices,String type2,String psourceQuestionKey,
+                              String ppipingSnippet,
+                              String pactivityId,
+                              String pactivityVersion
 
     ) {
         super(identifier, title);
@@ -186,7 +230,10 @@ public class QuestionStepCustom extends QuestionStep {
         this.type=type;
         this.getPipingChoices=getPipingChoices;
         this.type2 =type2;
-        this.pipingLogic=pipingLogic;
+        this.psourceQuestionKey=psourceQuestionKey;
+        this.ppipingSnippet=ppipingSnippet;
+        this.pactivityId=pactivityId;
+        this.pactivityVersion=pactivityVersion;
     }
 
     public void setidentifier(String identifier) {

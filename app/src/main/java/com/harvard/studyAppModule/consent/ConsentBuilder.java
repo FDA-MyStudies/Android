@@ -208,7 +208,7 @@ public class ConsentBuilder {
         if (consent.getReview().getConsentByLAR().equalsIgnoreCase("Yes")) {
             //need to set two screens
 
-            QuestionStepCustom multiStep2 = new QuestionStepCustom("consentLarFirst",false,"","","","","","","","","",null);
+            QuestionStepCustom multiStep2 = new QuestionStepCustom("consentLarFirst",false,"","","","","","","","","",null,"","","","");
             multiStep2.setStepTitle(R.string.notxt);
             ChoiceText[] choices2 = new ChoiceText[2];
             choices2[0] = new ChoiceText(context.getResources().getString(R.string.my_self_sign), "1", "", null);
