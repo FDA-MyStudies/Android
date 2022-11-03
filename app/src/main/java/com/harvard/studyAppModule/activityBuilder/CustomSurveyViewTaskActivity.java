@@ -984,8 +984,19 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         studyModulePresenter.performGetActivityInfo(getActivityInfoEvent);
     }
 
-    public void surveyTosurveyPiping(){
-
+    public void surveyTosurveyPiping(RealmList<Choices> textChoices,ArrayList<String>keyValues,Step step,QuestionStepCustom nextStepPipe){
+        String answer="";
+        for(int i=0;i<textChoices.size();i++){
+            if(textChoices.get(i).getValue().equalsIgnoreCase(keyValues.get(keyValues.size()-1))){
+                answer = textChoices.get(i).getText();
+            }
+        }
+        if(!answer.equalsIgnoreCase("")) {
+            String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPpipingSnippet(), answer);
+            nextStepPipe.setPipingSnippet(keyValues.get(keyValues.size() - 1));
+            step.setTitle("");
+            step.setTitle(replaceString);
+        }
     }
 
     @Override
@@ -1114,88 +1125,60 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
                         JSONObject jsonObject = new JSONObject(response);
                         JSONArray jsonArray = (JSONArray) jsonObject.get("rows");
-                        ArrayList<String>keyValues = new ArrayList<>();
+                        ArrayList<String> keyValues = new ArrayList<>();
                         for (int i = 0; i < jsonArray.length(); i++) {
 
                             JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                            if(stepId.equalsIgnoreCase("text")){
+                            if (stepId.equalsIgnoreCase("text")) {
                                 keyValues.add(jsonObject1.getString("Key"));
-                            }else if(stepId.equalsIgnoreCase("textChoice")){
-                                keyValues.add(jsonObject1.getString("Key"));
-
-                            }else if(stepId.equalsIgnoreCase("valuePicker")){
+                            } else if (stepId.equalsIgnoreCase("textChoice")) {
                                 keyValues.add(jsonObject1.getString("Key"));
 
-                            }else if(stepId.equalsIgnoreCase("textScale")){
+                            } else if (stepId.equalsIgnoreCase("valuePicker")) {
                                 keyValues.add(jsonObject1.getString("Key"));
 
-                            }else {
+                            } else if (stepId.equalsIgnoreCase("textScale")) {
+                                keyValues.add(jsonObject1.getString("Key"));
+                            } else {
                                 //do nothing
                             }
 
 
-
                         }
-                        Log.e("buuid", String.valueOf(keyValues.get(keyValues.size()-1)));
-                        Log.e("buuid",stepId);
+                        Log.e("buuid", String.valueOf(keyValues.get(keyValues.size() - 1)));
+                        Log.e("buuid", stepId);
                         QuestionStepCustom nextStepPipe = (QuestionStepCustom) step;
-                        for(int k=0;k<activityInfoData2.getActivity().getSteps().size();k++){
-                            if(activityInfoData2.getActivity().getSteps().get(k).getResultType().equalsIgnoreCase("text")){
-                                String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPipingSnippet(), keyValues.get(keyValues.size()-1));
-                                nextStepPipe.setPipingSnippet(keyValues.get(keyValues.size()-1));
+                        for (int k = 0; k < activityInfoData2.getActivity().getSteps().size(); k++) {
+                            if (activityInfoData2.getActivity().getSteps().get(k).getResultType().equalsIgnoreCase("text")) {
+                                String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPpipingSnippet(), keyValues.get(keyValues.size() - 1));
+                                nextStepPipe.setPipingSnippet(keyValues.get(keyValues.size() - 1));
                                 step.setTitle("");
                                 step.setTitle(replaceString);
-                            }else if(activityInfoData2.getActivity().getSteps().get(k).getResultType().equalsIgnoreCase("textChoice")){
+                            } else if (activityInfoData2.getActivity().getSteps().get(k).getResultType().equalsIgnoreCase("textChoice")) {
                                 RealmList<Choices> textChoices = activityInfoData2.getActivity().getSteps().get(k).getFormat().getTextChoices();
-                                String answer="";
-                                for(int i=0;i<textChoices.size();i++){
-                                    if(textChoices.get(i).getValue().equalsIgnoreCase(keyValues.get(keyValues.size()-1))){
-                                        answer = textChoices.get(i).getText();
-                                    }
-                                }
-
-                                String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPipingSnippet(), answer);
-                                nextStepPipe.setPipingSnippet(keyValues.get(keyValues.size()-1));
-                                step.setTitle("");
-                                step.setTitle(replaceString);
-                            }else if(activityInfoData2.getActivity().getSteps().get(k).getResultType().equalsIgnoreCase("valuePicker")){
+                                surveyTosurveyPiping(textChoices, keyValues, step, nextStepPipe);
+                            } else if (activityInfoData2.getActivity().getSteps().get(k).getResultType().equalsIgnoreCase("valuePicker")) {
                                 RealmList<Choices> textChoices = activityInfoData2.getActivity().getSteps().get(k).getFormat().getTextChoices();
-                                String answer="";
-                                for(int i=0;i<textChoices.size();i++){
-                                    if(textChoices.get(i).getValue().equalsIgnoreCase(keyValues.get(keyValues.size()-1))){
-                                        answer = textChoices.get(i).getText();
-                                    }
-                                }
+                                surveyTosurveyPiping(textChoices, keyValues, step, nextStepPipe);
 
-                                String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPipingSnippet(), answer);
-                                nextStepPipe.setPipingSnippet(keyValues.get(keyValues.size()-1));
-                                step.setTitle("");
-                                step.setTitle(replaceString);
-                            }else if(activityInfoData2.getActivity().getSteps().get(k).getResultType().equalsIgnoreCase("textScale")){
+                            } else if (activityInfoData2.getActivity().getSteps().get(k).getResultType().equalsIgnoreCase("textScale")) {
                                 RealmList<Choices> textChoices = activityInfoData2.getActivity().getSteps().get(k).getFormat().getTextChoices();
-                                String answer="";
-                                for(int i=0;i<textChoices.size();i++){
-                                    if(textChoices.get(i).getValue().equalsIgnoreCase(keyValues.get(keyValues.size()-1))){
-                                        answer = textChoices.get(i).getText();
-                                    }
-                                }
+                                surveyTosurveyPiping(textChoices, keyValues, step, nextStepPipe);
 
-                                String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPipingSnippet(), answer);
-                                nextStepPipe.setPipingSnippet(keyValues.get(keyValues.size()-1));
-                                step.setTitle("");
-                                step.setTitle(replaceString);
-                            }else {
+                            } else {
+
 
                             }
 
+
+                        }
+                    }
+                        catch(Exception e){
+                            e.printStackTrace();
+                            AppController.getHelperProgressDialog().dismissDialog();
                         }
 
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        AppController.getHelperProgressDialog().dismissDialog();
-                    }
-                } else {
+                }else {
                     AppController.getHelperProgressDialog().dismissDialog();
                     Toast.makeText(CustomSurveyViewTaskActivity.this,  getResources().getString(R.string.survey_dashboard_fragment_unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
                 }

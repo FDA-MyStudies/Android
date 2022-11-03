@@ -15,8 +15,6 @@ Dapp/src/main/java/com/harvard/studyAppModule/StandaloneActivity.java,4\2\429e4
 Oapp/src/main/java/com/harvard/userModule/event/DeleteAccountResServerEvent.java,c\1\c129bf17d0d496a59410949ffd61296f108db557
 Œ
 \app/src/main/java/com/harvard/studyAppModule/activityBuilder/model/ActivityQuestionStep.java,5\9\592fcb475798591b8f2739ccd88aee47a81a8dcf
-q
-Aapp/src/main/java/com/harvard/EligibilityModule/StepsBuilder.java,4\9\490161aa7acbad972987c8207e3b98d2635218af
 s
 Capp/src/main/java/com/harvard/studyAppModule/StudyInfoActivity.java,3\2\32d53b4dae5de7cc3047695207b8fbb63aab0108
 
