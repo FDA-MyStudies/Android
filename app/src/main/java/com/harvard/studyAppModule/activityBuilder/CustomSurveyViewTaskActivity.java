@@ -893,35 +893,38 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                         && !taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString().isEmpty()) {
                     Object val = taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResults().get("answer");
 
-                    if(task.getStepWithIdentifier(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getIdentifier().equalsIgnoreCase(((QuestionStepCustom) currentStep).getPipeSocuceKey())){
+                    if (task.getStepWithIdentifier(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getIdentifier().equalsIgnoreCase(((QuestionStepCustom) currentStep).getPipeSocuceKey())) {
                         Step step1 = task.getStepWithIdentifier(((QuestionStepCustom) currentStep).getPipeSocuceKey());
                         QuestionStepCustom currentStepPipe = (QuestionStepCustom) step1;
                         ((QuestionStepCustom) currentStep1).setGetPipingChoices(currentStepPipe.getGetPipingChoices());
                     }
                     String answer = "";
                     Object o = val;
+
                     if (o instanceof Object[]) {
                         Object[] objects = (Object[]) o;
-                        if (objects[0] instanceof String) {
-                            answer = "" + ((String) objects[0]);
-                            if (((QuestionStepCustom) currentStep1).getGetPipingChoices() != null) {
-                                for (int i = 0; i < ((QuestionStepCustom) currentStep1).getGetPipingChoices().size(); i++) {
-                                    if (((QuestionStepCustom) currentStep1).getGetPipingChoices().get(i).getValue().equals(answer)) {
-                                        answer = ((QuestionStepCustom) currentStep1).getGetPipingChoices().get(i).getText();
-                                    }
-                                }
-                            }
+                         if(objects.length>0) {
+                             if (objects[0] instanceof String) {
+                                 answer = "" + ((String) objects[0]);
+                                 if (((QuestionStepCustom) currentStep1).getGetPipingChoices() != null) {
+                                     for (int i = 0; i < ((QuestionStepCustom) currentStep1).getGetPipingChoices().size(); i++) {
+                                         if (((QuestionStepCustom) currentStep1).getGetPipingChoices().get(i).getValue().equals(answer)) {
+                                             answer = ((QuestionStepCustom) currentStep1).getGetPipingChoices().get(i).getText();
+                                         }
+                                     }
+                                 }
 
-                        } else if (objects[0] instanceof Integer) {
-                            answer = "" + ((int) objects[0]);
-                            if (((QuestionStepCustom) currentStep1).getGetPipingChoices() != null) {
-                                for (int i = 0; i < ((QuestionStepCustom) currentStep1).getGetPipingChoices().size(); i++) {
-                                    if (((QuestionStepCustom) currentStep1).getGetPipingChoices().get(i).getValue().equals(answer)) {
-                                        answer = ((QuestionStepCustom) currentStep1).getGetPipingChoices().get(i).getText();
-                                    }
-                                }
-                            }
-                        }
+                             } else if (objects[0] instanceof Integer) {
+                                 answer = "" + ((int) objects[0]);
+                                 if (((QuestionStepCustom) currentStep1).getGetPipingChoices() != null) {
+                                     for (int i = 0; i < ((QuestionStepCustom) currentStep1).getGetPipingChoices().size(); i++) {
+                                         if (((QuestionStepCustom) currentStep1).getGetPipingChoices().get(i).getValue().equals(answer)) {
+                                             answer = ((QuestionStepCustom) currentStep1).getGetPipingChoices().get(i).getText();
+                                         }
+                                     }
+                                 }
+                             }
+                         }
                     } else {
                         answer = taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString();
 
@@ -930,17 +933,18 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                                 if (((QuestionStepCustom) currentStep1).getGetPipingChoices().get(i).getValue().equals(answer)) {
                                     answer = ((QuestionStepCustom) currentStep1).getGetPipingChoices().get(i).getText();
                                     break;
-                                }else {
+                                } else {
                                     answer = taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString();
 
                                 }
                             }
-                        }else {
+                        } else {
                             answer = taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString();
 
                         }
 
                     }
+
                     String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPipingSnippet(), answer);
                     nextStepPipe.setPipingSnippet(answer);
                     step.setTitle("");
