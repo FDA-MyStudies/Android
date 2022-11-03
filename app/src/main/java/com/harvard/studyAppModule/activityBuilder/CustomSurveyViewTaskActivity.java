@@ -1141,12 +1141,12 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                             } else if (stepId.equalsIgnoreCase("valuePicker")) {
                                 keyValues.add(jsonObject1.getString("Key"));
 
+
                             } else if (stepId.equalsIgnoreCase("textScale")) {
                                 keyValues.add(jsonObject1.getString("Key"));
                             } else {
                                 //do nothing
                             }
-
 
                         }
                         Log.e("buuid", String.valueOf(keyValues.get(keyValues.size() - 1)));
