@@ -924,6 +924,8 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                                      }
                                  }
                              }
+                         }else {
+
                          }
                     } else {
                         answer = taskResult.getStepResult(((QuestionStepCustom) currentStep).getPipeSocuceKey()).getResult().toString();
@@ -944,11 +946,13 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                         }
 
                     }
+                    if(!answer.equalsIgnoreCase("")) {
+                        String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPipingSnippet(), answer);
+                        nextStepPipe.setPipingSnippet(answer);
+                        step.setTitle("");
+                        step.setTitle(replaceString);
+                    }
 
-                    String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPipingSnippet(), answer);
-                    nextStepPipe.setPipingSnippet(answer);
-                    step.setTitle("");
-                    step.setTitle(replaceString);
                 }
             }
         }
