@@ -1011,13 +1011,13 @@ public class SurveyActivitiesFragment extends Fragment
 
           final RealmList<Choices> textChoices = new RealmList<>();
           Choices choices1 = new Choices();
-          choices1.setText("Yes");
+          choices1.setText(getResources().getString(R.string.yes));
           choices1.setValue("true");
           choices1.setDetail("");
           choices1.setExclusive(false);
           textChoices.add(choices1);
           Choices choices2 = new Choices();
-          choices2.setText("No");
+          choices2.setText(getResources().getString(R.string.no));
           choices2.setValue("false");
           choices2.setDetail("");
           choices2.setExclusive(false);
@@ -5344,13 +5344,13 @@ public class SurveyActivitiesFragment extends Fragment
 
             final RealmList<Choices> textChoices = new RealmList<>();
             Choices choices1 = new Choices();
-            choices1.setText("Yes");
+            choices1.setText(getResources().getString(R.string.yes));
             choices1.setValue("true");
             choices1.setDetail("");
             choices1.setExclusive(false);
             textChoices.add(choices1);
             Choices choices2 = new Choices();
-            choices2.setText("No");
+            choices2.setText(getResources().getString(R.string.no));
             choices2.setValue("false");
             choices2.setDetail("");
             choices2.setExclusive(false);
@@ -5460,13 +5460,13 @@ public class SurveyActivitiesFragment extends Fragment
 
             final RealmList<Choices> textChoices = new RealmList<>();
             Choices choices1 = new Choices();
-            choices1.setText("Yes");
+            choices1.setText(getResources().getString(R.string.yes));
             choices1.setValue("true");
             choices1.setDetail("");
             choices1.setExclusive(false);
             textChoices.add(choices1);
             Choices choices2 = new Choices();
-            choices2.setText("No");
+            choices2.setText(getResources().getString(R.string.no));
             choices2.setValue("false");
             choices2.setDetail("");
             choices2.setExclusive(false);

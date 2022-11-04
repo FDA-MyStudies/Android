@@ -47,6 +47,15 @@ public class QuestionStepCustom extends QuestionStep {
     private String ppipingSnippet;
     private String pactivityId;
     private String pactivityVersion;
+    String pipingTitle;
+
+    public String getPipingTitle() {
+        return pipingTitle;
+    }
+
+    public void setPipingTitle(String pipingTitle) {
+        this.pipingTitle = pipingTitle;
+    }
 
     public String getPsourceQuestionKey() {
         return psourceQuestionKey;
@@ -145,7 +154,7 @@ public class QuestionStepCustom extends QuestionStep {
                               String psourceQuestionKey,
                                         String ppipingSnippet,
                                         String pactivityId,
-                                        String pactivityVersion) {
+                                        String pactivityVersion,String pipingTitle) {
         super(identifier);
         this.identifier = identifier;
         this.isPPing = isPPing;
@@ -163,6 +172,7 @@ public class QuestionStepCustom extends QuestionStep {
         this.ppipingSnippet=ppipingSnippet;
         this.pactivityId=pactivityId;
         this.pactivityVersion=pactivityVersion;
+        this.pipingTitle = pipingTitle;
      }
 
     /**
@@ -178,7 +188,7 @@ public class QuestionStepCustom extends QuestionStep {
                               String destinationStepKey,String activityVersion, String type ,String psourceQuestionKey,
                               String ppipingSnippet,
                               String pactivityId,
-                              String pactivityVersion) {
+                              String pactivityVersion,String pipingTitle) {
         super(identifier, title);
         this.identifier = identifier;
         this.isPPing = isPPing;
@@ -195,6 +205,8 @@ public class QuestionStepCustom extends QuestionStep {
         this.ppipingSnippet=ppipingSnippet;
         this.pactivityId=pactivityId;
         this.pactivityVersion=pactivityVersion;
+        this.pipingTitle = pipingTitle;
+
     }
 
     /**
@@ -212,7 +224,7 @@ public class QuestionStepCustom extends QuestionStep {
                               ArrayList<GetPipingChoices>getPipingChoices,String type2,String psourceQuestionKey,
                               String ppipingSnippet,
                               String pactivityId,
-                              String pactivityVersion
+                              String pactivityVersion,String pipingTitle
 
     ) {
         super(identifier, title);
@@ -234,6 +246,8 @@ public class QuestionStepCustom extends QuestionStep {
         this.ppipingSnippet=ppipingSnippet;
         this.pactivityId=pactivityId;
         this.pactivityVersion=pactivityVersion;
+        this.pipingTitle = pipingTitle;
+
     }
 
     public void setidentifier(String identifier) {
