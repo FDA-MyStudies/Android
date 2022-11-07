@@ -940,16 +940,36 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                         Object[] objects = (Object[]) o;
                          if(objects.length>0) {
                              if (objects[0] instanceof String) {
-                                 if(((String) objects[0]).equalsIgnoreCase("Other")){
+                                 JSONObject jsonObjects = null;
+                                 String valc = "";
+                                 try {
+                                     if(objects[1].toString()!=null) {
+                                         jsonObjects = new JSONObject(objects[1].toString());
+                                         valc = jsonObjects.get("other").toString();
+                                     }
+                                 } catch (JSONException e) {
+
+                                 }catch (ArrayIndexOutOfBoundsException e){
+
+                                 }
+                                 if(valc.equalsIgnoreCase("Other")){
                                      JSONObject jsonObject = null;
                                      try {
                                          jsonObject = new JSONObject(objects[1].toString());
                                          String val2 = jsonObject.get("text").toString();
-                                         answer = val2;
+                                         if(val2.equalsIgnoreCase("")){
+                                             answer=jsonObjects.get("other").toString();
+                                         }else {
+                                             answer = val2;
+                                         }
+
                                      } catch (JSONException e) {
-                                         answer = "" + ((String) objects[0]);
-                                                 e.printStackTrace();
-                                     }
+                                         try {
+                                             answer =jsonObjects.get("other").toString();
+                                         } catch (JSONException ex) {
+                                             ex.printStackTrace();
+                                         }
+                                      }
 
                                  }else {
                                      answer = "" + ((String) objects[0]);
