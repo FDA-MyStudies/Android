@@ -1148,7 +1148,7 @@ public class SurveyActivitiesFragment extends Fragment
                 if(filter.getStatus().get(i).equalsIgnoreCase(STATUS_CURRENT))
                 launchSurvey2(activityInfoData.getActivity());
 
-                 AppController.getHelperSharedPreference()
+              /*   AppController.getHelperSharedPreference()
                          .writePreference(
                                  mContext,
                                  "survetTosurveyActivityId",
@@ -1157,7 +1157,7 @@ public class SurveyActivitiesFragment extends Fragment
                          .writePreference(
                                  mContext,
                                  "survetTosurveySourceKey",
-                                 "");
+                                 "");*/
               }
             }
           }

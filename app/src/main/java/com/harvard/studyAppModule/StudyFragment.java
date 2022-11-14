@@ -177,7 +177,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         bindEvents();
      // Call updateBuildVersionToSB only one time.
      // while releasing app to production for updating the version which we are uploading to playstore.
-      // updateBuildVersionToSB();
+       //updateBuildVersionToSB();
         return view;
     }
 

@@ -87,6 +87,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import io.realm.Realm;
@@ -1223,25 +1224,34 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
                      JSONObject jsonObject = new JSONObject(response);
                     JSONArray jsonArray = (JSONArray) jsonObject.get("rows");
+
+
                       ArrayList<String>keyValues = new ArrayList<>();
                     for (int i = 0; i < jsonArray.length(); i++) {
+                        Iterator<String> iter = jsonArray.getJSONObject(i).keys();
+                        String key="";
+                        while (iter.hasNext()) {
+                              key = iter.next();
+                              break;
+                            /*String value = jsonObject.getString(key);
+                            Log.d("bhuuuuu", "key = " + key + " value = " + value);*/
+                        }
 
                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                           if(stepId.equalsIgnoreCase("text")){
-                              keyValues.add(jsonObject1.getString("Key"));
+                              keyValues.add(jsonObject1.getString(key));
                           }else if(stepId.equalsIgnoreCase("textChoice")){
-                              keyValues.add(jsonObject1.getString("Key"));
+                              keyValues.add(jsonObject1.getString(key));
 
                           }else if(stepId.equalsIgnoreCase("valuePicker")){
-                              keyValues.add(jsonObject1.getString("Key"));
+                              keyValues.add(jsonObject1.getString(key));
 
                           }else if(stepId.equalsIgnoreCase("textScale")){
-                              keyValues.add(jsonObject1.getString("Key"));
+                              keyValues.add(jsonObject1.getString(key));
 
                           }else {
                               //do nothing
                           }
-
 
 
                     }
