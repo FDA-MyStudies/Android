@@ -1143,10 +1143,16 @@ public class SurveyActivitiesFragment extends Fragment
             Log.e("ysysysys","navigated to other survey successfully222222");
             Filter filter = getFilterList();
             for(int i=0;i<filter.getActivitiesArrayList1().size();i++) {
+              Log.e("Krishna", "asyncResponse:activity survey to survey status before condition"+ filter.getStatus().get(i) + " activity id is " +filter.getActivitiesArrayList1().get(i).getActivityId() );
+              Log.e("Krishna", "asyncResponse:activity survetTosurveyActivityId before condition "+ survetTosurveyActivityId);
                if(filter.getActivitiesArrayList1().get(i).getActivityId().equalsIgnoreCase(survetTosurveyActivityId)) {
-
-                if(filter.getStatus().get(i).equalsIgnoreCase(STATUS_CURRENT))
-                launchSurvey2(activityInfoData.getActivity());
+                 Log.e("Krishna", "asyncResponse:activity survey to survey status "+filter.getStatus().get(i) + "avtivity Id " +filter.getActivitiesArrayList1().get(i).getActivityId());
+                if(filter.getCurrentRunStatusForActivities().get(i).getStatus().equalsIgnoreCase(IN_PROGRESS)) {
+                  launchSurvey2(activityInfoData.getActivity());
+                }else{
+                  Log.e("Krishna", "asyncResponse:activity survey to survey status "+filter.getStatus().get(i));
+                  Log.e("Krishna", "asyncResponse:activity survey to survey activity ID "+filter.getActivitiesArrayList1().get(i).getActivityId());
+                }
 
               /*   AppController.getHelperSharedPreference()
                          .writePreference(

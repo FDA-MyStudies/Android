@@ -385,19 +385,140 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
             Step nextStep = task.getStepAfterStep(currentStep, taskResult);
             surveyText ="nextStep";
             if (nextStep == null && surveyTosurveyFlag == false) {
-                saveAndFinish();
-            } else {
-                QuestionStepCustom nextStep2= (QuestionStepCustom) nextStep;
-                if(nextStep2!=null&&nextStep2.getPactivityId()!=null&&
-                        nextStep2.getPactivityVersion()!=null&&!nextStep2.getPactivityId().equalsIgnoreCase("")&&
-                        !nextStep2.getPactivityVersion().equalsIgnoreCase("")){
-                    //call apis
-                    updateActivityInfo(nextStep2.getPactivityId(),nextStep2.getPactivityVersion());
-                }else {
-                    showStep(nextStep);
+
+//                if (currentStep.getClass() != InstructionStep.class && currentStep.getClass() != QuestionStep.class) {
+//
+//                    QuestionStepCustom currentStepPipe = (QuestionStepCustom) currentStep;
+//                    String activityid = "" + currentStepPipe.getActivityId();
+//                    String sourceKey = "" + currentStepPipe.getDestinationStepKey();
+//                    String activityVersion = "" + currentStepPipe.getActivityVersion();
+//                    AppController.getHelperSharedPreference()
+//                            .writePreference(
+//                                    CustomSurveyViewTaskActivity.this,
+//                                    "survetTosurveyActivityId",
+//                                    "");
+//                    AppController.getHelperSharedPreference()
+//                            .writePreference(
+//                                    CustomSurveyViewTaskActivity.this,
+//                                    "survetTosurveySourceKey",
+//                                    "");
+//                    if (activityid != null && !activityid.equalsIgnoreCase("") && !activityid.equalsIgnoreCase("null")) {
+//
+//
+//                        surveyTosurveyFlag = true;
+//
+//                        saveAndFinish();
+//
+//                        AppController.getHelperSharedPreference()
+//                                .writePreference(
+//                                        CustomSurveyViewTaskActivity.this,
+//                                        "survetTosurveyActivityId",
+//                                        activityid);
+//                        AppController.getHelperSharedPreference()
+//                                .writePreference(
+//                                        CustomSurveyViewTaskActivity.this,
+//                                        "survetTosurveySourceKey",
+//                                        sourceKey);
+//
+//                        AppController.getHelperSharedPreference()
+//                                .writePreference(
+//                                        CustomSurveyViewTaskActivity.this,
+//                                        "survetTosurveySourceKey2",
+//                                        sourceKey);
+//                        AppController.getHelperSharedPreference()
+//                                .writePreference(
+//                                        CustomSurveyViewTaskActivity.this,
+//                                        "survetTosurveyactivityVersion",
+//                                        activityVersion);
+//                    }
+//                }
+//                else {
+                    saveAndFinish();
+               // }
+            }
+            else {
+                if (currentStep.getClass() != InstructionStep.class && currentStep.getClass() != QuestionStep.class) {
+
+//                    QuestionStepCustom currentStepPipe = (QuestionStepCustom) currentStep;
+//                    String activityid = "" + currentStepPipe.getActivityId();
+//                    String sourceKey = "" + currentStepPipe.getDestinationStepKey();
+//                    String activityVersion = "" + currentStepPipe.getActivityVersion();
+//                    AppController.getHelperSharedPreference()
+//                            .writePreference(
+//                                    CustomSurveyViewTaskActivity.this,
+//                                    "survetTosurveyActivityId",
+//                                    "");
+//                    AppController.getHelperSharedPreference()
+//                            .writePreference(
+//                                    CustomSurveyViewTaskActivity.this,
+//                                    "survetTosurveySourceKey",
+//                                    "");
+                    String survetTosurveyActivityId= AppController.getHelperSharedPreference()
+                            .readPreference(this,
+                                    "survetTosurveyActivityId", "");
+                    if (survetTosurveyActivityId != null && !survetTosurveyActivityId.equalsIgnoreCase("") && !survetTosurveyActivityId.equalsIgnoreCase("null")) {
+                        surveyTosurveyFlag = true;
+                        saveAndFinish();
+                    }else {
+                        QuestionStepCustom nextStep2 = (QuestionStepCustom) nextStep;
+                        if (nextStep2 != null && nextStep2.getPactivityId() != null &&
+                                nextStep2.getPactivityVersion() != null && !nextStep2.getPactivityId().equalsIgnoreCase("") &&
+                                !nextStep2.getPactivityVersion().equalsIgnoreCase("")) {
+                            //call apis
+
+                            String survetTosurveyActivityId1= AppController.getHelperSharedPreference()
+                                    .readPreference(this,
+                                            "survetTosurveyActivityId", "");
+                            if(survetTosurveyActivityId1.equalsIgnoreCase("")) {
+                                updateActivityInfo(nextStep2.getPactivityId(), nextStep2.getPactivityVersion());
+                            }else{
+                                saveAndFinish();
+                            }
+                        }
+                        else {
+                            String survetTosurveyActivityId1= AppController.getHelperSharedPreference()
+                                    .readPreference(this,
+                                            "survetTosurveyActivityId", "");
+                            if(survetTosurveyActivityId1.equalsIgnoreCase("")) {
+                                showStep(nextStep);
+                            }
+                            else{
+                                saveAndFinish();
+                            }
+                        }
+                        count = count + 1;
+                    }
                 }
-                count = count + 1;
-                Log.e("countt", String.valueOf(count));
+                else {
+                    QuestionStepCustom nextStep2 = (QuestionStepCustom) nextStep;
+                    if (nextStep2 != null && nextStep2.getPactivityId() != null &&
+                            nextStep2.getPactivityVersion() != null && !nextStep2.getPactivityId().equalsIgnoreCase("") &&
+                            !nextStep2.getPactivityVersion().equalsIgnoreCase("")) {
+                        //call apis
+
+                        String survetTosurveyActivityId= AppController.getHelperSharedPreference()
+                                .readPreference(this,
+                                        "survetTosurveyActivityId", "");
+                        if(survetTosurveyActivityId.equalsIgnoreCase("")) {
+                            updateActivityInfo(nextStep2.getPactivityId(), nextStep2.getPactivityVersion());
+                        }else{
+                            saveAndFinish();
+                        }
+                    }
+                    else {
+                        String survetTosurveyActivityId= AppController.getHelperSharedPreference()
+                                .readPreference(this,
+                                        "survetTosurveyActivityId", "");
+                        if(survetTosurveyActivityId.equalsIgnoreCase("")) {
+                            showStep(nextStep);
+                        }
+                        else{
+                            saveAndFinish();
+                        }
+                    }
+                    count = count + 1;
+                }
+
             }
         }
     }
