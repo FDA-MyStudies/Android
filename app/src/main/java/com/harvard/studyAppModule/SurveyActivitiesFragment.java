@@ -430,6 +430,8 @@ public class SurveyActivitiesFragment extends Fragment
     studyModulePresenter.performGetActivityList(getActivityListEvent);
   }
   private void setRecyclerView2() {
+    AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
+
     String survetTosurveyActivityId= AppController.getHelperSharedPreference()
             .readPreference(mContext,
                     "survetTosurveyActivityId", "");
@@ -448,7 +450,12 @@ public class SurveyActivitiesFragment extends Fragment
           if(filter.getActivitiesArrayList1().get(i).getActivityId().equalsIgnoreCase(survetTosurveyActivityId)) {
 
             if(filter.getStatus().get(i).equalsIgnoreCase(STATUS_CURRENT))
-              getActivityInfo2(survetTosurveyActivityId,filter.getCurrentRunStatusForActivities().get(i).getCurrentRunId(),filter.getCurrentRunStatusForActivities().get(i).getStatus(),filter.getActivitiesArrayList1().get(i).getBranching(),activityVersion,filter.getCurrentRunStatusForActivities().get(i),filter.getActivitiesArrayList1().get(i));
+              getActivityInfo2(survetTosurveyActivityId,
+                      filter.getCurrentRunStatusForActivities().get(i).getCurrentRunId(),
+                      filter.getCurrentRunStatusForActivities().get(i).getStatus(),
+                      filter.getActivitiesArrayList1().get(i).getBranching(),
+                      activityVersion,filter.getCurrentRunStatusForActivities().get(i),
+                      filter.getActivitiesArrayList1().get(i));
 
           }
 
@@ -862,6 +869,7 @@ public class SurveyActivitiesFragment extends Fragment
 
   @Override
   public <T> void asyncResponse(T response, int responseCode) {
+    AppController.getHelperProgressDialog().dismissDialog();
 
     if (responseCode == STUDY_UPDATES) {
       StudyUpdate studyUpdate = (StudyUpdate) response;
@@ -926,6 +934,8 @@ public class SurveyActivitiesFragment extends Fragment
       }
     }
     else if (responseCode == ACTIVTTYLIST_RESPONSECODE) {
+      AppController.getHelperProgressDialog().dismissDialog();
+
       activityListData = (ActivityListData) response;
         if (activityListData != null) {
             activityListData.setStudyId(((SurveyActivity) mContext).getStudyId());
@@ -971,6 +981,8 @@ public class SurveyActivitiesFragment extends Fragment
 
     }
     else if (responseCode == GET_PREFERENCES) {
+      AppController.getHelperProgressDialog().dismissDialog();
+
       ActivityData activityData1 = (ActivityData) response;
       activityData1.setStudyId(((SurveyActivity) mContext).getStudyId());
       ActivityData activityData = new ActivityData();
@@ -1039,7 +1051,51 @@ public class SurveyActivitiesFragment extends Fragment
         }
       }
       if (activityInfoData != null) {
-        launchSurvey(activityInfoData.getActivity());
+
+        String survetTosurveyActivityId= AppController.getHelperSharedPreference()
+                .readPreference(mContext,
+                        "survetTosurveyActivityId", "");
+        String survetTosurveySourceKey = AppController.getHelperSharedPreference().readPreference(
+                mContext, "survetTosurveySourceKey", "");
+        if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&&!survetTosurveySourceKey.equalsIgnoreCase("")&&!survetTosurveyActivityId.equalsIgnoreCase("null")&&!survetTosurveySourceKey.equalsIgnoreCase("null")){
+          if(activityInfoData.getActivity().getMetadata().getActivityId().equalsIgnoreCase(survetTosurveyActivityId)) {
+            Filter filter = getFilterList();
+            for(int i=0;i<filter.getActivitiesArrayList1().size();i++) {
+              if(filter.getActivitiesArrayList1().get(i).getActivityId().equalsIgnoreCase(survetTosurveyActivityId)) {
+                if(filter.getCurrentRunStatusForActivities().get(i).getStatus().equalsIgnoreCase(YET_To_START)) {
+
+                  getAlert(filter.getCurrentRunStatusForActivities().get(i).getStatus(),activityInfoData.getActivity());
+                  break;
+                }else  if(filter.getCurrentRunStatusForActivities().get(i).getStatus().equalsIgnoreCase(IN_PROGRESS)) {
+
+                  getAlert(filter.getCurrentRunStatusForActivities().get(i).getStatus(),activityInfoData.getActivity());
+                  break;
+                }
+                else{
+                  getAlert(filter.getCurrentRunStatusForActivities().get(i).getStatus(),null);
+                  break;
+                }
+              }
+            }
+          }else {
+            launchSurvey(activityInfoData.getActivity());
+
+          }
+        }else {
+          launchSurvey(activityInfoData.getActivity());
+        }
+
+
+
+
+
+
+
+
+
+
+
+
       } else {
         Toast.makeText(mContext, R.string.survey_activities_unable_to_parse, Toast.LENGTH_SHORT).show();
       }
@@ -1067,7 +1123,7 @@ public class SurveyActivitiesFragment extends Fragment
 
     } else if (responseCode == UPDATE_STUDY_PREFERENCE) {
       // check for notification
-//            AppController.getHelperProgressDialog().dismissDialog();
+            AppController.getHelperProgressDialog().dismissDialog();
       mGetResourceListWebservice();
       onItemsLoadComplete();
       checkForNotification();
@@ -1079,6 +1135,7 @@ public class SurveyActivitiesFragment extends Fragment
       }
     } else if (responseCode == STUDY_INFO) {
       if (response != null) {
+
         StudyHome studyHome = (StudyHome) response;
         ((SurveyActivity) mContext).getStudyId();
         String mStudyId = ((SurveyActivity) mContext).getStudyId();
@@ -1096,7 +1153,7 @@ public class SurveyActivitiesFragment extends Fragment
         updateUserPreferenceForAllActivities("", "", UPDATE_USERPREFERENCE_RESPONSECODE_INITIAL);
 
         //survey to survey
-        SurveyToSurveyModel surveyToSurveyModel =dbServiceSubscriber.getSurveyToSurveyModelData(mRealm);
+      /*  SurveyToSurveyModel surveyToSurveyModel =dbServiceSubscriber.getSurveyToSurveyModelData(mRealm);
 
         if(surveyToSurveyModel!=null) {
           AppController.getHelperSharedPreference()
@@ -1109,7 +1166,7 @@ public class SurveyActivitiesFragment extends Fragment
                           mContext,
                           "survetTosurveySourceKey",
                           surveyToSurveyModel.getSurvetTosurveySourceKey());
-        }
+        }*/
         String survetTosurveyActivityId= AppController.getHelperSharedPreference()
                 .readPreference(mContext,
                         "survetTosurveyActivityId", "");
@@ -1124,15 +1181,14 @@ public class SurveyActivitiesFragment extends Fragment
     } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE_INITIAL) {
       AppController.getHelperProgressDialog().dismissDialog();
     }else if (responseCode == ACTIVTTYINFO_RESPONSECODE2) {
-      AppController.getHelperProgressDialog().dismissDialog();
+
        ActivityInfoData activityInfoData = (ActivityInfoData) response;
 
       if (activityInfoData != null) {
         String survetTosurveyActivityId= AppController.getHelperSharedPreference()
                 .readPreference(mContext,
                         "survetTosurveyActivityId", "");
-        String survetTosurveySourceKey=AppController.getHelperSharedPreference()
-                .readPreference(
+        String survetTosurveySourceKey = AppController.getHelperSharedPreference().readPreference(
                         mContext, "survetTosurveySourceKey", "");
          if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&&!survetTosurveySourceKey.equalsIgnoreCase("")&&!survetTosurveyActivityId.equalsIgnoreCase("null")&&!survetTosurveySourceKey.equalsIgnoreCase("null")){
           if(activityInfoData.getActivity().getMetadata().getActivityId().equalsIgnoreCase(survetTosurveyActivityId)) {
@@ -1140,10 +1196,12 @@ public class SurveyActivitiesFragment extends Fragment
             for(int i=0;i<filter.getActivitiesArrayList1().size();i++) {
               if(filter.getActivitiesArrayList1().get(i).getActivityId().equalsIgnoreCase(survetTosurveyActivityId)) {
                 if(filter.getCurrentRunStatusForActivities().get(i).getStatus().equalsIgnoreCase(IN_PROGRESS)) {
-                                 // launchSurvey2(activityInfoData.getActivity());
+
                                     getAlert(filter.getCurrentRunStatusForActivities().get(i).getStatus(),activityInfoData.getActivity());
-                }
-                else{
+                } else if(filter.getCurrentRunStatusForActivities().get(i).getStatus().equalsIgnoreCase(YET_To_START)) {
+
+                  getAlert(filter.getCurrentRunStatusForActivities().get(i).getStatus(),activityInfoData.getActivity());
+                } else{
                   getAlert(filter.getCurrentRunStatusForActivities().get(i).getStatus(),null);
                 }
               }
@@ -1158,7 +1216,7 @@ public class SurveyActivitiesFragment extends Fragment
       AppController.getHelperProgressDialog().dismissDialog();
       onItemsLoadComplete();
     }
-  }
+   }
 
   public void getAlert(String status, final ActivityObj activityObj){
 
@@ -1194,6 +1252,7 @@ public class SurveyActivitiesFragment extends Fragment
                                           mContext,
                                           "survetTosurveyactivityVersion",
                                           "");
+
                           dialog.dismiss();
 
                         }
@@ -1212,7 +1271,8 @@ public class SurveyActivitiesFragment extends Fragment
                       "Done",
                       new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                          AppController.getHelperSharedPreference()
+                          launchSurvey2(activityObj);
+                         /* AppController.getHelperSharedPreference()
                                   .writePreference(
                                           mContext,
                                           "survetTosurveyActivityId",
@@ -1232,9 +1292,49 @@ public class SurveyActivitiesFragment extends Fragment
                                   .writePreference(
                                           mContext,
                                           "survetTosurveyactivityVersion",
-                                          "");
+                                          "");*/
                           dialog.dismiss();
+
+
+                        }
+                      });
+      AlertDialog alertDialog = alertDialogBuilder.create();
+      alertDialog.show();
+    }else if(status.equalsIgnoreCase(YET_To_START)){
+      AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle);
+      alertDialogBuilder.setTitle("");
+      String message = "You will be navigated to a different activity/survey as this activity/survey is completed.";
+      alertDialogBuilder
+              .setMessage(message)
+              .setCancelable(false)
+              .setPositiveButton(
+                      "Done",
+                      new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
                           launchSurvey2(activityObj);
+                         /* AppController.getHelperSharedPreference()
+                                  .writePreference(
+                                          mContext,
+                                          "survetTosurveyActivityId",
+                                          "");
+                          AppController.getHelperSharedPreference()
+                                  .writePreference(
+                                          mContext,
+                                          "survetTosurveySourceKey",
+                                          "");
+
+                          AppController.getHelperSharedPreference()
+                                  .writePreference(
+                                          mContext,
+                                          "survetTosurveySourceKey2",
+                                          "");
+                          AppController.getHelperSharedPreference()
+                                  .writePreference(
+                                          mContext,
+                                          "survetTosurveyactivityVersion",
+                                          "");*/
+                          dialog.dismiss();
+
 
                         }
                       });
@@ -3862,6 +3962,8 @@ public class SurveyActivitiesFragment extends Fragment
   }
 
   private void callGetStudyInfoWebservice() {
+    AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
+
     String studyId = ((SurveyActivity) mContext).getStudyId();
     HashMap<String, String> header = new HashMap<>();
     String url = URLs.STUDY_INFO + "?studyId=" + studyId;
@@ -5311,11 +5413,11 @@ public class SurveyActivitiesFragment extends Fragment
     selectedActivity = activitiesWS;
     if (status.equalsIgnoreCase(YET_To_START)) {
       updatePreferenceToDB = true;
-      updateUserPreference(
+      updateUserPreference2(
               ((SurveyActivity) mContext).getStudyId(), status, activityId, mCurrentRunId);
      } else {
       updatePreferenceToDB = false;
-      updateActivityInfo2(activityId,mActivityVersion);
+       updateActivityInfo2(activityId,mActivityVersion);
     }
   }
 
@@ -5351,6 +5453,8 @@ public class SurveyActivitiesFragment extends Fragment
     studyModulePresenter.performGetActivityInfo(getActivityInfoEvent);
   }
   private void updateActivityInfo2(String activityId, String mActivityVersion) {
+
+
     AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
     String survetTosurveyActivityId= AppController.getHelperSharedPreference()
             .readPreference(mContext,
@@ -5655,6 +5759,12 @@ public class SurveyActivitiesFragment extends Fragment
     return true;
   }
 
+  public void updateUserPreference2(
+          String studyId, String status, String activityId, int activityRunId) {
+
+    AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
+    updateUserPreferenceForAllActivities2(activityId, studyId, UPDATE_USERPREFERENCE_RESPONSECODE);
+  }
   public void updateUserPreference(
       String studyId, String status, String activityId, int activityRunId) {
     /*UpdatePreferenceEvent updatePreferenceEvent = new UpdatePreferenceEvent();
@@ -5781,8 +5891,145 @@ public class SurveyActivitiesFragment extends Fragment
     updateUserPreferenceForAllActivities(activityId, studyId, UPDATE_USERPREFERENCE_RESPONSECODE);
   }
 
+  public void updateUserPreferenceForAllActivities2(String activityId, String studyId,
+                                                   int updateUserpreferenceResponsecode) {
+
+    HashMap<String, String> header = new HashMap();
+    header.put(
+            "auth",
+            AppController.getHelperSharedPreference()
+                    .readPreference(
+                            mContext, mContext.getResources().getString(R.string.auth), ""));
+    header.put(
+            "userId",
+            AppController.getHelperSharedPreference()
+                    .readPreference(
+                            mContext, mContext.getResources().getString(R.string.userid), ""));
+
+    JSONObject jsonObject = new JSONObject();
+
+    JSONArray activitylist = new JSONArray();
+    JSONObject activityStatus;
+    JSONObject activityRun;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+    try {
+      //delete UR DB
+      dbServiceSubscriber.deleteActivityDataRow(mContext, activityListData.getStudyId());
+      ActivityData activityData = new ActivityData();
+      activityData.setMessage("success");
+      activityData.setStudyId(activityListData.getStudyId());
+      RealmList<Activities> activities = new RealmList<>();
+      for (int i = 0; i < activitiesArrayList1.size(); i++) {
+        if (!activitiesArrayList1.get(i).getActivityId().equalsIgnoreCase("")) {
+          activityStatus = new JSONObject();
+//                    activityStatus.put("activityState", status.get(i));
+          if (activityId.equalsIgnoreCase("")) {
+            activityStatus.put("activityState", currentRunStatusForActivities.get(i).getStatus());
+          } else {
+            if (activityId.equalsIgnoreCase(activitiesArrayList1.get(i).getActivityId()) && studyId.equalsIgnoreCase(((SurveyActivity) mContext).getStudyId())) {
+              activityStatus.put("activityState", IN_PROGRESS);
+            } else {
+              activityStatus.put("activityState", currentRunStatusForActivities.get(i).getStatus());
+            }
+          }
+          activityStatus.put("activityId", activitiesArrayList1.get(i).getActivityId());
+          activityStatus
+                  .put("activityRunId", currentRunStatusForActivities.get(i).getCurrentRunId());
+          activityStatus.put("bookmarked", "false");
+          activityStatus.put("activityVersion", activitiesArrayList1.get(i).getActivityVersion());
+          activityStatus.put("activityStartDate", activitiesArrayList1.get(i).getStartTime());
+          activityStatus.put("activityEndDate", activitiesArrayList1.get(i).getEndTime());
+          activityStatus.put("lastModifiedDate", simpleDateFormat.format(new Date()));
+          activityStatus
+                  .put("anchorDateVersion", activitiesArrayList1.get(i).getAnchorDateVersion());
+          activityStatus
+                  .put("anchorDatecreatedDate", activitiesArrayList1.get(i).getAnchorDatecreatedDate());
+
+          Activities activities1 = new Activities();
+          activities1.setActivityState(currentRunStatusForActivities.get(i).getStatus());
+          activities1.setActivityId(activitiesArrayList1.get(i).getActivityId());
+          activities1.setActivityRunId("" + currentRunStatusForActivities.get(i).getCurrentRunId());
+          activities1.setBookmarked("false");
+          activities1.setActivityVersion(activitiesArrayList1.get(i).getActivityVersion());
+          activities1.setActivityStartDate(activitiesArrayList1.get(i).getStartTime());
+          activities1.setActivityEndDate(activitiesArrayList1.get(i).getEndTime());
+          activities1.setLastModifiedDate(simpleDateFormat.format(new Date()));
+          activities1.setStudyId(((SurveyActivity) mContext).getStudyId());
+          activities1.setAnchorDateVersion(activitiesArrayList1.get(i).getAnchorDateVersion());
+          activities1
+                  .setAnchorDatecreatedDate(activitiesArrayList1.get(i).getAnchorDatecreatedDate());
+          ActivityRunPreference activityRunPreference = new ActivityRunPreference();
+          activityRunPreference.setTotal(currentRunStatusForActivities.get(i).getTotalRun());
+          activityRunPreference
+                  .setCompleted(currentRunStatusForActivities.get(i).getCompletedRun());
+          activityRunPreference.setMissed(currentRunStatusForActivities.get(i).getMissedRun());
+          activities1.setActivityRun(activityRunPreference);
+
+          if (activitiesArrayList1.get(i).getFrequency() != null && activitiesArrayList1.get(i)
+                  .getFrequency().getType().equalsIgnoreCase("Manually Schedule")) {
+            RealmList<CustomScheduleRuns> customScheduleRuns = new RealmList<>();
+            JSONObject customRun;
+            JSONArray jsonArray = new JSONArray();
+            for (int j = 0; j < activitiesArrayList1.get(i).getFrequency().getRuns().size(); j++) {
+              customRun = new JSONObject();
+              customRun.put("runStartDate",
+                      activitiesArrayList1.get(i).getFrequency().getRuns().get(j).getStartTime());
+              customRun.put("runEndDate",
+                      activitiesArrayList1.get(i).getFrequency().getRuns().get(j).getEndTime());
+              jsonArray.put(customRun);
+              CustomScheduleRuns customScheduleRuns1 = new CustomScheduleRuns();
+              customScheduleRuns1.setActivityStartDate(
+                      activitiesArrayList1.get(i).getFrequency().getRuns().get(j).getStartTime());
+              customScheduleRuns1.setActivityEndDate(
+                      activitiesArrayList1.get(i).getFrequency().getRuns().get(j).getEndTime());
+              customScheduleRuns.add(customScheduleRuns1);
+            }
+            activityStatus.put("customScheduleRuns", jsonArray);
+            activities1.setCustomScheduleRuns(customScheduleRuns);
+          }
+          activityRun = new JSONObject();
+          activityRun.put("total", currentRunStatusForActivities.get(i).getTotalRun());
+          activityRun.put("completed", currentRunStatusForActivities.get(i).getCompletedRun());
+          activityRun.put("missed", currentRunStatusForActivities.get(i).getMissedRun());
+          activityStatus.put("activityRun", activityRun);
+          activitylist.put(activityStatus);
+          activities.add(activities1);
+
+        }
+      }
+      activityData.setActivities(activities);
+      dbServiceSubscriber.updateActivityState(mContext, activityData);
+      jsonObject.put("studyId", activityListData.getStudyId());
+      jsonObject.put("activity", activitylist);
+
+
+
+      UpdatePreferenceEvent updatePreferenceEvent = new UpdatePreferenceEvent();
+      RegistrationServerConfigEvent registrationServerConfigEvent =
+              new RegistrationServerConfigEvent(
+                      "post_object",
+                      URLs.UPDATE_ACTIVITY_PREFERENCE,
+                      updateUserpreferenceResponsecode,
+                      mContext,
+                      LoginData.class,
+                      null,
+                      header,
+                      jsonObject,
+                      false,
+                      this);
+
+      updatePreferenceEvent.setmRegistrationServerConfigEvent(registrationServerConfigEvent);
+      UserModulePresenter userModulePresenter = new UserModulePresenter();
+      userModulePresenter.performUpdateUserPreference(updatePreferenceEvent);
+    } catch (Exception e) {
+      AppController.getHelperProgressDialog().dismissDialog();
+      onItemsLoadComplete();
+      e.printStackTrace();
+    }
+  }
   public void updateUserPreferenceForAllActivities(String activityId, String studyId,
       int updateUserpreferenceResponsecode) {
+
     HashMap<String, String> header = new HashMap();
     header.put(
         "auth",
@@ -6166,6 +6413,7 @@ public class SurveyActivitiesFragment extends Fragment
     }
 
   }
+
 
   private void callLabkeyService(int position) {
     if (mArrayList.size() > position) {

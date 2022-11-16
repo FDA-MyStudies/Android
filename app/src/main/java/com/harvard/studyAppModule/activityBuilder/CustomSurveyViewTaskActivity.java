@@ -249,6 +249,27 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                 taskResult = new TaskResult(task.getIdentifier());
                 taskResult.setStartDate(new Date());
                 flag = true;
+                AppController.getHelperSharedPreference()
+                        .writePreference(
+                                CustomSurveyViewTaskActivity.this,
+                                "survetTosurveyActivityId",
+                                "");
+                AppController.getHelperSharedPreference()
+                        .writePreference(
+                                CustomSurveyViewTaskActivity.this,
+                                "survetTosurveySourceKey",
+                                "");
+
+               /* AppController.getHelperSharedPreference()
+                        .writePreference(
+                                CustomSurveyViewTaskActivity.this,
+                                "survetTosurveySourceKey2",
+                                "");*/
+                AppController.getHelperSharedPreference()
+                        .writePreference(
+                                CustomSurveyViewTaskActivity.this,
+                                "survetTosurveyactivityVersion",
+                                "");
                 if (currentStep == null) {
                     currentStep = task.getStepWithIdentifier(savedsteps.getStepId());
                 }
@@ -290,6 +311,27 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                 taskResult = new TaskResult(task.getIdentifier());
                 taskResult.setStartDate(new Date());
                 flag = true;
+                AppController.getHelperSharedPreference()
+                        .writePreference(
+                                CustomSurveyViewTaskActivity.this,
+                                "survetTosurveyActivityId",
+                                "");
+                AppController.getHelperSharedPreference()
+                        .writePreference(
+                                CustomSurveyViewTaskActivity.this,
+                                "survetTosurveySourceKey",
+                                "");
+
+              /*  AppController.getHelperSharedPreference()
+                        .writePreference(
+                                CustomSurveyViewTaskActivity.this,
+                                "survetTosurveySourceKey2",
+                                "");*/
+                AppController.getHelperSharedPreference()
+                        .writePreference(
+                                CustomSurveyViewTaskActivity.this,
+                                "survetTosurveyactivityVersion",
+                                "");
             } else {
                 taskResult = new TaskResult(task.getIdentifier());
                 taskResult.setStartDate(new Date());
@@ -814,6 +856,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 123 && resultCode == RESULT_OK) {
             finish();
+
             //if that id comes then finish and launch other activity
         } else if (requestCode == 123 && resultCode == RESULT_CANCELED) {
             this.recreate();
@@ -871,7 +914,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
     @Override
     protected void onDestroy() {
-        dbServiceSubscriber.clearSurveyToSurveyModelData(realm);
+        /*dbServiceSubscriber.clearSurveyToSurveyModelData(realm);
 
         String survetTosurveyActivityId = AppController.getHelperSharedPreference()
                 .readPreference(CustomSurveyViewTaskActivity.this,
@@ -900,7 +943,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                         "survetTosurveySourceKey",
                         "");
 
-        dbServiceSubscriber.closeRealmObj(realm);
+        dbServiceSubscriber.closeRealmObj(realm);*/
 
 
        /* AppController.getHelperSharedPreference()
@@ -908,6 +951,8 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                         CustomSurveyViewTaskActivity.this,
                         "survetTosurveySourceKey2",
                         "");*/
+
+
         if (isMyServiceRunning(ActiveTaskService.class)) {
             try {
                 if (serviceintent != null && receiver != null) {
@@ -1366,7 +1411,8 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                         }
 
                         JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                          if(stepId.equalsIgnoreCase("text")){
+                        keyValues.add(jsonObject1.getString(key));
+                          /*if(stepId.equalsIgnoreCase("text")){
                               keyValues.add(jsonObject1.getString(key));
                           }else if(stepId.equalsIgnoreCase("textChoice")){
                               keyValues.add(jsonObject1.getString(key));
@@ -1380,7 +1426,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                           }else {
                               //do nothing
                           }
-
+*/
 
                     }
                     Log.e("buuid", String.valueOf(keyValues.get(keyValues.size()-1)));
