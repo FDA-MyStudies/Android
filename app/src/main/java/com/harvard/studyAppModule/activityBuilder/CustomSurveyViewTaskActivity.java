@@ -1260,8 +1260,15 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         ConnectionDetector connectionDetector = new ConnectionDetector(CustomSurveyViewTaskActivity.this);
 
         if (connectionDetector.isConnectingToInternet()) {
-            mResponseModel = HttpRequest.getRequest(URLs.PROCESSRESPONSEDATAPIPING +"/BTC/"+getIntent().getStringExtra(STUDYID) + "/mobileappstudy-selectRows.api?" + "query.queryName="+activityId+"&"+"query.columns="+stepId+"&"+"participantId="+participtantID, new HashMap<String, String>(), "Response");
-            //mResponseModel = HttpRequest.getRequest("https://hpresp-stage.lkcompliant.net/BTC/LIMITOPEN001/mobileappstudy-selectRows.api?query.queryName=imageque&query.columns=text&participantId=dcb2f1938fd6b64c5e039ff476629a49", new HashMap<String, String>(), "Response");
+            for(int k=0;k<activityInfoData2.getActivity().getSteps().size();k++) {
+                if (activityInfoData2.getActivity().getSteps().get(k).getResultType().equalsIgnoreCase("textChoice")) {
+                    mResponseModel = HttpRequest.getRequest(URLs.PROCESSRESPONSEDATAPIPING + "/BTC/" + getIntent().getStringExtra(STUDYID) + "/mobileappstudy-selectRows.api?" + "query.queryName=" + activityId+stepId + "&" + "query.columns=" + stepId + "&" + "participantId=" + participtantID, new HashMap<String, String>(), "Response");
+                    break;
+                } else {
+                    mResponseModel = HttpRequest.getRequest(URLs.PROCESSRESPONSEDATAPIPING + "/BTC/" + getIntent().getStringExtra(STUDYID) + "/mobileappstudy-selectRows.api?" + "query.queryName=" + activityId+ "&" + "query.columns=" + stepId + "&" + "participantId=" + participtantID, new HashMap<String, String>(), "Response");
+                    break;
+                }
+            }            //mResponseModel = HttpRequest.getRequest("https://hpresp-stage.lkcompliant.net/BTC/LIMITOPEN001/mobileappstudy-selectRows.api?query.queryName=imageque&query.columns=text&participantId=dcb2f1938fd6b64c5e039ff476629a49", new HashMap<String, String>(), "Response");
 
             responseCode = mResponseModel.getResponseCode();
             response = mResponseModel.getResponseData();
