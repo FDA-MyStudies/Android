@@ -4,11 +4,13 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -1116,14 +1118,8 @@ public class SurveyActivitiesFragment extends Fragment
                         mContext, "survetTosurveySourceKey", "");
 
         if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&&!survetTosurveySourceKey.equalsIgnoreCase("")&&!survetTosurveyActivityId.equalsIgnoreCase("null")&&!survetTosurveySourceKey.equalsIgnoreCase("null")){
-          Log.e("ysysysys","navigated to other survey successfully");
           setRecyclerView2();
-
-
-        }
-
-
-
+    }
       }
     } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE_INITIAL) {
       AppController.getHelperProgressDialog().dismissDialog();
@@ -1140,42 +1136,89 @@ public class SurveyActivitiesFragment extends Fragment
                         mContext, "survetTosurveySourceKey", "");
          if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&&!survetTosurveySourceKey.equalsIgnoreCase("")&&!survetTosurveyActivityId.equalsIgnoreCase("null")&&!survetTosurveySourceKey.equalsIgnoreCase("null")){
           if(activityInfoData.getActivity().getMetadata().getActivityId().equalsIgnoreCase(survetTosurveyActivityId)) {
-            Log.e("ysysysys","navigated to other survey successfully222222");
             Filter filter = getFilterList();
             for(int i=0;i<filter.getActivitiesArrayList1().size();i++) {
-              Log.e("Krishna", "asyncResponse:activity survey to survey status before condition"+ filter.getStatus().get(i) + " activity id is " +filter.getActivitiesArrayList1().get(i).getActivityId() );
-              Log.e("Krishna", "asyncResponse:activity survetTosurveyActivityId before condition "+ survetTosurveyActivityId);
-               if(filter.getActivitiesArrayList1().get(i).getActivityId().equalsIgnoreCase(survetTosurveyActivityId)) {
-                 Log.e("Krishna", "asyncResponse:activity survey to survey status "+filter.getStatus().get(i) + "avtivity Id " +filter.getActivitiesArrayList1().get(i).getActivityId());
+              if(filter.getActivitiesArrayList1().get(i).getActivityId().equalsIgnoreCase(survetTosurveyActivityId)) {
                 if(filter.getCurrentRunStatusForActivities().get(i).getStatus().equalsIgnoreCase(IN_PROGRESS)) {
-                  launchSurvey2(activityInfoData.getActivity());
-                }else{
-                  Log.e("Krishna", "asyncResponse:activity survey to survey status "+filter.getStatus().get(i));
-                  Log.e("Krishna", "asyncResponse:activity survey to survey activity ID "+filter.getActivitiesArrayList1().get(i).getActivityId());
-                }
+                  AppController.getHelperSharedPreference()
+                          .writePreference(
+                                  mContext,
+                                  "survetTosurveyActivityId",
+                                  "");
+                  AppController.getHelperSharedPreference()
+                          .writePreference(
+                                  mContext,
+                                  "survetTosurveySourceKey",
+                                  "");
 
-              /*   AppController.getHelperSharedPreference()
-                         .writePreference(
-                                 mContext,
-                                 "survetTosurveyActivityId",
-                                 "");
-                 AppController.getHelperSharedPreference()
-                         .writePreference(
-                                 mContext,
-                                 "survetTosurveySourceKey",
-                                 "");*/
+                  AppController.getHelperSharedPreference()
+                          .writePreference(
+                                  mContext,
+                                  "survetTosurveySourceKey2",
+                                  "");
+                  AppController.getHelperSharedPreference()
+                          .writePreference(
+                                  mContext,
+                                  "survetTosurveyactivityVersion",
+                                  "");
+                  launchSurvey2(activityInfoData.getActivity());
+                }
+                else{
+                  getAlert();
+                }
               }
             }
           }
         }
-
-      } else {
+      }
+      else {
         Toast.makeText(mContext, R.string.survey_activities_unable_to_parse, Toast.LENGTH_SHORT).show();
       }
     }else {
       AppController.getHelperProgressDialog().dismissDialog();
       onItemsLoadComplete();
     }
+  }
+
+  public void getAlert(){
+
+    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle);
+    alertDialogBuilder.setTitle("");
+    String message = "Current activity/survey is completed. Kindly standby for the next activity/survey.";
+    alertDialogBuilder
+            .setMessage(message)
+            .setCancelable(false)
+            .setPositiveButton(
+                    "Ok",
+                    new DialogInterface.OnClickListener() {
+                      public void onClick(DialogInterface dialog, int id) {
+                        AppController.getHelperSharedPreference()
+                                .writePreference(
+                                        mContext,
+                                        "survetTosurveyActivityId",
+                                        "");
+                        AppController.getHelperSharedPreference()
+                                .writePreference(
+                                        mContext,
+                                        "survetTosurveySourceKey",
+                                        "");
+
+                        AppController.getHelperSharedPreference()
+                                .writePreference(
+                                        mContext,
+                                        "survetTosurveySourceKey2",
+                                        "");
+                        AppController.getHelperSharedPreference()
+                                .writePreference(
+                                        mContext,
+                                        "survetTosurveyactivityVersion",
+                                        "");
+                        dialog.dismiss();
+
+                      }
+                    });
+    AlertDialog alertDialog = alertDialogBuilder.create();
+    alertDialog.show();
   }
 
   private void calculateStartAnsEndDateForActivities() {
