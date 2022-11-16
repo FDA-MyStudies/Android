@@ -1140,31 +1140,11 @@ public class SurveyActivitiesFragment extends Fragment
             for(int i=0;i<filter.getActivitiesArrayList1().size();i++) {
               if(filter.getActivitiesArrayList1().get(i).getActivityId().equalsIgnoreCase(survetTosurveyActivityId)) {
                 if(filter.getCurrentRunStatusForActivities().get(i).getStatus().equalsIgnoreCase(IN_PROGRESS)) {
-                  AppController.getHelperSharedPreference()
-                          .writePreference(
-                                  mContext,
-                                  "survetTosurveyActivityId",
-                                  "");
-                  AppController.getHelperSharedPreference()
-                          .writePreference(
-                                  mContext,
-                                  "survetTosurveySourceKey",
-                                  "");
-
-                  AppController.getHelperSharedPreference()
-                          .writePreference(
-                                  mContext,
-                                  "survetTosurveySourceKey2",
-                                  "");
-                  AppController.getHelperSharedPreference()
-                          .writePreference(
-                                  mContext,
-                                  "survetTosurveyactivityVersion",
-                                  "");
-                  launchSurvey2(activityInfoData.getActivity());
+                                 // launchSurvey2(activityInfoData.getActivity());
+                                    getAlert(filter.getCurrentRunStatusForActivities().get(i).getStatus(),activityInfoData.getActivity());
                 }
                 else{
-                  getAlert();
+                  getAlert(filter.getCurrentRunStatusForActivities().get(i).getStatus(),null);
                 }
               }
             }
@@ -1180,45 +1160,87 @@ public class SurveyActivitiesFragment extends Fragment
     }
   }
 
-  public void getAlert(){
+  public void getAlert(String status, final ActivityObj activityObj){
 
-    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle);
-    alertDialogBuilder.setTitle("");
-    String message = "Current activity/survey is completed. Kindly standby for the next activity/survey.";
-    alertDialogBuilder
-            .setMessage(message)
-            .setCancelable(false)
-            .setPositiveButton(
-                    "Ok",
-                    new DialogInterface.OnClickListener() {
-                      public void onClick(DialogInterface dialog, int id) {
-                        AppController.getHelperSharedPreference()
-                                .writePreference(
-                                        mContext,
-                                        "survetTosurveyActivityId",
-                                        "");
-                        AppController.getHelperSharedPreference()
-                                .writePreference(
-                                        mContext,
-                                        "survetTosurveySourceKey",
-                                        "");
+    if(status.equalsIgnoreCase(STATUS_COMPLETED)) {
+      AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle);
+      alertDialogBuilder.setTitle("");
+      String message = "Current activity/survey is completed. Kindly standby for the next activity/survey.";
+      alertDialogBuilder
+              .setMessage(message)
+              .setCancelable(false)
+              .setPositiveButton(
+                      "Ok",
+                      new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                          AppController.getHelperSharedPreference()
+                                  .writePreference(
+                                          mContext,
+                                          "survetTosurveyActivityId",
+                                          "");
+                          AppController.getHelperSharedPreference()
+                                  .writePreference(
+                                          mContext,
+                                          "survetTosurveySourceKey",
+                                          "");
 
-                        AppController.getHelperSharedPreference()
-                                .writePreference(
-                                        mContext,
-                                        "survetTosurveySourceKey2",
-                                        "");
-                        AppController.getHelperSharedPreference()
-                                .writePreference(
-                                        mContext,
-                                        "survetTosurveyactivityVersion",
-                                        "");
-                        dialog.dismiss();
+                          AppController.getHelperSharedPreference()
+                                  .writePreference(
+                                          mContext,
+                                          "survetTosurveySourceKey2",
+                                          "");
+                          AppController.getHelperSharedPreference()
+                                  .writePreference(
+                                          mContext,
+                                          "survetTosurveyactivityVersion",
+                                          "");
+                          dialog.dismiss();
 
-                      }
-                    });
-    AlertDialog alertDialog = alertDialogBuilder.create();
-    alertDialog.show();
+                        }
+                      });
+      AlertDialog alertDialog = alertDialogBuilder.create();
+      alertDialog.show();
+    }
+    else if(status.equalsIgnoreCase(IN_PROGRESS)){
+      AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle);
+      alertDialogBuilder.setTitle("");
+      String message = "You will be navigated to a different activity/survey as this activity/survey is completed.";
+      alertDialogBuilder
+              .setMessage(message)
+              .setCancelable(false)
+              .setPositiveButton(
+                      "Done",
+                      new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                          AppController.getHelperSharedPreference()
+                                  .writePreference(
+                                          mContext,
+                                          "survetTosurveyActivityId",
+                                          "");
+                          AppController.getHelperSharedPreference()
+                                  .writePreference(
+                                          mContext,
+                                          "survetTosurveySourceKey",
+                                          "");
+
+                          AppController.getHelperSharedPreference()
+                                  .writePreference(
+                                          mContext,
+                                          "survetTosurveySourceKey2",
+                                          "");
+                          AppController.getHelperSharedPreference()
+                                  .writePreference(
+                                          mContext,
+                                          "survetTosurveyactivityVersion",
+                                          "");
+                          dialog.dismiss();
+                          launchSurvey2(activityObj);
+
+                        }
+                      });
+      AlertDialog alertDialog = alertDialogBuilder.create();
+      alertDialog.show();
+    }
   }
 
   private void calculateStartAnsEndDateForActivities() {

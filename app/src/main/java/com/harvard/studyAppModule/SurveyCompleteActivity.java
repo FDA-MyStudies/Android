@@ -90,8 +90,10 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
                                 "backflag",
                                 "yes");
                 if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&&!survetTosurveySourceKey.equalsIgnoreCase("")&&!survetTosurveyActivityId.equalsIgnoreCase("null")&&!survetTosurveySourceKey.equalsIgnoreCase("null")){
-                    getAlert();
-
+                    //getAlert();
+                    mNext.setClickable(false);
+                    mNext.setEnabled(false);
+                    updateProcessResponse();
                 }else {
                     mNext.setClickable(false);
                     mNext.setEnabled(false);
