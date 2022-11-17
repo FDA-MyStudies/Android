@@ -257,6 +257,27 @@ public class SurveyActivitiesFragment extends Fragment
 
 
     Logger.showDbStats();
+//    AppController.getHelperSharedPreference()
+//            .writePreference(
+//                    mContext,
+//                    "survetTosurveyActivityId",
+//                    "");
+//    AppController.getHelperSharedPreference()
+//            .writePreference(
+//                    mContext,
+//                    "survetTosurveySourceKey",
+//                    "");
+//
+//    AppController.getHelperSharedPreference()
+//            .writePreference(
+//                    mContext,
+//                    "survetTosurveySourceKey2",
+//                    "");
+//    AppController.getHelperSharedPreference()
+//            .writePreference(
+//                    mContext,
+//                    "survetTosurveyactivityVersion",
+//                    "");
     return view;
   }
 
@@ -1220,7 +1241,7 @@ public class SurveyActivitiesFragment extends Fragment
 
   public void getAlert(String status, final ActivityObj activityObj){
 
-    if(status.equalsIgnoreCase(STATUS_COMPLETED)) {
+    if(status.equalsIgnoreCase(STATUS_COMPLETED) || status.equalsIgnoreCase(STATUS_UPCOMING) || status.equalsIgnoreCase(YET_To_START)) {
       AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle);
       alertDialogBuilder.setTitle("");
       String message = "Current activity/survey is completed. Kindly standby for the next activity/survey.";

@@ -325,7 +325,7 @@ public class ActivityBuilder extends OrderedTask {
 
             else if (activityQuestionStep.get(steps.indexOf(previousStep)).getResultType().equalsIgnoreCase("grouped")){
                 if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey().equalsIgnoreCase("0")) {
-                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                         AppController.getHelperSharedPreference()
                                 .writePreference(
                                         mcontext,
@@ -362,7 +362,7 @@ public class ActivityBuilder extends OrderedTask {
                                     if (nextIndex < steps.size()) {
                                         if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                             if (nextIndex < steps.size()) {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -390,7 +390,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 return steps.get(nextIndex);
                                             }
                                             else {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -421,7 +421,7 @@ public class ActivityBuilder extends OrderedTask {
                                         }
                                     }
                                     else {
-                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                             AppController.getHelperSharedPreference()
                                                     .writePreference(
                                                             mcontext,
@@ -749,7 +749,7 @@ public class ActivityBuilder extends OrderedTask {
                             if (result) {
                                 int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey()));
                                 if (nextIndex < steps.size()) {
-                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                         AppController.getHelperSharedPreference()
                                                 .writePreference(
                                                         mcontext,
@@ -777,7 +777,7 @@ public class ActivityBuilder extends OrderedTask {
                                     return steps.get(nextIndex);
                                 }
                                 else{
-                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                         AppController.getHelperSharedPreference()
                                                 .writePreference(
                                                         mcontext,
@@ -812,7 +812,7 @@ public class ActivityBuilder extends OrderedTask {
                                         nextIndex += 1;
                                         if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                             if (nextIndex < steps.size()) {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -840,7 +840,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 return steps.get(nextIndex);
                                             }
                                             else {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -873,7 +873,7 @@ public class ActivityBuilder extends OrderedTask {
                                 }
                                 else {
                                     if (nextIndex < steps.size()) {
-                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                             AppController.getHelperSharedPreference()
                                                     .writePreference(
                                                             mcontext,
@@ -901,7 +901,7 @@ public class ActivityBuilder extends OrderedTask {
                                         return steps.get(nextIndex);
                                     }
                                     else{
-                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                             AppController.getHelperSharedPreference()
                                                     .writePreference(
                                                             mcontext,
@@ -942,7 +942,7 @@ public class ActivityBuilder extends OrderedTask {
                                             int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey()));
 
                                             if (nextIndex < steps.size()) {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -970,7 +970,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 return steps.get(nextIndex);
                                             }
                                             else{
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -1006,7 +1006,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     nextIndex += 1;
                                                     if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -1034,7 +1034,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             return steps.get(nextIndex);
                                                         }
                                                         else {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -1067,7 +1067,7 @@ public class ActivityBuilder extends OrderedTask {
                                             }
                                             else {
                                                 if (nextIndex < steps.size()) {
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -1095,7 +1095,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     return steps.get(nextIndex);
                                                 }
                                                 else{
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -1143,7 +1143,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             nextIndex += 1;
                                                             if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                                 if (nextIndex < steps.size()) {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -1170,7 +1170,7 @@ public class ActivityBuilder extends OrderedTask {
                                                                     }
                                                                     return steps.get(nextIndex);
                                                                 } else {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -1221,7 +1221,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     nextIndex += 1;
                                                     if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -1249,7 +1249,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             return steps.get(nextIndex);
                                                         }
                                                         else {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -1283,7 +1283,7 @@ public class ActivityBuilder extends OrderedTask {
                                             else {
 
                                                 if (nextIndex < steps.size()) {
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -1322,7 +1322,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey()));
 
                                                     if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -1358,7 +1358,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             nextIndex += 1;
                                                             if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                                 if (nextIndex < steps.size()) {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -1386,7 +1386,7 @@ public class ActivityBuilder extends OrderedTask {
                                                                     return steps.get(nextIndex);
                                                                 }
                                                                 else {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -1419,7 +1419,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     } else {
 
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -1461,7 +1461,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     nextIndex += 1;
                                                     if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -1489,7 +1489,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             return steps.get(nextIndex);
                                                         }
                                                         else {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -1523,7 +1523,7 @@ public class ActivityBuilder extends OrderedTask {
                                             else {
 
                                                 if (nextIndex < steps.size()) {
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -1551,7 +1551,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     return steps.get(nextIndex);
                                                 }
                                                 else{
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -1594,7 +1594,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey()));
 
                                                     if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -1630,7 +1630,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             nextIndex += 1;
                                                             if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                                 if (nextIndex < steps.size()) {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -1657,7 +1657,7 @@ public class ActivityBuilder extends OrderedTask {
                                                                     }
                                                                     return steps.get(nextIndex);
                                                                 } else {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -1708,7 +1708,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     nextIndex += 1;
                                                     if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -1735,7 +1735,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             }
                                                             return steps.get(nextIndex);
                                                         } else {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -1769,7 +1769,7 @@ public class ActivityBuilder extends OrderedTask {
                                             else {
 
                                                 if (nextIndex < steps.size()) {
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -1808,7 +1808,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey()));
 
                                                     if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -1836,7 +1836,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         return steps.get(nextIndex);
                                                     }
                                                     else{
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -1872,7 +1872,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             nextIndex += 1;
                                                             if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                                 if (nextIndex < steps.size()) {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -1900,7 +1900,7 @@ public class ActivityBuilder extends OrderedTask {
                                                                     return steps.get(nextIndex);
                                                                 }
                                                                 else {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -1934,7 +1934,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     else {
 
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -1963,7 +1963,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         }
                                                         else{
 
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -2004,7 +2004,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     nextIndex += 1;
                                                     if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -2031,7 +2031,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             }
                                                             return steps.get(nextIndex);
                                                         } else {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -2065,7 +2065,7 @@ public class ActivityBuilder extends OrderedTask {
                                             else {
 
                                                 if (nextIndex < steps.size()) {
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -2107,7 +2107,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey()));
 
                                                     if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -2135,7 +2135,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         return steps.get(nextIndex);
                                                     }
                                                     else{
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -2171,7 +2171,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             nextIndex += 1;
                                                             if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                                 if (nextIndex < steps.size()) {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -2199,7 +2199,7 @@ public class ActivityBuilder extends OrderedTask {
                                                                     return steps.get(nextIndex);
                                                                 }
                                                                 else {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -2233,7 +2233,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     else {
 
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -2261,7 +2261,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             return steps.get(nextIndex);
                                                         }
                                                         else{
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -2328,7 +2328,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey()));
 
                                                     if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -2356,7 +2356,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         return steps.get(nextIndex);
                                                     }
                                                     else{
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -2392,7 +2392,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             nextIndex += 1;
                                                             if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                                 if (nextIndex < steps.size()) {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -2420,7 +2420,7 @@ public class ActivityBuilder extends OrderedTask {
                                                                     return steps.get(nextIndex);
                                                                 }
                                                                 else {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -2454,7 +2454,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     else {
 
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -2482,7 +2482,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             return steps.get(nextIndex);
                                                         }
                                                         else{
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -2523,7 +2523,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     nextIndex += 1;
                                                     if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -2579,7 +2579,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey()));
 
                                                     if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -2608,7 +2608,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     }
                                                     else {
 
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -2644,7 +2644,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             nextIndex += 1;
                                                             if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                                 if (nextIndex < steps.size()) {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -2672,7 +2672,7 @@ public class ActivityBuilder extends OrderedTask {
                                                                     return steps.get(nextIndex);
                                                                 }
                                                                 else {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -2706,7 +2706,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     else {
 
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -2734,7 +2734,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             return steps.get(nextIndex);
                                                         }
                                                         else{
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -2775,7 +2775,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     nextIndex += 1;
                                                     if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -2803,7 +2803,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             return steps.get(nextIndex);
                                                         }
                                                         else {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -2837,7 +2837,7 @@ public class ActivityBuilder extends OrderedTask {
                                             else {
 
                                                 if (nextIndex < steps.size()) {
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -2865,7 +2865,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     return steps.get(nextIndex);
                                                 }
                                                 else{
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -2904,7 +2904,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey()));
 
                                                     if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -2932,7 +2932,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         return steps.get(nextIndex);
                                                     }
                                                     else{
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -2968,7 +2968,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             nextIndex += 1;
                                                             if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                                 if (nextIndex < steps.size()) {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -2996,7 +2996,7 @@ public class ActivityBuilder extends OrderedTask {
                                                                     return steps.get(nextIndex);
                                                                 }
                                                                 else {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -3030,7 +3030,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     else {
 
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -3058,7 +3058,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             return steps.get(nextIndex);
                                                         }
                                                         else{
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -3100,7 +3100,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     nextIndex += 1;
                                                     if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -3128,7 +3128,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             return steps.get(nextIndex);
                                                         }
                                                         else {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -3161,7 +3161,7 @@ public class ActivityBuilder extends OrderedTask {
                                             }
                                             else {
                                                 if (nextIndex < steps.size()) {
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -3189,7 +3189,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     return steps.get(nextIndex);
                                                 }
                                                 else {
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -3234,7 +3234,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey()));
 
                                                     if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -3262,7 +3262,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         return steps.get(nextIndex);
                                                     }
                                                     else{
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -3298,7 +3298,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             nextIndex += 1;
                                                             if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                                 if (nextIndex < steps.size()) {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -3325,7 +3325,7 @@ public class ActivityBuilder extends OrderedTask {
                                                                     return steps.get(nextIndex);
                                                                 }
                                                                 else {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -3359,7 +3359,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     else {
 
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -3386,7 +3386,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             return steps.get(nextIndex);
                                                         }
                                                         else{
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -3431,7 +3431,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     nextIndex += 1;
                                                     if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -3459,7 +3459,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             return steps.get(nextIndex);
                                                         }
                                                         else {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -3493,7 +3493,7 @@ public class ActivityBuilder extends OrderedTask {
                                             else {
 
                                                 if (nextIndex < steps.size()) {
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -3521,7 +3521,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     return steps.get(nextIndex);
                                                 }
                                                 else{
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -3580,7 +3580,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey()));
 
                                                     if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -3607,7 +3607,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         return steps.get(nextIndex);
                                                     }
                                                     else{
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -3642,7 +3642,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             nextIndex += 1;
                                                             if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                                 if (nextIndex < steps.size()) {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -3669,7 +3669,7 @@ public class ActivityBuilder extends OrderedTask {
                                                                     return steps.get(nextIndex);
                                                                 }
                                                                 else {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -3702,7 +3702,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     }
                                                     else {
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -3730,7 +3730,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             return steps.get(nextIndex);
                                                         }
                                                         else{
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -3773,7 +3773,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     nextIndex += 1;
                                                     if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -3801,7 +3801,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             return steps.get(nextIndex);
                                                         }
                                                         else {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -3833,7 +3833,7 @@ public class ActivityBuilder extends OrderedTask {
                                             }
                                             else {
                                                 if (nextIndex < steps.size()) {
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -3861,7 +3861,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     return steps.get(nextIndex);
                                                 }
                                                 else {
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -3904,7 +3904,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey()));
 
                                                     if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -3932,7 +3932,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         return steps.get(nextIndex);
                                                     }
                                                     else{
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -3968,7 +3968,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             nextIndex += 1;
                                                             if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                                 if (nextIndex < steps.size()) {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -3996,7 +3996,7 @@ public class ActivityBuilder extends OrderedTask {
                                                                     return steps.get(nextIndex);
                                                                 }
                                                                 else {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -4030,7 +4030,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     else {
 
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -4058,7 +4058,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             return steps.get(nextIndex);
                                                         }
                                                         else{
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -4103,7 +4103,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     nextIndex += 1;
                                                     if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -4130,7 +4130,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             return steps.get(nextIndex);
                                                         }
                                                         else {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -4164,7 +4164,7 @@ public class ActivityBuilder extends OrderedTask {
                                             else {
 
                                                 if (nextIndex < steps.size()) {
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -4192,7 +4192,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     return steps.get(nextIndex);
                                                 }
                                                 else{
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -4250,7 +4250,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 if (!object.getJSONObject(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getKey()).getJSONObject("results").get("answer").toString().equalsIgnoreCase(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getValue())) {
                                                     int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey()));
                                                     if(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey().equalsIgnoreCase("0")){
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -4278,7 +4278,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         return null;
                                                     }
                                                     else if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -4306,7 +4306,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         return steps.get(nextIndex);
                                                     }
                                                     else{
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -4342,7 +4342,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             nextIndex += 1;
                                                             if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                                 if (nextIndex < steps.size()) {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -4370,7 +4370,7 @@ public class ActivityBuilder extends OrderedTask {
                                                                     return steps.get(nextIndex);
                                                                 }
                                                                 else {
-                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                         AppController.getHelperSharedPreference()
                                                                                 .writePreference(
                                                                                         mcontext,
@@ -4404,7 +4404,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     else {
 
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -4432,7 +4432,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             return steps.get(nextIndex);
                                                         }
                                                         else{
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -4476,7 +4476,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     nextIndex += 1;
                                                     if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -4503,7 +4503,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             }
                                                             return steps.get(nextIndex);
                                                         } else {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -4536,7 +4536,7 @@ public class ActivityBuilder extends OrderedTask {
                                             }
                                             else {
                                                 if (nextIndex < steps.size()) {
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -4564,7 +4564,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     return steps.get(nextIndex);
                                                 }
                                                 else{
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -4883,7 +4883,7 @@ public class ActivityBuilder extends OrderedTask {
                         }
                         if(result){
                             if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey().equalsIgnoreCase("0")) {
-                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                     AppController.getHelperSharedPreference()
                                             .writePreference(
                                                     mcontext,
@@ -4913,7 +4913,7 @@ public class ActivityBuilder extends OrderedTask {
                             else{
                                 int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
                                 if (nextIndex < steps.size()) {
-                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                         AppController.getHelperSharedPreference()
                                                 .writePreference(
                                                         mcontext,
@@ -4940,7 +4940,7 @@ public class ActivityBuilder extends OrderedTask {
                                     return steps.get(nextIndex);
                                 }
                                 else {
-                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                         AppController.getHelperSharedPreference()
                                                 .writePreference(
                                                         mcontext,
@@ -4980,7 +4980,7 @@ public class ActivityBuilder extends OrderedTask {
                                         nextIndex += 1;
                                         if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                             if (nextIndex < steps.size()) {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -5008,7 +5008,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 return steps.get(nextIndex);
                                             }
                                             else {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -5041,7 +5041,7 @@ public class ActivityBuilder extends OrderedTask {
                                 }
                                 else {
                                     if (nextIndex < steps.size()) {
-                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                             AppController.getHelperSharedPreference()
                                                     .writePreference(
                                                             mcontext,
@@ -5069,7 +5069,7 @@ public class ActivityBuilder extends OrderedTask {
                                         return steps.get(nextIndex);
                                     }
                                     else{
-                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                             AppController.getHelperSharedPreference()
                                                     .writePreference(
                                                             mcontext,
@@ -5125,7 +5125,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 nextIndex += 1;
                                                 if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                     if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -5152,7 +5152,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         }
                                                         return steps.get(nextIndex);
                                                     } else {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -5185,7 +5185,7 @@ public class ActivityBuilder extends OrderedTask {
                                         }
                                         else {
                                             if (nextIndex < steps.size()) {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -5213,7 +5213,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 return steps.get(nextIndex);
                                             }
                                             else{
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -5246,7 +5246,7 @@ public class ActivityBuilder extends OrderedTask {
                             }
                             else {
                                 if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey().equalsIgnoreCase("0")) {
-                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                         AppController.getHelperSharedPreference()
                                                 .writePreference(
                                                         mcontext,
@@ -5277,7 +5277,7 @@ public class ActivityBuilder extends OrderedTask {
                                         if (Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) > Double.valueOf(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())) {
                                             int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
                                             if (nextIndex < steps.size()) {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -5305,7 +5305,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 return steps.get(nextIndex);
                                             }
                                             else{
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -5340,7 +5340,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     nextIndex += 1;
                                                     if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -5368,7 +5368,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             return steps.get(nextIndex);
                                                         }
                                                         else {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -5401,7 +5401,7 @@ public class ActivityBuilder extends OrderedTask {
                                             else {
 
                                                 if (nextIndex < steps.size()) {
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -5429,7 +5429,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     return steps.get(nextIndex);
                                                 }
                                                 else {
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -5465,7 +5465,7 @@ public class ActivityBuilder extends OrderedTask {
 
                         case "<":
                             if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey().equalsIgnoreCase("0")) {
-                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                     AppController.getHelperSharedPreference()
                                             .writePreference(
                                                     mcontext,
@@ -5501,7 +5501,7 @@ public class ActivityBuilder extends OrderedTask {
                                         int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
 
                                         if (nextIndex < steps.size()) {
-                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                 AppController.getHelperSharedPreference()
                                                         .writePreference(
                                                                 mcontext,
@@ -5529,7 +5529,7 @@ public class ActivityBuilder extends OrderedTask {
                                             return steps.get(nextIndex);
                                         }
                                         else{
-                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                 AppController.getHelperSharedPreference()
                                                         .writePreference(
                                                                 mcontext,
@@ -5565,7 +5565,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 nextIndex += 1;
                                                 if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                     if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -5593,7 +5593,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         return steps.get(nextIndex);
                                                     }
                                                     else {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -5626,7 +5626,7 @@ public class ActivityBuilder extends OrderedTask {
                                         else {
 
                                             if (nextIndex < steps.size()) {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -5654,7 +5654,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 return steps.get(nextIndex);
                                             }
                                             else{
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -5690,7 +5690,7 @@ public class ActivityBuilder extends OrderedTask {
                                         int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
 
                                         if (nextIndex < steps.size()) {
-                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                 AppController.getHelperSharedPreference()
                                                         .writePreference(
                                                                 mcontext,
@@ -5726,7 +5726,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 nextIndex += 1;
                                                 if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                     if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -5754,7 +5754,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         return steps.get(nextIndex);
                                                     }
                                                     else {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -5788,7 +5788,7 @@ public class ActivityBuilder extends OrderedTask {
                                         else {
 
                                             if (nextIndex < steps.size()) {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -5816,7 +5816,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 return steps.get(nextIndex);
                                             }
                                             else {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -5862,7 +5862,7 @@ public class ActivityBuilder extends OrderedTask {
                                         int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
 
                                         if (nextIndex < steps.size()) {
-                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                 AppController.getHelperSharedPreference()
                                                         .writePreference(
                                                                 mcontext,
@@ -5890,7 +5890,7 @@ public class ActivityBuilder extends OrderedTask {
                                             return steps.get(nextIndex);
                                         }
                                         else{
-                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                 AppController.getHelperSharedPreference()
                                                         .writePreference(
                                                                 mcontext,
@@ -5925,7 +5925,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 nextIndex += 1;
                                                 if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                     if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -5953,7 +5953,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         return steps.get(nextIndex);
                                                     }
                                                     else {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -5985,7 +5985,7 @@ public class ActivityBuilder extends OrderedTask {
                                         }
                                         else {
                                             if (nextIndex < steps.size()) {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -6013,7 +6013,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 return steps.get(nextIndex);
                                             }
                                             else{
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -6048,7 +6048,7 @@ public class ActivityBuilder extends OrderedTask {
 
                                         int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
                                         if (nextIndex < steps.size()) {
-                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                 AppController.getHelperSharedPreference()
                                                         .writePreference(
                                                                 mcontext,
@@ -6084,7 +6084,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 nextIndex += 1;
                                                 if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                     if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -6111,7 +6111,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         return steps.get(nextIndex);
                                                     }
                                                     else {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -6145,7 +6145,7 @@ public class ActivityBuilder extends OrderedTask {
                                         else {
 
                                             if (nextIndex < steps.size()) {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -6172,7 +6172,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 return steps.get(nextIndex);
                                             }
                                             else {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -6218,7 +6218,7 @@ public class ActivityBuilder extends OrderedTask {
                                         int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
 
                                         if (nextIndex < steps.size()) {
-                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                 AppController.getHelperSharedPreference()
                                                         .writePreference(
                                                                 mcontext,
@@ -6246,7 +6246,7 @@ public class ActivityBuilder extends OrderedTask {
                                             return steps.get(nextIndex);
                                         }
                                         else{
-                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                 AppController.getHelperSharedPreference()
                                                         .writePreference(
                                                                 mcontext,
@@ -6282,7 +6282,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 nextIndex += 1;
                                                 if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                     if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -6310,7 +6310,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         return steps.get(nextIndex);
                                                     }
                                                     else {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -6343,7 +6343,7 @@ public class ActivityBuilder extends OrderedTask {
                                         else {
 
                                             if (nextIndex < steps.size()) {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -6371,7 +6371,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 return steps.get(nextIndex);
                                             }
                                             else{
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -6407,7 +6407,7 @@ public class ActivityBuilder extends OrderedTask {
                                         int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
 
                                         if (nextIndex < steps.size()) {
-                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                 AppController.getHelperSharedPreference()
                                                         .writePreference(
                                                                 mcontext,
@@ -6443,7 +6443,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 nextIndex += 1;
                                                 if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                     if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -6470,7 +6470,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         }
                                                         return steps.get(nextIndex);
                                                     } else {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -6504,7 +6504,7 @@ public class ActivityBuilder extends OrderedTask {
                                         else {
 
                                             if (nextIndex < steps.size()) {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -6532,7 +6532,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 return steps.get(nextIndex);
                                             }
                                             else{
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -6567,7 +6567,7 @@ public class ActivityBuilder extends OrderedTask {
 
                         case "=":
                             if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey().equalsIgnoreCase("0")) {
-                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                     AppController.getHelperSharedPreference()
                                             .writePreference(
                                                     mcontext,
@@ -6595,13 +6595,14 @@ public class ActivityBuilder extends OrderedTask {
                                 return null;
                             }
                             else {
-                                if ((activityQuestionStep.get(steps.indexOf(previousStep)).getResultType().equalsIgnoreCase("textChoice") && activityQuestionStep.get(steps.indexOf(previousStep)).getFormat().getSelectionStyle().equalsIgnoreCase("Single")) || activityQuestionStep.get(steps.indexOf(previousStep)).getResultType().equalsIgnoreCase("boolean")) {
+                                if ((activityQuestionStep.get(steps.indexOf(previousStep)).getResultType().equalsIgnoreCase("textChoice") && activityQuestionStep.get(steps.indexOf(previousStep)).getFormat().getSelectionStyle().equalsIgnoreCase("Single"))
+                                        || activityQuestionStep.get(steps.indexOf(previousStep)).getResultType().equalsIgnoreCase("boolean")) {
                                     Object[] obj = (Object[]) taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResults().get("answer");
                                     if (obj[0].toString().equalsIgnoreCase(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())) {
                                         int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
 
                                         if (nextIndex < steps.size()) {
-                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                 AppController.getHelperSharedPreference()
                                                         .writePreference(
                                                                 mcontext,
@@ -6629,7 +6630,7 @@ public class ActivityBuilder extends OrderedTask {
                                             return steps.get(nextIndex);
                                         }
                                         else{
-                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                 AppController.getHelperSharedPreference()
                                                         .writePreference(
                                                                 mcontext,
@@ -6666,7 +6667,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 nextIndex += 1;
                                                 if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                     if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -6694,7 +6695,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         return steps.get(nextIndex);
                                                     }
                                                     else {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -6727,7 +6728,7 @@ public class ActivityBuilder extends OrderedTask {
                                         }
                                         else {
                                             if (nextIndex < steps.size()) {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -6755,7 +6756,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 return steps.get(nextIndex);
                                             }
                                             else{
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -6813,7 +6814,7 @@ public class ActivityBuilder extends OrderedTask {
                                             int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
 
                                             if (nextIndex < steps.size()) {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -6841,7 +6842,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 return steps.get(nextIndex);
                                             }
                                             else{
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -6878,7 +6879,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     nextIndex += 1;
                                                     if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                         if (nextIndex < steps.size()) {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -6906,7 +6907,7 @@ public class ActivityBuilder extends OrderedTask {
                                                             return steps.get(nextIndex);
                                                         }
                                                         else {
-                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                 AppController.getHelperSharedPreference()
                                                                         .writePreference(
                                                                                 mcontext,
@@ -6938,7 +6939,7 @@ public class ActivityBuilder extends OrderedTask {
                                             }
                                             else {
                                                 if (nextIndex < steps.size()) {
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -6965,7 +6966,7 @@ public class ActivityBuilder extends OrderedTask {
                                                     return steps.get(nextIndex);
                                                 }
                                                 else{
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -7001,7 +7002,7 @@ public class ActivityBuilder extends OrderedTask {
 
                                             int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
                                             if(nextIndex >= activityQuestionStep.size() - 1 ){
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("") ) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -7024,12 +7025,12 @@ public class ActivityBuilder extends OrderedTask {
                                                                     "survetTosurveyactivityVersion",
                                                                     activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityVersion());
                                                     // cs.saveAndFinish();
+                                                    return null;
                                                 }
-
-                                                return null;
+                                                return steps.get(nextIndex);
                                             }
                                             if (nextIndex < steps.size()) {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -7061,7 +7062,7 @@ public class ActivityBuilder extends OrderedTask {
                                             int nextIndex = steps.indexOf(previousStep) + 1;
 
                                             if(nextIndex >= activityQuestionStep.size() - 1 ){
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -7095,7 +7096,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         nextIndex += 1;
                                                         if (!activityQuestionStep.get(nextIndex).isHidden()) {
                                                             if (nextIndex < steps.size()) {
-                                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                     AppController.getHelperSharedPreference()
                                                                             .writePreference(
                                                                                     mcontext,
@@ -7122,7 +7123,7 @@ public class ActivityBuilder extends OrderedTask {
                                                                 return steps.get(nextIndex);
                                                             }
                                                             else {
-                                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                                     AppController.getHelperSharedPreference()
                                                                             .writePreference(
                                                                                     mcontext,
@@ -7154,7 +7155,7 @@ public class ActivityBuilder extends OrderedTask {
                                                 else {
 
                                                     if (nextIndex < steps.size()) {
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -7181,7 +7182,7 @@ public class ActivityBuilder extends OrderedTask {
                                                         return steps.get(nextIndex);
                                                     }
                                                     else{
-                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                             AppController.getHelperSharedPreference()
                                                                     .writePreference(
                                                                             mcontext,
@@ -7218,7 +7219,7 @@ public class ActivityBuilder extends OrderedTask {
 
                         case "!=":
                             if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey().equalsIgnoreCase("0")) {
-                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
 
                                     AppController.getHelperSharedPreference()
                                             .writePreference(
@@ -7246,80 +7247,165 @@ public class ActivityBuilder extends OrderedTask {
                                 }
                                 return null;
                             }
-                            else if (activityQuestionStep.get(steps.indexOf(previousStep)).getResultType().equalsIgnoreCase("scale") || activityQuestionStep.get(steps.indexOf(previousStep)).getResultType().equalsIgnoreCase("continuousScale") ||
-                                activityQuestionStep.get(steps.indexOf(previousStep)).getResultType().equalsIgnoreCase("numeric") || activityQuestionStep.get(steps.indexOf(previousStep)).getResultType().equalsIgnoreCase("timeInterval") ||
-                                activityQuestionStep.get(steps.indexOf(previousStep)).getResultType().equalsIgnoreCase("height")) {
-                            if (!Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()).equals(Double.valueOf(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue()))) {
-
-                                int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
-
-                                if (nextIndex < steps.size()) {
-                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
-                                        AppController.getHelperSharedPreference()
-                                                .writePreference(
-                                                        mcontext,
-                                                        "survetTosurveyActivityId",
-                                                        activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId());
-                                        AppController.getHelperSharedPreference()
-                                                .writePreference(
-                                                        mcontext,
-                                                        "survetTosurveySourceKey",
-                                                        activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
-
-                                        AppController.getHelperSharedPreference()
-                                                .writePreference(
-                                                        mcontext,
-                                                        "survetTosurveySourceKey2",
-                                                        activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
-                                        AppController.getHelperSharedPreference()
-                                                .writePreference(
-                                                        mcontext,
-                                                        "survetTosurveyactivityVersion",
-                                                        activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityVersion());
-                                        // cs.saveAndFinish();
-                                        return null;
-                                    }
-                                    return steps.get(nextIndex);
-                                }
-                            }
                             else {
-                                //   int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
-                                int nextIndex = steps.indexOf(previousStep) + 1;
+                                if ((activityQuestionStep.get(steps.indexOf(previousStep)).getResultType().equalsIgnoreCase("textChoice") && activityQuestionStep.get(steps.indexOf(previousStep)).getFormat().getSelectionStyle().equalsIgnoreCase("Single"))
+                                        || activityQuestionStep.get(steps.indexOf(previousStep)).getResultType().equalsIgnoreCase("boolean")) {
+                                    Object[] obj = (Object[]) taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResults().get("answer");
+                                    if (!obj[0].toString().equalsIgnoreCase(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())) {
+                                        int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
 
-                                if (activityQuestionStep.get(nextIndex).isHidden()) {
-                                    while (activityQuestionStep.get(nextIndex).isHidden()) {
-                                        nextIndex += 1;
-                                        if (!activityQuestionStep.get(nextIndex).isHidden()) {
+                                        if (nextIndex < steps.size()) {
+                                            if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
+                                                AppController.getHelperSharedPreference()
+                                                        .writePreference(
+                                                                mcontext,
+                                                                "survetTosurveyActivityId",
+                                                                activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId());
+                                                AppController.getHelperSharedPreference()
+                                                        .writePreference(
+                                                                mcontext,
+                                                                "survetTosurveySourceKey",
+                                                                activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
+
+                                                AppController.getHelperSharedPreference()
+                                                        .writePreference(
+                                                                mcontext,
+                                                                "survetTosurveySourceKey2",
+                                                                activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
+                                                AppController.getHelperSharedPreference()
+                                                        .writePreference(
+                                                                mcontext,
+                                                                "survetTosurveyactivityVersion",
+                                                                activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityVersion());
+                                                // cs.saveAndFinish();
+                                                return null;
+                                            }
+                                            return steps.get(nextIndex);
+                                        } else {
+                                            if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
+                                                AppController.getHelperSharedPreference()
+                                                        .writePreference(
+                                                                mcontext,
+                                                                "survetTosurveyActivityId",
+                                                                "");
+                                                AppController.getHelperSharedPreference()
+                                                        .writePreference(
+                                                                mcontext,
+                                                                "survetTosurveySourceKey",
+                                                                "");
+
+                                                AppController.getHelperSharedPreference()
+                                                        .writePreference(
+                                                                mcontext,
+                                                                "survetTosurveySourceKey2",
+                                                                "");
+                                                AppController.getHelperSharedPreference()
+                                                        .writePreference(
+                                                                mcontext,
+                                                                "survetTosurveyactivityVersion",
+                                                                "");
+                                                // cs.saveAndFinish();
+                                                return null;
+                                            }
+                                            return null;
+                                        }
+                                    }
+                                    else {
+                                        //   int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
+                                        int nextIndex = steps.indexOf(previousStep) + 1;
+
+                                        if (activityQuestionStep.get(nextIndex).isHidden()) {
+                                            while (activityQuestionStep.get(nextIndex).isHidden()) {
+                                                nextIndex += 1;
+                                                if (!activityQuestionStep.get(nextIndex).isHidden()) {
+                                                    if (nextIndex < steps.size()) {
+                                                        if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
+                                                            AppController.getHelperSharedPreference()
+                                                                    .writePreference(
+                                                                            mcontext,
+                                                                            "survetTosurveyActivityId",
+                                                                            activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId());
+                                                            AppController.getHelperSharedPreference()
+                                                                    .writePreference(
+                                                                            mcontext,
+                                                                            "survetTosurveySourceKey",
+                                                                            activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
+
+                                                            AppController.getHelperSharedPreference()
+                                                                    .writePreference(
+                                                                            mcontext,
+                                                                            "survetTosurveySourceKey2",
+                                                                            activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
+                                                            AppController.getHelperSharedPreference()
+                                                                    .writePreference(
+                                                                            mcontext,
+                                                                            "survetTosurveyactivityVersion",
+                                                                            activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityVersion());
+                                                            // cs.saveAndFinish();
+                                                            return null;
+                                                        }
+                                                        return steps.get(nextIndex);
+                                                    } else {
+                                                        if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
+                                                            AppController.getHelperSharedPreference()
+                                                                    .writePreference(
+                                                                            mcontext,
+                                                                            "survetTosurveyActivityId",
+                                                                            "");
+                                                            AppController.getHelperSharedPreference()
+                                                                    .writePreference(
+                                                                            mcontext,
+                                                                            "survetTosurveySourceKey",
+                                                                            "");
+
+                                                            AppController.getHelperSharedPreference()
+                                                                    .writePreference(
+                                                                            mcontext,
+                                                                            "survetTosurveySourceKey2",
+                                                                            "");
+                                                            AppController.getHelperSharedPreference()
+                                                                    .writePreference(
+                                                                            mcontext,
+                                                                            "survetTosurveyactivityVersion",
+                                                                            "");
+                                                            // cs.saveAndFinish();
+                                                            return null;
+                                                        }
+                                                        return null;
+                                                    }
+
+                                                }
+                                            }
+                                        } else {
                                             if (nextIndex < steps.size()) {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
                                                                     "survetTosurveyActivityId",
-                                                                    "");
+                                                                    activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId());
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
                                                                     "survetTosurveySourceKey",
-                                                                    "");
+                                                                    activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
 
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
                                                                     "survetTosurveySourceKey2",
-                                                                    "");
+                                                                    activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
                                                                     "survetTosurveyactivityVersion",
-                                                                   "");
+                                                                    activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityVersion());
                                                     // cs.saveAndFinish();
                                                     return null;
                                                 }
                                                 return steps.get(nextIndex);
-                                            }
-                                            else {
-                                                if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                            } else {
+                                                if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                     AppController.getHelperSharedPreference()
                                                             .writePreference(
                                                                     mcontext,
@@ -7349,139 +7435,128 @@ public class ActivityBuilder extends OrderedTask {
                                         }
                                     }
                                 }
-                                else {
+                                else if (activityQuestionStep.get(steps.indexOf(previousStep)).getResultType().equalsIgnoreCase("grouped")) {
+                                    StepRecordCustom stepRecordCustom = mDBServiceSubscriber.getResultFromDB(mIdentifier + "_" + activityQuestionStep.get(steps.indexOf(previousStep)).getKey(), realmStep);
+                                    if (stepRecordCustom != null) {
+                                        try {
+                                            JSONObject object = new JSONObject(stepRecordCustom.getResult());
+                                            if (object.getJSONObject(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getKey()).getJSONObject("results").get("answer").toString().equalsIgnoreCase(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())) {
 
-                                    if (nextIndex < steps.size()) {
-                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
-                                            AppController.getHelperSharedPreference()
-                                                    .writePreference(
-                                                            mcontext,
-                                                            "survetTosurveyActivityId",
-                                                            "");
-                                            AppController.getHelperSharedPreference()
-                                                    .writePreference(
-                                                            mcontext,
-                                                            "survetTosurveySourceKey",
-                                                            "");
+                                            } else {
 
-                                            AppController.getHelperSharedPreference()
-                                                    .writePreference(
-                                                            mcontext,
-                                                            "survetTosurveySourceKey2",
-                                                            "");
-                                            AppController.getHelperSharedPreference()
-                                                    .writePreference(
-                                                            mcontext,
-                                                            "survetTosurveyactivityVersion",
-                                                            "");
-                                            // cs.saveAndFinish();
-                                            return null;
+
+                                            }
+                                            object.get("results");
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
                                         }
-                                        return steps.get(nextIndex);
-                                    }
-                                    else{
-                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
-                                            AppController.getHelperSharedPreference()
-                                                    .writePreference(
-                                                            mcontext,
-                                                            "survetTosurveyActivityId",
-                                                            "");
-                                            AppController.getHelperSharedPreference()
-                                                    .writePreference(
-                                                            mcontext,
-                                                            "survetTosurveySourceKey",
-                                                            "");
-
-                                            AppController.getHelperSharedPreference()
-                                                    .writePreference(
-                                                            mcontext,
-                                                            "survetTosurveySourceKey2",
-                                                            "");
-                                            AppController.getHelperSharedPreference()
-                                                    .writePreference(
-                                                            mcontext,
-                                                            "survetTosurveyactivityVersion",
-                                                            "");
-                                            // cs.saveAndFinish();
-                                            return null;
-                                        }
-                                        return null;
-                                    }
-                                }
-                            }
-                        }
-                            else {
-                                if (taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString().equalsIgnoreCase(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())) {
-
-                                    int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
-
-                                    if (nextIndex < steps.size()) {
-                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
-                                            AppController.getHelperSharedPreference()
-                                                    .writePreference(
-                                                            mcontext,
-                                                            "survetTosurveyActivityId",
-                                                            activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId());
-                                            AppController.getHelperSharedPreference()
-                                                    .writePreference(
-                                                            mcontext,
-                                                            "survetTosurveySourceKey",
-                                                            activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
-
-                                            AppController.getHelperSharedPreference()
-                                                    .writePreference(
-                                                            mcontext,
-                                                            "survetTosurveySourceKey2",
-                                                            activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
-                                            AppController.getHelperSharedPreference()
-                                                    .writePreference(
-                                                            mcontext,
-                                                            "survetTosurveyactivityVersion",
-                                                            activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityVersion());
-                                            // cs.saveAndFinish();
-                                            return null;
-                                        }
-                                        return steps.get(nextIndex);
-                                    }
-                                    else{
-                                        if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
-                                            AppController.getHelperSharedPreference()
-                                                    .writePreference(
-                                                            mcontext,
-                                                            "survetTosurveyActivityId",
-                                                            activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId());
-                                            AppController.getHelperSharedPreference()
-                                                    .writePreference(
-                                                            mcontext,
-                                                            "survetTosurveySourceKey",
-                                                            activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
-
-                                            AppController.getHelperSharedPreference()
-                                                    .writePreference(
-                                                            mcontext,
-                                                            "survetTosurveySourceKey2",
-                                                            activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
-                                            AppController.getHelperSharedPreference()
-                                                    .writePreference(
-                                                            mcontext,
-                                                            "survetTosurveyactivityVersion",
-                                                            activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityVersion());
-                                            // cs.saveAndFinish();
-                                            return null;
-                                        }
-                                        return null;
                                     }
                                 }
                                 else {
-                                    // int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
-                                    int nextIndex = steps.indexOf(previousStep) + 1;
+                                    if (activityQuestionStep.get(steps.indexOf(previousStep)).getResultType().equalsIgnoreCase("scale") || activityQuestionStep.get(steps.indexOf(previousStep)).getResultType().equalsIgnoreCase("continuousScale") ||
+                                            activityQuestionStep.get(steps.indexOf(previousStep)).getResultType().equalsIgnoreCase("numeric") || activityQuestionStep.get(steps.indexOf(previousStep)).getResultType().equalsIgnoreCase("timeInterval") ||
+                                            activityQuestionStep.get(steps.indexOf(previousStep)).getResultType().equalsIgnoreCase("height")) {
+                                        if (!Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()).equals(Double.valueOf(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue()))) {
 
-                                    if (activityQuestionStep.get(nextIndex).isHidden()) {
-                                        while (activityQuestionStep.get(nextIndex).isHidden()) {
-                                            nextIndex += 1;
-                                            if (!activityQuestionStep.get(nextIndex).isHidden()) {
+                                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
+
+                                            if (nextIndex < steps.size()) {
+                                                if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
+                                                    AppController.getHelperSharedPreference()
+                                                            .writePreference(
+                                                                    mcontext,
+                                                                    "survetTosurveyActivityId",
+                                                                    activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId());
+                                                    AppController.getHelperSharedPreference()
+                                                            .writePreference(
+                                                                    mcontext,
+                                                                    "survetTosurveySourceKey",
+                                                                    activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
+
+                                                    AppController.getHelperSharedPreference()
+                                                            .writePreference(
+                                                                    mcontext,
+                                                                    "survetTosurveySourceKey2",
+                                                                    activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
+                                                    AppController.getHelperSharedPreference()
+                                                            .writePreference(
+                                                                    mcontext,
+                                                                    "survetTosurveyactivityVersion",
+                                                                    activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityVersion());
+                                                    // cs.saveAndFinish();
+                                                    return null;
+                                                }
+                                                return steps.get(nextIndex);
+                                            }
+                                        } else {
+                                            //   int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
+                                            int nextIndex = steps.indexOf(previousStep) + 1;
+
+                                            if (activityQuestionStep.get(nextIndex).isHidden()) {
+                                                while (activityQuestionStep.get(nextIndex).isHidden()) {
+                                                    nextIndex += 1;
+                                                    if (!activityQuestionStep.get(nextIndex).isHidden()) {
+                                                        if (nextIndex < steps.size()) {
+                                                            if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
+                                                                AppController.getHelperSharedPreference()
+                                                                        .writePreference(
+                                                                                mcontext,
+                                                                                "survetTosurveyActivityId",
+                                                                                "");
+                                                                AppController.getHelperSharedPreference()
+                                                                        .writePreference(
+                                                                                mcontext,
+                                                                                "survetTosurveySourceKey",
+                                                                                "");
+
+                                                                AppController.getHelperSharedPreference()
+                                                                        .writePreference(
+                                                                                mcontext,
+                                                                                "survetTosurveySourceKey2",
+                                                                                "");
+                                                                AppController.getHelperSharedPreference()
+                                                                        .writePreference(
+                                                                                mcontext,
+                                                                                "survetTosurveyactivityVersion",
+                                                                                "");
+                                                                // cs.saveAndFinish();
+                                                                return null;
+                                                            }
+                                                            return steps.get(nextIndex);
+                                                        } else {
+                                                            if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
+                                                                AppController.getHelperSharedPreference()
+                                                                        .writePreference(
+                                                                                mcontext,
+                                                                                "survetTosurveyActivityId",
+                                                                                "");
+                                                                AppController.getHelperSharedPreference()
+                                                                        .writePreference(
+                                                                                mcontext,
+                                                                                "survetTosurveySourceKey",
+                                                                                "");
+
+                                                                AppController.getHelperSharedPreference()
+                                                                        .writePreference(
+                                                                                mcontext,
+                                                                                "survetTosurveySourceKey2",
+                                                                                "");
+                                                                AppController.getHelperSharedPreference()
+                                                                        .writePreference(
+                                                                                mcontext,
+                                                                                "survetTosurveyactivityVersion",
+                                                                                "");
+                                                                // cs.saveAndFinish();
+                                                                return null;
+                                                            }
+                                                            return null;
+                                                        }
+                                                    }
+                                                }
+                                            } else {
+
                                                 if (nextIndex < steps.size()) {
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                    if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -7507,9 +7582,8 @@ public class ActivityBuilder extends OrderedTask {
                                                         return null;
                                                     }
                                                     return steps.get(nextIndex);
-                                                }
-                                                else {
-                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
+                                                } else {
+                                                    if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
                                                         AppController.getHelperSharedPreference()
                                                                 .writePreference(
                                                                         mcontext,
@@ -7540,61 +7614,188 @@ public class ActivityBuilder extends OrderedTask {
                                         }
                                     }
                                     else {
-                                        if (nextIndex < steps.size()) {
-                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
-                                                AppController.getHelperSharedPreference()
-                                                        .writePreference(
-                                                                mcontext,
-                                                                "survetTosurveyActivityId",
-                                                                "");
-                                                AppController.getHelperSharedPreference()
-                                                        .writePreference(
-                                                                mcontext,
-                                                                "survetTosurveySourceKey",
-                                                                "");
+                                        if (!taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString().equalsIgnoreCase(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue())) {
 
-                                                AppController.getHelperSharedPreference()
-                                                        .writePreference(
-                                                                mcontext,
-                                                                "survetTosurveySourceKey2",
-                                                                "");
-                                                AppController.getHelperSharedPreference()
-                                                        .writePreference(
-                                                                mcontext,
-                                                                "survetTosurveyactivityVersion",
-                                                                "");
-                                                // cs.saveAndFinish();
+                                            int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
+
+                                            if (nextIndex < steps.size()) {
+                                                if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
+                                                    AppController.getHelperSharedPreference()
+                                                            .writePreference(
+                                                                    mcontext,
+                                                                    "survetTosurveyActivityId",
+                                                                    activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId());
+                                                    AppController.getHelperSharedPreference()
+                                                            .writePreference(
+                                                                    mcontext,
+                                                                    "survetTosurveySourceKey",
+                                                                    activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
+
+                                                    AppController.getHelperSharedPreference()
+                                                            .writePreference(
+                                                                    mcontext,
+                                                                    "survetTosurveySourceKey2",
+                                                                    activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
+                                                    AppController.getHelperSharedPreference()
+                                                            .writePreference(
+                                                                    mcontext,
+                                                                    "survetTosurveyactivityVersion",
+                                                                    activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityVersion());
+                                                    // cs.saveAndFinish();
+                                                    return null;
+                                                }
+                                                return steps.get(nextIndex);
+                                            } else {
+                                                if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
+                                                    AppController.getHelperSharedPreference()
+                                                            .writePreference(
+                                                                    mcontext,
+                                                                    "survetTosurveyActivityId",
+                                                                    activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId());
+                                                    AppController.getHelperSharedPreference()
+                                                            .writePreference(
+                                                                    mcontext,
+                                                                    "survetTosurveySourceKey",
+                                                                    activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
+
+                                                    AppController.getHelperSharedPreference()
+                                                            .writePreference(
+                                                                    mcontext,
+                                                                    "survetTosurveySourceKey2",
+                                                                    activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
+                                                    AppController.getHelperSharedPreference()
+                                                            .writePreference(
+                                                                    mcontext,
+                                                                    "survetTosurveyactivityVersion",
+                                                                    activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityVersion());
+                                                    // cs.saveAndFinish();
+                                                    return null;
+                                                }
                                                 return null;
                                             }
-                                            return steps.get(nextIndex);
                                         }
                                         else {
-                                            if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null) {
-                                                AppController.getHelperSharedPreference()
-                                                        .writePreference(
-                                                                mcontext,
-                                                                "survetTosurveyActivityId",
-                                                                "");
-                                                AppController.getHelperSharedPreference()
-                                                        .writePreference(
-                                                                mcontext,
-                                                                "survetTosurveySourceKey",
-                                                                "");
+                                            // int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
+                                            int nextIndex = steps.indexOf(previousStep) + 1;
 
-                                                AppController.getHelperSharedPreference()
-                                                        .writePreference(
-                                                                mcontext,
-                                                                "survetTosurveySourceKey2",
-                                                                "");
-                                                AppController.getHelperSharedPreference()
-                                                        .writePreference(
-                                                                mcontext,
-                                                                "survetTosurveyactivityVersion",
-                                                                "");
-                                                // cs.saveAndFinish();
-                                                return null;
+                                            if (activityQuestionStep.get(nextIndex).isHidden()) {
+                                                while (activityQuestionStep.get(nextIndex).isHidden()) {
+                                                    nextIndex += 1;
+                                                    if (!activityQuestionStep.get(nextIndex).isHidden()) {
+                                                        if (nextIndex < steps.size()) {
+                                                            if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
+                                                                AppController.getHelperSharedPreference()
+                                                                        .writePreference(
+                                                                                mcontext,
+                                                                                "survetTosurveyActivityId",
+                                                                                "");
+                                                                AppController.getHelperSharedPreference()
+                                                                        .writePreference(
+                                                                                mcontext,
+                                                                                "survetTosurveySourceKey",
+                                                                                "");
+
+                                                                AppController.getHelperSharedPreference()
+                                                                        .writePreference(
+                                                                                mcontext,
+                                                                                "survetTosurveySourceKey2",
+                                                                                "");
+                                                                AppController.getHelperSharedPreference()
+                                                                        .writePreference(
+                                                                                mcontext,
+                                                                                "survetTosurveyactivityVersion",
+                                                                                "");
+                                                                // cs.saveAndFinish();
+                                                                return null;
+                                                            }
+                                                            return steps.get(nextIndex);
+                                                        } else {
+                                                            if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
+                                                                AppController.getHelperSharedPreference()
+                                                                        .writePreference(
+                                                                                mcontext,
+                                                                                "survetTosurveyActivityId",
+                                                                                "");
+                                                                AppController.getHelperSharedPreference()
+                                                                        .writePreference(
+                                                                                mcontext,
+                                                                                "survetTosurveySourceKey",
+                                                                                "");
+
+                                                                AppController.getHelperSharedPreference()
+                                                                        .writePreference(
+                                                                                mcontext,
+                                                                                "survetTosurveySourceKey2",
+                                                                                "");
+                                                                AppController.getHelperSharedPreference()
+                                                                        .writePreference(
+                                                                                mcontext,
+                                                                                "survetTosurveyactivityVersion",
+                                                                                "");
+                                                                // cs.saveAndFinish();
+                                                                return null;
+                                                            }
+                                                            return null;
+                                                        }
+                                                    }
+                                                }
+                                            } else {
+                                                if (nextIndex < steps.size()) {
+                                                    if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
+                                                        AppController.getHelperSharedPreference()
+                                                                .writePreference(
+                                                                        mcontext,
+                                                                        "survetTosurveyActivityId",
+                                                                        "");
+                                                        AppController.getHelperSharedPreference()
+                                                                .writePreference(
+                                                                        mcontext,
+                                                                        "survetTosurveySourceKey",
+                                                                        "");
+
+                                                        AppController.getHelperSharedPreference()
+                                                                .writePreference(
+                                                                        mcontext,
+                                                                        "survetTosurveySourceKey2",
+                                                                        "");
+                                                        AppController.getHelperSharedPreference()
+                                                                .writePreference(
+                                                                        mcontext,
+                                                                        "survetTosurveyactivityVersion",
+                                                                        "");
+                                                        // cs.saveAndFinish();
+                                                        return null;
+                                                    }
+                                                    return steps.get(nextIndex);
+                                                } else {
+                                                    if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
+                                                        AppController.getHelperSharedPreference()
+                                                                .writePreference(
+                                                                        mcontext,
+                                                                        "survetTosurveyActivityId",
+                                                                        "");
+                                                        AppController.getHelperSharedPreference()
+                                                                .writePreference(
+                                                                        mcontext,
+                                                                        "survetTosurveySourceKey",
+                                                                        "");
+
+                                                        AppController.getHelperSharedPreference()
+                                                                .writePreference(
+                                                                        mcontext,
+                                                                        "survetTosurveySourceKey2",
+                                                                        "");
+                                                        AppController.getHelperSharedPreference()
+                                                                .writePreference(
+                                                                        mcontext,
+                                                                        "survetTosurveyactivityVersion",
+                                                                        "");
+                                                        // cs.saveAndFinish();
+                                                        return null;
+                                                    }
+                                                    return null;
+                                                }
                                             }
-                                            return null;
                                         }
                                     }
                                 }

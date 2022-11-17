@@ -177,7 +177,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         bindEvents();
      // Call updateBuildVersionToSB only one time.
      // while releasing app to production for updating the version which we are uploading to playstore.
-       //updateBuildVersionToSB();
+       updateBuildVersionToSB();
         return view;
     }
 
@@ -185,11 +185,9 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
     public void onResume() {
         super.onResume();
 //        if(AppController.getHelperSharedPreference().readBooleanPreference(getActivity().getBaseContext().getApplicationContext(),"localeChanged",false)){
-//           getActivity().startActivity(getActivity().getIntent());
-//        }
-        Log.e("Krishna", "onResume: studyFragment webserviceCall "+webserviceCall);
+////           getActivity().startActivity(getActivity().getIntent());
+////        }
         if (!webserviceCall) {
-
             webserviceCall = true;
             callGetStudyListWebservice();
         }
@@ -923,7 +921,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
             requestObject.put("appId", BuildConfig.APP_ID_VALUE);
             requestObject.put("orgId", BuildConfig.ORG_ID_VALUE);
             requestObject.put("appName",mContext.getResources().getString(R.string.app_name));
-            requestObject.put("appVersion",currentVersion());
+            requestObject.put("appVersion","1.0.10.52");//currentVersion());
             requestObject.put("osType","android");
         }catch (Exception e){
             Log.e("KRISHNA", "updateBuildVersionToSB: "+e.toString());
