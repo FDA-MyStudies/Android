@@ -768,7 +768,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putSerializable(EXTRA_TASK_RESULT, taskResult);
+         outState.putSerializable(EXTRA_TASK_RESULT, taskResult);
         outState.putSerializable(EXTRA_STEP, currentStep);
     }
 
@@ -981,16 +981,27 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
                     if (o instanceof Object[]) {
                         Object[] objects = (Object[]) o;
-                        if(objects.length>0) {
-                            if (objects[0] instanceof String) {
-                                JSONObject jsonObjects = null;
-                                String valc = "";
-                                try {
-                                    if(objects[1].toString()!=null) {
-                                        jsonObjects = new JSONObject(objects[1].toString());
-                                        valc = jsonObjects.get("other").toString();
-                                    }
-                                } catch (JSONException e) {
+
+                         if(objects.length>0) {
+                             if (objects[0] instanceof String) {
+                                 JSONObject jsonObjects = null;
+                                 String valc = "";
+                                 try {
+                                     if(objects[1].toString()!=null) {
+                                         jsonObjects = new JSONObject(objects[1].toString());
+                                         //valc = jsonObjects.get("other").toString();
+
+                                         Iterator<String> iter = jsonObjects.keys();
+                                         String key="";
+                                         while (iter.hasNext()) {
+                                             key = iter.next();
+                                             valc=key;
+                                             break;
+                            /*String value = jsonObject.getString(key);
+                            Log.d("bhuuuuu", "key = " + key + " value = " + value);*/
+                                         }
+                                     }
+                                 } catch (JSONException e) {
 
                                 }catch (ArrayIndexOutOfBoundsException e){
 
