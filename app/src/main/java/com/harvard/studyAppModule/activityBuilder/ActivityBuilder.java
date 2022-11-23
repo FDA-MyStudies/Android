@@ -1271,65 +1271,70 @@ public class ActivityBuilder extends OrderedTask {
                                                      Object[] obj = (Object[]) taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getKey()).getResults().get("answer");
 
                                                      if (Double.valueOf(obj[0].toString()) > Double.valueOf(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getValue())) {
-
-                                                         int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey()));
-
-                                                         if (nextIndex < steps.size()) {
-                                                             if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
-                                                                 AppController.getHelperSharedPreference()
-                                                                         .writePreference(
-                                                                                 mcontext,
-                                                                                 "survetTosurveyActivityId",
-                                                                                 activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId());
-                                                                 AppController.getHelperSharedPreference()
-                                                                         .writePreference(
-                                                                                 mcontext,
-                                                                                 "survetTosurveySourceKey",
-                                                                                 activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
-
-                                                                 AppController.getHelperSharedPreference()
-                                                                         .writePreference(
-                                                                                 mcontext,
-                                                                                 "survetTosurveySourceKey2",
-                                                                                 activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
-                                                                 AppController.getHelperSharedPreference()
-                                                                         .writePreference(
-                                                                                 mcontext,
-                                                                                 "survetTosurveyactivityVersion",
-                                                                                 activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityVersion());
-                                                                 // cs.saveAndFinish();
-                                                                 return null;
-                                                             }
-                                                             return steps.get(nextIndex);
-                                                         } else {
-                                                             if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
-                                                                 AppController.getHelperSharedPreference()
-                                                                         .writePreference(
-                                                                                 mcontext,
-                                                                                 "survetTosurveyActivityId",
-                                                                                 "");
-                                                                 AppController.getHelperSharedPreference()
-                                                                         .writePreference(
-                                                                                 mcontext,
-                                                                                 "survetTosurveySourceKey",
-                                                                                 "");
-
-                                                                 AppController.getHelperSharedPreference()
-                                                                         .writePreference(
-                                                                                 mcontext,
-                                                                                 "survetTosurveySourceKey2",
-                                                                                 "");
-                                                                 AppController.getHelperSharedPreference()
-                                                                         .writePreference(
-                                                                                 mcontext,
-                                                                                 "survetTosurveyactivityVersion",
-                                                                                 "");
-                                                                 // cs.saveAndFinish();
-                                                                 return null;
-                                                             }
+                                                         if(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey().equalsIgnoreCase("0")){
                                                              return null;
                                                          }
-                                                     } else {
+                                                         else {
+                                                             int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey()));
+
+                                                             if (nextIndex < steps.size()) {
+                                                                 if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
+                                                                     AppController.getHelperSharedPreference()
+                                                                             .writePreference(
+                                                                                     mcontext,
+                                                                                     "survetTosurveyActivityId",
+                                                                                     activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId());
+                                                                     AppController.getHelperSharedPreference()
+                                                                             .writePreference(
+                                                                                     mcontext,
+                                                                                     "survetTosurveySourceKey",
+                                                                                     activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
+
+                                                                     AppController.getHelperSharedPreference()
+                                                                             .writePreference(
+                                                                                     mcontext,
+                                                                                     "survetTosurveySourceKey2",
+                                                                                     activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
+                                                                     AppController.getHelperSharedPreference()
+                                                                             .writePreference(
+                                                                                     mcontext,
+                                                                                     "survetTosurveyactivityVersion",
+                                                                                     activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityVersion());
+                                                                     // cs.saveAndFinish();
+                                                                     return null;
+                                                                 }
+                                                                 return steps.get(nextIndex);
+                                                             } else {
+                                                                 if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
+                                                                     AppController.getHelperSharedPreference()
+                                                                             .writePreference(
+                                                                                     mcontext,
+                                                                                     "survetTosurveyActivityId",
+                                                                                     "");
+                                                                     AppController.getHelperSharedPreference()
+                                                                             .writePreference(
+                                                                                     mcontext,
+                                                                                     "survetTosurveySourceKey",
+                                                                                     "");
+
+                                                                     AppController.getHelperSharedPreference()
+                                                                             .writePreference(
+                                                                                     mcontext,
+                                                                                     "survetTosurveySourceKey2",
+                                                                                     "");
+                                                                     AppController.getHelperSharedPreference()
+                                                                             .writePreference(
+                                                                                     mcontext,
+                                                                                     "survetTosurveyactivityVersion",
+                                                                                     "");
+                                                                     // cs.saveAndFinish();
+                                                                     return null;
+                                                                 }
+                                                                 return null;
+                                                             }
+                                                         }
+                                                     }
+                                                     else {
                                                          int nextIndex = steps.indexOf(previousStep) + 1;
                                                          if (nextIndex < steps.size() - 1) {
                                                              if (activityQuestionStep.get(nextIndex).isHidden()) {
@@ -1544,7 +1549,8 @@ public class ActivityBuilder extends OrderedTask {
                                                          } catch (JSONException e) {
                                                              e.printStackTrace();
                                                          }
-                                                     } else {
+                                                     }
+                                                     else {
                                                          int nextIndex = steps.indexOf(previousStep) + 1;
 
                                                          if (activityQuestionStep.get(nextIndex).isHidden()) {
@@ -1641,43 +1647,51 @@ public class ActivityBuilder extends OrderedTask {
                                                              }
                                                          }
                                                      }
-                                                 } else {
+                                                 }
+                                                 else {
                                                      StepRecordCustom stepRecordCustom = mDBServiceSubscriber.getResultFromDB(mIdentifier + "_" + activityQuestionStep.get(steps.indexOf(previousStep)).getKey(), realmStep);
                                                      if (stepRecordCustom != null) {
                                                          try {
                                                              JSONObject object = new JSONObject(stepRecordCustom.getResult());
                                                              if (Double.valueOf(object.getJSONObject(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getKey()).getJSONObject("results").get("answer").toString()) > Double.valueOf(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getValue())) {
-                                                                 int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey()));
-
-                                                                 if (nextIndex < steps.size()) {
-                                                                     if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
-                                                                         AppController.getHelperSharedPreference()
-                                                                                 .writePreference(
-                                                                                         mcontext,
-                                                                                         "survetTosurveyActivityId",
-                                                                                         activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId());
-                                                                         AppController.getHelperSharedPreference()
-                                                                                 .writePreference(
-                                                                                         mcontext,
-                                                                                         "survetTosurveySourceKey",
-                                                                                         activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
-
-                                                                         AppController.getHelperSharedPreference()
-                                                                                 .writePreference(
-                                                                                         mcontext,
-                                                                                         "survetTosurveySourceKey2",
-                                                                                         activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
-                                                                         AppController.getHelperSharedPreference()
-                                                                                 .writePreference(
-                                                                                         mcontext,
-                                                                                         "survetTosurveyactivityVersion",
-                                                                                         activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityVersion());
-                                                                         // cs.saveAndFinish();
-                                                                         return null;
-                                                                     }
-                                                                     return steps.get(nextIndex);
+                                                                 if(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey().equalsIgnoreCase("0")){
+                                                                     return null;
                                                                  }
-                                                             } else {
+                                                                 else {
+                                                                     int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey()));
+
+                                                                     if (nextIndex < steps.size()) {
+                                                                         if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
+                                                                             AppController.getHelperSharedPreference()
+                                                                                     .writePreference(
+                                                                                             mcontext,
+                                                                                             "survetTosurveyActivityId",
+                                                                                             activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId());
+                                                                             AppController.getHelperSharedPreference()
+                                                                                     .writePreference(
+                                                                                             mcontext,
+                                                                                             "survetTosurveySourceKey",
+                                                                                             activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
+
+                                                                             AppController.getHelperSharedPreference()
+                                                                                     .writePreference(
+                                                                                             mcontext,
+                                                                                             "survetTosurveySourceKey2",
+                                                                                             activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey());
+                                                                             AppController.getHelperSharedPreference()
+                                                                                     .writePreference(
+                                                                                             mcontext,
+                                                                                             "survetTosurveyactivityVersion",
+                                                                                             activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityVersion());
+                                                                             // cs.saveAndFinish();
+                                                                             return null;
+                                                                         }
+                                                                         return steps.get(nextIndex);
+                                                                     }
+                                                                 }
+                                                             }
+                                                             else {
+
                                                                  int nextIndex = steps.indexOf(previousStep) + 1;
 
                                                                  if (activityQuestionStep.get(nextIndex).isHidden()) {
@@ -1742,7 +1756,8 @@ public class ActivityBuilder extends OrderedTask {
 
                                                                          }
                                                                      }
-                                                                 } else {
+                                                                 }
+                                                                 else {
 
                                                                      if (nextIndex < steps.size()) {
                                                                          if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId() != null && !activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getActivityId().equalsIgnoreCase("")) {
@@ -2115,7 +2130,8 @@ public class ActivityBuilder extends OrderedTask {
                                                              }
                                                          }
                                                      }
-                                                 } else {
+                                                 }
+                                                 else {
                                                      StepRecordCustom stepRecordCustom = mDBServiceSubscriber.getResultFromDB(mIdentifier + "_" + activityQuestionStep.get(steps.indexOf(previousStep)).getKey(), realmStep);
                                                      if (stepRecordCustom != null) {
                                                          try {
@@ -2621,7 +2637,8 @@ public class ActivityBuilder extends OrderedTask {
                                                              }
                                                          }
                                                      }
-                                                 } else {
+                                                 }
+                                                 else {
                                                      StepRecordCustom stepRecordCustom = mDBServiceSubscriber.getResultFromDB(mIdentifier + "_" + activityQuestionStep.get(steps.indexOf(previousStep)).getKey(), realmStep);
                                                      if (stepRecordCustom != null) {
                                                          try {
