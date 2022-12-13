@@ -6378,7 +6378,6 @@ public class SurveyActivitiesFragment extends Fragment
                 .show();
       }
     }
-
   }
 
 
@@ -6450,7 +6449,8 @@ public class SurveyActivitiesFragment extends Fragment
       } else {
         callLabkeyService(position + 1);
       }
-    } else {
+    }
+    else {
       metadataProcess();
     }
   }
