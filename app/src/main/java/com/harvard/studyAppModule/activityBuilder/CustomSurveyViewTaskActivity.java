@@ -1235,7 +1235,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         studyModulePresenter.performGetActivityInfo(getActivityInfoEvent);
     }
 
-    public void surveyTosurveyPiping(JSONArray responseObjectArray,ArrayList<String> keyValues,Step step,QuestionStepCustom nextStepPipe,String stepIdentifier){
+    public void surveyTosurveyPiping(JSONArray responseObjectArray,ArrayList<String> keyValues,Step step,QuestionStepCustom nextStepPipe,String stepIdentifier,RealmList<Choices> textChoices){
         String answer="";
         try{
            if(responseObjectArray.getJSONObject(responseObjectArray.length() - 1).get(stepIdentifier) != null && responseObjectArray.getJSONObject(responseObjectArray.length() - 1).get(stepIdentifier) != ""){
@@ -1249,7 +1249,16 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                 }
                 else{
                     if(!responseObjectArray.getJSONObject(responseObjectArray.length() - 1).get(stepIdentifier).toString().equalsIgnoreCase("null")) {
-                        answer = responseObjectArray.getJSONObject(responseObjectArray.length() - 1).get(stepIdentifier).toString();
+
+                            answer = responseObjectArray.getJSONObject(responseObjectArray.length() - 1).get(stepIdentifier).toString();
+                            if(textChoices!=null) {
+                                for (int i = 0; i < textChoices.size(); i++) {
+                                    if (textChoices.get(i).getValue().equalsIgnoreCase(answer)) {
+
+                                        answer = textChoices.get(i).getText();
+                                    }
+                                }
+                            }
                     }
                 }
 
@@ -1447,8 +1456,28 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                     Log.e("buuid", String.valueOf(keyValues.get(keyValues.size()-1)));
                     Log.e("buuid",stepId);
                     QuestionStepCustom nextStepPipe = (QuestionStepCustom) step;
+                    for(int k=0;k<activityInfoData2.getActivity().getSteps().size();k++) {
+                         if(activityInfoData2.getActivity().getSteps().get(k).getResultType().equalsIgnoreCase("text")){
+                            surveyTosurveyPiping(jsonArray, keyValues, step, nextStepPipe, stepId,null );
 
-                    surveyTosurveyPiping(jsonArray,keyValues,step,nextStepPipe,stepId);
+                         }
+                        else if(activityInfoData2.getActivity().getSteps().get(k).getResultType().equalsIgnoreCase("textChoice")){
+
+                                RealmList<Choices> textChoices = activityInfoData2.getActivity().getSteps().get(k).getFormat().getTextChoices();
+                            surveyTosurveyPiping(jsonArray, keyValues, step, nextStepPipe, stepId,textChoices );
+
+
+                        }
+                        else if(activityInfoData2.getActivity().getSteps().get(k).getResultType().equalsIgnoreCase("valuePicker")){
+                            RealmList<Choices> textChoices = activityInfoData2.getActivity().getSteps().get(k).getFormat().getTextChoices();
+                            surveyTosurveyPiping(jsonArray, keyValues, step, nextStepPipe, stepId, textChoices);
+
+                         }
+                        else if(activityInfoData2.getActivity().getSteps().get(k).getResultType().equalsIgnoreCase("textScale")){
+                            RealmList<Choices> textChoices = activityInfoData2.getActivity().getSteps().get(k).getFormat().getTextChoices();
+                            surveyTosurveyPiping(jsonArray, keyValues, step, nextStepPipe, stepId,textChoices );
+                         }
+                    }
 //                    for(int k=0;k<activityInfoData2.getActivity().getSteps().size();k++){
 //                        if(activityInfoData2.getActivity().getSteps().get(k).getResultType().equalsIgnoreCase("text")){
 //                            String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPpipingSnippet(), keyValues.get(keyValues.size()-1));
