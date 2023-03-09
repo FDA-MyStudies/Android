@@ -15,6 +15,7 @@ import org.researchstack.backbone.step.Step;
 import org.researchstack.backbone.task.OrderedTask;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -289,8 +290,315 @@ public class ActivityBuilder extends OrderedTask {
             if(!activityQuestionStep.get(steps.indexOf(previousStep)).isDefaultVisibility()){
                 // check for preload logic of nextstep based on the index of first step
                 if(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getOperator().contains(":")){
+                    if (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue().contains(":")) {
+                    String[] strOper = activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getOperator().split(":");
+                    List<String> listOp = new ArrayList<String>(Arrays.asList(strOper));
 
+                    String[] strValue = activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getValue().split(":");
+                    List<String> listVal = new ArrayList<String>(Arrays.asList(strValue));
+                    boolean result = false;
+                    for (int val = 0; val < listVal.size(); val++) {
+                        switch (listOp.get(0).trim()) {
+                            case ">":
+                                if (Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) > Double.valueOf(listVal.get(val))) {
+                                    result = true;
+                                    listOp.remove(0);
+                                }
+                                else {
+                                    result = false;
+                                    listOp.remove(0);
+                                }
+                                break;
+                            case "<":
+                                if (Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) < Double.valueOf(listVal.get(val))) {
+                                    result = true;
+                                    listOp.remove(0);
+                                }
+                                else {
+                                    result = false;
+                                    listOp.remove(0);
+                                }
+                                break;
+                            case "<=":
+                                if (Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) <= Double.valueOf(listVal.get(val))) {
+                                    result = true;
+                                    listOp.remove(0);
+                                }
+                                else {
+                                    result = false;
+                                    listOp.remove(0);
+                                }
+                                break;
+                            case ">=":
+                                if (Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) >= Double.valueOf(listVal.get(val))) {
+                                    result = true;
+                                    listOp.remove(0);
+                                }
+                                else {
+                                    result = false;
+                                    listOp.remove(0);
+                                }
+                                break;
+                            case "=":
+                                if (taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString().equalsIgnoreCase(listVal.get(val))){
+                                    result = true;
+                                    listOp.remove(0);
+                                }
+                                else {
+                                    result = false;
+                                    listOp.remove(0);
+                                }
+                                break;
+                            case "!=":
+                                if(!taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString().equalsIgnoreCase(listVal.get(val))){
+                                    result = true;
+                                    listOp.remove(0);
+                                }
+                                else {
+                                    result = false;
+                                    listOp.remove(0);
+                                }
+                                break;
+                            case "AND":
+                                switch (listOp.get(1)) {
+                                    case ">":
+                                        if (result && (Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) > Double.valueOf(listVal.get(val)))) {
+                                            result = true;
+                                            if(listOp.size() >= 1) {
+                                                listOp.remove(1);
+                                                listOp.remove(0);
+
+                                            }else {
+                                                listOp.remove(0);
+                                            }
+                                        } else {
+                                            result = false;
+                                            if(listOp.size() >= 1) {
+                                                listOp.remove(1);
+                                                listOp.remove(0);
+
+                                            }else {
+                                                listOp.remove(0);
+                                            }
+                                        }
+                                        break;
+                                    case "<":
+                                        if (result && (Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) < Double.valueOf(listVal.get(val)))) {
+                                            result = true;
+                                            if(listOp.size() >= 1) {
+                                                listOp.remove(1);
+                                                listOp.remove(0);
+
+                                            }else {
+                                                listOp.remove(0);
+                                            }
+                                        } else {
+                                            result = false;
+                                            if(listOp.size() >= 1) {
+                                                listOp.remove(1);
+                                                listOp.remove(0);
+
+                                            }else {
+                                                listOp.remove(0);
+                                            }
+                                        }
+                                        break;
+                                    case "<=":
+                                        if (result && (Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) <= Double.valueOf(listVal.get(val)))) {
+                                            result = true;
+                                            if(listOp.size() >= 1) {
+                                                listOp.remove(1);
+                                                listOp.remove(0);
+                                            }else {
+                                                listOp.remove(0);
+                                            }
+                                        } else {
+                                            result = false;
+                                            if(listOp.size() >= 1) {
+                                                listOp.remove(1);
+                                                listOp.remove(0);
+
+                                            }else {
+                                                listOp.remove(0);
+                                            }
+                                        }
+                                        break;
+                                    case ">=":
+                                        if (result && (Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) >= Double.valueOf(listVal.get(val)))) {
+                                            result = true;
+                                            if(listOp.size() >= 1) {
+                                                listOp.remove(1);
+                                                listOp.remove(0);
+                                            }else {
+                                                listOp.remove(0);
+                                            }
+                                        } else {
+                                            result = false;
+                                            if(listOp.size() >= 1) {
+                                                listOp.remove(1);
+                                                listOp.remove(0);
+                                            }else {
+                                                listOp.remove(0);
+                                            }
+                                        }
+                                        break;
+                                    case "=":
+                                        if (result && (taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString().equalsIgnoreCase(listVal.get(val)))) {
+                                            result = true;
+                                            if(listOp.size() >= 1) {
+                                                listOp.remove(1);
+                                                listOp.remove(0);
+                                            }else {
+                                                listOp.remove(0);
+                                            }
+                                        } else {
+                                            result = false;
+                                            if(listOp.size() >= 1) {
+                                                listOp.remove(1);
+                                                listOp.remove(0);
+                                            }else {
+                                                listOp.remove(0);
+                                            }
+                                        }
+                                        break;
+                                    case "!=":
+                                        if (result && (taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString() != listVal.get(val))) {
+                                            result = true;
+                                            if(listOp.size() >= 1) {
+                                                listOp.remove(1);
+                                                listOp.remove(0);
+                                            }else {
+                                                listOp.remove(0);
+                                            }
+                                        } else {
+                                            result = false;
+                                            if(listOp.size() >= 1) {
+                                                listOp.remove(1);
+                                                listOp.remove(0);
+                                            }else {
+                                                listOp.remove(0);
+                                            }
+                                        }
+                                        break;
+                                }
+                                break;
+                            case "OR":
+                                switch (listOp.get(1)) {
+                                    case ">":
+                                        if (result || (Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) > Double.valueOf(listVal.get(val)))) {
+                                            result = true;
+
+                                        } else {
+                                            result = false;
+                                        }
+                                        if(listOp.size() >= 1) {
+                                            listOp.remove(1);
+                                            listOp.remove(0);
+                                        }else {
+                                            listOp.remove(0);
+                                        }
+                                        break;
+                                    case "<":
+                                        if (result || (Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) < Double.valueOf(listVal.get(val)))) {
+                                            result = true;
+                                        } else {
+                                            result = false;
+                                        }
+                                        if(listOp.size() >= 1) {
+                                            listOp.remove(1);
+                                            listOp.remove(0);
+                                        }else {
+                                            listOp.remove(0);
+                                        }
+                                        break;
+                                    case "<=":
+                                        if (result || (Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) <= Double.valueOf(listVal.get(val)))) {
+                                            result = true;
+                                        } else {
+                                            result = false;
+                                        }
+                                        if(listOp.size() >= 1) {
+                                            listOp.remove(1);
+                                            listOp.remove(0);
+                                        }else {
+                                            listOp.remove(0);
+                                        }
+                                        break;
+                                    case ">=":
+                                        if (result || (Double.valueOf(taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString()) >= Double.valueOf(listVal.get(val)))) {
+                                            result = true;
+                                        } else {
+                                            result = false;
+                                        }
+                                        if(listOp.size() >= 1) {
+                                            listOp.remove(1);
+                                            listOp.remove(0);
+                                        }else {
+                                            listOp.remove(0);
+                                        }
+                                        break;
+                                    case "=":
+                                        if (result || (taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString().equalsIgnoreCase(listVal.get(val)))) {
+                                            result = true;
+                                        } else {
+                                            result = false;
+                                        }
+                                        if(listOp.size() >= 1) {
+                                            listOp.remove(1);
+                                            listOp.remove(0);
+                                        }else {
+                                            listOp.remove(0);
+                                        }
+                                        break;
+                                    case "!=":
+                                        if (result || (taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getKey()).getResult().toString() != listVal.get(val))) {
+                                            result = true;
+                                        } else {
+                                            result = false;
+                                        }
+                                        if(listOp.size() >= 1) {
+                                            listOp.remove(1);
+                                            listOp.remove(0);
+                                        }else {
+                                            listOp.remove(0);
+                                        }
+                                        break;
+                                }
+                                break;
+                        }
+                    }
+
+                    if(result){
+                        int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationStepKey()));
+                        if (nextIndex < steps.size()) {
+                            return steps.get(nextIndex);
+                        }
+                    }
+                    else{
+                        int nextIndex = steps.indexOf(previousStep) + 1;
+                        if (activityQuestionStep.get(nextIndex).isHidden()) {
+                            while (activityQuestionStep.get(nextIndex).isHidden()) {
+                                nextIndex += 1;
+                                if (!activityQuestionStep.get(nextIndex).isHidden()) {
+                                    if (nextIndex < steps.size()) {
+
+                                        return steps.get(nextIndex);
+                                    } else {
+                                        return null;
+                                    }
+
+                                }
+                            }
+                        }
+                        else {
+                            if (nextIndex < steps.size()) {
+                                return steps.get(nextIndex);
+                            }
+                        }
+                    }
                 }
+            }
+
                 else {
                     switch (activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getOperator()) {
                         case ">":
@@ -900,11 +1208,11 @@ public class ActivityBuilder extends OrderedTask {
         }
 
 
-        int nextIndex = steps.indexOf(step) - 1;
-
-        if (nextIndex >= 0) {
-            return steps.get(nextIndex);
-        }
+//        int nextIndex = steps.indexOf(step) - 1;
+//
+//        if (nextIndex >= 0) {
+//            return steps.get(nextIndex);
+//        }
 
         return null;
     }

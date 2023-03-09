@@ -23,7 +23,9 @@ public class WebserviceSubscriber extends BaseSubscriber {
             if(wcpConfigEvent.getmUrl().equalsIgnoreCase("https://63202cce9f82827dcf26789a.mockapi.io/getActivityM")){
                 url = wcpConfigEvent.getmUrl();
                 Log.e("Krishna", "onEvent: wcp event "+url);
-            }else {
+            }else if (wcpConfigEvent.getmUrl().equalsIgnoreCase("https://632adb4b713d41bc8e790540.mockapi.io/getactivitym/getactivity")){
+                url = wcpConfigEvent.getmUrl();
+            } else{
                 url = wcpConfigEvent.getDevelopmentUrl() + wcpConfigEvent.getmUrl();
                 Log.e("Krishna", "onEvent: wcp event "+url);
             }

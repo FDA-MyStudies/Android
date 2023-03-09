@@ -5109,8 +5109,9 @@ public class SurveyActivitiesFragment extends Fragment
 
     GetActivityInfoEvent getActivityInfoEvent = new GetActivityInfoEvent();
     HashMap<String, String> header = new HashMap();
-    String url = "https://632adb4b713d41bc8e790540.mockapi.io/getactivitym/getactivity";
+   // String url = "https://632adb4b713d41bc8e790540.mockapi.io/getactivitym/getactivity";
     //String url = "https://63202cce9f82827dcf26789a.mockapi.io/getActivityM";
+    String url = "https://63202cce9f82827dcf26789a.mockapi.io/getActivityM";
 //        URLs.ACTIVITY
 //            + "?studyId="
 //            + ((SurveyActivity) mContext).getStudyId()
