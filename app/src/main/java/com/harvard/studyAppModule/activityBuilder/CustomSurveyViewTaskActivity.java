@@ -128,6 +128,8 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
     public static String RESOURCES = "resources";
     String resultValue ;
     ArrayList<String>names = new ArrayList<>();
+    boolean surveyTosurveyFlag=false;
+    boolean flag=false;
 
     public static Intent newIntent(Context context, String surveyId, String studyId, int mCurrentRunId, String mActivityStatus, int missedRun, int completedRun, int totalRun, String mActivityVersion, Date currentRunStartDate, Date currentRunEndDate, String activityId, boolean branching, String frequencyType) {
         Intent intent = new Intent(context, CustomSurveyViewTaskActivity.class);
@@ -174,10 +176,32 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         StudyId = (String) getIntent().getSerializableExtra(EXTRA_STUDYID);
         StepRecordCustom savedsteps = dbServiceSubscriber.getSavedSteps(task, realm);
         if (savedsteps != null) {
-            currentStep = task.getStepWithIdentifier(savedsteps.getStepId());
-            if (currentStep != null) {
+            String survetTosurveyActivityId= AppController.getHelperSharedPreference()
+                    .readPreference(CustomSurveyViewTaskActivity.this,
+                            "survetTosurveyActivityId", "");
+            String survetTosurveySourceKey=AppController.getHelperSharedPreference()
+                    .readPreference(
+                            CustomSurveyViewTaskActivity.this, "survetTosurveySourceKey", "");
+
+            if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&!survetTosurveySourceKey.equalsIgnoreCase("")){
+                currentStep = task.getStepWithIdentifier(survetTosurveySourceKey);
+                taskResult = new TaskResult(task.getIdentifier());
+                taskResult.setStartDate(new Date());
+                flag=true;
+            }else {
+                currentStep = task.getStepWithIdentifier(savedsteps.getStepId());
+
+            }
+
+            //currentStep = task.getStepWithIdentifier(savedsteps.getStepId());
+
+
+
+            //currentStep = task.getStepWithIdentifier(savedsteps.getStepId());
+            if (currentStep != null&&flag==false) {
                 RealmResults<StepRecordCustom> stepRecordCustoms = dbServiceSubscriber.getStepRecordCustom(task, realm);
                 for (int i = 0; i < stepRecordCustoms.size(); i++) {
+                    Log.e("hivsv",stepRecordCustoms.get(i).getStepId());
                     if (currentStep.getIdentifier().equalsIgnoreCase(stepRecordCustoms.get(i).getStepId())) {
                         TaskRecord taskRecord = new TaskRecord();
                         taskRecord.taskId = stepRecordCustoms.get(i).getTaskId();
@@ -221,8 +245,39 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
     protected void showNextStep() {
         savestepresult(currentStep, true);
+              if(!currentStep.getIdentifier().equalsIgnoreCase("Instructionstep")) {
+
+            QuestionStepCustom currentStepPipe = (QuestionStepCustom) currentStep;
+            String activityid = ""+currentStepPipe.getActivityId();
+            String sourceKey = ""+currentStepPipe.getDestinationStepKey();
+            AppController.getHelperSharedPreference()
+                    .writePreference(
+                            CustomSurveyViewTaskActivity.this,
+                            "survetTosurveyActivityId",
+                            "");
+            AppController.getHelperSharedPreference()
+                    .writePreference(
+                            CustomSurveyViewTaskActivity.this,
+                            "survetTosurveySourceKey",
+                            "");
+            if(activityid!=null&&!activityid.equalsIgnoreCase("")){
+                surveyTosurveyFlag=true;
+                saveAndFinish();
+                AppController.getHelperSharedPreference()
+                        .writePreference(
+                                CustomSurveyViewTaskActivity.this,
+                                "survetTosurveyActivityId",
+                                activityid);
+                AppController.getHelperSharedPreference()
+                        .writePreference(
+                                CustomSurveyViewTaskActivity.this,
+                                "survetTosurveySourceKey",
+                                sourceKey);
+
+            }
+        }
         Step nextStep = task.getStepAfterStep(currentStep, taskResult);
-        if (nextStep == null) {
+        if (nextStep == null&&surveyTosurveyFlag==false) {
             saveAndFinish();
         } else {
             showStep(nextStep);
@@ -423,7 +478,21 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         setActionBarTitle(title);
 
         // Get result from the TaskResult, can be null
-        StepResult result = taskResult.getStepResult(step.getIdentifier());
+        String survetTosurveyActivityId= AppController.getHelperSharedPreference()
+                .readPreference(CustomSurveyViewTaskActivity.this,
+                        "survetTosurveyActivityId", "");
+        String survetTosurveySourceKey=AppController.getHelperSharedPreference()
+                .readPreference(
+                        CustomSurveyViewTaskActivity.this, "survetTosurveySourceKey", "");
+        StepResult result;
+        if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&!survetTosurveySourceKey.equalsIgnoreCase("")){
+            // Get result from the TaskResult, can be null
+            result = taskResult.getStepResult(survetTosurveySourceKey);
+        }else {
+            // Get result from the TaskResult, can be null
+            result = taskResult.getStepResult(step.getIdentifier());
+        }
+
 
         // Return the Class & constructor
         StepLayout stepLayout = createLayoutFromStep(step);
@@ -465,6 +534,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 123 && resultCode == RESULT_OK) {
             finish();
+            //if that id comes then finish and launch other activity
         } else if (requestCode == 123 && resultCode == RESULT_CANCELED) {
             this.recreate();
         }
@@ -589,6 +659,16 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         finish();
+                        AppController.getHelperSharedPreference()
+                                .writePreference(
+                                        CustomSurveyViewTaskActivity.this,
+                                        "survetTosurveyActivityId",
+                                        "");
+                        AppController.getHelperSharedPreference()
+                                .writePreference(
+                                        CustomSurveyViewTaskActivity.this,
+                                        "survetTosurveySourceKey",
+                                        "");
                     }
                 })
                 .setNegativeButton(R.string.cancel, null)

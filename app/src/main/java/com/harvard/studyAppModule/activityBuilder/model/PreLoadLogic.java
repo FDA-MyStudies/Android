@@ -8,7 +8,7 @@ import io.realm.RealmObject;
 public class PreLoadLogic extends RealmObject implements Serializable {
     private String value;
     private String operator;
-    private String activityId;
+    private String activityid;
     private String activityVersion;
     private String destinationStepKey;
     private RealmList<DestinationStep> destinationStep;
@@ -43,11 +43,11 @@ public class PreLoadLogic extends RealmObject implements Serializable {
     }
 
     public String getActivityId() {
-        return activityId;
+        return activityid;
     }
 
     public void setActivityId(String activityId) {
-        this.activityId = activityId;
+        this.activityid = activityId;
     }
 
     public String getActivityVersion() {

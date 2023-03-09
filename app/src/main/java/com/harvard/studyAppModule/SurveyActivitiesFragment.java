@@ -157,6 +157,7 @@ public class SurveyActivitiesFragment extends Fragment
 
   public final int ACTIVTTYLIST_RESPONSECODE = 100;
   public final int ACTIVTTYINFO_RESPONSECODE = 101;
+  public final int ACTIVTTYINFO_RESPONSECODE2 = 10208;
   public static final String YET_To_START = "yetToJoin";
   public static final String IN_PROGRESS = "inProgress";
   public static final String COMPLETED = "completed";
@@ -406,6 +407,10 @@ public class SurveyActivitiesFragment extends Fragment
     studyModulePresenter.performGetActivityList(getActivityListEvent);
   }
 
+
+  private void setRecyclerView2() {
+    updateActivityInfo2();
+  }
   private void callConsentMetaDataWebservice() {
 
     new callConsentMetaData().execute();
@@ -597,7 +602,22 @@ public class SurveyActivitiesFragment extends Fragment
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == 123) {
-      setRecyclerView();
+      String survetTosurveyActivityId= AppController.getHelperSharedPreference()
+              .readPreference(mContext,
+                      "survetTosurveyActivityId", "");
+      String survetTosurveySourceKey=AppController.getHelperSharedPreference()
+              .readPreference(
+                      mContext, "survetTosurveySourceKey", "");
+
+      if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&!survetTosurveySourceKey.equalsIgnoreCase("")){
+        Log.e("ysysysys","navigated to other survey successfully");
+        setRecyclerView2();
+
+
+      }else {
+        setRecyclerView();
+
+      }
     } else if (requestCode == CONSENT_RESPONSECODE) {
       if (resultCode == getActivity().RESULT_OK) {
         Intent intent = new Intent(getActivity(), ConsentCompletedActivity.class);
@@ -1006,7 +1026,29 @@ public class SurveyActivitiesFragment extends Fragment
       }
     } else if (responseCode == UPDATE_USERPREFERENCE_RESPONSECODE_INITIAL) {
       AppController.getHelperProgressDialog().dismissDialog();
-    } else {
+    }else if (responseCode == ACTIVTTYINFO_RESPONSECODE2) {
+      AppController.getHelperProgressDialog().dismissDialog();
+      ActivityInfoData activityInfoData = (ActivityInfoData) response;
+      if (activityInfoData != null) {
+        String survetTosurveyActivityId= AppController.getHelperSharedPreference()
+                .readPreference(mContext,
+                        "survetTosurveyActivityId", "");
+        String survetTosurveySourceKey=AppController.getHelperSharedPreference()
+                .readPreference(
+                        mContext, "survetTosurveySourceKey", "");
+
+        if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&!survetTosurveySourceKey.equalsIgnoreCase("")){
+          if(!activityInfoData.getActivity().getMetadata().getActivityId().equalsIgnoreCase(survetTosurveyActivityId)) {
+            Log.e("ysysysys","navigated to other survey successfully222222");
+
+            launchSurvey2(activityInfoData.getActivity());
+          }
+        }
+
+      } else {
+        Toast.makeText(mContext, R.string.survey_activities_unable_to_parse, Toast.LENGTH_SHORT).show();
+      }
+    }else {
       AppController.getHelperProgressDialog().dismissDialog();
       onItemsLoadComplete();
     }
@@ -5067,7 +5109,7 @@ public class SurveyActivitiesFragment extends Fragment
 
     GetActivityInfoEvent getActivityInfoEvent = new GetActivityInfoEvent();
     HashMap<String, String> header = new HashMap();
-    String url = "https://63202cce9f82827dcf26789a.mockapi.io/getActivityM";
+    String url = "https://632adb4b713d41bc8e790540.mockapi.io/getactivitym/getactivity";
     //String url = "https://63202cce9f82827dcf26789a.mockapi.io/getActivityM";
 //        URLs.ACTIVITY
 //            + "?studyId="
@@ -5094,6 +5136,38 @@ public class SurveyActivitiesFragment extends Fragment
     studyModulePresenter.performGetActivityInfo(getActivityInfoEvent);
   }
 
+
+   private void updateActivityInfo2() {
+    AppController.getHelperProgressDialog().showProgress(mContext, "", "", false);
+
+    GetActivityInfoEvent getActivityInfoEvent = new GetActivityInfoEvent();
+    HashMap<String, String> header = new HashMap();
+    String url = "https://632adb4b713d41bc8e790540.mockapi.io/getactivitym/getactivity";
+    //String url = "https://63202cce9f82827dcf26789a.mockapi.io/getActivityM";
+//        URLs.ACTIVITY
+//            + "?studyId="
+//            + ((SurveyActivity) mContext).getStudyId()
+//            + "&activityId="
+//            + activityId
+//            + "&activityVersion="
+//            + mActivityVersion;
+    WCPConfigEvent wcpConfigEvent =
+            new WCPConfigEvent(
+                    "get",
+                    url,
+                    ACTIVTTYINFO_RESPONSECODE2,
+                    mContext,
+                    ActivityInfoData.class,
+                    null,
+                    header,
+                    null,
+                    false,
+                    this);
+
+    getActivityInfoEvent.setWcpConfigEvent(wcpConfigEvent);
+    StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
+    studyModulePresenter.performGetActivityInfo(getActivityInfoEvent);
+  }
   private void launchSurvey(ActivityObj activity) {
     try {
       mActivityObj = new ActivityObj();
@@ -5179,6 +5253,95 @@ public class SurveyActivitiesFragment extends Fragment
     }
   }
 
+
+
+   private void launchSurvey2(ActivityObj activity) {
+    try {
+      mActivityObj = new ActivityObj();
+//      mActivityObj = activity;
+//      mActivityObj.setSurveyId(activity.getMetadata().getActivityId());
+//      mActivityObj.setStudyId(((SurveyActivity) mContext).getStudyId());
+//      dbServiceSubscriber.saveActivity(mContext, activity);
+      mActivityObj =
+              dbServiceSubscriber.getActivityBySurveyId(
+                      ((SurveyActivity) mContext).getStudyId(), mActivityId, mRealm);
+      if (mActivityObj != null){
+        dbServiceSubscriber.deleteActivityObjectFromDb(mContext,mActivityObj.getMetadata().getActivityId(),((SurveyActivity) mContext).getStudyId());
+        mActivityObj = null;
+      }
+      if (mActivityObj == null && activity != null) {
+        mActivityObj = activity;
+        mActivityObj.setSurveyId(mActivityObj.getMetadata().getActivityId());
+        mActivityObj.setStudyId(((SurveyActivity) mContext).getStudyId());
+        dbServiceSubscriber.saveActivity(mContext, mActivityObj);
+      }
+
+      if (mActivityObj != null) {
+        AppController.getHelperSharedPreference()
+                .writePreference(mContext, mContext.getString(R.string.mapCount), "0");
+        stepsBuilder = new StepsBuilder(mContext, mActivityObj, mBranching, mRealm);
+        String survetTosurveySourceKey=AppController.getHelperSharedPreference()
+                .readPreference(
+                        mContext, "survetTosurveySourceKey", "");
+        mTask =
+                ActivityBuilder.create(
+                        mContext,
+                        ((SurveyActivity) mContext).getStudyId()
+                                + "_STUDYID_"
+                                + mActivityObj.getSurveyId()
+                                + "_"
+                                + mCurrentRunId,
+                        stepsBuilder.getsteps(),
+                        mActivityObj,
+                        mBranching,
+                        dbServiceSubscriber);
+        if (mTask.getSteps().size() > 0) {
+          for (int i = 0; i < mActivityObj.getSteps().size(); i++) {
+            if (mActivityObj
+                    .getSteps()
+                    .get(i)
+                    .getResultType()
+                    .equalsIgnoreCase("location")) {
+              locationPermission = true;
+            }
+          }
+          if (locationPermission) {
+            if ((ActivityCompat.checkSelfPermission(
+                    mContext, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED)
+                    || (ActivityCompat.checkSelfPermission(
+                    mContext,
+                    Manifest.permission.ACCESS_COARSE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED)) {
+              String[] permission =
+                      new String[]{
+                              Manifest.permission.ACCESS_FINE_LOCATION,
+                              Manifest.permission.ACCESS_COARSE_LOCATION
+                      };
+              if (!hasPermissions(permission)) {
+                ActivityCompat.requestPermissions(
+                        (Activity) mContext, permission, PERMISSION_REQUEST_CODE);
+              } else {
+                startsurvey();
+              }
+            } else {
+              startsurvey();
+            }
+          } else {
+            startsurvey();
+          }
+        } else {
+          Toast.makeText(mContext, R.string.no_task_available, Toast.LENGTH_SHORT).show();
+        }
+      }
+      else {
+        Toast.makeText(mContext, R.string.no_ableto_getdata, Toast.LENGTH_SHORT).show();
+      }
+    } catch (Exception e) {
+      Toast.makeText(mContext, R.string.couldnot_launch_survey, Toast.LENGTH_SHORT).show();
+      e.printStackTrace();
+    }
+  }
   private void startsurvey() {
 
     Intent intent =

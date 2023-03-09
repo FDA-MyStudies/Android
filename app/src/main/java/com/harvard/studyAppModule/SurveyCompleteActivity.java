@@ -1,7 +1,10 @@
 package com.harvard.studyAppModule;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
@@ -75,9 +78,23 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
         mNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mNext.setClickable(false);
-                mNext.setEnabled(false);
-                updateProcessResponse();
+                String survetTosurveyActivityId= AppController.getHelperSharedPreference()
+                        .readPreference(SurveyCompleteActivity.this,
+                                "survetTosurveyActivityId", "");
+                String survetTosurveySourceKey=AppController.getHelperSharedPreference()
+                        .readPreference(
+                                SurveyCompleteActivity.this, "survetTosurveySourceKey", "");
+
+                if(survetTosurveyActivityId!=null&&survetTosurveySourceKey!=null&&!survetTosurveyActivityId.equalsIgnoreCase("")&!survetTosurveySourceKey.equalsIgnoreCase("")){
+                    getAlert();
+                }else {
+                    mNext.setClickable(false);
+                    mNext.setEnabled(false);
+                    updateProcessResponse();
+                }
+
+
+
             }
         });
     }
@@ -106,7 +123,6 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
             participantId = studies.getParticipantId();
 
         if (activities != null && activityObj != null) {
-
 
             ResponseServerConfigEvent responseServerConfigEvent = new ResponseServerConfigEvent("post_object", URLs.PROCESS_RESPONSE, PROCESS_RESPONSE_RESPONSECODE, this, LoginData.class, null, null,
                     getResponseDataJson(activityObj, activities, participantId), false, this);
@@ -920,6 +936,34 @@ public class SurveyCompleteActivity extends AppCompatActivity implements ApiCall
         }
 
         return jsonObject;
+    }
+    public void getAlert(){
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this, R.style.MyAlertDialogStyle);
+        alertDialogBuilder.setTitle("");
+        String message = "You will be navigated to a different activity/survey as this activity/survey is completed.";
+        alertDialogBuilder
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton(
+                        "Done",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                mNext.setClickable(false);
+                                mNext.setEnabled(false);
+                                updateProcessResponse();
+                            }
+                        });
+
+       /* alertDialogBuilder.setNegativeButton(
+               "Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                         dialog.dismiss();
+                    }
+                });*/
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
 }
