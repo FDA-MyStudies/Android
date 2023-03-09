@@ -209,7 +209,9 @@ public class ConsentBuilder {
             //need to set two screens
 
 
-            QuestionStepCustom multiStep2 = new QuestionStepCustom("consentLarFirst",false,"","","","","","","","","",null,null);
+
+            QuestionStepCustom multiStep2 = new QuestionStepCustom("consentLarFirst",false,"","","","","","","","","",null,"","","","");
+
 
             multiStep2.setStepTitle(R.string.notxt);
             ChoiceText[] choices2 = new ChoiceText[2];

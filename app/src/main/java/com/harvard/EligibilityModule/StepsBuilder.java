@@ -60,6 +60,7 @@ public class StepsBuilder {
                                     activityQuestionStep.get(i).getKey(),false,"","","","","","","","","",null,"","","","");
 
 
+
                             ChoiceCustomImage[] choicechoices = new ChoiceCustomImage[activityQuestionStep.get(i).getFormat().getImageChoices().size()];
                             for (int j = 0; j < activityQuestionStep.get(i).getFormat().getImageChoices().size(); j++) {
                                 choicechoices[j] = new ChoiceCustomImage(activityQuestionStep.get(i).getFormat().getImageChoices().get(j).getText(), activityQuestionStep.get(i).getFormat().getImageChoices().get(j).getValue(), activityQuestionStep.get(i).getFormat().getImageChoices().get(j).getImage(), activityQuestionStep.get(i).getFormat().getImageChoices().get(j).getSelectedImage());
@@ -81,7 +82,9 @@ public class StepsBuilder {
                                 }
                                 SingleChoiceTextAnswerFormat choiceAnswerFormat = new SingleChoiceTextAnswerFormat(AnswerFormatCustom.CustomAnswerStyle.SingleTextChoice, choices);
 
+
                                 QuestionStepCustom multiStep = new QuestionStepCustom(activityQuestionStep.get(i).getKey(),false,"","","","","","","","","",null,"","","","");
+
 
 
                                 multiStep.setTitle(activityQuestionStep.get(i).getTitle());
@@ -96,6 +99,7 @@ public class StepsBuilder {
                                     choices[j] = new ChoiceTextExclusive(activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getText(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getValue(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).getDetail(), activityQuestionStep.get(i).getFormat().getTextChoices().get(j).isExclusive(),null);
                                 }
                                 MultiChoiceTextAnswerFormat choiceAnswerFormat = new MultiChoiceTextAnswerFormat(AnswerFormatCustom.CustomAnswerStyle.MultipleTextChoice, choices);
+
 
                                 QuestionStepCustom multiStep = new QuestionStepCustom(activityQuestionStep.get(i).getKey(),false,"","","","","","","","","",null,"","","","");
 
