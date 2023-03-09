@@ -56,4 +56,5 @@ public class URLs {
     public static String RESOLVE_ENROLLMENT_TOKEN = BASE_URL_RESPONSE_SERVER + "mobileappstudy-resolveEnrollmentToken.api";
     public static String WITHDRAWFROMSTUDY = "withdrawFromStudy";
     public static String PROCESSRESPONSEDATA = BASE_URL_RESPONSE_SERVER + "mobileappstudy-executeSQL.api?";
+    public static String PROCESSRESPONSEDATAPIPING = BASE_URL_RESPONSE_SERVER ;
 }

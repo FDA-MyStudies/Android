@@ -184,7 +184,6 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         mActivityObject = dbServiceSubscriber.getActivityBySurveyId((String) getIntent().getSerializableExtra(STUDYID), mActivityId, realm);
        /* for(int i=0;i<mActivityObject.getSteps().size();i++){
             if(mActivityObject.getSteps().get(i).getResultType().equalsIgnoreCase("boolean")){
-
                 final RealmList<Choices> textChoices = new RealmList<>();
                 Choices choices1 = new Choices();
                 choices1.setText("Yes");
@@ -198,16 +197,12 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                 choices2.setDetail("");
                 choices2.setExclusive(false);
                 textChoices.add(choices2);
-
-
                 final int finalI = i;
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
                         mActivityObject.getSteps().get(finalI).getFormat().setTextChoices(textChoices);
                         mActivityObject.getSteps().get(finalI).getFormat().setSelectionStyle("Single");
-
-
                     }
                 });
             }
@@ -222,7 +217,6 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
         if (savedsteps != null) {
             /*SurveyToSurveyModel surveyToSurveyModel = dbServiceSubscriber.getSurveyToSurveyModelData(realm);
-
             if (surveyToSurveyModel != null) {
                 AppController.getHelperSharedPreference()
                         .writePreference(
@@ -570,17 +564,20 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                 .getCurrent();
         int newStepPosition = task.getProgressOfCurrentStep(step, taskResult).getCurrent();
         QuestionStepCustom stepCustom = (QuestionStepCustom) currentStep;
+
         //updateActivityInfo(stepCustom.getPipingLogic().getActivityId(),stepCustom.getPipingLogic().getActivityVersion());
         mStudies = dbServiceSubscriber.getStudies(getIntent().getStringExtra(STUDYID), realm);
 /*
         new ResponseData(stepCustom.getDestinationStepKey(),stepCustom.getActivityId(),mStudies.getParticipantId(),step).execute();
         updateActivityInfo(stepCustom.getPipingLogic().getActivityId(),stepCustom.getPipingLogic().getActivityVersion());*/
 
+
         if(stepCustom!=null&&stepCustom.getPactivityId()!=null&&
                 stepCustom.getPactivityVersion()!=null&&!stepCustom.getPactivityId().equalsIgnoreCase("")&&
                 !stepCustom.getPactivityVersion().equalsIgnoreCase("")){
             //call apis
             updateActivityInfo(stepCustom.getPactivityId(),stepCustom.getPactivityVersion());
+
         }else {
             initiatePiping("", step, taskResult, step, currentStepPosition, newStepPosition, currentStep);
         }
@@ -950,8 +947,10 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         }
     }
 
+
     private void updateActivityInfo(String activityId,String activityVersion) {
         AppController.getHelperProgressDialog().showProgress(CustomSurveyViewTaskActivity.this, "", "", false);
+
 
         GetActivityInfoEvent getActivityInfoEvent = new GetActivityInfoEvent();
         HashMap<String, String> header = new HashMap();
@@ -1204,4 +1203,3 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
     }
     }
 }
-
