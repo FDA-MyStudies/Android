@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -26,25 +27,43 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.harvard.R;
 import com.harvard.notificationModule.NotificationModuleSubscriber;
 import com.harvard.storageModule.DBServiceSubscriber;
+import com.harvard.studyAppModule.StudyModulePresenter;
+import com.harvard.studyAppModule.SurveyActivity;
 import com.harvard.studyAppModule.SurveyCompleteActivity;
+import com.harvard.studyAppModule.SurveyDashboardFragment;
 import com.harvard.studyAppModule.activityBuilder.model.Choices;
 import com.harvard.studyAppModule.activityBuilder.model.SurveyToSurveyModel;
+import com.harvard.studyAppModule.activityBuilder.model.serviceModel.ActivityInfoData;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.ActivityObj;
 import com.harvard.studyAppModule.activityBuilder.model.serviceModel.Steps;
+import com.harvard.studyAppModule.acvitityListModel.ActivitiesWS;
+import com.harvard.studyAppModule.acvitityListModel.ActivityListData;
 import com.harvard.studyAppModule.custom.ChoiceAnswerFormatCustom;
 import com.harvard.studyAppModule.custom.QuestionStepCustom;
 import com.harvard.studyAppModule.custom.Result.StepRecordCustom;
 import com.harvard.studyAppModule.custom.Result.TaskRecordCustom;
 import com.harvard.studyAppModule.custom.StepSwitcherCustom;
+import com.harvard.studyAppModule.events.GetActivityInfoEvent;
 import com.harvard.studyAppModule.studyModel.NotificationDbResources;
 import com.harvard.studyAppModule.studyModel.Resource;
+import com.harvard.studyAppModule.studyModel.ResponseInfoActiveTaskModel;
 import com.harvard.studyAppModule.studyModel.StudyHome;
+import com.harvard.userModule.webserviceModel.Studies;
 import com.harvard.utils.ActiveTaskService;
 import com.harvard.utils.AppController;
+import com.harvard.utils.URLs;
+import com.harvard.webserviceModule.apiHelper.ApiCall;
+import com.harvard.webserviceModule.apiHelper.ConnectionDetector;
+import com.harvard.webserviceModule.apiHelper.HttpRequest;
+import com.harvard.webserviceModule.apiHelper.Responsemodel;
+import com.harvard.webserviceModule.events.WCPConfigEvent;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.researchstack.backbone.answerformat.ChoiceAnswerFormat;
@@ -60,10 +79,15 @@ import org.researchstack.backbone.ui.step.layout.StepLayout;
 import org.researchstack.backbone.utils.FormatHelper;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -73,7 +97,7 @@ import io.realm.RealmResults;
  * Created by Naveen Raj on 03/03/2017.
  */
 
-public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implements StepCallbacks {
+public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implements StepCallbacks, ApiCall.OnAsyncRequestComplete {
     public static final String EXTRA_STUDYID = "ViewTaskActivity.ExtraStudyId";
     public static final String ACTIVITYID = "ViewTaskActivity.ActivityId";
     public static final String STUDYID = "ViewTaskActivity.StudyId";
@@ -90,6 +114,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
     private static final String RUN_END_DATE = "ViewTaskActivity.RunEndDate";
     private static final String BRANCHING = "ViewTaskActivity.branching";
     public static final String FREQUENCY_TYPE = "ViewTaskActivity.frequencyType";
+    public final int ACTIVTTYINFO_RESPONSECODE = 101;
 
     private StepSwitcherCustom root;
 
@@ -108,6 +133,8 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
     DBServiceSubscriber dbServiceSubscriber;
     String mActivityId;
     Realm realm;
+    Studies mStudies;
+    ActivityInfoData activityInfoData2;
     public static String RESOURCES = "resources";
     String resultValue;
     ArrayList<String> names = new ArrayList<>();
@@ -157,7 +184,6 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         mActivityObject = dbServiceSubscriber.getActivityBySurveyId((String) getIntent().getSerializableExtra(STUDYID), mActivityId, realm);
        /* for(int i=0;i<mActivityObject.getSteps().size();i++){
             if(mActivityObject.getSteps().get(i).getResultType().equalsIgnoreCase("boolean")){
-
                 final RealmList<Choices> textChoices = new RealmList<>();
                 Choices choices1 = new Choices();
                 choices1.setText("Yes");
@@ -171,16 +197,12 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                 choices2.setDetail("");
                 choices2.setExclusive(false);
                 textChoices.add(choices2);
-
-
                 final int finalI = i;
                 realm.executeTransaction(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
                         mActivityObject.getSteps().get(finalI).getFormat().setTextChoices(textChoices);
                         mActivityObject.getSteps().get(finalI).getFormat().setSelectionStyle("Single");
-
-
                     }
                 });
             }
@@ -195,7 +217,6 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
         if (savedsteps != null) {
             /*SurveyToSurveyModel surveyToSurveyModel = dbServiceSubscriber.getSurveyToSurveyModelData(realm);
-
             if (surveyToSurveyModel != null) {
                 AppController.getHelperSharedPreference()
                         .writePreference(
@@ -543,8 +564,18 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                 .getCurrent();
         int newStepPosition = task.getProgressOfCurrentStep(step, taskResult).getCurrent();
         QuestionStepCustom stepCustom = (QuestionStepCustom) currentStep;
-        if(stepCustom.getPipingLogic()!=null){
+
+        //updateActivityInfo(stepCustom.getPipingLogic().getActivityId(),stepCustom.getPipingLogic().getActivityVersion());
+        mStudies = dbServiceSubscriber.getStudies(getIntent().getStringExtra(STUDYID), realm);
+/*
+        new ResponseData(stepCustom.getDestinationStepKey(),stepCustom.getActivityId(),mStudies.getParticipantId(),step).execute();
+        updateActivityInfo(stepCustom.getPipingLogic().getActivityId(),stepCustom.getPipingLogic().getActivityVersion());*/
+
+        if(stepCustom.getPipingLogic()!=null&&stepCustom.getPipingLogic().getActivityId()!=null&&
+                stepCustom.getPipingLogic().getActivityVersion()!=null&&!stepCustom.getPipingLogic().getActivityId().equalsIgnoreCase("")&&
+                !stepCustom.getPipingLogic().getActivityVersion().equalsIgnoreCase("")){
             //call apis
+            updateActivityInfo(stepCustom.getPipingLogic().getActivityId(),stepCustom.getPipingLogic().getActivityVersion());
         }else {
             initiatePiping("", step, taskResult, step, currentStepPosition, newStepPosition, currentStep);
         }
@@ -915,9 +946,259 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         }
     }
 
+
+    private void updateActivityInfo(String activityId,String activityVersion) {
+        AppController.getHelperProgressDialog().showProgress(CustomSurveyViewTaskActivity.this, "", "", false);
+
+
+        GetActivityInfoEvent getActivityInfoEvent = new GetActivityInfoEvent();
+        HashMap<String, String> header = new HashMap();
+        //String url = "https://632adb4b713d41bc8e790540.mockapi.io/getactivitym/getactivity";
+        //String url = "https://63202cce9f82827dcf26789a.mockapi.io/getActivityM";
+        String url = URLs.ACTIVITY
+                + "?studyId="
+                + getIntent().getStringExtra(STUDYID)
+                + "&activityId="
+                + activityId
+                + "&activityVersion="
+                + activityVersion;
+        WCPConfigEvent wcpConfigEvent =
+                new WCPConfigEvent(
+                        "get",
+                        url,
+                        ACTIVTTYINFO_RESPONSECODE,
+                        CustomSurveyViewTaskActivity.this,
+                        ActivityInfoData.class,
+                        null,
+                        header,
+                        null,
+                        false,
+                        this);
+
+        getActivityInfoEvent.setWcpConfigEvent(wcpConfigEvent);
+        StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
+        studyModulePresenter.performGetActivityInfo(getActivityInfoEvent);
+    }
+
     public void surveyTosurveyPiping(){
 
     }
 
-}
+    @Override
+    public <T> void asyncResponse(T response, int responseCode) {
+        if (responseCode == ACTIVTTYINFO_RESPONSECODE) {
+            AppController.getHelperProgressDialog().dismissDialog();
+            ActivityInfoData activityInfoData = (ActivityInfoData) response;
+            activityInfoData2 = activityInfoData;
+            QuestionStepCustom stepCustom = (QuestionStepCustom) currentStep;
+            mStudies = dbServiceSubscriber.getStudies(getIntent().getStringExtra(STUDYID), realm);
+            new ResponseData(stepCustom.getDestinationStepKey(),stepCustom.getActivityId(),mStudies.getParticipantId(),currentStep).execute();
 
+        }
+    }
+
+    @Override
+    public void asyncResponseFailure(int responseCode, String errormsg, String statusCode) {
+        AppController.getHelperProgressDialog().dismissDialog();
+
+    }
+
+
+    private class ResponseData extends AsyncTask<String, Void, String> {
+
+        String participateId;
+        ResponseInfoActiveTaskModel responseInfoActiveTaskModel;
+        String response = null;
+        String responseCode = null;
+        String stepId;
+        String activityId;
+        String participtantID;
+        int position;
+        Responsemodel mResponseModel;
+        Step step;
+        ResponseData(String stepId,String activityId,String participtantID,Step step) {
+            this.stepId = stepId;
+            this.activityId = activityId;
+            this.participtantID = participtantID;
+            this.step = step;
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+
+            ConnectionDetector connectionDetector = new ConnectionDetector(CustomSurveyViewTaskActivity.this);
+
+            if (connectionDetector.isConnectingToInternet()) {
+                mResponseModel = HttpRequest.getRequest(URLs.PROCESSRESPONSEDATAPIPING +"/BTC/"+getIntent().getStringExtra(STUDYID) + "/mobileappstudy-selectRows.api?" + "query.queryName="+activityId+"&"+"query.columns="+stepId+"&"+"participantId="+participateId, new HashMap<String, String>(), "Response");
+                //mResponseModel = HttpRequest.getRequest("https://hpresp-stage.lkcompliant.net/BTC/LIMITOPEN001/mobileappstudy-selectRows.api?query.queryName=imageque&query.columns=text&participantId=dcb2f1938fd6b64c5e039ff476629a49", new HashMap<String, String>(), "Response");
+
+                responseCode = mResponseModel.getResponseCode();
+                response = mResponseModel.getResponseData();
+                if (responseCode.equalsIgnoreCase("0") && response.equalsIgnoreCase("timeout")) {
+                    response = "timeout";
+                } else if (responseCode.equalsIgnoreCase("0") && response.equalsIgnoreCase("")) {
+                    response = "error";
+                } else if (Integer.parseInt(responseCode) >= 201 && Integer.parseInt(responseCode) < 300 && response.equalsIgnoreCase("")) {
+                    response = "No data";
+                } else if (Integer.parseInt(responseCode) >= 400 && Integer.parseInt(responseCode) < 500 && response.equalsIgnoreCase("http_not_ok")) {
+                    response = "client error";
+                } else if (Integer.parseInt(responseCode) >= 500 && Integer.parseInt(responseCode) < 600 && response.equalsIgnoreCase("http_not_ok")) {
+                    response = "server error";
+                } else if (response.equalsIgnoreCase("http_not_ok")) {
+                    response = "Unknown error";
+                } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                    response = "session expired";
+                } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK && !response.equalsIgnoreCase("")) {
+                    response = response;
+                } else {
+                    response = getResources().getString(R.string.unknown_error);
+                }
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            AppController.getHelperProgressDialog().showProgress(CustomSurveyViewTaskActivity.this, "", "", false);
+       /* id = responseInfoActiveTaskModel.getActivityId();
+        stepKey = responseInfoActiveTaskModel.getKey();
+        ActivityListData activityListData = dbServiceSubscriber.getActivities(studyId, mRealm);
+        if (activityListData != null) {
+            RealmList<ActivitiesWS> activitiesWSes = activityListData.getActivities();
+            for (int i = 0; i < activitiesWSes.size(); i++) {
+                if (activitiesWSes.get(i).getActivityId().equalsIgnoreCase(responseInfoActiveTaskModel.getActivityId())) {
+                    if (activitiesWSes.get(i).getType().equalsIgnoreCase("task")) {
+                        id = responseInfoActiveTaskModel.getActivityId() + responseInfoActiveTaskModel.getKey();
+                        queryParam = "%22count%22,%22Created%22,%22duration%22";
+                    }
+                }
+            }
+        }*/
+        }
+
+        @Override
+        protected void onPostExecute(String response) {
+            super.onPostExecute(response);
+            AppController.getHelperProgressDialog().dismissDialog();
+
+            if (response != null) {
+                if (response.equalsIgnoreCase("session expired")) {
+                    AppController.getHelperProgressDialog().dismissDialog();
+                    AppController.getHelperSessionExpired(CustomSurveyViewTaskActivity.this, "session expired");
+                } else if (response.equalsIgnoreCase("timeout")) {
+                    AppController.getHelperProgressDialog().dismissDialog();
+                    Toast.makeText(CustomSurveyViewTaskActivity.this,  getResources().getString(R.string.survey_dashboard_fragment_connection_timeout), Toast.LENGTH_SHORT).show();
+                } else if (Integer.parseInt(responseCode) == 500) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(String.valueOf(mResponseModel.getResponseData()));
+                        String exception = String.valueOf(jsonObject.get("exception"));
+                        if (exception.contains("Query or table not found")) {
+
+                            AppController.getHelperProgressDialog().dismissDialog();
+
+                        } else {
+                            AppController.getHelperProgressDialog().dismissDialog();
+                        }
+                    } catch (JSONException e) {
+                        AppController.getHelperProgressDialog().dismissDialog();
+                        e.printStackTrace();
+                    }
+                } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK) {
+                    try {
+
+                        JSONObject jsonObject = new JSONObject(response);
+                        JSONArray jsonArray = (JSONArray) jsonObject.get("rows");
+                        ArrayList<String>keyValues = new ArrayList<>();
+                        for (int i = 0; i < jsonArray.length(); i++) {
+
+                            JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                            if(stepId.equalsIgnoreCase("text")){
+                                keyValues.add(jsonObject1.getString("Key"));
+                            }else if(stepId.equalsIgnoreCase("textChoice")){
+                                keyValues.add(jsonObject1.getString("Key"));
+
+                            }else if(stepId.equalsIgnoreCase("valuePicker")){
+                                keyValues.add(jsonObject1.getString("Key"));
+
+                            }else if(stepId.equalsIgnoreCase("textScale")){
+                                keyValues.add(jsonObject1.getString("Key"));
+
+                            }else {
+                                //do nothing
+                            }
+
+
+
+                        }
+                        Log.e("buuid", String.valueOf(keyValues.get(keyValues.size()-1)));
+                        Log.e("buuid",stepId);
+                        QuestionStepCustom nextStepPipe = (QuestionStepCustom) step;
+                        for(int k=0;k<activityInfoData2.getActivity().getSteps().size();k++){
+                            if(activityInfoData2.getActivity().getSteps().get(k).getResultType().equalsIgnoreCase("text")){
+                                String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPipingSnippet(), keyValues.get(keyValues.size()-1));
+                                nextStepPipe.setPipingSnippet(keyValues.get(keyValues.size()-1));
+                                step.setTitle("");
+                                step.setTitle(replaceString);
+                            }else if(activityInfoData2.getActivity().getSteps().get(k).getResultType().equalsIgnoreCase("textChoice")){
+                                RealmList<Choices> textChoices = activityInfoData2.getActivity().getSteps().get(k).getFormat().getTextChoices();
+                                String answer="";
+                                for(int i=0;i<textChoices.size();i++){
+                                    if(textChoices.get(i).getValue().equalsIgnoreCase(keyValues.get(keyValues.size()-1))){
+                                        answer = textChoices.get(i).getText();
+                                    }
+                                }
+
+                                String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPipingSnippet(), answer);
+                                nextStepPipe.setPipingSnippet(keyValues.get(keyValues.size()-1));
+                                step.setTitle("");
+                                step.setTitle(replaceString);
+                            }else if(activityInfoData2.getActivity().getSteps().get(k).getResultType().equalsIgnoreCase("valuePicker")){
+                                RealmList<Choices> textChoices = activityInfoData2.getActivity().getSteps().get(k).getFormat().getTextChoices();
+                                String answer="";
+                                for(int i=0;i<textChoices.size();i++){
+                                    if(textChoices.get(i).getValue().equalsIgnoreCase(keyValues.get(keyValues.size()-1))){
+                                        answer = textChoices.get(i).getText();
+                                    }
+                                }
+
+                                String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPipingSnippet(), answer);
+                                nextStepPipe.setPipingSnippet(keyValues.get(keyValues.size()-1));
+                                step.setTitle("");
+                                step.setTitle(replaceString);
+                            }else if(activityInfoData2.getActivity().getSteps().get(k).getResultType().equalsIgnoreCase("textScale")){
+                                RealmList<Choices> textChoices = activityInfoData2.getActivity().getSteps().get(k).getFormat().getTextChoices();
+                                String answer="";
+                                for(int i=0;i<textChoices.size();i++){
+                                    if(textChoices.get(i).getValue().equalsIgnoreCase(keyValues.get(keyValues.size()-1))){
+                                        answer = textChoices.get(i).getText();
+                                    }
+                                }
+
+                                String replaceString = step.getTitle().replace(((QuestionStepCustom) currentStep).getPipingSnippet(), answer);
+                                nextStepPipe.setPipingSnippet(keyValues.get(keyValues.size()-1));
+                                step.setTitle("");
+                                step.setTitle(replaceString);
+                            }else {
+
+                            }
+
+                        }
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        AppController.getHelperProgressDialog().dismissDialog();
+                    }
+                } else {
+                    AppController.getHelperProgressDialog().dismissDialog();
+                    Toast.makeText(CustomSurveyViewTaskActivity.this,  getResources().getString(R.string.survey_dashboard_fragment_unable_to_retrieve_data), Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                AppController.getHelperProgressDialog().dismissDialog();
+                Toast.makeText(CustomSurveyViewTaskActivity.this, getString(R.string.unknown_error), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+}
