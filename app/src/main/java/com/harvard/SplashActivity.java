@@ -320,7 +320,8 @@ public class SplashActivity extends AppCompatActivity implements VersionChecker.
                 if (force) {
                     finish();
                 }
-            } else if (b) {
+            }
+            else if (b) {
                 Intent intent = new Intent(SplashActivity.this, UpgradeAppActivity.class);
                 intent.putExtra("forceUpgrade", force);
                 startActivityForResult(intent, RESULT_CODE_UPGRADE);

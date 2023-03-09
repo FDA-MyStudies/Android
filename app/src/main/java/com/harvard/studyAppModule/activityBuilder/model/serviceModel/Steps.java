@@ -23,15 +23,7 @@ public class Steps extends RealmObject {
     private String text;
     private boolean skippable;
 
-    public boolean isHidden() {
-        return isHidden;
-    }
-
-    public void setHidden(boolean hidden) {
-        isHidden = hidden;
-    }
-
-    private boolean isHidden;
+      private boolean isHidden;
     private String groupName;
     private boolean repeatable;
     private String repeatableText;
@@ -43,19 +35,25 @@ public class Steps extends RealmObject {
 
 
 
-    private boolean isPiping;
+    private boolean piping;
     private PreLoadLogic preLoadLogic;
 
+    public boolean isHidden() {
+        return isHidden;
+    }
 
+    public void setHidden(boolean hidden) {
+        isHidden = hidden;
+    }
     public boolean isPiping() {
-        return isPiping;
+        return piping;
     }
 
     public void setPiping(boolean piping) {
-        isPiping = piping;
+        piping = piping;
     }
 
-    private Piping piping;
+    private Piping pipingLogic;
 
 
 
@@ -84,11 +82,11 @@ public class Steps extends RealmObject {
     }
 
     public Piping getPiping() {
-        return piping;
+        return pipingLogic;
     }
 
     public void setPiping(Piping piping) {
-        this.piping = piping;
+        this.pipingLogic = piping;
     }
 
 
