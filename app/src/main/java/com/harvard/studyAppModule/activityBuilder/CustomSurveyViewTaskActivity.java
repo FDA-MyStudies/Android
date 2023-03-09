@@ -170,11 +170,15 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
 
 
         mActivityObject = dbServiceSubscriber.getActivityBySurveyId((String) getIntent().getSerializableExtra(STUDYID), mActivityId, realm);
+
         StepsBuilder stepsBuilder = new StepsBuilder(CustomSurveyViewTaskActivity.this, mActivityObject, getIntent().getBooleanExtra(BRANCHING, false), realm);
+
         task = ActivityBuilder.create(this,((String) getIntent().getSerializableExtra(EXTRA_STUDYID)), stepsBuilder.getsteps(), mActivityObject, getIntent().getBooleanExtra(BRANCHING, false), dbServiceSubscriber);
 
         StudyId = (String) getIntent().getSerializableExtra(EXTRA_STUDYID);
         StepRecordCustom savedsteps = dbServiceSubscriber.getSavedSteps(task, realm);
+
+
         if (savedsteps != null) {
             String survetTosurveyActivityId= AppController.getHelperSharedPreference()
                     .readPreference(CustomSurveyViewTaskActivity.this,
@@ -210,7 +214,8 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                         taskResult = TaskRecordCustom.toTaskResult(taskRecord, stepRecordCustoms);
                     }
                 }
-            } else {
+            }
+            else {
                 taskResult = new TaskResult(task.getIdentifier());
                 taskResult.setStartDate(new Date());
             }
@@ -292,6 +297,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
         taskRecord.completed = taskResult.getEndDate();
 
         for (StepResult stepResult : taskResult.getResults().values()) {
+//            Log.e("Krishna", "savestepresult: identifier "+stepResult.getIdentifier());
             if (stepResult != null && stepResult.getIdentifier().equalsIgnoreCase(currentStep.getIdentifier())) {
                 StepRecordCustom stepRecord = new StepRecordCustom();
 
@@ -353,7 +359,7 @@ public class CustomSurveyViewTaskActivity<T> extends AppCompatActivity implement
                     resultValue="";
                     resultValue = "" + stepResult.getResults().get("answer");
                 }
-
+                Log.e("Krishna", "savestepresult: identifier currentStep before updateStepRecord "+currentStep.getIdentifier());
                 dbServiceSubscriber.updateStepRecord(this,stepRecord);
 
 
