@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import android.text.Html;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -29,6 +30,7 @@ import org.researchstack.backbone.utils.LogExt;
 import org.researchstack.backbone.utils.TextUtils;
 
 import java.lang.reflect.Constructor;
+import java.util.regex.Pattern;
 
 import rx.functions.Action1;
 
@@ -41,6 +43,8 @@ public class SurveyStepLayoutCustom extends FixedSubmitBarLayoutCustom implement
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     private QuestionStep questionStep;
     private StepResult   stepResult;
+
+    Pattern regex = Pattern.compile("[$&+,:;=\\\\?@#|/'<>.^*()%!-]");
 
     //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
     // Communicate w/ host
@@ -152,7 +156,12 @@ public class SurveyStepLayoutCustom extends FixedSubmitBarLayoutCustom implement
             if(! TextUtils.isEmpty(questionStep.getText()))
             {
                 summary.setVisibility(View.VISIBLE);
-                summary.setText(Html.fromHtml(questionStep.getText()));
+                if(regex.matcher(questionStep.getText()).find()){
+                    Log.e(TAG, "initStepLayout: pattern contains special char "+questionStep.getText());
+                    summary.setText(questionStep.getText());
+                }else{
+                    summary.setText(Html.fromHtml(questionStep.getText()));
+                }
                 summary.setMovementMethod(new TextViewLinkHandler()
                 {
                     @Override
