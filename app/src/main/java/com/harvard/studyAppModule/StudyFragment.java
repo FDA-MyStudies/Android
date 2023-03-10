@@ -175,9 +175,9 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         studyListArrayList = new RealmList<>();
         initializeXMLId(view);
         bindEvents();
-     // Call updateBuildVersionToSB only one time.
-     // while releasing app to production for updating the version which we are uploading to playstore.
-       updateBuildVersionToSB();
+        // Call updateBuildVersionToSB only one time.
+        // while releasing app to production for updating the version which we are uploading to playstore.
+        updateBuildVersionToSB();
         return view;
     }
 
@@ -921,7 +921,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
             requestObject.put("appId", BuildConfig.APP_ID_VALUE);
             requestObject.put("orgId", BuildConfig.ORG_ID_VALUE);
             requestObject.put("appName",mContext.getResources().getString(R.string.app_name));
-            requestObject.put("appVersion","1.0.10.52");//currentVersion());
+            requestObject.put("appVersion","1.0.10.53");//currentVersion());
             requestObject.put("osType","android");
         }catch (Exception e){
             Log.e("KRISHNA", "updateBuildVersionToSB: "+e.toString());
@@ -1527,16 +1527,16 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                 } else if (response.equalsIgnoreCase("timeout")) {
                     //don't update UI
                     Toast.makeText(
-                            mContext,
-                            mContext.getResources().getString(R.string.study_fragment_connection_timeout),
-                            Toast.LENGTH_SHORT)
+                                    mContext,
+                                    mContext.getResources().getString(R.string.study_fragment_connection_timeout),
+                                    Toast.LENGTH_SHORT)
                             .show();
                 } else if (Integer.parseInt(responseCode) == 500) {
                     //don't update UI
                     Toast.makeText(
-                            mContext,
-                            mContext.getResources().getString(R.string.study_fragment_unable_to_retrieve_data),
-                            Toast.LENGTH_SHORT)
+                                    mContext,
+                                    mContext.getResources().getString(R.string.study_fragment_unable_to_retrieve_data),
+                                    Toast.LENGTH_SHORT)
                             .show();
                 } else if (Integer.parseInt(responseCode) == HttpURLConnection.HTTP_OK) {
                     //Update UI
@@ -1577,10 +1577,10 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
                 } else {
                     //Update UI
                     Toast.makeText(
-                            mContext,
-                            mContext.getResources()
-                                    .getString(R.string.study_fragment_unable_to_retrieve_data),
-                            Toast.LENGTH_SHORT)
+                                    mContext,
+                                    mContext.getResources()
+                                            .getString(R.string.study_fragment_unable_to_retrieve_data),
+                                    Toast.LENGTH_SHORT)
                             .show();
                 }
             } else {
