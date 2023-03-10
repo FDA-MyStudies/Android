@@ -1373,7 +1373,6 @@ public class ActivityBuilder extends OrderedTask {
                                         }
                                     }
                                     break;
-
                                 case "!=":
                                     if (activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getResultType().equalsIgnoreCase("textChoice") && activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getFormat().getSelectionStyle().equalsIgnoreCase("Single")) {
                                         //Object[] obj = (Object[]) taskResult.getStepResult(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getKey()).getResults().get("answer");
@@ -1471,8 +1470,9 @@ public class ActivityBuilder extends OrderedTask {
                                                 JSONObject object = new JSONObject(stepRecordCustom.getResult());
                                                 if (!object.getJSONObject(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getKey()).getJSONObject("results").get("answer").toString().equalsIgnoreCase(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getValue())) {
                                                     int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey()));
-
-                                                    if (nextIndex < steps.size()) {
+                                                    if(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().get(activityQuestionStep.get(steps.indexOf(previousStep)).getSteps().size() - 1).getPreLoadLogic().getDestinationStepKey().equalsIgnoreCase("0")){
+                                                        return null;
+                                                    }else if (nextIndex < steps.size()) {
                                                         return steps.get(nextIndex);
                                                     }
                                                 }
@@ -1502,14 +1502,14 @@ public class ActivityBuilder extends OrderedTask {
 
                                                 }
 
-                                            } catch (JSONException e) {
+                                            }
+                                            catch (JSONException e) {
                                                 e.printStackTrace();
                                             }
                                         }
                                         else {
                                             //   int nextIndex = steps.indexOf(getStepWithIdentifier(activityQuestionStep.get(steps.indexOf(previousStep)).getPreLoadLogic().getDestinationFalseStepKey()));
                                             int nextIndex = steps.indexOf(previousStep) + 1;
-
                                             if (activityQuestionStep.get(nextIndex).isHidden()) {
                                                 while (activityQuestionStep.get(nextIndex).isHidden()) {
                                                     nextIndex += 1;
@@ -1525,7 +1525,6 @@ public class ActivityBuilder extends OrderedTask {
                                                 }
                                             }
                                             else {
-
                                                 if (nextIndex < steps.size()) {
 
                                                     return steps.get(nextIndex);
