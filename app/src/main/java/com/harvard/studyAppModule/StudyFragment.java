@@ -175,8 +175,6 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
         studyListArrayList = new RealmList<>();
         initializeXMLId(view);
         bindEvents();
-        // Call updateBuildVersionToSB only one time.
-        // while releasing app to production for updating the version which we are uploading to playstore.
         // updateBuildVersionToSB();
         return view;
     }
@@ -921,7 +919,7 @@ public class StudyFragment extends Fragment implements ApiCall.OnAsyncRequestCom
             requestObject.put("appId", BuildConfig.APP_ID_VALUE);
             requestObject.put("orgId", BuildConfig.ORG_ID_VALUE);
             requestObject.put("appName",mContext.getResources().getString(R.string.app_name));
-            requestObject.put("appVersion","1.0.10.55");//currentVersion());
+            requestObject.put("appVersion","1.0.10.61");//currentVersion());
             requestObject.put("osType","android");
         }catch (Exception e){
             Log.e("KRISHNA", "updateBuildVersionToSB: "+e.toString());
