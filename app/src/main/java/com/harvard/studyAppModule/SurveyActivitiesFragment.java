@@ -1321,48 +1321,12 @@ public class SurveyActivitiesFragment extends Fragment
                       });
       AlertDialog alertDialog = alertDialogBuilder.create();
       alertDialog.show();
-    }else if(status.equalsIgnoreCase(YET_To_START)){
-      AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(mContext, R.style.MyAlertDialogStyle);
-      alertDialogBuilder.setTitle("");
-      String message = "You will be navigated to a different activity/survey as this activity/survey is completed.";
-      alertDialogBuilder
-              .setMessage(message)
-              .setCancelable(false)
-              .setPositiveButton(
-                      "Done",
-                      new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                          launchSurvey2(activityObj);
-                         /* AppController.getHelperSharedPreference()
-                                  .writePreference(
-                                          mContext,
-                                          "survetTosurveyActivityId",
-                                          "");
-                          AppController.getHelperSharedPreference()
-                                  .writePreference(
-                                          mContext,
-                                          "survetTosurveySourceKey",
-                                          "");
-
-                          AppController.getHelperSharedPreference()
-                                  .writePreference(
-                                          mContext,
-                                          "survetTosurveySourceKey2",
-                                          "");
-                          AppController.getHelperSharedPreference()
-                                  .writePreference(
-                                          mContext,
-                                          "survetTosurveyactivityVersion",
-                                          "");*/
-                          dialog.dismiss();
 
 
                         }
-                      });
-      AlertDialog alertDialog = alertDialogBuilder.create();
-      alertDialog.show();
+
     }
-  }
+
 
   private void calculateStartAnsEndDateForActivities() {
     // call to resp server to get anchorDate
