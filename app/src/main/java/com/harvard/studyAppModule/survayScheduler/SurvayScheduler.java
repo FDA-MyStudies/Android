@@ -11,7 +11,6 @@ import com.harvard.studyAppModule.activityBuilder.model.ActivityRun;
 import com.harvard.studyAppModule.acvitityListModel.ActivitiesWS;
 import com.harvard.studyAppModule.acvitityListModel.ActivityListData;
 import com.harvard.studyAppModule.acvitityListModel.Frequency;
-import com.harvard.studyAppModule.acvitityListModel.FrequencyRuns;
 import com.harvard.studyAppModule.survayScheduler.model.ActivityStatus;
 import com.harvard.studyAppModule.survayScheduler.model.CompletionAdeherenceCalc;
 import com.harvard.userModule.webserviceModel.Activities;
@@ -22,12 +21,10 @@ import com.harvard.utils.AppController;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.TimeZone;
 
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
@@ -473,7 +470,7 @@ public class SurvayScheduler {
             }
             RealmResults<ActivityRun> activityRuns = dbServiceSubscriber.getAllActivityRunFromDB(studyId, activityId, mRealm);
             if(activitiesForStatus != null) {
-                activityStatus = activitiesForStatus.getStatus();
+                activityStatus = activitiesForStatus.getActivityStatus();
                 if(activityStatus.equalsIgnoreCase(SurveyActivitiesFragment.COMPLETED)){
                     ActivitiesWS activitiesWS = new ActivitiesWS();
                     Frequency frequency = new Frequency();
@@ -563,7 +560,7 @@ public class SurvayScheduler {
 
             if (runAvailable && activityIdAvailable) {
                 if (currentRunId == Integer.parseInt(activitiesForStatus.getActivityRunId())) {
-                    activityStatus = activitiesForStatus.getStatus();
+                    activityStatus = activitiesForStatus.getActivityStatus();
                 } else {
                     activityStatus = SurveyActivitiesFragment.YET_To_START;
                 }
@@ -571,8 +568,8 @@ public class SurvayScheduler {
                 activityStatus = SurveyActivitiesFragment.YET_To_START;
             } else if (activityIdAvailable) {
                 if (currentRunId == Integer.parseInt(activitiesForStatus.getActivityRunId())) {
-                    if (activitiesForStatus.getStatus().equalsIgnoreCase(SurveyActivitiesFragment.COMPLETED)) {
-                        activityStatus = activitiesForStatus.getStatus();
+                    if (activitiesForStatus.getActivityStatus().equalsIgnoreCase(SurveyActivitiesFragment.COMPLETED)) {
+                        activityStatus = activitiesForStatus.getActivityStatus();
                     } else {
                         activityStatus = SurveyActivitiesFragment.INCOMPLETE;
                     }
@@ -655,19 +652,19 @@ public class SurvayScheduler {
                 try {
                     if(!activityListDataDB.getActivities().get(i).getStartTime().split("\\.")[0].equalsIgnoreCase(""))
                         if (!activityListDataDB.getActivities().get(i).getFrequency().getType().equalsIgnoreCase("OnGoing") && !activityListDataDB.getActivities().get(i).getState().equalsIgnoreCase("deleted")) {
-                        ActivityStatus activityStatus = getActivityStatus(activityData, studyId, activityListDataDB.getActivities().get(i).getActivityId(), calendarCurrentTime.getTime(), "", mContext);
-                        if (activityStatus != null) {
-                            if (activityStatus.getCompletedRun() >= 0) {
-                                completed = completed + activityStatus.getCompletedRun();
-                            }
-                            if (activityStatus.getMissedRun() >= 0) {
-                                missed = missed + activityStatus.getMissedRun();
-                            }
-                            if (activityStatus.getTotalRun() >= 0) {
-                                total = total + activityStatus.getTotalRun();
+                            ActivityStatus activityStatus = getActivityStatus(activityData, studyId, activityListDataDB.getActivities().get(i).getActivityId(), calendarCurrentTime.getTime(), "", mContext);
+                            if (activityStatus != null) {
+                                if (activityStatus.getCompletedRun() >= 0) {
+                                    completed = completed + activityStatus.getCompletedRun();
+                                }
+                                if (activityStatus.getMissedRun() >= 0) {
+                                    missed = missed + activityStatus.getMissedRun();
+                                }
+                                if (activityStatus.getTotalRun() >= 0) {
+                                    total = total + activityStatus.getTotalRun();
+                                }
                             }
                         }
-                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

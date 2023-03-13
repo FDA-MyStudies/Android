@@ -33,9 +33,7 @@ public class Activities extends RealmObject {
 
     private RealmList<CustomScheduleRuns> customScheduleRuns;
 
-    public String getActivityState() {
-        return activityState;
-    }
+
 
     public void setActivityState(String activityState) {
         this.activityState = activityState;
@@ -123,7 +121,7 @@ public class Activities extends RealmObject {
         this.studyId = studyId;
     }
 
-    public String getStatus() {
+    public String getActivityStatus() {
         return activityState;
     }
 

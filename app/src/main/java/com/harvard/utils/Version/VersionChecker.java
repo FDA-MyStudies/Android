@@ -14,7 +14,6 @@ import com.harvard.webserviceModule.apiHelper.Responsemodel;
 
 import java.io.StringReader;
 import java.net.HttpURLConnection;
-import java.util.HashMap;
 
 public class VersionChecker extends AsyncTask<String, String, String> {
 
@@ -23,7 +22,7 @@ public class VersionChecker extends AsyncTask<String, String, String> {
     private Upgrade upgrade;
     private Context context;
     private String versionUrl = URLs.BASE_URL_WCP_SERVER + "versionInfo";
-    public static String PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=" + AppConfig.PackageName + "&hl=en";
+    public final static String PLAY_STORE_URL = "https://play.google.com/store/apps/details?id=" + AppConfig.PackageName + "&hl=en";
 
     public VersionChecker(Upgrade upgrade, Context context) {
         this.upgrade = upgrade;
@@ -66,14 +65,15 @@ public class VersionChecker extends AsyncTask<String, String, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         String currentVersion = currentVersion();
-//        currentVersion = "1.0";
-        if ((currentVersion != null && !currentVersion.equalsIgnoreCase(newVersion)) || newVersion == null) {
+        Boolean b = false;
+        if ((currentVersion != null && (newVersion.compareTo(currentVersion) > 0)) || newVersion == null) {
 
             if (force) {
-                upgrade.isUpgrade(true, newVersion, force);
+                b = true;
             }else{
-                upgrade.isUpgrade(false, newVersion, force);
+                b = false;
             }
+            upgrade.isUpgrade(b, newVersion, force);
         }else {
             upgrade.isUpgrade(false,"na",false);
         }
@@ -88,6 +88,7 @@ public class VersionChecker extends AsyncTask<String, String, String> {
         try {
             pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
         } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
         }
         if (pInfo == null) {
             return null;

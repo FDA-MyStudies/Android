@@ -14,7 +14,6 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-
 import com.harvard.FDAApplication;
 import com.harvard.R;
 import com.harvard.offlineModule.model.OfflineData;
@@ -28,13 +27,10 @@ import com.harvard.webserviceModule.apiHelper.ApiCall;
 import com.harvard.webserviceModule.apiHelper.ApiCallResponseServer;
 import com.harvard.webserviceModule.events.RegistrationServerConfigEvent;
 import com.harvard.webserviceModule.events.ResponseServerConfigEvent;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.Calendar;
 import java.util.HashMap;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -45,7 +41,7 @@ import io.realm.RealmResults;
 public class ActiveTaskService extends Service implements ApiCall.OnAsyncRequestComplete, ApiCallResponseServer.OnAsyncRequestComplete {
     int sec;
     Thread t;
-    private int UPDATE_USERPREFERENCE_RESPONSECODE = 102;
+    private static final int UPDATE_USERPREFERENCE_RESPONSECODE = 102;
     private DBServiceSubscriber dbServiceSubscriber;
     boolean alerted = false;
     Realm mRealm;
@@ -60,81 +56,86 @@ public class ActiveTaskService extends Service implements ApiCall.OnAsyncRequest
 
     @Override
     public int onStartCommand(final Intent intent, int flags, int startId) {
-        if (intent != null)
+        if (intent != null) {
             if (intent.getStringExtra("broadcast") != null && intent.getStringExtra("broadcast").equalsIgnoreCase("yes")) {
                 startAlarm();
-            } else if (intent.getStringExtra("SyncAdapter") != null) {
-                mRealm = AppController.getRealmobj(this);
+            }
+        }
+        else if (intent.getStringExtra("SyncAdapter") != null)
+        {
+            mRealm = AppController.getRealmobj(this);
+            Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+            Notification notification = new NotificationCompat.Builder(this)
+                    .setContentTitle(getResources().getString(R.string.prject_name))
+                    .setTicker(getResources().getString(R.string.sync_adapter_dialog_title))
+                    .setContentText(getResources().getString(R.string.sync_adapter_dialog))
+                    .setChannelId(FDAApplication.NOTIFICATION_CHANNEL_ID_SERVICE)
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setLargeIcon(
+                            Bitmap.createScaledBitmap(icon, 128, 128, false))
+                    .setOngoing(true).build();
+
+            startForeground(102, notification);
+            getPendingData();
+        }
+        else {
+            try {
+                sec = 0;
+                startAlarm();
                 Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
                 Notification notification = new NotificationCompat.Builder(this)
                         .setContentTitle(getResources().getString(R.string.prject_name))
-                        .setTicker(getResources().getString(R.string.sync_adapter_dialog_title))
-                        .setContentText(getResources().getString(R.string.sync_adapter_dialog))
+                        .setTicker(getResources().getString(R.string.fetal_kick_recorder_activity))
+                        .setContentText(getResources().getString(R.string.fetal_kick_recorder_activity_in_progress))
                         .setChannelId(FDAApplication.NOTIFICATION_CHANNEL_ID_SERVICE)
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setLargeIcon(
                                 Bitmap.createScaledBitmap(icon, 128, 128, false))
                         .setOngoing(true).build();
 
-                startForeground(102, notification);
-                getPendingData();
-            } else {
-                try {
-                    sec = 0;
-                    startAlarm();
-                    Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-                    Notification notification = new NotificationCompat.Builder(this)
-                            .setContentTitle(getResources().getString(R.string.prject_name))
-                            .setTicker(getResources().getString(R.string.fetal_kick_recorder_activity))
-                            .setContentText(getResources().getString(R.string.fetal_kick_recorder_activity_in_progress))
-                            .setChannelId(FDAApplication.NOTIFICATION_CHANNEL_ID_SERVICE)
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setLargeIcon(
-                                    Bitmap.createScaledBitmap(icon, 128, 128, false))
-                            .setOngoing(true).build();
-
-                    startForeground(101, notification);
+                startForeground(101, notification);
 
 
-                    Runnable r = new Runnable() {
-                        public void run() {
-                            try {
-                                while (!t.isInterrupted()) {
-                                    sec = sec + 1;
-                                    Intent i = new Intent("com.harvard.ActiveTask");
-                                    i.putExtra("sec", "" + sec);
-                                    sendBroadcast(i);
-                                    if (sec % 1800 == 0) {
-                                        NotificationCompat.Builder builder = new NotificationCompat.Builder(ActiveTaskService.this);
-                                        builder.setSmallIcon(R.mipmap.ic_launcher)
-                                                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                                                .setContentTitle(getResources().getString(R.string.prject_name))
-                                                .setContentText(getString(R.string.activetaskremindertxt))
-                                                .setChannelId(FDAApplication.NOTIFICATION_CHANNEL_ID_SERVICE);
+                Runnable r = new Runnable() {
+                    public void run() {
+                        try {
+                            while (!t.isInterrupted()) {
+                                sec = sec + 1;
+                                Intent i = new Intent("com.harvard.ActiveTask");
+                                i.putExtra("sec", "" + sec);
+                                sendBroadcast(i);
+                                if (sec % 1800 == 0) {
+                                    NotificationCompat.Builder builder = new NotificationCompat.Builder(ActiveTaskService.this);
+                                    builder.setSmallIcon(R.mipmap.ic_launcher)
+                                            .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+                                            .setContentTitle(getResources().getString(R.string.prject_name))
+                                            .setContentText(getString(R.string.activetaskremindertxt))
+                                            .setChannelId(FDAApplication.NOTIFICATION_CHANNEL_ID_SERVICE);
 
 
-                                        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                                        mNotificationManager.notify(sec, builder.build());
-                                    }
-
-                                    if (sec >= Integer.parseInt(intent.getStringExtra("remaining_sec"))) {
-                                        t.interrupt();
-                                        stopSelf();
-                                    }
-                                    t.sleep(1000);
+                                    NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                                    mNotificationManager.notify(sec, builder.build());
                                 }
-                            } catch (Exception e) {
-                                e.printStackTrace();
+
+                                if (sec >= Integer.parseInt(intent.getStringExtra("remaining_sec"))) {
+                                    t.interrupt();
+                                    stopSelf();
+                                }
+                                t.sleep(1000);
                             }
                         }
-                    };
+                        catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                };
 
-                    t = new Thread(r);
-                    t.start();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                t = new Thread(r);
+                t.start();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+        }
         return Service.START_NOT_STICKY;
     }
 
@@ -177,11 +178,11 @@ public class ActiveTaskService extends Service implements ApiCall.OnAsyncRequest
             RealmResults<OfflineData> results = dbServiceSubscriber.getOfflineData(mRealm);
             if (!results.isEmpty()) {
                 for (int i = 0; i < results.size(); i++) {
-                    String httpMethod = results.get(i).getHttpMethod().toString();
-                    String url = results.get(i).getUrl().toString();
-                    String normalParam = results.get(i).getNormalParam().toString();
-                    String jsonObject = results.get(i).getJsonParam().toString();
-                    String serverType = results.get(i).getServerType().toString();
+                    String httpMethod = results.get(i).getHttpMethod();
+                    String url = results.get(i).getUrl();
+                    String normalParam = results.get(i).getNormalParam();
+                    String jsonObject = results.get(i).getJsonParam();
+                    String serverType = results.get(i).getServerType();
                     updateServer(httpMethod, url, normalParam, jsonObject, serverType);
                     break;
                 }
@@ -206,8 +207,8 @@ public class ActiveTaskService extends Service implements ApiCall.OnAsyncRequest
 
         if (serverType.equalsIgnoreCase("registration")) {
             HashMap<String, String> header = new HashMap();
-            header.put("auth", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.auth), ""));
-            header.put("userId", AppController.getHelperSharedPreference().readPreference(this, getResources().getString(R.string.userid), ""));
+            header.put("auth", SharedPreferenceHelper.readPreference(this, getResources().getString(R.string.auth), ""));
+            header.put("userId", SharedPreferenceHelper.readPreference(this, getResources().getString(R.string.userid), ""));
 
             UpdatePreferenceEvent updatePreferenceEvent = new UpdatePreferenceEvent();
             RegistrationServerConfigEvent registrationServerConfigEvent = new RegistrationServerConfigEvent(httpMethod, url, UPDATE_USERPREFERENCE_RESPONSECODE, this, LoginData.class, null, header, jsonObject, false, this);
@@ -221,7 +222,6 @@ public class ActiveTaskService extends Service implements ApiCall.OnAsyncRequest
             processResponseEvent.setResponseServerConfigEvent(responseServerConfigEvent);
             StudyModulePresenter studyModulePresenter = new StudyModulePresenter();
             studyModulePresenter.performProcessResponse(processResponseEvent);
-        } else if (serverType.equalsIgnoreCase("wcp")) {
         }
     }
 

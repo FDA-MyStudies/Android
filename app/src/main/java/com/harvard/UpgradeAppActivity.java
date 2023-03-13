@@ -1,6 +1,5 @@
 package com.harvard;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,17 +16,17 @@ import com.harvard.utils.AppController;
 import com.harvard.utils.Version.VersionChecker;
 
 public class UpgradeAppActivity extends AppCompatActivity {
-   Context mContext;
-   private boolean forceUpgrade;
-   private  SplashActivity splashActivity = new SplashActivity();
+    Context mContext;
+    private boolean forceUpgrade;
+    private  SplashActivity splashActivity = new SplashActivity();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upgrade_app);
-         mContext = this;
-         if(getIntent().hasExtra("forceUpgrade")){
+        mContext = this;
+        if(getIntent().hasExtra("forceUpgrade")){
             forceUpgrade = getIntent().getBooleanExtra("forceUpgrade",false);
-         }
+        }
         TextView version = findViewById(R.id.version);
         TextView message = findViewById(R.id.message);
         AppCompatTextView upgrade = findViewById(R.id.upgrade);
@@ -64,7 +62,7 @@ public class UpgradeAppActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AppController.getLocalePreferenceHelper().writeLocaleBoolPreference(UpgradeAppActivity.this,AppController.isUpdateCancelledByUser,true);
-              // splashActivity.startmain();
+                // splashActivity.startmain();
                 finish();
             }
         });

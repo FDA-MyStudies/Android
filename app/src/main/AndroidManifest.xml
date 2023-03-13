@@ -44,7 +44,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="@string/FileProvider_authorities"
+            android:authorities="com.myfileprovider.limitjia"
             android:exported="false"
             android:grantUriPermissions="true"
             tools:replace="android:authorities" >
@@ -64,6 +64,7 @@
             android:configChanges="screenLayout|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar"
+            android:exported="true"
             android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -75,24 +76,29 @@
             android:name=".userModule.SignupActivity"
             android:configChanges="screenLayout|orientation"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppThemeNoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            />
         <activity
             android:name=".userModule.VerificationStepActivity"
             android:configChanges="screenLayout|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar"
+            android:exported="true"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".userModule.SignupProcessCompleteActivity"
             android:configChanges="screenLayout|orientation"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppThemeNoActionBar"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".passcodeModule.PasscodeSetupActivity"
             android:configChanges="screenLayout|orientation"
             android:theme="@style/passcodeTheme"
+            android:exported="true"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".userModule.ChooseTouchIDSignInActivity"
@@ -239,7 +245,7 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDHdAfZeCaZ-eH-3HGEQL8khc9bg8oocKo" />
+            android:value="@string/google_maps_api_key" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -272,15 +278,18 @@
             android:name=".userModule.ConfirmPasscodeSetup"
             android:configChanges="screenLayout|orientation"
             android:screenOrientation="portrait"
+            android:exported="true"
             android:theme="@style/AppThemeNoActionBar"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
-        <service android:name=".MyFirebaseMessagingService" >
+        <service android:name=".MyFirebaseMessagingService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".MyFirebaseInstanceIDService" >
+        <service android:name=".MyFirebaseInstanceIDService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
@@ -299,7 +308,8 @@
             android:theme="@style/Theme.BackboneApp"
             android:windowSoftInputMode="stateHidden" />
 
-        <receiver android:name=".notificationModule.AlarmReceiver" >
+        <receiver android:name=".notificationModule.AlarmReceiver"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.media.action.DISPLAY_NOTIFICATION" />
 
@@ -315,7 +325,8 @@
             android:syncable="true"
             tools:replace="android:authorities" />
 
-        <service android:name=".offlineModule.auth.StubAuthenticatorService" >
+        <service android:name=".offlineModule.auth.StubAuthenticatorService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
@@ -336,7 +347,8 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/syncadapter" />
         </service>
-        <service android:name=".utils.ActiveTaskService" >
+        <service android:name=".utils.ActiveTaskService"
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.harvard.ActiveTask" />
             </intent-filter>
@@ -351,13 +363,15 @@
             android:theme="@style/Theme.BackboneApp"
             android:windowSoftInputMode="stateHidden" />
 
-        <receiver android:name=".utils.BootCompleteListener" >
+        <receiver android:name=".utils.BootCompleteListener"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
         <receiver
             android:name=".utils.ConnectivityReceiver"
+            android:exported="true"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />

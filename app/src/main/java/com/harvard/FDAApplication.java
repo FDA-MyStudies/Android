@@ -7,12 +7,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Build;
 import androidx.multidex.MultiDex;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.harvard.notificationModule.NotificationModuleSubscriber;
@@ -24,7 +20,6 @@ import com.harvard.userModule.webserviceModel.UserProfileData;
 import com.harvard.utils.AppController;
 import com.harvard.utils.AppVisibilityDetector;
 import com.harvard.utils.ConnectivityReceiver;
-import com.harvard.utils.MyContextWrapper;
 import com.harvard.utils.realm.RealmEncryptionHelper;
 import com.harvard.webserviceModule.WebserviceSubscriber;
 import com.harvard.webserviceModule.apiHelper.ConnectionDetector;
@@ -38,8 +33,8 @@ import org.researchstack.backbone.storage.file.PinCodeConfig;
 import org.researchstack.backbone.storage.file.SimpleFileAccess;
 import org.researchstack.backbone.storage.file.UnencryptedProvider;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
 import io.fabric.sdk.android.Fabric;
 import io.realm.Realm;
@@ -68,7 +63,10 @@ public class FDAApplication extends Application {
         Fabric.with(this, new Crashlytics());
         dbInitialize();
         initChannel();
-            connectionDetector = new ConnectionDetector(this);
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, MMMM d, y 'at' hh:mm aa zzz");
+        String formatedDate = dateFormat.format(cal.getTime());
+        connectionDetector = new ConnectionDetector(this);
 //        researchstackinit();
         startEventProcessing();
 
@@ -78,13 +76,15 @@ public class FDAApplication extends Application {
 
                 if (AppController.getHelperSharedPreference().readPreference(getApplicationContext(), getResources().getString(R.string.usepasscode), "").equalsIgnoreCase("yes") ) {
                     AppController.getHelperSharedPreference().writePreference(getApplicationContext(), "passcodeAnswered", "no");
-                    if(AppController.getHelperSharedPreference().readLocaleBooleanPreference(getApplicationContext(),AppController.isUpdateCancelledByUser,false).equals(true))
-                    {
-                        Intent intent = new Intent(getApplicationContext(), PasscodeSetupActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_SINGLE_TOP);
-                        startActivity(intent);
-                    }
+                    // if(AppController.getHelperSharedPreference().readLocaleBooleanPreference(getApplicationContext(),AppController.isUpdateCancelledByUser,false).equals(true))
+                    //   {
+                    Intent intent = new Intent(getApplicationContext(), PasscodeSetupActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                    //   }
                 }
+
+
                 try {
                     NotificationModuleSubscriber notificationModuleSubscriber = new NotificationModuleSubscriber(null, null);
                     notificationModuleSubscriber.cancelTwoWeekNotification(getApplicationContext());

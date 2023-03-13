@@ -1657,4 +1657,5 @@
 
     <string name="network_exception">Please check your internet connection</string>
     <!-- -->
+    <string name="google_maps_api_key">AIzaSyDHdAfZeCaZ-eH-3HGEQL8khc9bg8oocKo</string>
 </resources>

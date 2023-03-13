@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.harvard.R;
 import com.harvard.offlineModule.model.OfflineData;

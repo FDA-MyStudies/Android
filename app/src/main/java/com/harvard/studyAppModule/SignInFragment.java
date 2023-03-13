@@ -190,7 +190,8 @@ public class SignInFragment extends Fragment implements ApiCall.OnAsyncRequestCo
             mSignInLabel.setTypeface(AppController.getTypeface(mContext, "regular"));
             mForgotPasswordLabel.setTypeface(AppController.getTypeface(mContext, "regular"));
             mNewUsrSignUp.setTypeface(AppController.getTypeface(mContext, "regular"));
-        }catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }

@@ -21,6 +21,7 @@ import com.harvard.studyAppModule.StandaloneActivity;
 import com.harvard.studyAppModule.StudyActivity;
 import com.harvard.userModule.webserviceModel.UserProfileData;
 import com.harvard.utils.AppController;
+import com.harvard.utils.SharedPreferenceHelper;
 
 import java.util.Calendar;
 
@@ -32,15 +33,17 @@ import io.realm.Realm;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    public static String TYPE = "type";
-    public static String SUBTYPE = "subtype";
-    public static String STUDYID = "studyId";
-    public static String ACTIVITYID = "activityId";
-    public static String AUDIENCE = "audience";
-    public static String LOCAL_NOTIFICATION = "localNotification";
-    public static String TITLE = "title";
-    public static String MESSAGE = "message";
-    public static String NOTIFICATION_INTENT = "notificationIntent";
+    public static final String TYPE = "type";
+    public static final String SUBTYPE = "subtype";
+    public static final String STUDYID = "studyId";
+    public static final String ACTIVITYID = "activityId";
+    public static final String AUDIENCE = "audience";
+    public static final String GROUP = "group";
+
+    public static final String LOCAL_NOTIFICATION = "localNotification";
+    public static final String TITLE = "title";
+    public static final String MESSAGE = "message";
+    public static final String NOTIFICATION_INTENT = "notificationIntent";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -50,28 +53,26 @@ public class AlarmReceiver extends BroadcastReceiver {
         stackBuilder.addParentStack(NotificationActivity.class);
         stackBuilder.addNextIntent(notificationIntent1);
 
-        String title = intent.getStringExtra("title");
+        String title = intent.getStringExtra(TITLE);
         String description = intent.getStringExtra("description");
         String type = intent.getStringExtra("type");
-        String date = intent.getStringExtra("date");
         String studyId = null;
-        if (intent.getStringExtra("studyId") != null) {
-            studyId = intent.getStringExtra("studyId");
+        if (intent.getStringExtra(STUDYID) != null) {
+            studyId = intent.getStringExtra(STUDYID);
         }
-
         String activityId = null;
-        if (intent.getStringExtra("activityId") != null) {
-            activityId = intent.getStringExtra("activityId");
+        if (intent.getStringExtra(ACTIVITYID) != null) {
+            activityId = intent.getStringExtra(ACTIVITYID);
         }
 
-        int number = intent.getIntExtra("notificationNumber", 0);
         int notificationId = intent.getIntExtra("notificationId", 0);
 
         Intent notificationIntent;
         if (AppConfig.AppType.equalsIgnoreCase(context.getString(R.string.app_gateway))) {
-             notificationIntent = new Intent(context, StudyActivity.class);
-        } else {
-             notificationIntent = new Intent(context, StandaloneActivity.class);
+            notificationIntent = new Intent(context, StudyActivity.class);
+        }
+        else {
+            notificationIntent = new Intent(context, StandaloneActivity.class);
         }
         PendingIntent contentIntent = null;
         if (!type.equalsIgnoreCase(NotificationModuleSubscriber.NO_USE_NOTIFICATION)) {
@@ -108,7 +109,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(description))
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setAutoCancel(true)
-                        .setGroup("group")
+                        .setGroup(GROUP)
                         .build();
             } else {
                 notification = builder.setContentTitle(title)
@@ -119,7 +120,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setAutoCancel(true)
                         .setContentIntent(contentIntent)
-                        .setGroup("group")
+                        .setGroup(GROUP)
                         .build();
             }
         } else {
@@ -130,7 +131,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         .setStyle(new NotificationCompat.BigTextStyle().bigText(description))
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setAutoCancel(true)
-                        .setGroup("group")
+                        .setGroup(GROUP)
                         .build();
             } else {
                 notification = builder.setContentTitle(title)
@@ -140,15 +141,15 @@ public class AlarmReceiver extends BroadcastReceiver {
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setAutoCancel(true)
                         .setContentIntent(contentIntent)
-                        .setGroup("group")
+                        .setGroup(GROUP)
                         .build();
             }
         }
 
 
         try {
-            int count = Integer.parseInt(AppController.getHelperSharedPreference().readPreference(context, context.getResources().getString(R.string.notificationCount), "0")) + 1;
-            AppController.getHelperSharedPreference().writePreference(context, context.getResources().getString(R.string.notificationCount), "" + count);
+            int count = Integer.parseInt(SharedPreferenceHelper.readPreference(context, context.getResources().getString(R.string.notificationCount), "0")) + 1;
+            SharedPreferenceHelper.writePreference(context, context.getResources().getString(R.string.notificationCount), "" + count);
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
             Realm mRealm = AppController.getRealmobj(context);
@@ -166,15 +167,18 @@ public class AlarmReceiver extends BroadcastReceiver {
                 }
             }
 
-            try {
-                dbServiceSubscriber.closeRealmObj(mRealm);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } catch (NumberFormatException e) {
+            closeDBRealmObject(mRealm);
+        } catch (NumberFormatException | Resources.NotFoundException e) {
             e.printStackTrace();
-        } catch (Resources.NotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void closeDBRealmObject(Realm realm){
+        try {
+            DBServiceSubscriber dbServiceSubscriber = new DBServiceSubscriber();
+            dbServiceSubscriber.closeRealmObj(realm);
         } catch (Exception e) {
             e.printStackTrace();
         }

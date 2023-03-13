@@ -2,8 +2,6 @@ package com.harvard.webserviceModule.apiHelper;
 
 import android.os.Build;
 import android.util.Base64;
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.harvard.AppConfig;
 import com.harvard.FDAApplication;
@@ -40,25 +38,40 @@ import java.net.SocketTimeoutException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.zip.GZIPInputStream;
-
 import javax.net.ssl.HttpsURLConnection;
-
-import static io.fabric.sdk.android.services.network.UrlUtils.UTF8;
 
 public class HttpRequest {
 
     private static String basicAuth = AppConfig.API_TOKEN;
+    private static final String SESSION_EXPIRED = "session expired";
+    private static final String AUTHORIZATION = "Authorization";
+    private static final String BASIC = "Basic ";
+    private static final String CONNECTION = "Connection";
+    private static final String LANGUAGE = "language";
+    private static final String KEEPALIVE = "keep-alive";
+    private static final String RESPONSE = "Response";
+    private static final String HTTP_NOT_OK = "http_not_ok";
+    private static final String STATUS_MESSAGE = "StatusMessage";
+    private static final String ENGLISH = "english";
+    private static final String CONTENT_TYPE = "Content-Type";
+    private static final String APPLICATION_JSON = "application/json";
+    private static final String SERVER_ERROR = "server error";
+    private static final String SUCCESS =  "success";
+    private static final String TIMEOUT =  "timeout";
+    private static final String DELETE =   "DELETE";
+
+
+
+
+
+
+
 
     /**
      * To make a Get request
@@ -68,7 +81,6 @@ public class HttpRequest {
      * @return Responsemodel
      */
     public static Responsemodel getRequest(String url, HashMap<String, String> mHeadersData, String serverType) {
-        Log.e("Krishna", "SB/WCP Url issue getRequest: and url is "+url);
         StringBuffer response = new StringBuffer();
         Responsemodel responseModel = new Responsemodel();
         String responsee;
@@ -83,16 +95,15 @@ public class HttpRequest {
             urlConnection.setConnectTimeout(180000);// 3 min timeout
             if (serverType.equalsIgnoreCase("WCP")) {
                 String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
-                urlConnection.setRequestProperty("Authorization", "Basic " + encoding);
-                urlConnection.setRequestProperty("Connection", "keep-alive");
-                urlConnection.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
-            }else if(serverType.equalsIgnoreCase("Response")){
-                urlConnection.setRequestProperty("Connection", "keep-alive");
-                urlConnection.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+                urlConnection.setRequestProperty(AUTHORIZATION, BASIC + encoding);
+                urlConnection.setRequestProperty(CONNECTION, KEEPALIVE);
+                urlConnection.setRequestProperty(LANGUAGE, AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+            }else if(serverType.equalsIgnoreCase(RESPONSE)){
+                urlConnection.setRequestProperty(CONNECTION, KEEPALIVE);
+                urlConnection.setRequestProperty(LANGUAGE, AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }
             urlConnection.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
             urlConnection.setRequestProperty(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
-            //urlConnection.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
 
             if (mHeadersData != null) {
                 Set mapSet = (Set) mHeadersData.entrySet();
@@ -103,17 +114,15 @@ public class HttpRequest {
                     String value = (String) mapEntry.getValue();
                     urlConnection.setRequestProperty(keyValue, value);
                 }
-                Log.e("Krishna", "HttpRequest getRequest: "+ url + " server type " + serverType + " Header value in urlConnection " + urlConnection.getRequestProperties().toString() );
             }
             try {
                 // Will throw IOException if server responds with 401.
-                Log.e("Krishna", "SB/WCP Url issue getRequest: Hit api "+url);
                 responseCode = urlConnection.getResponseCode();
             } catch (IOException e) {
-                // Will return 401, because now connection has the correct internal state.
+                // Will return 401, because now CONNECTION has the correct internal state.
                 responseCode = urlConnection.getResponseCode();
             }
-            if (serverType.equalsIgnoreCase("Response")) {
+            if (serverType.equalsIgnoreCase(RESPONSE)) {
                 BufferedReader in = null;
                 try {
                     in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
@@ -145,42 +154,37 @@ public class HttpRequest {
                     responseData = response.toString();
                 } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
                     responseData = "";
-                    responsee = "session expired";
+                    responsee = SESSION_EXPIRED;
                 } else {
                     responseData = "";
-                    responsee = "http_not_ok";
+                    responsee = HTTP_NOT_OK;
                 }
             }
-            if (urlConnection.getHeaderField("StatusMessage") != null) {
-                if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("english")){
-                    responseModel.setServermsg(base64Decode(urlConnection.getHeaderField("StatusMessage")));
+            if (urlConnection.getHeaderField(STATUS_MESSAGE) != null) {
+                if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase(ENGLISH)){
+                    responseModel.setServermsg(base64Decode(urlConnection.getHeaderField(STATUS_MESSAGE)));
                 }else {
-                    responseModel.setServermsg(urlConnection.getHeaderField("StatusMessage"));
+                    responseModel.setServermsg(urlConnection.getHeaderField(STATUS_MESSAGE));
                 }
-                String loc = urlConnection.getHeaderField("StatusMessage");
+                String loc = urlConnection.getHeaderField(STATUS_MESSAGE);
                 byte [] locbytes = new byte[loc.length()];
                 for (int index = 0; index < locbytes.length; index++)
                 {
                     locbytes[index] = (byte) loc.charAt(index);
 
                 }
-                //URLDecoder.decode(urlConnection.getHeaderField("StatusMessage"),"UTF-8");
-                Log.e("krishna", "getRequest: urlConnection  URLDecoder decode"+URLDecoder.decode(URLEncoder.encode(urlConnection.getHeaderField("StatusMessage"),"UTF-8"),"UTF-8"));
-                Log.e("krishna", "getRequest: urlConnection  URLDecoder encode"+ URLEncoder.encode(urlConnection.getHeaderField("StatusMessage"),"UTF-8"));
             }
-            else if (responseCode != HttpURLConnection.HTTP_OK && urlConnection.getHeaderField("StatusMessage") == null) {
-                responseModel.setServermsg("server error");
+            else if (responseCode != HttpURLConnection.HTTP_OK && urlConnection.getHeaderField(STATUS_MESSAGE) == null) {
+                responseModel.setServermsg(SERVER_ERROR);
             }
             else {
-                Log.e("Krishna", "SB/WCP Url issue getRequest: success time out "+url);
-                responseModel.setServermsg("success");
+                responseModel.setServermsg(SUCCESS);
             }
         }
         catch (ConnectException e) {
-            Log.e("Krishna", "SB/WCP Url issue getRequest: connection time out "+e.toString());
             responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
-            responseData = "timeout";
-            responsee = "timeout";
+            responseData = TIMEOUT;
+            responsee = TIMEOUT;
             e.printStackTrace();
         } catch (Exception e) {
             responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
@@ -192,7 +196,6 @@ public class HttpRequest {
         responseModel.setResponseCode("" + responseCode);
         responseModel.setResponse(responsee);
         responseModel.setResponseData(responseData);
-        Log.e("Krishna", "HttpRequest getRequest: "+ url + " server type " + serverType + " response value " + responseModel.getResponseData() );
         return responseModel;
     }
 
@@ -205,7 +208,6 @@ public class HttpRequest {
      * @return Responsemodel
      */
     public static Responsemodel postRequestsWithHashmap(String url, HashMap<String, String> params, HashMap<String, String> mHeadersData, String serverType) {
-        Log.e("Krishna", "SB/WCP Url issue postRequestsWithHashmap: and url is "+url);
         Responsemodel responseModel = new Responsemodel();
         String response = "";
         String responseData = "";
@@ -220,16 +222,16 @@ public class HttpRequest {
             conn.setDoInput(true);
 
             if (params.size() > 0) {
-                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty(CONTENT_TYPE, APPLICATION_JSON);
             }
             if (serverType.equalsIgnoreCase("WCP")) {
                 String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
-                conn.setRequestProperty("Authorization", "Basic " + encoding);
-                conn.setRequestProperty("Connection", "keep-alive");
-                conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
-            }else if(serverType.equalsIgnoreCase("Response")){
-                conn.setRequestProperty("Connection", "keep-alive");
-                conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+                conn.setRequestProperty(AUTHORIZATION, BASIC + encoding);
+                conn.setRequestProperty(CONNECTION, KEEPALIVE);
+                conn.setRequestProperty(LANGUAGE, AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+            }else if(serverType.equalsIgnoreCase(RESPONSE)){
+                conn.setRequestProperty(CONNECTION, KEEPALIVE);
+                conn.setRequestProperty(LANGUAGE, AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }
             conn.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
             conn.setRequestProperty(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
@@ -250,7 +252,7 @@ public class HttpRequest {
 
             OutputStream os = conn.getOutputStream();
 
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, StandardCharsets.UTF_8));
             if (params.size() > 0) {
                 writer.write(getPostDataString(params));
             }
@@ -261,19 +263,18 @@ public class HttpRequest {
 
             try {
                 // Will throw IOException if server responds with 401.
-                Log.e("Krishna", "SB/WCP Url issue postRequestsWithHashmap: hit api "+url);
                 responseCode = conn.getResponseCode();
             }
             catch (IOException e) {
                 e.printStackTrace();
-                // Will return 401, because now connection has the correct internal state.
+                // Will return 401, because now CONNECTION has the correct internal state.
                 responseCode = conn.getResponseCode();
             }
-            if (serverType.equalsIgnoreCase("Response")) {
+            if (serverType.equalsIgnoreCase(RESPONSE)) {
                 String line;
                 BufferedReader br;
                 try {
-                    br = new BufferedReader(new InputStreamReader(conn.getInputStream(),"UTF-8"));
+                    br = new BufferedReader(new InputStreamReader(conn.getInputStream(),StandardCharsets.UTF_8));
                 } catch (IOException e) {
                     br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
                     e.printStackTrace();
@@ -293,33 +294,31 @@ public class HttpRequest {
                         responseData += line;
                     }
                 } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                    response = "session expired";
+                    response = SESSION_EXPIRED;
                     responseData = "";
                 } else {
                     responseData = "";
-                    response = "http_not_ok";
+                    response = HTTP_NOT_OK;
                 }
             }
 
-            if (conn.getHeaderField("StatusMessage")!= null) {
-                if(!Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("english")) {
-                    responseModel.setServermsg(base64Decode(conn.getHeaderField("StatusMessage")));
+            if (conn.getHeaderField(STATUS_MESSAGE)!= null) {
+                if(!Locale.getDefault().getDisplayLanguage().equalsIgnoreCase(ENGLISH)) {
+                    responseModel.setServermsg(base64Decode(conn.getHeaderField(STATUS_MESSAGE)));
                 }else{
-                    responseModel.setServermsg(conn.getHeaderField("StatusMessage"));
+                    responseModel.setServermsg(conn.getHeaderField(STATUS_MESSAGE));
                 }
             }
-            else if (responseCode != HttpURLConnection.HTTP_OK && conn.getHeaderField("StatusMessage") == null) {
-                responseModel.setServermsg("server error");
+            else if (responseCode != HttpURLConnection.HTTP_OK && conn.getHeaderField(STATUS_MESSAGE) == null) {
+                responseModel.setServermsg(SERVER_ERROR);
             } else {
-                Log.e("Krishna", "SB/WCP Url issue postRequestsWithHashmap: success "+url);
-                responseModel.setServermsg("success");
+                responseModel.setServermsg(SUCCESS);
             }
         }
         catch (SocketTimeoutException e) {
-            Log.e("Krishna", "SB/WCP Url issue postRequestsWithHashmap: time out "+url);
             responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
             responseData = "";
-            response = "timeout";
+            response = TIMEOUT;
             e.printStackTrace();
         } catch (Exception e) {
             responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
@@ -342,7 +341,6 @@ public class HttpRequest {
      * @return Responsemodel
      */
     static Responsemodel makePostRequestWithJson(String urlpath, JSONObject jsonObject, HashMap<String, String> mHeadersData, String serverType) {
-        Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJson: and url is "+urlpath);
         Responsemodel responseModel = new Responsemodel();
         String response = "";
         String responseData = "";
@@ -355,15 +353,15 @@ public class HttpRequest {
             conn.setConnectTimeout(180000);
             conn.setRequestMethod("POST");
             conn.setDoInput(true);
-            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty(CONTENT_TYPE, APPLICATION_JSON);
             if (serverType.equalsIgnoreCase("WCP")) {
                 String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
-                conn.setRequestProperty("Authorization", "Basic " + encoding);
-                conn.setRequestProperty("Connection", "keep-alive");
-                conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
-            }else if(serverType.equalsIgnoreCase("Response")){
-                conn.setRequestProperty("Connection", "keep-alive");
-                conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+                conn.setRequestProperty(AUTHORIZATION, BASIC + encoding);
+                conn.setRequestProperty(CONNECTION, KEEPALIVE);
+                conn.setRequestProperty(LANGUAGE, AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+            }else if(serverType.equalsIgnoreCase(RESPONSE)){
+                conn.setRequestProperty(CONNECTION, KEEPALIVE);
+                conn.setRequestProperty(LANGUAGE, AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }
             conn.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
             conn.setRequestProperty(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
@@ -382,7 +380,7 @@ public class HttpRequest {
             conn.setDoOutput(true);
 
             OutputStream os = conn.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, StandardCharsets.UTF_8));
             writer.write(jsonObject.toString());
 
             writer.flush();
@@ -391,14 +389,13 @@ public class HttpRequest {
 
             try {
                 // Will throw IOException if server responds with 401.
-                Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJson: hit api "+urlpath);
                 responseCode = conn.getResponseCode();
             } catch (IOException e) {
-                // Will return 401, because now connection has the correct internal state.
+                // Will return 401, because now CONNECTION has the correct internal state.
                 responseCode = conn.getResponseCode();
             }
 
-            if (serverType.equalsIgnoreCase("Response")) {
+            if (serverType.equalsIgnoreCase(RESPONSE)) {
                 String line;
                 BufferedReader br;
                 try {
@@ -420,34 +417,31 @@ public class HttpRequest {
                         responseData += line;
                     }
                 } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                    response = "session expired";
+                    response = SESSION_EXPIRED;
                     responseData = "";
                 } else {
-                    response = "http_not_ok";
+                    response = HTTP_NOT_OK;
                     responseData = "";
                 }
             }
-            if (conn.getHeaderField("StatusMessage") != null) {
-                if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("english")){
-                    responseModel.setServermsg(base64Decode(conn.getHeaderField("StatusMessage")));
+            if (conn.getHeaderField(STATUS_MESSAGE) != null) {
+                if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase(ENGLISH)){
+                    responseModel.setServermsg(base64Decode(conn.getHeaderField(STATUS_MESSAGE)));
                 }else {
-                    responseModel.setServermsg(conn.getHeaderField("StatusMessage"));
+                    responseModel.setServermsg(conn.getHeaderField(STATUS_MESSAGE));
                 }
 
-            } else if (responseCode != HttpURLConnection.HTTP_OK && conn.getHeaderField("StatusMessage") == null) {
-                responseModel.setServermsg("server error");
+            } else if (responseCode != HttpURLConnection.HTTP_OK && conn.getHeaderField(STATUS_MESSAGE) == null) {
+                responseModel.setServermsg(SERVER_ERROR);
             } else {
-                Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJson: Success "+urlpath);
-                responseModel.setServermsg("success");
+                responseModel.setServermsg(SUCCESS);
             }
         } catch (SocketTimeoutException e) {
-            Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJson: and url is "+urlpath + " time out "+e.toString());
             responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
-            response = "timeout";
+            response = TIMEOUT;
             responseData = "";
             e.printStackTrace();
         } catch (Exception e) {
-            Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJson: and url is "+urlpath + " other exception "+e.toString());
             responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
             response = "";
             responseData = "";
@@ -469,11 +463,9 @@ public class HttpRequest {
      * @return Responsemodel
      */
     static Responsemodel makePostRequestWithJsonRefreshToken(String urlpath, JSONObject jsonObject, HashMap<String, String> mHeadersData, String serverType) {
-        Log.e("Krishna", "HttpRequest makePostRequestWithJsonRefreshToken: "+ urlpath + "server type " + serverType  + " Header value " + mHeadersData.toString()  );
-        Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJsonRefreshToken: and url is "+urlpath);
         Responsemodel responseModel = new Responsemodel();
-        String response = "";
-        String responseData = "";
+        StringBuilder response = new StringBuilder();
+        StringBuilder responseData = new StringBuilder();
         int responseCode = 0;
         URL url1;
         try {
@@ -483,16 +475,16 @@ public class HttpRequest {
             conn.setConnectTimeout(180000);
             conn.setRequestMethod("POST");
             conn.setDoInput(true);
-            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty(CONTENT_TYPE, APPLICATION_JSON);
             if (serverType.equalsIgnoreCase("WCP")) {
                 String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
-                conn.setRequestProperty("Authorization", "Basic " + encoding);
-                conn.setRequestProperty("Connection", "keep-alive");
-                conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+                conn.setRequestProperty(AUTHORIZATION, BASIC + encoding);
+                conn.setRequestProperty(CONNECTION, KEEPALIVE);
+                conn.setRequestProperty(LANGUAGE, AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }
-            else if(serverType.equalsIgnoreCase("Response")){
-                conn.setRequestProperty("Connection", "keep-alive");
-                conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+            else if(serverType.equalsIgnoreCase(RESPONSE)){
+                conn.setRequestProperty(CONNECTION, KEEPALIVE);
+                conn.setRequestProperty(LANGUAGE, AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }
             conn.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
             conn.setRequestProperty(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
@@ -511,7 +503,7 @@ public class HttpRequest {
             conn.setDoOutput(true);
 
             OutputStream os = conn.getOutputStream();
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, StandardCharsets.UTF_8));
             writer.write(jsonObject.toString());
 
             writer.flush();
@@ -520,15 +512,13 @@ public class HttpRequest {
 
             try {
                 // Will throw IOException if server responds with 401.
-                Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJsonRefreshToken: hit api and url is "+urlpath);
                 responseCode = conn.getResponseCode();
             } catch (IOException e) {
-                // Will return 401, because now connection has the correct internal state.
-                Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJsonRefreshToken: hit api and url is "+urlpath+ "exception is "+e.toString());
+                // Will return 401, because now CONNECTION has the correct internal state.
                 responseCode = conn.getResponseCode();
             }
 
-            if (serverType.equalsIgnoreCase("Response")) {
+            if (serverType.equalsIgnoreCase(RESPONSE)) {
                 String line;
                 BufferedReader br;
                 try {
@@ -538,56 +528,53 @@ public class HttpRequest {
                     e.printStackTrace();
                 }
                 while ((line = br.readLine()) != null) {
-                    response += line;
-                    responseData += line;
+                    response.append(line);
+                    responseData.append(line);
                 }
             } else {
                 if (responseCode == HttpsURLConnection.HTTP_OK) {
                     String line;
                     BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                     while ((line = br.readLine()) != null) {
-                        response += line;
-                        responseData += line;
+                        response.append(line);
+                        responseData.append(line);
                     }
                 } else if (responseCode == HttpURLConnection.HTTP_FORBIDDEN) {
-                    response = "session expired";
-                    responseData = "";
+                    response = new StringBuilder(SESSION_EXPIRED);
+                    responseData = new StringBuilder();
                 } else {
 
-                    response = "http_not_ok";
-                    responseData = "";
+                    response = new StringBuilder(HTTP_NOT_OK);
+                    responseData = new StringBuilder();
                 }
             }
-            if (conn.getHeaderField("StatusMessage") != null) {
-                if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("english")){
-                    responseModel.setServermsg(base64Decode(conn.getHeaderField("StatusMessage")));
+            if (conn.getHeaderField(STATUS_MESSAGE) != null) {
+                if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase(ENGLISH)){
+                    responseModel.setServermsg(base64Decode(conn.getHeaderField(STATUS_MESSAGE)));
                 }else {
-                    responseModel.setServermsg(conn.getHeaderField("StatusMessage"));
+                    responseModel.setServermsg(conn.getHeaderField(STATUS_MESSAGE));
                 }
 
-            } else if (responseCode != HttpURLConnection.HTTP_OK && conn.getHeaderField("StatusMessage") == null) {
-                responseModel.setServermsg("server error");
+            } else if (responseCode != HttpURLConnection.HTTP_OK && conn.getHeaderField(STATUS_MESSAGE) == null) {
+                responseModel.setServermsg(SERVER_ERROR);
             } else {
-                Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJsonRefreshToken: success and url is "+urlpath);
-                responseModel.setServermsg("success");
+                responseModel.setServermsg(SUCCESS);
             }
         } catch (SocketTimeoutException e) {
-            Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJsonRefreshToken: and url is "+urlpath+ "time out ex" + e.toString());
             responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
-            response = "timeout";
-            responseData = "";
+            response = new StringBuilder(TIMEOUT);
+            responseData = new StringBuilder();
             e.printStackTrace();
         } catch (Exception e) {
-            Log.e("Krishna", "SB/WCP Url issue makePostRequestWithJsonRefreshToken: and url is "+urlpath + "other excepption"+ e.toString());
             responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
-            response = "";
-            responseData = "";
+            response = new StringBuilder();
+            responseData = new StringBuilder();
             e.printStackTrace();
         }
 
         responseModel.setResponseCode("" + responseCode);
-        responseModel.setResponse(response);
-        responseModel.setResponseData(responseData);
+        responseModel.setResponse(response.toString());
+        responseModel.setResponseData(responseData.toString());
         return responseModel;
     }
 
@@ -598,7 +585,7 @@ public class HttpRequest {
      * @return String
      */
     private static String getPostDataString(HashMap<String, String> params) {
-        Log.e("Krishna", "HttpRequest getPostDataString: "+ params.toString());
+
 
         return new Gson().toJson(params);
     }
@@ -614,7 +601,6 @@ public class HttpRequest {
      * @return web-service response as String
      */
     static Responsemodel postRequestMultipart(String urlPath, HashMap<String, String> headers, HashMap<String, String> formData, HashMap<String, File> files, String serverType) {
-        Log.e("Krishna", "HttpRequest postRequestMultipart: "+ urlPath + "server type " + serverType + " Header value " + headers.toString()   );
         Responsemodel responseModel = new Responsemodel();
         HttpURLConnection httpConn;
         String response = "";
@@ -629,21 +615,21 @@ public class HttpRequest {
             httpConn.setDoInput(true);
             httpConn.setReadTimeout(180000);
             httpConn.setConnectTimeout(180000);
-            httpConn.setRequestProperty("Content-Type", "multipart/form-data;");
+            httpConn.setRequestProperty(CONTENT_TYPE, "multipart/form-data;");
             httpConn.setRequestProperty("User-Agent", "CodeJava Agent");
             if (serverType.equalsIgnoreCase("WCP")) {
                 String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
-                httpConn.setRequestProperty("Authorization", "Basic " + encoding);
-                httpConn.setRequestProperty("Connection", "keep-alive");
-                httpConn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
-            }else if(serverType.equalsIgnoreCase("Response")){
-                httpConn.setRequestProperty("Connection", "keep-alive");
-                httpConn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+                httpConn.setRequestProperty(AUTHORIZATION, BASIC + encoding);
+                httpConn.setRequestProperty(CONNECTION, KEEPALIVE);
+                httpConn.setRequestProperty(LANGUAGE, AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+            }else if(serverType.equalsIgnoreCase(RESPONSE)){
+                httpConn.setRequestProperty(CONNECTION, KEEPALIVE);
+                httpConn.setRequestProperty(LANGUAGE, AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
             }
             httpConn.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
             httpConn.setRequestProperty(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
             OutputStream outputStream = httpConn.getOutputStream();
-            PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"), true);
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, StandardCharsets.UTF_8), true);
 
             if (headers != null) {
                 Set keys = headers.keySet();
@@ -672,15 +658,24 @@ public class HttpRequest {
                     writer.append("Content-Transfer-Encoding: binary").append(LINE_FEED);
                     writer.append(LINE_FEED);
                     writer.flush();
+                    FileInputStream inputStream = null;
+                    try{
+                        inputStream = new FileInputStream(files.get(i.next()));
+                        byte[] buffer = new byte[4096];
+                        int bytesRead = -1;
+                        while ((bytesRead = inputStream.read(buffer)) != -1) {
+                            outputStream.write(buffer, 0, bytesRead);
+                        }
+                        outputStream.flush();
 
-                    FileInputStream inputStream = new FileInputStream(files.get(i.next()));
-                    byte[] buffer = new byte[4096];
-                    int bytesRead = -1;
-                    while ((bytesRead = inputStream.read(buffer)) != -1) {
-                        outputStream.write(buffer, 0, bytesRead);
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
-                    outputStream.flush();
-                    inputStream.close();
+                    finally {
+                        assert inputStream != null;
+                        inputStream.close();
+                    }
+
                     writer.append(LINE_FEED);
                     writer.flush();
                 }
@@ -688,7 +683,7 @@ public class HttpRequest {
             writer.close();
             // checks server's status code first
             responseCode = httpConn.getResponseCode();
-            if (serverType.equalsIgnoreCase("Response")) {
+            if (serverType.equalsIgnoreCase(RESPONSE)) {
                 BufferedReader reader;
                 try {
                     reader = new BufferedReader(new InputStreamReader(httpConn.getInputStream()));
@@ -714,27 +709,27 @@ public class HttpRequest {
                     reader.close();
                     httpConn.disconnect();
                 } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                    response = "session expired";
+                    response = SESSION_EXPIRED;
                     responseData = "";
                 } else {
-                    response = "http_not_ok";
+                    response = HTTP_NOT_OK;
                     responseData = "";
                 }
             }
-            if (httpConn.getHeaderField("StatusMessage") != null) {
-                if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("english")){
-                    responseModel.setServermsg(base64Decode(httpConn.getHeaderField("StatusMessage")));
+            if (httpConn.getHeaderField(STATUS_MESSAGE) != null) {
+                if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase(ENGLISH)){
+                    responseModel.setServermsg(base64Decode(httpConn.getHeaderField(STATUS_MESSAGE)));
                 }else {
-                    responseModel.setServermsg(httpConn.getHeaderField("StatusMessage"));
+                    responseModel.setServermsg(httpConn.getHeaderField(STATUS_MESSAGE));
                 }
-            } else if (responseCode != HttpURLConnection.HTTP_OK && httpConn.getHeaderField("StatusMessage") == null) {
-                responseModel.setServermsg("server error");
+            } else if (responseCode != HttpURLConnection.HTTP_OK && httpConn.getHeaderField(STATUS_MESSAGE) == null) {
+                responseModel.setServermsg(SERVER_ERROR);
             } else {
-                responseModel.setServermsg("success");
+                responseModel.setServermsg(SUCCESS);
             }
         } catch (SocketTimeoutException e) {
             responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
-            response = "timeout";
+            response = TIMEOUT;
             responseData = "";
             e.printStackTrace();
         } catch (Exception e) {
@@ -761,10 +756,10 @@ public class HttpRequest {
      */
 
     static Responsemodel deleteRequestsWithHashmap(String url, HashMap<String, String> params, HashMap<String, String> mHeadersData, String serverType) {
-        Log.e("Krishna", "HttpRequest deleteRequestsWithHashmap: "+ url + "server type " + serverType  );
+
         Responsemodel responseModel = new Responsemodel();
-        String response = "";
-        String responseData = "";
+        StringBuilder response = new StringBuilder();
+        StringBuilder responseData = new StringBuilder();
         int responseCode = 0;
         URL url1;
         if (Build.VERSION.SDK_INT >= 21) {
@@ -773,9 +768,9 @@ public class HttpRequest {
                 HttpURLConnection conn = (HttpURLConnection) url1.openConnection();
                 conn.setReadTimeout(180000);
                 conn.setConnectTimeout(180000);
-                conn.setRequestMethod("DELETE");
+                conn.setRequestMethod(DELETE);
                 conn.setDoInput(true);
-                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty(CONTENT_TYPE, APPLICATION_JSON);
 
                 conn.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
                 conn.setRequestProperty(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
@@ -793,7 +788,7 @@ public class HttpRequest {
                 conn.setDoOutput(true);
 
                 OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, StandardCharsets.UTF_8));
                 writer.write(getPostDataString(params));
 
                 writer.flush();
@@ -803,7 +798,7 @@ public class HttpRequest {
                     // Will throw IOException if server responds with 401.
                     responseCode = conn.getResponseCode();
                 } catch (IOException e) {
-                    // Will return 401, because now connection has the correct internal state.
+                    // Will return 401, because now CONNECTION has the correct internal state.
                     responseCode = conn.getResponseCode();
                 }
 
@@ -814,7 +809,7 @@ public class HttpRequest {
                     is = conn.getErrorStream();
                 }
                 String line;
-                if (serverType.equalsIgnoreCase("Response")) {
+                if (serverType.equalsIgnoreCase(RESPONSE)) {
                     BufferedReader br;
                     try {
                         br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -823,8 +818,8 @@ public class HttpRequest {
                         e.printStackTrace();
                     }
                     while ((line = br.readLine()) != null) {
-                        response += line;
-                        responseData += line;
+                        response.append(line);
+                        responseData.append(line);
                     }
                     br.close();
                     conn.disconnect();
@@ -832,39 +827,39 @@ public class HttpRequest {
                     if (responseCode == HttpURLConnection.HTTP_OK) {
                         BufferedReader br = new BufferedReader(new InputStreamReader(is));
                         while ((line = br.readLine()) != null) {
-                            response += line;
-                            responseData += line;
+                            response.append(line);
+                            responseData.append(line);
                         }
                         br.close();
                         conn.disconnect();
                     } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                        responseData = "";
-                        response = "session expired";
+                        responseData = new StringBuilder();
+                        response = new StringBuilder(SESSION_EXPIRED);
                     } else {
-                        responseData = "";
-                        response = "http_not_ok";
+                        responseData = new StringBuilder();
+                        response = new StringBuilder(HTTP_NOT_OK);
                     }
                 }
-                if (conn.getHeaderField("StatusMessage") != null) {
-                    if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("english")){
-                        responseModel.setServermsg(base64Decode(conn.getHeaderField("StatusMessage")));
+                if (conn.getHeaderField(STATUS_MESSAGE) != null) {
+                    if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase(ENGLISH)){
+                        responseModel.setServermsg(base64Decode(conn.getHeaderField(STATUS_MESSAGE)));
                     }else {
-                        responseModel.setServermsg(conn.getHeaderField("StatusMessage"));
+                        responseModel.setServermsg(conn.getHeaderField(STATUS_MESSAGE));
                     }
 
                 } else {
-                    responseModel.setServermsg("success");
+                    responseModel.setServermsg(SUCCESS);
                 }
 
             } catch (SocketTimeoutException e) {
-                responseData = "";
+                responseData = new StringBuilder();
                 responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
-                response = "timeout";
+                response = new StringBuilder(TIMEOUT);
                 e.printStackTrace();
             } catch (Exception e) {
-                responseData = "";
+                responseData = new StringBuilder();
                 responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
-                response = "";
+                response = new StringBuilder();
                 e.printStackTrace();
             }
         } else {
@@ -885,7 +880,7 @@ public class HttpRequest {
                         httppost.addHeader(keyValue, value);
                     }
                 }
-                httppost.addHeader("Content-Type", "application/json");
+                httppost.addHeader(CONTENT_TYPE, APPLICATION_JSON);
                 httppost.addHeader(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
                 httppost.addHeader(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
 
@@ -897,17 +892,19 @@ public class HttpRequest {
                 HttpResponse response1 = httpclient.execute(httppost);
                 responseCode = response1.getStatusLine().getStatusCode();
 
-                if (serverType.equalsIgnoreCase("Response")) {
+                if (serverType.equalsIgnoreCase(RESPONSE)) {
                     HttpEntity entity = response1.getEntity();
                     String line;
                     if (entity != null) {
                         InputStream instream = entity.getContent();
-                        try {
+                        try(
+                                InputStreamReader ir = new InputStreamReader(instream);
+                                BufferedReader br = new BufferedReader(ir)
+                        ) {
                             // do something useful
-                            BufferedReader br = new BufferedReader(new InputStreamReader(instream));
                             while ((line = br.readLine()) != null) {
-                                responseData += line;
-                                response += line;
+                                responseData.append(line);
+                                response.append(line);
                             }
                             br.close();
                         } finally {
@@ -920,12 +917,12 @@ public class HttpRequest {
                         String line;
                         if (entity != null) {
                             InputStream instream = entity.getContent();
-                            try {
-                                // do something useful
-                                BufferedReader br = new BufferedReader(new InputStreamReader(instream));
+                            try(InputStreamReader ir = new InputStreamReader(instream);
+                                BufferedReader br = new BufferedReader(ir)
+                            ) {
                                 while ((line = br.readLine()) != null) {
-                                    responseData += line;
-                                    response += line;
+                                    responseData.append(line);
+                                    response.append(line);
                                 }
                                 br.close();
                             } finally {
@@ -933,25 +930,23 @@ public class HttpRequest {
                             }
                         }
                     } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                        responseData = "";
-                        response = "session expired";
+                        responseData = new StringBuilder();
+                        response = new StringBuilder(SESSION_EXPIRED);
                     } else {
-                        responseData = "";
-                        response = "http_not_ok";
+                        responseData = new StringBuilder();
+                        response = new StringBuilder(HTTP_NOT_OK);
                     }
                 }
 
-                if (response1.getFirstHeader("StatusMessage") != null) {
-                    responseModel.setServermsg(response1.getFirstHeader("StatusMessage").getValue());
+                if (response1.getFirstHeader(STATUS_MESSAGE) != null) {
+                    responseModel.setServermsg(response1.getFirstHeader(STATUS_MESSAGE).getValue());
                 } else {
-                    responseModel.setServermsg("success");
+                    responseModel.setServermsg(SUCCESS);
                 }
 
-            } catch (ConnectTimeoutException e) {
+            } catch (ConnectTimeoutException|SocketTimeoutException e) {
                 e.printStackTrace();
-            } catch (SocketTimeoutException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
+            }catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -959,16 +954,16 @@ public class HttpRequest {
             responseCode = HttpURLConnection.HTTP_UNAUTHORIZED;
         }
         responseModel.setResponseCode("" + responseCode);
-        responseModel.setResponse(response);
-        responseModel.setResponseData(responseData);
+        responseModel.setResponse(response.toString());
+        responseModel.setResponseData(responseData.toString());
         return responseModel;
     }
 
     static Responsemodel makeDeleteRequestWithJson(String urlpath, JSONObject jsonObject, HashMap<String, String> mHeadersData, String serverType) {
-        Log.e("Krishna", "HttpRequest makeDeleteRequestWithJson: "+ urlpath + "server type " + serverType  );
+
         Responsemodel responseModel = new Responsemodel();
-        String response = "";
-        String responseData = "";
+        StringBuilder response = new StringBuilder();
+        StringBuilder responseData = new StringBuilder();
         int responseCode = 0;
         URL url1;
         if (Build.VERSION.SDK_INT >= 21) {
@@ -977,15 +972,15 @@ public class HttpRequest {
                 HttpURLConnection conn = (HttpURLConnection) url1.openConnection();
                 conn.setReadTimeout(180000);
                 conn.setConnectTimeout(180000);
-                conn.setRequestMethod("DELETE");
+                conn.setRequestMethod(DELETE);
                 conn.setDoInput(true);
-                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty(CONTENT_TYPE, APPLICATION_JSON);
                 if (serverType.equalsIgnoreCase("WCP")) {
                     String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
-                    conn.setRequestProperty("Authorization", "Basic " + encoding);
-                    conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
-                }else if(serverType.equalsIgnoreCase("Response")){
-                    conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+                    conn.setRequestProperty(AUTHORIZATION, BASIC + encoding);
+                    conn.setRequestProperty(LANGUAGE, AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+                }else if(serverType.equalsIgnoreCase(RESPONSE)){
+                    conn.setRequestProperty(LANGUAGE, AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
                 }
                 conn.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
                 conn.setRequestProperty(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
@@ -1003,7 +998,7 @@ public class HttpRequest {
                 conn.setDoOutput(true);
 
                 OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, StandardCharsets.UTF_8));
                 writer.write(jsonObject.toString());
 
                 writer.flush();
@@ -1014,10 +1009,10 @@ public class HttpRequest {
                     // Will throw IOException if server responds with 401.
                     responseCode = conn.getResponseCode();
                 } catch (IOException e) {
-                    // Will return 401, because now connection has the correct internal state.
+                    // Will return 401, because now CONNECTION has the correct internal state.
                     responseCode = conn.getResponseCode();
                 }
-                if (serverType.equalsIgnoreCase("Response")) {
+                if (serverType.equalsIgnoreCase(RESPONSE)) {
                     String line;
                     BufferedReader br;
                     try {
@@ -1027,45 +1022,45 @@ public class HttpRequest {
                         e.printStackTrace();
                     }
                     while ((line = br.readLine()) != null) {
-                        response += line;
-                        responseData += line;
+                        response.append(line);
+                        responseData.append(line);
                     }
                 } else {
                     if (responseCode == HttpsURLConnection.HTTP_OK) {
                         String line;
                         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                         while ((line = br.readLine()) != null) {
-                            response += line;
-                            responseData += line;
+                            response.append(line);
+                            responseData.append(line);
                         }
                     } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                        response = "session expired";
-                        responseData = "";
+                        response = new StringBuilder(SESSION_EXPIRED);
+                        responseData = new StringBuilder();
                     } else {
-                        responseData = "";
-                        response = "http_not_ok";
+                        responseData = new StringBuilder();
+                        response = new StringBuilder(HTTP_NOT_OK);
                     }
                 }
-                if (conn.getHeaderField("StatusMessage") != null) {
-                    if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("english")){
-                        responseModel.setServermsg(base64Decode(conn.getHeaderField("StatusMessage")));
+                if (conn.getHeaderField(STATUS_MESSAGE) != null) {
+                    if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase(ENGLISH)){
+                        responseModel.setServermsg(base64Decode(conn.getHeaderField(STATUS_MESSAGE)));
                     }else {
-                        responseModel.setServermsg(conn.getHeaderField("StatusMessage"));
+                        responseModel.setServermsg(conn.getHeaderField(STATUS_MESSAGE));
                     }
-                } else if (responseCode != HttpURLConnection.HTTP_OK && conn.getHeaderField("StatusMessage") == null) {
-                    responseModel.setServermsg("server error");
+                } else if (responseCode != HttpURLConnection.HTTP_OK && conn.getHeaderField(STATUS_MESSAGE) == null) {
+                    responseModel.setServermsg(SERVER_ERROR);
                 } else {
-                    responseModel.setServermsg("success");
+                    responseModel.setServermsg(SUCCESS);
                 }
             } catch (SocketTimeoutException e) {
                 responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
-                responseData = "";
-                response = "timeout";
+                responseData = new StringBuilder();
+                response = new StringBuilder(TIMEOUT);
                 e.printStackTrace();
             } catch (Exception e) {
                 responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
-                responseData = "";
-                response = "";
+                responseData = new StringBuilder();
+                response = new StringBuilder();
                 e.printStackTrace();
             }
         }
@@ -1087,10 +1082,10 @@ public class HttpRequest {
                         httppost.addHeader(keyValue, value);
                     }
                 }
-                 if(serverType.equalsIgnoreCase("Response")){
-                    httppost.addHeader("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+                if(serverType.equalsIgnoreCase(RESPONSE)){
+                    httppost.addHeader(LANGUAGE, AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
                 }
-                httppost.addHeader("Content-Type", "application/json");
+                httppost.addHeader(CONTENT_TYPE, APPLICATION_JSON);
                 httppost.addHeader(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
                 httppost.addHeader(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
                 StringEntity params1 = new StringEntity(jsonObject.toString());
@@ -1101,17 +1096,17 @@ public class HttpRequest {
                 HttpResponse response1 = httpclient.execute(httppost);
                 responseCode = response1.getStatusLine().getStatusCode();
 
-                if (serverType.equalsIgnoreCase("Response")) {
+                if (serverType.equalsIgnoreCase(RESPONSE)) {
                     HttpEntity entity = response1.getEntity();
                     String line;
                     if (entity != null) {
                         InputStream instream = entity.getContent();
-                        try {
-                            // do something useful
-                            BufferedReader br = new BufferedReader(new InputStreamReader(instream));
+                        try(InputStreamReader ir = new InputStreamReader(instream);
+                            BufferedReader br = new BufferedReader(ir)
+                        ) {
                             while ((line = br.readLine()) != null) {
-                                responseData += line;
-                                response += line;
+                                responseData.append(line);
+                                response.append(line);
                             }
                             br.close();
                         } finally {
@@ -1124,32 +1119,30 @@ public class HttpRequest {
                         String line;
                         if (entity != null) {
                             InputStream instream = entity.getContent();
-                            try {
-                                // do something useful
-                                BufferedReader br = new BufferedReader(new InputStreamReader(instream));
+                            try (InputStreamReader ir = new InputStreamReader(instream);
+                                 BufferedReader br = new BufferedReader(ir)
+                            ){
                                 while ((line = br.readLine()) != null) {
-                                    responseData += line;
-                                    response += line;
+                                    responseData.append(line);
+                                    response.append(line);
                                 }
-                                br.close();
-                                //                    conn.disconnect();
                             } finally {
                                 instream.close();
                             }
                         }
                     } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                        responseData = "";
-                        response = "session expired";
+                        responseData = new StringBuilder();
+                        response = new StringBuilder(SESSION_EXPIRED);
                     } else {
-                        responseData = "";
-                        response = "http_not_ok";
+                        responseData = new StringBuilder();
+                        response = new StringBuilder(HTTP_NOT_OK);
                     }
                 }
 
-                if (response1.getFirstHeader("StatusMessage") != null) {
-                    responseModel.setServermsg(response1.getFirstHeader("StatusMessage").getValue());
+                if (response1.getFirstHeader(STATUS_MESSAGE) != null) {
+                    responseModel.setServermsg(response1.getFirstHeader(STATUS_MESSAGE).getValue());
                 } else {
-                    responseModel.setServermsg("success");
+                    responseModel.setServermsg(SUCCESS);
                 }
 
             } catch (ConnectTimeoutException e) {
@@ -1162,16 +1155,15 @@ public class HttpRequest {
         }
 
         responseModel.setResponseCode("" + responseCode);
-        responseModel.setResponse(response);
-        responseModel.setResponseData(responseData);
+        responseModel.setResponse(response.toString());
+        responseModel.setResponseData(responseData.toString());
         return responseModel;
     }
 
     static Responsemodel makeDeleteRequestWithJsonArray(String urlpath, JSONArray jsonArray, HashMap<String, String> mHeadersData, String serverType) {
-        Log.e("Krishna", "HttpRequest makeDeleteRequestWithJsonArray: "+ urlpath + "server type " + serverType  );
         Responsemodel responseModel = new Responsemodel();
-        String response = "";
-        String responseData = "";
+        StringBuilder response = new StringBuilder();
+        StringBuilder responseData = new StringBuilder();
         int responseCode = 0;
         URL url1;
         if (Build.VERSION.SDK_INT >= 21) {
@@ -1180,14 +1172,14 @@ public class HttpRequest {
                 HttpURLConnection conn = (HttpURLConnection) url1.openConnection();
                 conn.setReadTimeout(180000);
                 conn.setConnectTimeout(180000);
-                conn.setRequestMethod("DELETE");
+                conn.setRequestMethod(DELETE);
                 conn.setDoInput(true);
-                conn.setRequestProperty("Content-Type", "application/json");
+                conn.setRequestProperty(CONTENT_TYPE, APPLICATION_JSON);
                 if (serverType.equalsIgnoreCase("WCP")) {
                     String encoding = Base64.encodeToString(basicAuth.getBytes(), Base64.DEFAULT);
-                    conn.setRequestProperty("Authorization", "Basic " + encoding);
-                    conn.setRequestProperty("Connection", "keep-alive");
-                    conn.setRequestProperty("language", AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
+                    conn.setRequestProperty(AUTHORIZATION, BASIC + encoding);
+                    conn.setRequestProperty(CONNECTION, KEEPALIVE);
+                    conn.setRequestProperty(LANGUAGE, AppController.deviceDisplayLanguage(Locale.getDefault().getDisplayLanguage()));
                 }
                 conn.setRequestProperty(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
                 conn.setRequestProperty(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
@@ -1205,7 +1197,7 @@ public class HttpRequest {
                 conn.setDoOutput(true);
 
                 OutputStream os = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, StandardCharsets.UTF_8));
                 writer.write(jsonArray.toString());
 
                 writer.flush();
@@ -1216,10 +1208,10 @@ public class HttpRequest {
                     // Will throw IOException if server responds with 401.
                     responseCode = conn.getResponseCode();
                 } catch (IOException e) {
-                    // Will return 401, because now connection has the correct internal state.
+                    // Will return 401, because now CONNECTION has the correct internal state.
                     responseCode = conn.getResponseCode();
                 }
-                if (serverType.equalsIgnoreCase("Response")) {
+                if (serverType.equalsIgnoreCase(RESPONSE)) {
                     String line;
                     BufferedReader br;
                     try {
@@ -1229,45 +1221,45 @@ public class HttpRequest {
                         e.printStackTrace();
                     }
                     while ((line = br.readLine()) != null) {
-                        response += line;
-                        responseData += line;
+                        response.append(line);
+                        responseData.append(line);
                     }
                 } else {
                     if (responseCode == HttpsURLConnection.HTTP_OK) {
                         String line;
                         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                         while ((line = br.readLine()) != null) {
-                            response += line;
-                            responseData += line;
+                            response.append(line);
+                            responseData.append(line);
                         }
                     } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                        response = "session expired";
-                        responseData = "";
+                        response = new StringBuilder(SESSION_EXPIRED);
+                        responseData = new StringBuilder();
                     } else {
-                        responseData = "";
-                        response = "http_not_ok";
+                        responseData = new StringBuilder();
+                        response = new StringBuilder(HTTP_NOT_OK);
                     }
                 }
-                if (conn.getHeaderField("StatusMessage") != null) {
-                    if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase("english")){
-                        responseModel.setServermsg(base64Decode(conn.getHeaderField("StatusMessage")));
+                if (conn.getHeaderField(STATUS_MESSAGE) != null) {
+                    if(Locale.getDefault().getDisplayLanguage().equalsIgnoreCase(ENGLISH)){
+                        responseModel.setServermsg(base64Decode(conn.getHeaderField(STATUS_MESSAGE)));
                     }else {
-                        responseModel.setServermsg(conn.getHeaderField("StatusMessage"));
+                        responseModel.setServermsg(conn.getHeaderField(STATUS_MESSAGE));
                     }
-                } else if (responseCode != HttpURLConnection.HTTP_OK && conn.getHeaderField("StatusMessage") == null) {
-                    responseModel.setServermsg("server error");
+                } else if (responseCode != HttpURLConnection.HTTP_OK && conn.getHeaderField(STATUS_MESSAGE) == null) {
+                    responseModel.setServermsg(SERVER_ERROR);
                 } else {
-                    responseModel.setServermsg("success");
+                    responseModel.setServermsg(SUCCESS);
                 }
             } catch (SocketTimeoutException e) {
                 responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
-                responseData = "";
-                response = "timeout";
+                responseData = new StringBuilder();
+                response = new StringBuilder(TIMEOUT);
                 e.printStackTrace();
             } catch (Exception e) {
                 responseModel.setServermsg(FDAApplication.getInstance().getResources().getString(R.string.network_exception));
-                responseData = "";
-                response = "";
+                responseData = new StringBuilder();
+                response = new StringBuilder();
                 e.printStackTrace();
             }
         } else {
@@ -1288,7 +1280,7 @@ public class HttpRequest {
                         httppost.addHeader(keyValue, value);
                     }
                 }
-                httppost.addHeader("Content-Type", "application/json");
+                httppost.addHeader(CONTENT_TYPE, APPLICATION_JSON);
                 httppost.addHeader(AppConfig.APP_ID_KEY, AppConfig.APP_ID_VALUE);
                 httppost.addHeader(AppConfig.ORG_ID_KEY, AppConfig.ORG_ID_VALUE);
                 StringEntity params1 = new StringEntity(jsonArray.toString());
@@ -1299,20 +1291,23 @@ public class HttpRequest {
                 HttpResponse response1 = httpclient.execute(httppost);
                 responseCode = response1.getStatusLine().getStatusCode();
 
-                if (serverType.equalsIgnoreCase("Response")) {
+                if (serverType.equalsIgnoreCase(RESPONSE)) {
                     HttpEntity entity = response1.getEntity();
                     String line;
                     if (entity != null) {
                         InputStream instream = entity.getContent();
-                        try {
-                            // do something useful
-                            BufferedReader br = new BufferedReader(new InputStreamReader(instream));
+                        try (InputStreamReader ir = new InputStreamReader(instream);
+                             BufferedReader br = new BufferedReader(ir)
+                        ){
                             while ((line = br.readLine()) != null) {
-                                responseData += line;
-                                response += line;
+                                responseData.append(line);
+                                response.append(line);
                             }
                             br.close();
-                        } finally {
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
+                        finally {
                             instream.close();
                         }
                     }
@@ -1322,31 +1317,34 @@ public class HttpRequest {
                         String line;
                         if (entity != null) {
                             InputStream instream = entity.getContent();
-                            try {
-                                // do something useful
-                                BufferedReader br = new BufferedReader(new InputStreamReader(instream));
+                            try(
+                                    InputStreamReader ir = new InputStreamReader(instream);
+                                    BufferedReader br = new BufferedReader(ir)
+                            ) {
                                 while ((line = br.readLine()) != null) {
-                                    responseData += line;
-                                    response += line;
+                                    responseData.append(line);
+                                    response.append(line);
                                 }
                                 br.close();
-                            } finally {
+                            }catch (Exception e){
+                                e.printStackTrace();
+                            }finally {
                                 instream.close();
                             }
                         }
                     } else if (responseCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
-                        responseData = "";
-                        response = "session expired";
+                        responseData = new StringBuilder();
+                        response = new StringBuilder(SESSION_EXPIRED);
                     } else {
-                        responseData = "";
-                        response = "http_not_ok";
+                        responseData = new StringBuilder();
+                        response = new StringBuilder(HTTP_NOT_OK);
                     }
                 }
 
-                if (response1.getFirstHeader("StatusMessage") != null) {
-                    responseModel.setServermsg(response1.getFirstHeader("StatusMessage").getValue());
+                if (response1.getFirstHeader(STATUS_MESSAGE) != null) {
+                    responseModel.setServermsg(response1.getFirstHeader(STATUS_MESSAGE).getValue());
                 } else {
-                    responseModel.setServermsg("success");
+                    responseModel.setServermsg(SUCCESS);
                 }
 
             } catch (ConnectTimeoutException e) {
@@ -1359,13 +1357,13 @@ public class HttpRequest {
         }
 
         responseModel.setResponseCode("" + responseCode);
-        responseModel.setResponse(response);
-        responseModel.setResponseData(responseData);
+        responseModel.setResponse(response.toString());
+        responseModel.setResponseData(responseData.toString());
         return responseModel;
     }
 
     private static class OwnHttpDelete extends HttpPost {
-        public static final String METHOD_NAME = "DELETE";
+        public static final String METHOD_NAME = DELETE;
 
         public OwnHttpDelete() {
             super();
@@ -1386,15 +1384,8 @@ public class HttpRequest {
 
     }
     public static String base64Decode(String message){
-        Log.e("Krishna", "HttpRequest base64Decode: "+ message );
         String val="";
-        try {
-
-            val = new String(Base64.decode(message, Base64.DEFAULT),"UTF-8");
-            Log.e("Krishna", "base64Decode: "+val);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        val = new String(Base64.decode(message, Base64.DEFAULT),StandardCharsets.UTF_8);
         return val;
     }
 

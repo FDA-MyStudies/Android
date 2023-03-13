@@ -285,7 +285,7 @@ public class SurveyResourcesFragment<T> extends Fragment implements ApiCall.OnAs
 
                         Activities activities = dbServiceSubscriber.getActivityPreferenceBySurveyId(((SurveyActivity) mContext).getStudyId(), anchorDateSchedulingDetails.getSourceActivityId(), mRealm);
                         if (activities != null) {
-                            anchorDateSchedulingDetails.setActivityState(activities.getStatus());
+                            anchorDateSchedulingDetails.setActivityState(activities.getActivityStatus());
                             mArrayList.add(anchorDateSchedulingDetails);
                         }
                     } else if (mResourceArrayList.get(i).getAvailability().getSourceType().equalsIgnoreCase("EnrollmentDate")) {

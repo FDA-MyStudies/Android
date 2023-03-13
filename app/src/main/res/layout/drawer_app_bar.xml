@@ -209,7 +209,7 @@
                 android:layout_alignTop="@+id/searchSwitch"
                 android:layout_alignBottom="@+id/searchSwitch"
                 android:orientation="horizontal">
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tokenText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -218,7 +218,7 @@
                     android:textColor="@color/white"
                     android:gravity="center"
                     android:text="@string/search_token"/>
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/keywordText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

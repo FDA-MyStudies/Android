@@ -87,10 +87,6 @@ public class ActivitiesWS extends RealmObject {
         this.state = state;
     }
 
-    public boolean isBranching() {
-        return branching;
-    }
-
     public String getActivityVersion() {
         return activityVersion;
     }
