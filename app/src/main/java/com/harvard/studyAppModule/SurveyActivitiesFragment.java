@@ -3021,7 +3021,7 @@ public class SurveyActivitiesFragment extends Fragment
                         .equalsIgnoreCase(mArrayList.get(j).getActivities().getActivityRunId()) || (
                         String.valueOf(mArrayList.get(j).getActivities().getCustomScheduleRuns().size())
                                 .equalsIgnoreCase(mArrayList.get(j).getActivities().getActivityRunId())
-                                && (!mArrayList.get(j).getActivities().getActivityState()
+                                && (!mArrayList.get(j).getActivities().getActivityStatus()
                                 .equalsIgnoreCase(COMPLETED))))) {
           //update last run
           //loop mArrayList.get(j).getActivities().getCustomScheduleRuns()
@@ -4415,7 +4415,7 @@ public class SurveyActivitiesFragment extends Fragment
                   if (!activityData
                           .getActivities()
                           .get(j)
-                          .getStatus()
+                          .getActivityStatus()
                           .equalsIgnoreCase(YET_To_START)) {
                     // Delete response data
                     if (!runIds.get(

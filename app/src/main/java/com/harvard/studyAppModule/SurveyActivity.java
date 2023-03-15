@@ -279,7 +279,7 @@ public class SurveyActivity extends AppCompatActivity implements View.OnClickLis
             mSigninImg.setBackground(getResources().getDrawable(R.drawable.signin_menu1));
             mSigninLabel.setText(getResources().getString(R.string.survey_activity_sign_in_btn));
             mSignOutLayout.setVisibility(View.GONE);
-            mReachoutLayout.setVisibility(View.VISIBLE);
+            mReachoutLayout.setVisibility(View.GONE);
             //set Reach out details to new user,
             mNewUsrReachoutImg.setBackground(getResources().getDrawable(R.drawable.newuser_menu1));
             mNewUsrReachoutLabel.setText(getResources().getString(R.string.survey_activity_side_menu_new_user));
@@ -293,6 +293,7 @@ public class SurveyActivity extends AppCompatActivity implements View.OnClickLis
             //set Reach out details to new user,
             mNewUsrReachoutImg.setBackground(getResources().getDrawable(R.drawable.reachout_menu1));
             mNewUsrReachoutLabel.setText(getResources().getString(R.string.survey_activity_side_menu_reach_out));
+            mNewUsrReachoutLabel.setVisibility(View.GONE);
             mSignUpLabel.setVisibility(View.GONE);
         }
     }

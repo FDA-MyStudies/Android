@@ -14,16 +14,13 @@ import io.realm.RealmObject;
 public class Steps extends RealmObject {
     private String type;
     private String groupId;
-
-
     private String sourceQuestionKey;
     private String resultType;
     private String key;
     private String title;
     private String text;
     private boolean skippable;
-
-      private boolean isHidden;
+    private boolean hidden;
     private String groupName;
     private boolean repeatable;
     private String repeatableText;
@@ -32,33 +29,18 @@ public class Steps extends RealmObject {
     private Format format;
     private RealmList<Steps> steps;
     private boolean defaultVisibility;
-
-
-
     private boolean piping;
     private PreLoadLogic preLoadLogic;
-
     private PipingLogic pipingLogic;
 
 
     public boolean isHidden() {
-        return isHidden;
+        return hidden;
     }
 
     public void setHidden(boolean hidden) {
-        isHidden = hidden;
+        this.hidden = hidden;
     }
-    public boolean isPiping() {
-        return piping;
-    }
-
-    public void setPiping(boolean piping) {
-        piping = piping;
-    }
-
-
-
-
     public String getGroupId() {
         return groupId;
     }
@@ -195,6 +177,14 @@ public class Steps extends RealmObject {
 
     public void setSourceQuestionKey(String sourceQuestionKey) {
         this.sourceQuestionKey = sourceQuestionKey;
+    }
+
+    public boolean isPiping() {
+        return piping;
+    }
+
+    public void setPiping(boolean piping) {
+        this.piping = piping;
     }
 
     public String getHealthDataKey() {

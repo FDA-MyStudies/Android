@@ -28,6 +28,7 @@ import com.harvard.studyAppModule.activityBuilder.CustomSurveyViewTaskActivity;
 import com.harvard.studyAppModule.custom.QuestionStepCustom;
 import com.harvard.utils.ActiveTaskService;
 import com.harvard.utils.AppController;
+import com.harvard.utils.SharedPreferenceHelper;
 import com.ikovac.timepickerwithseconds.MyTimePickerDialog;
 import com.ikovac.timepickerwithseconds.TimePicker;
 
@@ -141,8 +142,8 @@ public class Tappingactivity implements StepBody {
             }
         });
 
-        if(AppController.getLocalePreferenceHelper().getLocalePreferences(mContext).contains(AppController.CurrentLanguage)){
-            if (AppController.getLocalePreferenceHelper().readLocalePreference(mContext,AppController.CurrentLanguage,null).equalsIgnoreCase("es")){
+        if(SharedPreferenceHelper.getLocalePreferences(mContext).contains(AppController.CurrentLanguage)){
+            if (SharedPreferenceHelper.readLocalePreference(mContext,AppController.CurrentLanguage,null).equalsIgnoreCase("es")){
                 startTimer.setImageDrawable(mContext.getResources().getDrawable(R.drawable.start_buttn1_spanish));
             }
         }
@@ -370,7 +371,7 @@ public class Tappingactivity implements StepBody {
                 tapButton.setEnabled(false);
                 timereditlayout.setVisibility(View.GONE);
                 endAlert(mContext.getResources().getString(R.string.tapping_activity_you_have_recorded)+ " " + kickcounter.getText().toString() + " " + mContext.getResources().getString(R.string.tapping_activity_kicks_in) + " " + mTimer.getText().toString() + " " + mContext.getResources().getString(R.string.tapping_activity_proceed_to));
-               // endAlert("You have recorded " + kickcounter.getText().toString() + " kicks in " + mTimer.getText().toString() + ". Proceed to submitting count and time?");
+                // endAlert("You have recorded " + kickcounter.getText().toString() + " kicks in " + mTimer.getText().toString() + ". Proceed to submitting count and time?");
                 mTimer.setText(formathrs(Integer.parseInt(intent.getStringExtra("sec"))));
             }
             finalSecond = Integer.parseInt(intent.getStringExtra("sec"));

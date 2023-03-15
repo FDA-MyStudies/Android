@@ -79,6 +79,8 @@
             android:exported="true"
             android:theme="@style/AppThemeNoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan"
+            android:readPermission="com.example.app.READ_PERMISSION"
+            android:writePermission="com.example.app.WRITE_PERMISSION"
             />
         <activity
             android:name=".userModule.VerificationStepActivity"
@@ -86,20 +88,26 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeNoActionBar"
             android:exported="true"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:readPermission="com.example.app.READ_PERMISSION"
+            android:writePermission="com.example.app.WRITE_PERMISSION"/>
         <activity
             android:name=".userModule.SignupProcessCompleteActivity"
             android:configChanges="screenLayout|orientation"
             android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/AppThemeNoActionBar"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:readPermission="com.example.app.READ_PERMISSION"
+            android:writePermission="com.example.app.WRITE_PERMISSION"/>
         <activity
             android:name=".passcodeModule.PasscodeSetupActivity"
             android:configChanges="screenLayout|orientation"
             android:theme="@style/passcodeTheme"
             android:exported="true"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden"
+            android:readPermission="com.example.app.READ_PERMISSION"
+            android:writePermission="com.example.app.WRITE_PERMISSION"/>
         <activity
             android:name=".userModule.ChooseTouchIDSignInActivity"
             android:configChanges="screenLayout|orientation"
@@ -208,10 +216,6 @@
             android:theme="@style/Theme.BackboneApp"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
-        <!--<meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="17d66c1b46986f6f6633cc62617443d13b9fbf1d" />-->
-
         <activity
             android:name=".WebViewActivity"
             android:configChanges="screenLayout|orientation"
@@ -280,16 +284,22 @@
             android:screenOrientation="portrait"
             android:exported="true"
             android:theme="@style/AppThemeNoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize"
+            android:readPermission="com.example.app.READ_PERMISSION"
+            android:writePermission="com.example.app.WRITE_PERMISSION"/>
 
         <service android:name=".MyFirebaseMessagingService"
-            android:exported="true">
+            android:exported="true"
+            android:readPermission="com.example.app.READ_PERMISSION"
+            android:writePermission="com.example.app.WRITE_PERMISSION">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <service android:name=".MyFirebaseInstanceIDService"
-            android:exported="true">
+            android:exported="true"
+            android:readPermission="com.example.app.READ_PERMISSION"
+            android:writePermission="com.example.app.WRITE_PERMISSION">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
@@ -326,7 +336,9 @@
             tools:replace="android:authorities" />
 
         <service android:name=".offlineModule.auth.StubAuthenticatorService"
-            android:exported="true">
+            android:exported="true"
+            android:readPermission="com.example.app.READ_PERMISSION"
+            android:writePermission="com.example.app.WRITE_PERMISSION">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
@@ -348,7 +360,9 @@
                 android:resource="@xml/syncadapter" />
         </service>
         <service android:name=".utils.ActiveTaskService"
-            android:exported="true">
+            android:exported="true"
+            android:readPermission="com.example.app.READ_PERMISSION"
+            android:writePermission="com.example.app.WRITE_PERMISSION">
             <intent-filter>
                 <action android:name="com.harvard.ActiveTask" />
             </intent-filter>
